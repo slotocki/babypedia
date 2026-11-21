@@ -1,0 +1,129 @@
+{
+  "$schema": "../../contracts/persona.schema.json",
+  "id": "tadeusz-demo",
+  "opis": "Wymyślona osoba: ojciec-pracownik, jego partnerka (olga-demo) nie ma ubezpieczenia chorobowego.",
+  "status": "gotowe",
+  "tozsamosc": {
+    "imie": "Tadeusz",
+    "nazwisko": "Demonstracyjny",
+    "pesel": "90042310671",
+    "dataUrodzenia": "1990-04-23"
+  },
+  "drugiRodzic": "olga-demo",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-01-30",
+        "source": "user"
+      },
+      "zdarzenie.dlaKogo": {
+        "value": "ja_i_drugi_rodzic",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "assumption"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "ojciec",
+        "source": "assumption"
+      },
+      "osoba.dataUrodzenia": {
+        "value": "1990-04-23",
+        "source": "mobywatel"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "kodTytulu": "0110",
+            "opis": "pracownik",
+            "rodzajTytulu": "pracownik",
+            "platnikId": "platnik-demo-sredni",
+            "platnikNazwa": "Zakład Demo Sp. z o.o.",
+            "od": "2016-02-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.podstawySkladek": {
+        "value": [
+          {
+            "miesiac": "2025-11",
+            "kwota": 6800
+          },
+          {
+            "miesiac": "2025-12",
+            "kwota": 6800
+          },
+          {
+            "miesiac": "2026-01",
+            "kwota": 6800
+          },
+          {
+            "miesiac": "2026-02",
+            "kwota": 6800
+          },
+          {
+            "miesiac": "2026-03",
+            "kwota": 6800
+          },
+          {
+            "miesiac": "2026-04",
+            "kwota": 6800
+          },
+          {
+            "miesiac": "2026-05",
+            "kwota": 6800
+          },
+          {
+            "miesiac": "2026-06",
+            "kwota": 6800
+          },
+          {
+            "miesiac": "2026-07",
+            "kwota": 6800
+          },
+          {
+            "miesiac": "2026-08",
+            "kwota": 6800
+          },
+          {
+            "miesiac": "2026-09",
+            "kwota": 6800
+          },
+          {
+            "miesiac": "2026-10",
+            "kwota": 6800
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.przerwy": {
+        "value": [],
+        "source": "zus"
+      },
+      "ubezpieczenie.pobraneSwiadczenia": {
+        "value": [],
+        "source": "zus"
+      },
+      "ezla.zwolnienia": {
+        "value": [],
+        "source": "ezla"
+      },
+      "platnik.liczbaUbezpieczonych": {
+        "value": 45,
+        "source": "zus"
+      }
+    }
+  },
+  "uwagi": "Osoba wymyślona na potrzeby demonstracji. PESEL fikcyjny — nie przechodzi sumy kontrolnej."
+}

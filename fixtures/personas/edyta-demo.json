@@ -1,0 +1,130 @@
+{
+  "$schema": "../../contracts/persona.schema.json",
+  "id": "edyta-demo",
+  "opis": "Wymyślona osoba: prowadzi działalność z dobrowolnym chorobowym i zadłużeniem składkowym 120,00 zł; zasiłek wypłaca ZUS.",
+  "status": "gotowe",
+  "tozsamosc": {
+    "imie": "Edyta",
+    "nazwisko": "Pokazowa",
+    "pesel": "85011410470",
+    "dataUrodzenia": "1985-01-14"
+  },
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-05-05",
+        "source": "user"
+      },
+      "zdarzenie.dlaKogo": {
+        "value": "ja",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "assumption"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "assumption"
+      },
+      "osoba.dataUrodzenia": {
+        "value": "1985-01-14",
+        "source": "mobywatel"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "kodTytulu": "0510",
+            "opis": "prowadzący pozarolniczą działalność",
+            "rodzajTytulu": "dzialalnosc",
+            "platnikId": "platnik-demo-edyta",
+            "platnikNazwa": "Edyta Pokazowa (działalność demo)",
+            "od": "2018-03-01",
+            "do": null,
+            "chorobowe": "dobrowolne"
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.podstawySkladek": {
+        "value": [
+          {
+            "miesiac": "2025-11",
+            "kwota": 4500
+          },
+          {
+            "miesiac": "2025-12",
+            "kwota": 4500
+          },
+          {
+            "miesiac": "2026-01",
+            "kwota": 4500
+          },
+          {
+            "miesiac": "2026-02",
+            "kwota": 4500
+          },
+          {
+            "miesiac": "2026-03",
+            "kwota": 4500
+          },
+          {
+            "miesiac": "2026-04",
+            "kwota": 4500
+          },
+          {
+            "miesiac": "2026-05",
+            "kwota": 4500
+          },
+          {
+            "miesiac": "2026-06",
+            "kwota": 4500
+          },
+          {
+            "miesiac": "2026-07",
+            "kwota": 4500
+          },
+          {
+            "miesiac": "2026-08",
+            "kwota": 4500
+          },
+          {
+            "miesiac": "2026-09",
+            "kwota": 4500
+          },
+          {
+            "miesiac": "2026-10",
+            "kwota": 4500
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.przerwy": {
+        "value": [],
+        "source": "zus"
+      },
+      "ubezpieczenie.pobraneSwiadczenia": {
+        "value": [],
+        "source": "zus"
+      },
+      "ezla.zwolnienia": {
+        "value": [],
+        "source": "ezla"
+      },
+      "skladki.zadluzenie": {
+        "value": {
+          "naDzien": "2027-05-05",
+          "kwota": 120
+        },
+        "source": "zus"
+      }
+    }
+  },
+  "uwagi": "Osoba wymyślona na potrzeby demonstracji. PESEL fikcyjny — nie przechodzi sumy kontrolnej."
+}
