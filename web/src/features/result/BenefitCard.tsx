@@ -8,6 +8,9 @@ import { ExtLink } from './ExtLink'
 import { basisSourceLabels, benefitName, payerLabels, placeLabels } from './labels'
 import { TraceList } from './TraceList'
 
+/** Początek uwagi silnika (RodzicielskiRules.DefaultBlock) o pokazaniu wymiaru łącznego obojga rodziców. */
+const SHARED_TOTAL_NOTE = 'Pokazany jest łączny wymiar'
+
 export interface BenefitCardProps {
   benefit: BenefitResult
   missing: MissingFact[]
@@ -79,6 +82,9 @@ function Parts({ parts }: { parts: BenefitPart[] }) {
 function Entitled({ benefit, onSaveBasis, busy }: Pick<BenefitCardProps, 'benefit' | 'onSaveBasis' | 'busy'>) {
   const { amount, period, rate, payer, whereToApply, documents, links, notes, parts, trace, lumpSum } = benefit
   const save = (value: number) => onSaveBasis(benefit, value)
+  // Bez planu urlopu rodzicielskiego silnik pokazuje wymiar łączny obojga rodziców (uwaga z modułu okresów).
+  // Uwagi są schowane w szczegółach, więc tę jedną pokazujemy od razu przy okresie i kwocie.
+  const sharedNote = notes.find((note) => note.startsWith(SHARED_TOTAL_NOTE))
   const hasDetails = period || payer || whereToApply || parts.length || documents.length || notes.length || links.length || trace.length
 
   return (
@@ -95,18 +101,21 @@ function Entitled({ benefit, onSaveBasis, busy }: Pick<BenefitCardProps, 'benefi
             <div>
               <p className="text-sm text-ink-soft">
                 {amount.basisSource === 'szacunek_zus' ? 'Szacowana kwota' : period ? 'Łącznie za okres' : 'Kwota'}
+                {sharedNote ? ' — dla obojga rodziców' : ''}
               </p>
               <Amount value={amount.total} />
             </div>
           ) : null}
           {period ? (
             <div>
-              <p className="text-sm text-ink-soft">Okres</p>
+              <p className="text-sm text-ink-soft">{sharedNote ? 'Okres — łącznie dla obojga rodziców' : 'Okres'}</p>
               <p className="text-xl font-bold text-ink">{formatWeeks(period.weeks)}</p>
             </div>
           ) : null}
         </div>
       ) : null}
+
+      {sharedNote ? <p className="break-words text-sm text-ink">{sharedNote}</p> : null}
 
       {!amount && period ? (
         <div className="space-y-2">
@@ -140,7 +149,7 @@ function Entitled({ benefit, onSaveBasis, busy }: Pick<BenefitCardProps, 'benefi
                 </ul>
               </div>
             ) : null}
-            <Notes notes={notes} />
+            <Notes notes={notes.filter((note) => note !== sharedNote)} />
             {links.length > 0 ? <LinkList links={links} /> : null}
             <TraceList trace={trace} />
           </div>
