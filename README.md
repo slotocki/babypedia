@@ -33,8 +33,8 @@ npm ci --prefix contracts && npm --prefix contracts run validate   # walidacja f
 
 ## Jak przetestować w 3 minuty
 
-1. **Start** (`/`): odpowiedz na trzy pytania: co się dzieje (planuję dziecko, jestem w ciąży, dziecko się urodziło, przyjmuję dziecko na wychowanie), kiedy i dla kogo liczymy (dla mnie albo dla mnie i drugiego rodzica).
-2. **Logowanie (symulacja)** (`/logowanie`): wybierz fikcyjną osobę z listy albo „Wprowadzę dane sam".
+1. **Start** (`/`): najszybciej — rozwiń „Sprawy testowe ZUS” i wybierz sprawę; aplikacja wczyta jej dane i pokaże wynik do porównania z decyzją ZUS. Albo odpowiedz na trzy pytania: co się dzieje (planuję dziecko, jestem w ciąży, dziecko się urodziło, przyjmuję dziecko na wychowanie), kiedy i dla kogo liczymy (dla mnie albo dla mnie i drugiego rodzica).
+2. **Logowanie (symulacja)** (`/logowanie`): wybierz wymyśloną osobę z listy albo „Wprowadzę dane sam".
 3. **Sprawdź dane** (`/sprawdz-dane`): fakty z symulowanych systemów, każdy ze źródłem i przyciskiem „Popraw". Niżej tylko te pytania, które silnik zgłosił jako brakujące.
 4. **Wynik** (`/wynik`): „Co Ci przysługuje" (karta świadczenia ze statusem, okresem, kwotą i rozwijaną ścieżką decyzji), „Co zrobić i do kiedy" (z jednym najbliższym krokiem), „Na co uważać", „Sprawdź inny wariant". Przy odmowie: powód, podstawa prawna i „Co musiałoby się zmienić".
 5. **Porównaj warianty** (`/porownaj-warianty`): plan bazowy kontra wariant, różnica w tygodniach i złotych oraz zmiana statusów.
@@ -55,36 +55,43 @@ Pliki w `fixtures/personas/`. Opisy w kolumnie „Co pokazuje" wynikają z danyc
 | `tadeusz-demo` | Ojciec-pracownik, liczymy „dla mnie i drugiego rodzica". Prawo ojca, gdy matka nie ma ubezpieczenia chorobowego. |
 | `olga-demo` | Partnerka Tadeusza, bez ubezpieczenia chorobowego (rejestr ZUS zwraca pustą listę tytułów). Pokazuje odmowę i „co musiałoby się zmienić". |
 
-### Sprawy ZUS (ekran `/sprawy`)
+### Sprawy testowe ZUS
 
-Ekran ma listę spraw testowych oraz „Dodaj PDF sprawy". Wybranie sprawy ładuje odpowiadającą jej osobę z symulatora i przechodzi do „Sprawdź dane". Dodany PDF jest rozpoznawany po sumie SHA-256 liczonej w przeglądarce (zapas: nazwa pliku i liczba stron), pokazuje się jego podgląd (pdf.js), a plik nie opuszcza przeglądarki: do API trafia tylko suma. Nieznany plik daje podgląd i komunikat „nie znam tej sprawy". Aplikacja nie czyta treści PDF (bez OCR). Na wyniku jest porównanie z decyzją ZUS.
+Sprawę można wybrać z listy na ekranie startowym albo dodać jej plik PDF na ekranie `/sprawy`. Dodany PDF jest rozpoznawany po sumie SHA-256 liczonej w przeglądarce (zapas: nazwa pliku i liczba stron), pokazuje się jego podgląd (pdf.js), a plik nie opuszcza przeglądarki: do API trafia tylko suma. Nieznany plik daje podgląd i komunikat „nie znam tej sprawy". Aplikacja nie czyta treści PDF (bez OCR). Po wybraniu sprawy wczytują się dane odczytane z jej dokumentów, a na wyniku jest porównanie z decyzją ZUS.
 
-Stan faktyczny (gałąź `main`, na dzień pisania): dane osób dla spraw przepisują ludzie z dokumentów i nie są częścią repozytorium. Są ładowane z katalogu wskazanego zmienną `CASES_PRIVATE_DIR` (w kontenerze `/cases`, tylko do odczytu). W repozytorium:
+Każda sprawa na liście ma oznaczenie, co w niej sprawdzono z dokumentami ZUS:
 
-- `fixtures/cases.json` zawiera 14 spraw (tytuł, oczekiwana decyzja);
-- wszystkie 14 plików `fixtures/reference/case-*.json` ma status `do_uzupelnienia`, a odpowiadające im testy są pomijane, nie zielone;
-- w `fixtures/personas/` nie ma żadnej osoby dla tych spraw, więc bez katalogu prywatnego ekran pokazuje listę spraw z informacją, że ich dane nie zostały dostarczone;
-- rozpoznawanie pliku po sumie działa tylko dla spraw, które w prywatnym `cases.json` mają pole `plik.sha256`.
+| Oznaczenie | Znaczenie | Sprawy na demo (22.11.2026) |
+|---|---|---|
+| Okres i kwota zgodne z wydrukiem ZUS | podstawa wymiaru, stawka dzienna i okres zgadzają się z wydrukiem ZUS w aktach | 1 |
+| Okres zgodny z ZUS co do dnia | okresy z silnika równe okresom z dokumentów; kwoty ZUS w aktach nie ma | 9 |
+| Odmowa zgodna z decyzją ZUS | silnik odmawia tak jak ZUS | 2 |
 
-W publicznym demo dane spraw nie są obecnie załadowane (stan na 21.11.2026). Do przejścia przez cały przebieg służą osoby demo z tabeli wyżej.
+Skąd są dane i czego nie ma:
+
+- Dokumentów ZUS nie wolno rozpowszechniać, więc ani PDF-y, ani dane z nich nie są w repozytorium. `fixtures/cases.json` jest pusty; sprawy ładują się z katalogu `CASES_PRIVATE_DIR` (w kontenerze `/cases`, tylko do odczytu). Bez niego lista spraw się nie pokazuje.
+- Dokumenty odczytano z pomocą modeli językowych, a wynik przeliczono na format aplikacji skryptem `tools/cases/convert.mjs`. Skrypt niczego nie zgaduje: brakujące pole zostaje pytaniem do użytkownika. Raport „silnik a decyzje ZUS” tworzy test `PrivateCasesReportTests` (uruchamiany ze zmienną `CASES_REPORT_DIR`).
+- W większości akt kwota zasiłku i dane płatnika są zaczernione albo ich nie ma. Dlatego kwotę da się porównać z ZUS tylko w jednej sprawie; w dwóch kolejnych silnik liczy ją z wynagrodzeń z zaświadczenia płatnika, a w pozostałych aplikacja pyta o podstawę.
+- W sprawach z poziomu „okres” aplikacja może dopytać o dane, których w aktach nie ma (liczba ubezpieczonych u płatnika, data pochówku).
+- Na 43 przeanalizowane sprawy (z 87) silnik rozstrzyga inaczej niż ZUS w jednej: umowa o pracę uznana przez ZUS za zawartą dla pozoru. To ustalenie z kontroli, którego nie da się wyprowadzić z danych ubezpieczenia.
 
 ## Mapa wymagań
 
-Oznaczenia z zadania ZUS (pkt 3) i instrukcji projektu (sekcja 4). Status wg kodu na gałęzi `main`; wiersze „w toku" mogą się zmienić po scaleniu gałęzi `fix/integration`.
+Oznaczenia z zadania ZUS (pkt 3) i instrukcji projektu (sekcja 4). Status wg kodu na gałęzi `main` (22.11.2026).
 
 | ID | Wymaganie | Ekran | Endpoint | Moduł kodu | Status |
 |---|---|---|---|---|---|
 | a | Świadczenia w ciąży, także brak uprawnień (chorobowy, rehabilitacyjne, zasiłek do dnia porodu) | Wynik (`/wynik`), karty świadczeń | `POST /api/assessment` | `api/Domain/Eligibility`, `api/Domain/Catalog` | Działa częściowo: świadczenie rehabilitacyjne po wyczerpaniu zasiłku zawsze kończy się „nie rozstrzygam" (zależy od orzeczenia lekarza orzecznika ZUS) |
-| b | Kalkulator zasiłku macierzyńskiego dla obojga rodziców: okres, wysokość, liczba dzieci, wiek, „Za życiem" | Wynik, Porównaj warianty | `POST /api/assessment` | `api/Domain/Periods`, `api/Domain/Amounts` | Działa. Kwota tylko przy znanej podstawie (z ZUS albo wpisanej); bez podstawy są okresy i stawki |
+| b | Kalkulator zasiłku macierzyńskiego dla obojga rodziców: okres, wysokość, liczba dzieci, wiek, „Za życiem" | Wynik, Porównaj warianty | `POST /api/assessment` | `api/Domain/Periods`, `api/Domain/Amounts` | Działa. Kwota tylko przy znanej podstawie (z ZUS albo wpisanej); bez podstawy są okresy i stawki. Urlop rodzicielski bez planu jest pokazywany jako wymiar łączny obojga rodziców, z dopiskiem na karcie. Podwyższenia do kwoty świadczenia rodzicielskiego (art. 31 ust. 3a) aplikacja nie wylicza, tylko o nim informuje |
 | c | Łączenie pracy z urlopem rodzicielskim | Porównaj warianty (scenariusz „Praca na część etatu"), wniosek o urlop rodzicielski | `POST /api/assessment/compare` | `api/Domain/Scenarios`, reguły `rodzicielski_wydluzenie_praca`, `praca_na_czesc_etatu` | Działa |
 | d | Symulacja korzystania przez oboje rodziców | Porównaj warianty (scenariusz „Drugi rodzic bierze część") | `POST /api/assessment/compare` | `api/Domain/Scenarios` | Działa (walidacja 9 tygodni nieprzenoszalnych i 5 części) |
 | e, j | Rodzice adopcyjni i rodziny zastępcze | Start (zdarzenie „przyjmuję dziecko"), Wynik | `POST /api/assessment` | `api/Domain/Periods/Rules/PrzyjecieRules.cs` | Działa (przysposobienie, rodzina zastępcza niezawodowa; zawodowa: odmowa) |
 | f | Indywidualna podstawa wymiaru | Wynik (pole „Znasz podstawę ustaloną przez płatnika?"), Sprawdź dane | `POST /api/assessment` | `api/Domain/Basis`, `api/Domain/Amounts` | Działa na poziomie 1 (średnia z 12 miesięcy dla pracownika i niepracownika, art. 48a/49) lub przez wpisanie podstawy. Poza poziomem 1 (np. zmiana wymiaru etatu, zbieg tytułów) silnik odsyła do podstawy ustalonej przez płatnika |
-| g | Dokumenty, terminy, sposób i miejsce złożenia wniosku | Wynik („Co zrobić i do kiedy", „Gdzie złożyć wniosek", „Dokumenty") | `POST /api/assessment` | `api/Domain/Deadlines`, `api/Domain/Eligibility` (`platnik_zasilku_i_miejsce_zlozenia`) | Działa. Nazwy druków Z-3, Z-3a, ZAS-53 pochodzą z instrukcji projektu i nie występują w wyciągach przepisów (patrz ograniczenia) |
+| g | Dokumenty, terminy, sposób i miejsce złożenia wniosku | Wynik („Co zrobić i do kiedy", „Gdzie złożyć wniosek", „Dokumenty") | `POST /api/assessment` | `api/Domain/Deadlines`, `api/Domain/Eligibility` (`platnik_zasilku_i_miejsce_zlozenia`) | Działa. Nazwy druków (Z-3, Z-3a, ZAS-53, ZAM) są zgodne z treścią zadania ZUS; druku ZAS-12 aplikacja nie obsługuje |
 | h | Zagrożenia: utrata uprawnień, zmiana wymiaru lub wysokości | Wynik („Na co uważać"), Porównaj warianty | `POST /api/assessment`, `/compare` | `api/Domain/Catalog/Risks.cs`, `api/Domain/Scenarios` | Działa (ryzyka z listy w instrukcji 8.10, pokazywane tylko gdy pasują do faktów; informacja, nie ocena) |
 | i | Podmioty wyłącznie charytatywne w sytuacjach szczególnych | Wsparcie (`/wsparcie`) | `GET /api/organizations?situation=` | `api/Infrastructure/Parameters/AdminSettingsService.cs`, `web/src/features/support` | Działa. Katalog startowy zawiera zweryfikowane organizacje oferujące bezpłatną pomoc z `fixtures/organizations.json`. Po zapisaniu listy w zakładce „Organizacje” panelu `/admin` obowiązuje zapisana lista. Publiczne API pokazuje wpisy oznaczone jako zweryfikowane. |
 | S1 | Logowanie przez mObywatel (symulacja) | Logowanie | `POST /api/sim/login`, `GET /api/sim/personas` | `api/Infrastructure/Simulation`, `web/src/features/intake` | Działa |
-| S2 | Dane z ZUS o ubezpieczeniu lub jego braku (symulacja) + wpis ręczny | Sprawdź dane | `GET /api/sim/me/facts` | `api/Infrastructure/Simulation`, `web/src/features/review` | Działa częściowo: dane z symulatora i wpis ręczny działają. Przełączniki pól integracji w panelu `/admin` są zapisywane, ale na `main` nie zamieniają pola w pytanie (używany jest `AllFieldsEnabledSettings`). W toku |
+| S2 | Dane z ZUS o ubezpieczeniu lub jego braku (symulacja) + wpis ręczny | Sprawdź dane | `GET /api/sim/me/facts` | `api/Infrastructure/Simulation`, `web/src/features/review` | Działa: dane z symulatora, wpis ręczny oraz przełączniki pól integracji w panelu `/admin` (wyłączone pole wraca jako pytanie do użytkownika) |
 | S3 | Zadłużenie składkowe na dzień powstania prawa (symulacja zaświadczenia i kwoty) | Moje dane w ZUS (saldo), Wnioski („Zaświadczenie o stanie składek") | `GET /api/sim/me/zus`, `GET /api/sim/me/debt-certificate` | `api/Infrastructure/Submissions/DebtCertificate.cs`, reguła `zadluzenie_skladkowe` | Działa (PDF z napisem „SYMULACJA") |
 | S4 | Podgląd e-ZLA (symulacja) | Moje dane w ZUS („Zwolnienia lekarskie (e-ZLA)") | `GET /api/sim/me/zus` | `api/Infrastructure/Simulation` | Działa |
 | S5 | PUE/eZUS: zapytanie, podgląd danych konta (symulacja) | Wnioski („Zapytanie do ZUS"), Moje dane w ZUS | `POST /api/submissions`, `GET /api/sim/me/zus` | `api/Infrastructure/Submissions`, `web/src/features/zus-data` | Działa |
@@ -92,9 +99,9 @@ Oznaczenia z zadania ZUS (pkt 3) i instrukcji projektu (sekcja 4). Status wg kod
 | S7 | Wniosek o odpis aktu urodzenia (symulacja) | Wnioski | `POST /api/submissions` | `api/Infrastructure/Submissions` | Działa |
 | S8 | Informacja o podmiotach wspierających | Wsparcie | `GET /api/organizations` | jak w wierszu `i` | Działa. Ekran pokazuje katalog organizacji z filtrami sytuacji, informacje o zasiłku pogrzebowym i kontakt do ZUS. |
 | S9 | Przekierowania do zus.pl, MRPiPS, PIP | Wsparcie, Wnioski, Wynik | brak (linki) | `web/src/features/support/links.tsx` | Działa |
-| S10 | Panel administracyjny do zmiany parametrów | `/admin` | `GET/PUT /api/admin/parameters`, `GET /api/admin/parameters/history`, `/api/admin/catalog` | `api/Infrastructure/Parameters`, `web/src/features/admin` | Działa dla parametrów (z datą obowiązywania i historią zmian) i włączania świadczeń w katalogu. Zakładki „Integracje" i „Organizacje": patrz S2 i `i` |
+| S10 | Panel administracyjny do zmiany parametrów | `/admin` | `GET/PUT /api/admin/parameters`, `GET /api/admin/parameters/history`, `/api/admin/catalog` | `api/Infrastructure/Parameters`, `web/src/features/admin` | Działa dla parametrów (z datą obowiązywania i historią zmian) i włączania świadczeń w katalogu. Zakładki „Integracje" i „Organizacje" także działają (patrz S2 i `i`) |
 | T1 | Pełna responsywność | cały interfejs | brak | `web/src/ui`, `web/src/app/Layout.tsx` | Układ projektowany od 360 px (Tailwind, nawigacja przewijana poziomo). Do potwierdzenia testem na telefonach |
-| T2 | Demo: upload lub wybór przykładowych spraw; weryfikacja ubezpieczenia i kalkulator | Sprawy ZUS | `GET /api/cases`, `GET /api/cases/by-hash/{sha256}` | `web/src/features/cases`, `api/Infrastructure/Simulation/Catalogs.cs` | Działa częściowo: lista, dodawanie PDF, suma SHA-256 i podgląd działają, ale dane spraw ZUS nie są w repozytorium (patrz wyżej) |
+| T2 | Demo: upload lub wybór przykładowych spraw; weryfikacja ubezpieczenia i kalkulator | Start (lista spraw), Sprawy ZUS (dodanie PDF) | `GET /api/cases`, `GET /api/cases/by-hash/{sha256}` | `web/src/features/cases`, `api/Infrastructure/Simulation/Catalogs.cs`, `tools/cases` | Działa dla 12 spraw z zestawu ZUS (patrz „Sprawy testowe ZUS”). Pozostałe pliki z zestawu dają podgląd i komunikat „nie znam tej sprawy” |
 
 Dodatkowo: tryb trudnej sytuacji (martwe urodzenie, zgon dziecka, wcześniactwo z hospitalizacją, ciężka choroba) zmienia ton interfejsu i stawia organizacje wsparcia na górze (`web/src/ui/ToneScope.tsx`, `web/src/features/support`).
 
@@ -104,7 +111,8 @@ Modularny monolit: React + TypeScript (Vite) i ASP.NET Core Web API (.NET 10), P
 
 ```
 contracts/   kontrakt: openapi.yaml, schematy JSON, przykłady, walidacja fixtures
-fixtures/    parameters.seed.json, cases.json, personas/, reference/
+fixtures/    parameters.seed.json, organizations.json, personas/, reference/, cases.json (pusty — sprawy ZUS są poza repozytorium)
+tools/       cases/convert.mjs — przeliczenie odczytów spraw ZUS na format aplikacji
 api/Domain/  czysty C# (bez bazy i HTTP): Periods, Amounts, Eligibility, Basis, Catalog, Deadlines, Scenarios, Contracts
 api/Infrastructure/  Parameters, Simulation, Submissions, Persistence, Assistant
 api/Api/     Program.cs i endpointy
@@ -117,7 +125,7 @@ docs/        zgłoszenie, zrzuty, wyciągi przepisów (docs/prawo)
 Zasady:
 
 - Decyzje i kwoty liczy wyłącznie deterministyczny silnik reguł. Każda reguła to mała klasa z `Id`, `PodstawaPrawna` i metodą oceny (w `api/Domain` jest ich ponad 80). Kwoty w `decimal`, daty w `DateOnly`.
-- Parametry prawne (wymiary, stawki, progi, płaca minimalna) są w bazie z datą obowiązywania. Dostawca `IParameterProvider.Get(klucz, data)` zwraca wartość z największą datą `validFrom` nie późniejszą niż dzień, którego dotyczy ocena. Dane startowe: `fixtures/parameters.seed.json` (99 parametrów). Brak parametru daje „nie rozstrzygam", nie zgadywanie.
+- Parametry prawne (wymiary, stawki, progi, płaca minimalna) są w bazie z datą obowiązywania. Dostawca `IParameterProvider.Get(klucz, data)` zwraca wartość z największą datą `validFrom` nie późniejszą niż dzień, którego dotyczy ocena. Dane startowe: `fixtures/parameters.seed.json` (102 wpisy, 8 ze statusem „do weryfikacji”). Brak parametru daje „nie rozstrzygam", nie zgadywanie.
 - Silnik dostaje fakty z pochodzeniem (`mobywatel`, `zus`, `ezla`, `usc`, `user`, `assumption`). Brakujący fakt wraca jako gotowe pytanie.
 - Pięć interfejsów integracji, każdy z implementacją `Simulated…` nad jednym zbiorem `fixtures/personas`, gotowych do podmiany na prawdziwe usługi: `IIdentityProvider`, `IInsuranceRegistry`, `IContributionAccount`, `IMedicalCertificates`, `ISubmissionGateway`. Dodatkowo rejestr stanu cywilnego (`ICivilRegistry`) w `api/Infrastructure/Simulation`.
 - Kontrakt (OpenAPI, schematy, typy C# i TypeScript) opisuje [docs/KONTRAKT.md](docs/KONTRAKT.md).
@@ -128,15 +136,15 @@ Wynik `dotnet test --solution api/BabyRadnik.slnx` na gałęzi `main` (21.11.202
 
 ```
 Podsumowanie przebiegu testu: Powodzenie!
-  suma: 807
+  suma: 826
   zakończone niepowodzeniem: 0
-  zakończone powodzeniem: 793
-  pominięto: 14
+  zakończone powodzeniem: 825
+  pominięto: 1
 ```
 
-14 pominiętych testów to przypadki spraw ZUS (`fixtures/reference/case-*.json`, status `do_uzupelnienia`): czekają na dane z dokumentów, więc są pomijane, a nie zielone.
+Pominięty test to raport dla spraw ZUS z katalogu prywatnego (`PrivateCasesReportTests`), uruchamiany tylko ze zmienną `CASES_REPORT_DIR`.
 
-Przypadki referencyjne (`fixtures/reference/`): 68 plików, w tym 54 aktywne: okresy 30, uprawnienia 14, kwoty 8, parametry 2; do tego 14 spraw ZUS oczekujących na dane. Pozostałe moduły (podstawa wymiaru, katalog, terminy, scenariusze, wnioski, symulacja, administracja) mają testy w `api/Tests/Domain/**` i `api/Tests/Infrastructure/**`.
+Przypadki referencyjne (`fixtures/reference/`): 54 pliki — okresy 30, uprawnienia 14, kwoty 8, parametry 2. Pozostałe moduły (podstawa wymiaru, katalog, terminy, scenariusze, wnioski, symulacja, administracja) mają testy w `api/Tests/Domain/**` i `api/Tests/Infrastructure/**`.
 
 Zasada: testy referencyjne powstają przed regułami, a reguła jest gotowa, gdy jej przypadki są zielone. Przypadek to plik `{id, opis, fakty, oczekiwane}`; testy silnika czytają je z `fixtures/reference/` (ewaluator wybierany polem `modul`, porównanie częściowe). Format opisuje [docs/KONTRAKT.md](docs/KONTRAKT.md), sekcja 6. CI (`.github/workflows`) buduje API, uruchamia testy, waliduje fixtures schematami i buduje frontend.
 
@@ -150,7 +158,11 @@ Jedyny element z modelem językowym to opcjonalny pomocnik tekstowy, endpoint `P
 - włączony, wysyła do endpointu zgodnego z OpenAI (`ASSISTANT_BASE_URL`, `ASSISTANT_MODEL`; profil Compose `assistant` uruchamia lokalnego Ollama) wyłącznie treść pytania wpisanego przez użytkownika (do 1000 znaków) i stałe polecenie systemowe zakazujące podawania kwot i oceniania uprawnień. Nie dostaje faktów sprawy, danych osoby ani kwot; odpowiedź ma zawsze dopisek, że uprawnienia i kwoty wylicza kalkulator;
 - interfejs WWW go nie wywołuje (w `web/src` istnieje tylko definicja klienta w `web/src/app/api/client.ts`), a `Domain` nie zależy od tego modułu (pilnuje tego `ContractTests`).
 
-**(b) Wytworzenie kodu.** Kod, testy i dokumentację wytworzyły modele językowe Claude (Anthropic) w narzędziu Claude Code, pracujące jako zespół agentów pod nadzorem ludzi: modele pisały kod gałęzi, a osobny model przeglądał i zatwierdzał zmiany silnika (instrukcja, sekcja 13). Ludzie dostarczyli materiały prawne, decyzje o zakresie i weryfikację. Reguły pisano z wyciągów przepisów w `docs/prawo/`, nie z pamięci modelu. Spójność wyciągów z instrukcją opisuje [docs/prawo/ROZBIEZNOSCI.md](docs/prawo/ROZBIEZNOSCI.md).
+Planowane rozszerzenie, jeszcze niezaimplementowane: pomocnik „Zapytaj o przepisy” — wyszukiwanie w wyciągach przepisów i odpowiedź modelu Claude Haiku z obowiązkowym cytatem artykułu, bez kwot i bez oceny uprawnień. Opis: [docs/PLAN_POMOCNIK.md](docs/PLAN_POMOCNIK.md).
+
+**(a2) Przygotowanie danych testowych.** Dokumenty spraw ZUS (skany) odczytano z pomocą modeli językowych, poza aplikacją. Odczyty są w katalogu prywatnym, a w aplikacji występują tylko jako dane wejściowe silnika; sam silnik liczy deterministycznie.
+
+**(b) Wytworzenie kodu.** Kod, testy i dokumentację wytworzyły modele językowe (głównie Claude firmy Anthropic w narzędziu Claude Code), pracujące jako zespół agentów pod nadzorem ludzi: modele pisały kod gałęzi, a osobny model przeglądał i zatwierdzał zmiany silnika (instrukcja, sekcja 13). Ludzie dostarczyli materiały prawne, decyzje o zakresie i weryfikację. Reguły pisano z wyciągów przepisów w `docs/prawo/`, nie z pamięci modelu. Spójność wyciągów z instrukcją opisuje [docs/prawo/ROZBIEZNOSCI.md](docs/prawo/ROZBIEZNOSCI.md).
 
 ## Komponenty zewnętrzne i licencje
 
@@ -172,7 +184,7 @@ Pełna lista z wersjami: [docs/ZALEZNOSCI.md](docs/ZALEZNOSCI.md). Zasada projek
 ## Bezpieczeństwo i dane
 
 - Wszystkie osoby są fikcyjne. PESEL występuje tylko w odpowiedzi symulowanego logowania, jest fikcyjny (nie przechodzi walidacji sumy kontrolnej), służy do wyliczenia wieku i nie trafia do faktów silnika. Użytkownik go nie wpisuje, a formularze wniosków odrzucają 11-cyfrowe numery.
-- Dokumenty ZUS (PDF spraw) i dane osób dla spraw nie są w repozytorium. `.gitignore` wyklucza `/Sprawy/`, `/sprawy/`, `/cases-private/`, `/fixtures/personas-private/` i `*.sprawa.pdf`. Dane spraw wchodzą z katalogu `CASES_PRIVATE_DIR` (montowanego tylko do odczytu). Plik PDF dodany na ekranie „Sprawy ZUS" nie opuszcza przeglądarki.
+- Dokumenty ZUS (PDF spraw) i dane odczytane z nich nie są w repozytorium. Dane osobowe w tych dokumentach są zaczernione; osoby w sprawach testowych mają w aplikacji tylko imię z nazwy pliku i umowny PESEL. `.gitignore` wyklucza `/Sprawy/`, `/sprawy/`, `/cases-private/`, `/fixtures/personas-private/` i `*.sprawa.pdf`. Dane spraw wchodzą z katalogu `CASES_PRIVATE_DIR` (montowanego tylko do odczytu). Plik PDF dodany na ekranie „Sprawy ZUS" nie opuszcza przeglądarki.
 - Sekrety (`ADMIN_PASSWORD`, `POSTGRES_PASSWORD`) są tylko w `.env`, który jest w `.gitignore`; w repozytorium jest `.env.example`. Panel `/admin` jest wyłączony, gdy `ADMIN_PASSWORD` nie jest ustawione; hasło idzie w nagłówku `X-Admin-Password`.
 - Wynik jest informacją, nie decyzją: aplikacja nie orzeka i nie ocenia użytkownika.
 
@@ -187,9 +199,10 @@ Otwarte kwestie do potwierdzenia z ZUS (źródło: `docs/prawo/ROZBIEZNOSCI.md`,
 - **Zaokrąglanie.** Przepisy w wyciągach nie podają reguły zaokrąglania stawki dziennej ani kwoty zasiłku. Domyślnie: stawka dzienna do 0,01 zł, kwota za okres = stawka dzienna × liczba dni (parametry `zaokraglanie.*`, status `do_weryfikacji`).
 - **Brutto czy netto.** Kwoty są brutto, z dopiskiem o zaliczce na podatek (parametr `kwoty`). Poradnik ZUS odejmuje od podstawy także zaliczkę na PIT, ustawa i Załącznik tego nie robią; stosujemy akt (tylko 13,71%).
 - **Minimalna podstawa przy niepełnym etacie.** Art. 45 ust. 1 mówi o pełnym wymiarze czasu pracy; proporcjonalnego przeliczania w materiałach nie ma. Wartość 4 147,10 zł (4 806 × 0,8629) jest wyliczeniem ze wzoru z ustawy, tabela w Załączniku jest pusta.
-- **Druki Z-3, Z-3a, ZAS-53 i data 24.10.2026.** Nie występują w materiałach; Poradnik opisuje Z-3b. Nazwy druków w aplikacji pochodzą z instrukcji projektu i są opatrzone zastrzeżeniem, by sprawdzić aktualny druk w ZUS.
-- **Kwota świadczenia rodzicielskiego (art. 31 ust. 3a).** Parametr jest pusty, więc aplikacja nie stosuje podwyższenia i pokazuje informację. W `docs/prawo/pobrane/` jest odnaleziony przepis (1000,00 zł miesięcznie), ale czeka na potwierdzenie przez człowieka.
-- **Parametry kwotowe od 2026 r.** Płaca minimalna i pochodne (podstawa minimalna, limit podstawy dobrowolnej, próg zadłużenia) mają datę obowiązywania 1.01.2026; wymiary i stawki mają datę techniczną „od zawsze" (2000-01-01), bo instrukcja nie podaje dat. Dla dni sprzed 2026 r. parametrów kwotowych brak, więc zgodnie z zasadą silnika (brak parametru = „nie rozstrzygam") kwota nie jest podawana.
+- **Druki.** Z-3, Z-3a, ZAS-53 i połączenie wniosków w ZAM od 24.10.2026 potwierdza treść zadania ZUS; Poradnik opisuje jeszcze Z-3b. Druku ZAS-12 (zasiłek chorobowy na dalszy okres) aplikacja nie obsługuje.
+- **Zasiłek do dnia porodu przy naruszeniu prawa.** Treść zadania wymienia też rozwiązanie umowy z naruszeniem prawa stwierdzone wyrokiem; wyciąg ustawy (art. 30 ust. 3) wymienia śmierć, upadłość i likwidację pracodawcy. Silnik stosuje ustawę.
+- **Kwota świadczenia rodzicielskiego (art. 31 ust. 3a).** Parametr jest pusty, więc aplikacja nie stosuje podwyższenia i pokazuje informację. W `docs/prawo/pobrane/` jest odnaleziony przepis (1000,00 zł miesięcznie), a pisma ZUS w sprawach testowych potwierdzają tę kwotę; samo wyliczenie wymaga kwoty po zaliczce na podatek, której aplikacja nie liczy.
+- **Parametry kwotowe od 2026 r.** Płaca minimalna i pochodne (podstawa minimalna, limit podstawy dobrowolnej) mają datę obowiązywania 1.01.2026; próg zadłużenia ma też wartości za 2024 i 2025 r. (1% płacy minimalnej, status „do weryfikacji”, kwoty spoza materiałów konkursowych), żeby dało się rozstrzygać sprawy testowe ZUS z tych lat; wymiary i stawki mają datę techniczną „od zawsze" (2000-01-01), bo instrukcja nie podaje dat. Dla dni sprzed 2026 r. silnik podaje kwotę tylko przy podstawie ustalonej przez płatnika albo policzonej z wynagrodzeń pracownika; tam, gdzie potrzebny jest brakujący parametr (np. podstawa przy działalności), odpowiada „nie rozstrzygam".
 - Wyciągi przepisów są ze stanu z 2026 r.; część zmian wchodzi później (np. od 1.01.2027), opisane w ROZBIEZNOSCI, A7 i E7.
 
 Przypadki, w których silnik świadomie odpowiada „nie rozstrzygam" (zamiast zgadywać):
@@ -211,5 +224,8 @@ Przypadki, w których silnik świadomie odpowiada „nie rozstrzygam" (zamiast z
 - [docs/PREZENTACJA.md](docs/PREZENTACJA.md): treść prezentacji (do 10 slajdów)
 - [docs/SCENARIUSZ_FILMU.md](docs/SCENARIUSZ_FILMU.md): scenariusz filmu (do 3 minut)
 - [docs/zrzuty/README.md](docs/zrzuty/README.md): lista zrzutów ekranu
-- [BABYRADNIK_INSTRUKCJA.md](BABYRADNIK_INSTRUKCJA.md): instrukcja zakresu projektu
+- [BABYRADNIK_INSTRUKCJA.md](BABYRADNIK_INSTRUKCJA.md): pierwotna instrukcja zakresu projektu (nadrzędna jest treść zadania ZUS)
+- [AGENTS.md](AGENTS.md): zasady pracy w repozytorium i wdrożenie demo
+- [docs/PLAN_POMOCNIK.md](docs/PLAN_POMOCNIK.md): plan pomocnika „Zapytaj o przepisy”
+- [fixtures/organizations-verification.md](fixtures/organizations-verification.md): jak zweryfikowano organizacje wsparcia
 - [docs/prawo/INDEKS.md](docs/prawo/INDEKS.md): wyciągi przepisów, z których powstały reguły
