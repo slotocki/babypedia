@@ -1,8 +1,9 @@
 import { useState, type FormEvent } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/app/api/client'
-import type { Organization } from '@/app/api/types'
-import { Alert, Button, Card, EmptyState, Field, Section, Stack, Switch, TextInput, cn } from '@/ui'
+import type { Organization, SupportSituation } from '@/app/api/types'
+import { situationLabel, situations } from '@/app/situations'
+import { Alert, Button, Card, Checkbox, EmptyState, Field, Section, Stack, Switch, TextInput, cn } from '@/ui'
 import { controlClass } from '@/ui/input-styles'
 import { useFieldControl } from '@/ui/field-context'
 import { QueryView } from './QueryView'
@@ -42,13 +43,6 @@ function uniqueId(name: string, existing: Organization[]): string {
   let n = 2
   while (taken.has(`${base}-${n}`)) n += 1
   return `${base}-${n}`
-}
-
-function parseSituations(text: string): string[] {
-  return text
-    .split(/[,\n]/)
-    .map((s) => s.trim())
-    .filter(Boolean)
 }
 
 export function OrganizationsTab() {
@@ -156,7 +150,7 @@ export function OrganizationsTab() {
                       {org.zweryfikowano ? 'Zweryfikowana — widoczna dla użytkowników' : 'Niezweryfikowana — ukryta przed użytkownikami'}
                     </p>
                     <p className="whitespace-pre-line break-words text-ink">{org.opis}</p>
-                    <p className="break-words text-sm text-ink-soft">Sytuacje: {org.sytuacje.length ? org.sytuacje.join(', ') : 'brak'}</p>
+                    <p className="break-words text-sm text-ink-soft">Sytuacje: {org.sytuacje.length ? org.sytuacje.map(situationLabel).join(', ') : 'brak'}</p>
                     {org.url ? <p className="break-all text-sm text-ink-soft">Strona: {org.url}</p> : null}
                     {org.telefon ? <p className="text-sm text-ink-soft">Telefon: {org.telefon}</p> : null}
                     <div className="flex flex-wrap gap-3 pt-1">
@@ -228,7 +222,7 @@ function OrganizationForm({ title, initial, index, saving, error, onCancel, onSu
   const [opis, setOpis] = useState(initial.opis)
   const [url, setUrl] = useState(initial.url ?? '')
   const [telefon, setTelefon] = useState(initial.telefon ?? '')
-  const [sytuacje, setSytuacje] = useState(initial.sytuacje.join(', '))
+  const [sytuacje, setSytuacje] = useState<SupportSituation[]>(initial.sytuacje.filter((s) => situations.some((x) => x.id === s)))
   const [zweryfikowano, setZweryfikowano] = useState(initial.zweryfikowano)
   const [clientErrors, setClientErrors] = useState<Record<string, string>>({})
 
@@ -256,7 +250,7 @@ function OrganizationForm({ title, initial, index, saving, error, onCancel, onSu
       opis: opis.trim(),
       url: url.trim() || null,
       telefon: telefon.trim() || null,
-      sytuacje: parseSituations(sytuacje),
+      sytuacje: situations.map((s) => s.id).filter((id) => sytuacje.includes(id)),
       zweryfikowano,
     })
   }
@@ -278,8 +272,15 @@ function OrganizationForm({ title, initial, index, saving, error, onCancel, onSu
           <Field label="Telefon" optional error={errors.telefon}>
             <TextInput type="tel" value={telefon} onChange={(e) => setTelefon(e.target.value)} maxLength={50} />
           </Field>
-          <Field label="Sytuacje" optional error={errors.sytuacje} description="Oddziel przecinkami lub nowymi wierszami.">
-            <Textarea rows={2} value={sytuacje} onChange={(e) => setSytuacje(e.target.value)} />
+          <Field label="Sytuacje" optional group error={errors.sytuacje} description="W jakich sytuacjach pokazać organizację na ekranie „Wsparcie”.">
+            {situations.map((s) => (
+              <Checkbox
+                key={s.id}
+                label={s.label}
+                checked={sytuacje.includes(s.id)}
+                onChange={(e) => setSytuacje((list) => (e.target.checked ? [...list, s.id] : list.filter((x) => x !== s.id)))}
+              />
+            ))}
           </Field>
           <Switch
             label="Zweryfikowano"

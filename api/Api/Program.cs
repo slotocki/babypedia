@@ -46,6 +46,7 @@ builder.Services
     .AddPersistence(configuration)
     .AddParameters(configuration)
     .AddSimulation(configuration)
+    .AddAdminIntegrationSettings()
     .AddSubmissions(configuration)
     .AddAssistant(configuration);
 

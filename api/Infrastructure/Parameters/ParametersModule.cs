@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace BabyRadnik.Infrastructure.Parameters;
 
@@ -52,6 +53,25 @@ public static class ParametersModule
         admin.MapGet("/integrations", async (AdminSettingsService s, CancellationToken ct) => Results.Ok(await s.GetIntegrationsAsync(ct)));
         admin.MapPut("/integrations", (HttpRequest request, AdminSettingsService s, CancellationToken ct) =>
             PutAsync<IntegrationFieldDto>(request, ct, s.PutIntegrationsAsync));
+
+        app.MapGet("/api/organizations", async (string? situation, AdminSettingsService s, ILoggerFactory loggers, CancellationToken ct) =>
+        {
+            if (situation is not null && !SupportSituations.IsKnown(situation))
+            {
+                return Results.Problem(statusCode: StatusCodes.Status400BadRequest, title: "Nieprawidłowe dane wejściowe",
+                    detail: $"situation: jedna z {string.Join(", ", SupportSituations.All)}.");
+            }
+
+            try
+            {
+                return Results.Ok(await s.GetVerifiedOrganizationsAsync(situation, ct));
+            }
+            catch (Exception ex) when (ex is not OperationCanceledException)
+            {
+                loggers.CreateLogger("Organizations").LogWarning(ex, "Nie udało się odczytać organizacji wsparcia; zwracam pustą listę.");
+                return Results.Ok(Array.Empty<OrganizationDto>());
+            }
+        }).WithTags("wsparcie");
 
         admin.MapGet("/organizations", async (AdminSettingsService s, CancellationToken ct) => Results.Ok(await s.GetOrganizationsAsync(ct)));
         admin.MapPut("/organizations", (HttpRequest request, AdminSettingsService s, CancellationToken ct) =>

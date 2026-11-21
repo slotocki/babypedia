@@ -246,6 +246,10 @@ export interface CompareResult {
   variant: AssessmentResult
   diff: BenefitDiff[]
   validationErrors: ValidationIssue[]
+  /** Pełny zbiór faktów po nakładce scenariuszy — ocena daje dokładnie `variant`. null, gdy scenariusza nie zastosowano. */
+  variantFacts?: FactSet | null
+  /** Co zmieniono w faktach, prostym językiem. */
+  changes?: string[]
 }
 
 export interface ProblemDetails {
@@ -291,11 +295,20 @@ export interface SubmissionReceipt {
 export type CaseDecision = 'odmowa' | 'przyznanie' | 'do_odczytania'
 export interface CaseSummary { id: string; tytul: string; oczekiwanaDecyzja: CaseDecision; persona?: string | null; dostepna: boolean }
 
+export type SupportSituation =
+  | 'martwe_urodzenie'
+  | 'zgon_dziecka'
+  | 'wczesniak'
+  | 'ciezka_choroba_dziecka'
+  | 'samotny_rodzic'
+  | 'trudna_sytuacja_materialna'
+  | 'przyjecie_dziecka'
+
 export interface Organization {
   id: string
   nazwa: string
   opis: string
-  sytuacje: string[]
+  sytuacje: SupportSituation[]
   url?: string | null
   telefon?: string | null
   zweryfikowano: boolean
@@ -309,10 +322,19 @@ export interface Parameter {
   unit?: string
   validFrom: IsoDate
   legalBasis: string
-  status: 'ok' | 'do_weryfikacji'
+  status: ParameterStatus
   note?: string
 }
-export interface ParameterChange { key: string; value: ParameterValue; validFrom: IsoDate; legalBasis?: string; reason?: string }
+export type ParameterStatus = 'ok' | 'do_weryfikacji'
+export interface ParameterChange {
+  key: string
+  value: ParameterValue
+  validFrom: IsoDate
+  legalBasis?: string
+  reason?: string
+  /** Bez pola — status poprzedniej wartości tego klucza. */
+  status?: ParameterStatus
+}
 export interface ParameterHistoryEntry {
   key: string
   value: ParameterValue

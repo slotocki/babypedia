@@ -118,6 +118,13 @@ Kształt jak w 12.1, z rozszerzeniami (oznaczone ★ — wymagają zatwierdzenia
 
 Nieznany klucz faktu albo zła wartość → `400` ProblemDetails (walidacja na granicy API; C# odrzuca nieznane pola).
 
+### 3.1. Wynik porównania (`POST /api/assessment/compare`)
+
+`{base, variant, diff[], validationErrors[], variantFacts, changes[]}`:
+
+- `variantFacts` — pełny zbiór faktów po nakładce scenariuszy (silnik `Domain/Scenarios`); ocena tego zbioru daje dokładnie `variant`. „Zastosuj wariant” na ekranie zapisuje **ten** zbiór — frontend nie tłumaczy scenariuszy na fakty sam. `null`, gdy scenariusza nie dało się zastosować (wtedy `validationErrors` niepuste).
+- `changes[]` — co zmieniono w faktach, zdania prostym językiem (`ScenarioOutcome.Changes`).
+
 ## 4. Identyfikatory i konwencje nazw
 
 - Świadczenia (katalog P0): `chorobowy_w_ciazy`, `rehabilitacyjne`, `zasilek_do_dnia_porodu`, `macierzynski`, `macierzynski_uzupelniajacy`, `rodzicielski`, `ojcowski`, `przyjecie_dziecka`, `przejecie_przez_ojca`, `pogrzebowy`.
@@ -134,6 +141,7 @@ Nieznany klucz faktu albo zła wartość → `400` ProblemDetails (walidacja na 
 - `validFrom = 2000-01-01` = data techniczna „od zawsze”: instrukcja nie podaje dat obowiązywania wymiarów i stawek.
 - `placa_minimalna` od `2026-01-01` (z instrukcji). Pochodne kwoty (`podstawa_minimalna_pelny_etat`, `max_podstawa_dobrowolnej_skladki*`, `prog_zadluzenia`) też od `2026-01-01` — **przyjęte**, opisane w `note`.
 - `[DO WERYFIKACJI]` (`status: do_weryfikacji`): `kwota_swiadczenia_rodzicielskiego = null`, `zaokraglanie.*`, `kwoty = brutto`.
+- `PUT /api/admin/parameters` (`ParameterChange`): opcjonalne `status` (`ok` | `do_weryfikacji`); bez pola nowa wartość dziedziczy status poprzedniej wartości tego klucza.
 - Testy silnika używają `SeedParameterProvider` (`api/Tests/Reference/`) — bez bazy i bez gałęzi `be/params`.
 
 ## 6. Przypadki referencyjne
@@ -170,8 +178,8 @@ Plik `fixtures/reference/<id>.json`, `id` = nazwa pliku:
 | `api/Domain/<Moduł>/**` + `api/Tests/Domain/<Moduł>/**` | gałąź modułu (`be/engine-periods` → `Periods`, `be/engine-eligibility` → `Eligibility`, `be/engine-amounts` → `Amounts`, `be/basis` → `Basis`, `be/catalog` → `Catalog` + `Deadlines`, `be/scenarios` → `Scenarios`) |
 | `api/Api/Endpoints/AssessmentEndpoints.cs` | `be/catalog` (rejestruje `IAssessmentEngine` w `AddCatalog()`, wtedy atrapa znika sama) |
 | `api/Api/Endpoints/CompareEndpoints.cs` | `be/scenarios` (rejestruje `IScenarioComparer` w `AddScenarios()`) |
-| `api/Infrastructure/Parameters/**` (+ `/api/admin/*`) | `be/params` |
-| `api/Infrastructure/Simulation/**` (+ `/api/sim/*`, `/api/cases*`, `/api/organizations`) | `be/sim` |
+| `api/Infrastructure/Parameters/**` (+ `/api/admin/*`, `/api/organizations` — zweryfikowane organizacje z panelu, sytuacje wg enum `SupportSituation`) | `be/params` |
+| `api/Infrastructure/Simulation/**` (+ `/api/sim/*`, `/api/cases*`) | `be/sim` |
 | `api/Infrastructure/Submissions/**` (+ `/api/submissions`, `/api/sim/me/debt-certificate`) | `be/submissions` |
 | `api/Infrastructure/Persistence/**` | koordynator; moduły dodają encje przez `IEntityTypeConfiguration<T>` we **własnym** katalogu (wykrywane automatycznie) |
 | `api/Infrastructure/Assistant/**` | gałąź pomocnika (P2) |

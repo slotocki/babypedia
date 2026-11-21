@@ -137,6 +137,38 @@ public sealed class WariantWyplatyScenario : IScenario
 
         var variant = text == "usredniony" ? PaymentVariant.Usredniony : PaymentVariant.Standardowy;
         var facts = context.Facts.WithPerson(context.Person, p => p with { PlanWariantWyplaty = Assume(variant) });
-        return ScenarioOutcome.Ok(facts, $"Wariant wypłaty: {text}.");
+        var changes = new List<string>
+        {
+            variant == PaymentVariant.Usredniony
+                ? "Wariant wypłaty: uśredniony (81,5% za urlop macierzyński i rodzicielski)."
+                : "Wariant wypłaty: standardowy (100% za urlop macierzyński, 70% za rodzicielski).",
+        };
+        if (variant == PaymentVariant.Usredniony && LateWithoutDate(context) is { } deadline)
+        {
+            changes.Add($"Termin wniosku o wariant uśredniony minął {Date(deadline)}, a nie podano daty wniosku złożonego w terminie — wariant liczy stawki standardowe. Jeśli wniosek złożono w terminie, podaj jego datę na ekranie wyniku.");
+        }
+
+        return new ScenarioOutcome(facts, [], changes);
+    }
+
+    private static DateOnly? LateWithoutDate(ScenarioContext context)
+    {
+        var sprawa = context.Facts.Sprawa;
+        if (sprawa.ZdarzenieRodzaj?.Value is not (EventKind.Urodzenie or EventKind.Przyjecie)
+            || sprawa.ZdarzenieData?.Value is not { } eventDate
+            || context.Facts.For(context.Person)?.PlanDataWnioskuUsrednionego is not null)
+        {
+            return null;
+        }
+
+        try
+        {
+            var deadline = eventDate.AddDays(context.Parameters.GetInt("termin_wniosku_usredniona_dni", eventDate));
+            return context.Today > deadline ? deadline : null;
+        }
+        catch (ParameterNotFoundException)
+        {
+            return null;
+        }
     }
 }

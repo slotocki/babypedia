@@ -139,6 +139,9 @@ components:
         status: { type: string }
         summary: { type: string, description: Streszczenie bez danych osobowych. }
         simulated: { const: true }
+    SupportSituation:
+      description: 'Sytuacje katalogu wsparcia (ekran „Wsparcie”, panel /admin). Frontend: web/src/app/situations.ts; backend: SupportSituations.cs.'
+      enum: [martwe_urodzenie, zgon_dziecka, wczesniak, ciezka_choroba_dziecka, samotny_rodzic, trudna_sytuacja_materialna, przyjecie_dziecka]
     Organization:
       type: object
       required: [id, nazwa, opis, sytuacje, zweryfikowano]
@@ -146,7 +149,7 @@ components:
         id: { type: string }
         nazwa: { type: string }
         opis: { type: string }
-        sytuacje: { type: array, items: { type: string } }
+        sytuacje: { type: array, uniqueItems: true, items: { $ref: '#/components/schemas/SupportSituation' } }
         url: { type: [string, 'null'] }
         telefon: { type: [string, 'null'] }
         zweryfikowano: { type: boolean, description: 'Niezweryfikowanych nie pokazujemy (sekcja 14).' }
@@ -159,6 +162,9 @@ components:
         validFrom: { type: string, format: date }
         legalBasis: { type: string }
         reason: { type: string }
+        status:
+          enum: [ok, do_weryfikacji]
+          description: 'Status nowej wartości. Bez pola — status poprzedniej wartości tego klucza (do_weryfikacji nie znika po zmianie).'
     ParameterHistoryEntry:
       type: object
       required: [key, value, validFrom, changedAt]
@@ -329,11 +335,12 @@ paths:
     get:
       tags: [wsparcie]
       summary: Katalog wsparcia (tylko zweryfikowane)
+      description: Organizacje zapisane w panelu administratora (PUT /api/admin/organizations) z zweryfikowano=true.
       parameters:
-        - { name: situation, in: query, required: false, schema: { type: string } }
+        - { name: situation, in: query, required: false, schema: { $ref: '#/components/schemas/SupportSituation' } }
       responses:
         '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Organization' } } } } }
-        '501': { $ref: '#/components/responses/NotImplemented' }
+        '400': { $ref: '#/components/responses/Problem' }
 
   /api/admin/parameters:
     get:
