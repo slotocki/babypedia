@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://babyradnik.local/contracts/case.schema.json",
+  "title": "BabyRadnik — lista spraw testowych ZUS (fixtures/cases.json)",
+  "description": "Sekcja 10. Rozpoznanie pliku: SHA-256 liczony w przeglądarce → id sprawy; zapas: nazwa pliku + liczba stron. Sam PDF nigdy nie trafia do repo ani na serwer.",
+  "type": "object",
+  "required": ["cases"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "cases": { "type": "array", "items": { "$ref": "#/$defs/case" } }
+  },
+  "$defs": {
+    "case": {
+      "type": "object",
+      "required": ["id", "tytul", "oczekiwanaDecyzja"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "tytul": { "type": "string", "description": "Opis sprawy z nazwy pliku." },
+        "oczekiwanaDecyzja": { "enum": ["odmowa", "przyznanie", "do_odczytania"] },
+        "persona": { "type": "string", "description": "Id osoby w symulatorze (z CASES_PRIVATE_DIR)." },
+        "plik": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "nazwa": { "type": "string" },
+            "liczbaStron": { "type": "integer", "minimum": 1 },
+            "sha256": { "type": "array", "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" } }
+          }
+        },
+        "potwierdzoneOkresy": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["swiadczenie", "od", "do", "dni"],
+            "additionalProperties": false,
+            "properties": {
+              "swiadczenie": { "$ref": "assessment.schema.json#/$defs/benefitId" },
+              "od": { "$ref": "assessment.schema.json#/$defs/data" },
+              "do": { "$ref": "assessment.schema.json#/$defs/data" },
+              "dni": { "type": "integer" },
+              "tygodnie": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    "CaseSummary": {
+      "description": "Element odpowiedzi GET /api/cases i GET /api/cases/by-hash/{sha256}.",
+      "type": "object",
+      "required": ["id", "tytul", "oczekiwanaDecyzja", "dostepna"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "tytul": { "type": "string" },
+        "oczekiwanaDecyzja": { "enum": ["odmowa", "przyznanie", "do_odczytania"] },
+        "persona": { "type": ["string", "null"] },
+        "dostepna": { "type": "boolean", "description": "false = dane osoby jeszcze nie dostarczone (do_uzupelnienia)." }
+      }
+    }
+  }
+}

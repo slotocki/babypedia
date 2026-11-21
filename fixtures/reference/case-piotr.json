@@ -1,0 +1,12 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "case-piotr",
+  "opis": "Sprawa ZUS: działalność; okres urlopu ojcowskiego; zadłużenie",
+  "status": "do_uzupelnienia",
+  "modul": "katalog",
+  "sprawa": "piotr",
+  "oczekiwane": {
+    "decyzjaZus": "odmowa"
+  },
+  "uwagi": "Dane osoby przepisują ludzie z dokumentów sprawy (sekcja 10). Do tego czasu test jest pomijany."
+}

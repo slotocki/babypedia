@@ -1,0 +1,133 @@
+{
+  "$schema": "../contracts/case.schema.json",
+  "cases": [
+    {
+      "id": "ewa",
+      "tytul": "zasiłek macierzyński; nie podlega ubezpieczeniu chorobowemu w dniu porodu",
+      "oczekiwanaDecyzja": "odmowa",
+      "persona": "ewa"
+    },
+    {
+      "id": "justyna",
+      "tytul": "zasiłek chorobowy w ciąży; osoba współpracująca; zadłużenie składkowe",
+      "oczekiwanaDecyzja": "odmowa",
+      "persona": "justyna"
+    },
+    {
+      "id": "zuzanna",
+      "tytul": "zasiłek chorobowy w ciąży",
+      "oczekiwanaDecyzja": "do_odczytania",
+      "persona": "zuzanna"
+    },
+    {
+      "id": "dariusz",
+      "tytul": "ojciec; zasiłek za okres rodzicielskiego; matka nieubezpieczona",
+      "oczekiwanaDecyzja": "przyznanie",
+      "persona": "dariusz"
+    },
+    {
+      "id": "julia",
+      "tytul": "przyjęcie dziecka na wychowanie; przysposobienie",
+      "oczekiwanaDecyzja": "do_odczytania",
+      "persona": "julia"
+    },
+    {
+      "id": "alicja",
+      "tytul": "zasiłek za okres macierzyńskiego i rodzicielskiego",
+      "oczekiwanaDecyzja": "do_odczytania",
+      "persona": "alicja"
+    },
+    {
+      "id": "joanna",
+      "tytul": "zasiłek w wysokości macierzyńskiego i macierzyński; likwidacja pracodawcy",
+      "oczekiwanaDecyzja": "przyznanie",
+      "persona": "joanna"
+    },
+    {
+      "id": "andrzej",
+      "tytul": "ojciec; część rodzicielskiego, 9 tygodni",
+      "oczekiwanaDecyzja": "do_odczytania",
+      "persona": "andrzej"
+    },
+    {
+      "id": "teresa",
+      "tytul": "zasiłek chorobowy i macierzyński; umowa zlecenia",
+      "oczekiwanaDecyzja": "do_odczytania",
+      "persona": "teresa"
+    },
+    {
+      "id": "tomasz",
+      "tytul": "ojciec; rodzicielski, szósta część",
+      "oczekiwanaDecyzja": "odmowa",
+      "persona": "tomasz"
+    },
+    {
+      "id": "agnieszka-wa",
+      "tytul": "łączenie urlopu rodzicielskiego z pracą",
+      "oczekiwanaDecyzja": "do_odczytania",
+      "persona": "agnieszka-wa"
+    },
+    {
+      "id": "piotr",
+      "tytul": "działalność; okres urlopu ojcowskiego; zadłużenie",
+      "oczekiwanaDecyzja": "odmowa",
+      "persona": "piotr"
+    },
+    {
+      "id": "agnieszka-poz",
+      "tytul": "pracownica od 2011 r.; skrajny wcześniak, masa < 1000 g",
+      "oczekiwanaDecyzja": "przyznanie",
+      "persona": "agnieszka-poz",
+      "potwierdzoneOkresy": [
+        {
+          "swiadczenie": "macierzynski",
+          "od": "2025-06-12",
+          "do": "2025-10-29",
+          "dni": 140
+        },
+        {
+          "swiadczenie": "macierzynski_uzupelniajacy",
+          "od": "2025-10-30",
+          "do": "2026-02-11",
+          "dni": 105,
+          "tygodnie": 15
+        },
+        {
+          "swiadczenie": "rodzicielski",
+          "od": "2026-02-12",
+          "do": "2026-09-23",
+          "dni": 224,
+          "tygodnie": 32
+        }
+      ]
+    },
+    {
+      "id": "karolina",
+      "tytul": "działalność; poród 1.12.2025; zaznaczony pełny wymiar",
+      "oczekiwanaDecyzja": "przyznanie",
+      "persona": "karolina",
+      "potwierdzoneOkresy": [
+        {
+          "swiadczenie": "macierzynski",
+          "od": "2025-12-01",
+          "do": "2026-04-19",
+          "dni": 140
+        },
+        {
+          "swiadczenie": "macierzynski_uzupelniajacy",
+          "od": "2026-04-20",
+          "do": "2026-06-14",
+          "dni": 56,
+          "tygodnie": 8
+        },
+        {
+          "swiadczenie": "rodzicielski",
+          "od": "2026-06-15",
+          "do": "2027-01-24",
+          "dni": 224,
+          "tygodnie": 32
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://babyradnik.local/contracts/facts.schema.json",
+  "title": "BabyRadnik — zbiór faktów wejściowych silnika",
+  "description": "Instrukcja, sekcja 6. Każdy fakt = {value, source, page?}. Lista kluczy jest zamknięta (additionalProperties: false). Klucze sprawy w 'sprawa', klucze osoby w 'wnioskodawca' i opcjonalnie 'drugiRodzic'. Brak klucza = fakt nieznany.",
+  "type": "object",
+  "required": ["sprawa", "wnioskodawca"],
+  "additionalProperties": false,
+  "properties": {
+    "sprawa": { "$ref": "#/$defs/faktySprawy" },
+    "wnioskodawca": { "$ref": "#/$defs/faktyOsoby" },
+    "drugiRodzic": { "$ref": "#/$defs/faktyOsoby" }
+  },
+  "$defs": {
+    "zrodlo": {
+      "description": "Pochodzenie faktu: mObywatel, ZUS, e-ZLA, rejestr stanu cywilnego, użytkownik, założenie.",
+      "enum": ["mobywatel", "zus", "ezla", "usc", "user", "assumption"]
+    },
+    "strona": { "description": "Numer strony w dokumencie sprawy.", "type": "integer", "minimum": 1 },
+    "data": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "kwota": { "type": "number", "minimum": 0, "multipleOf": 0.01 },
+
+    "fakt": {
+      "type": "object",
+      "required": ["value", "source"],
+      "properties": {
+        "value": true,
+        "source": { "$ref": "#/$defs/zrodlo" },
+        "page": { "$ref": "#/$defs/strona" }
+      },
+      "additionalProperties": false
+    },
+    "faktData": { "$ref": "#/$defs/fakt", "properties": { "value": { "$ref": "#/$defs/data" } } },
+    "faktBool": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "boolean" } } },
+    "faktKwota": { "$ref": "#/$defs/fakt", "properties": { "value": { "$ref": "#/$defs/kwota" } } },
+    "faktTygodnie": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "integer", "minimum": 0, "maximum": 200 } } },
+
+    "okres": {
+      "type": "object",
+      "required": ["od", "do"],
+      "additionalProperties": false,
+      "properties": {
+        "od": { "$ref": "#/$defs/data" },
+        "do": { "$ref": "#/$defs/data" },
+        "page": { "$ref": "#/$defs/strona" }
+      }
+    },
+    "rodzajTytulu": { "enum": ["pracownik", "zleceniobiorca", "dzialalnosc", "osoba_wspolpracujaca", "pobierajacy_zasilek", "inny"] },
+    "tytulUbezpieczenia": {
+      "type": "object",
+      "required": ["rodzajTytulu", "od", "chorobowe"],
+      "additionalProperties": false,
+      "properties": {
+        "kodTytulu": { "type": "string", "pattern": "^\\d{4,6}$", "description": "Opisowo. Logika opiera się na rodzajTytulu, nie na kodzie (sekcja 6.1)." },
+        "opis": { "type": "string" },
+        "rodzajTytulu": { "$ref": "#/$defs/rodzajTytulu" },
+        "platnikId": { "type": "string" },
+        "platnikNazwa": { "type": "string" },
+        "od": { "$ref": "#/$defs/data" },
+        "do": { "anyOf": [{ "$ref": "#/$defs/data" }, { "type": "null" }] },
+        "chorobowe": { "enum": ["obowiazkowe", "dobrowolne", "brak"] },
+        "wymiarEtatu": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "page": { "$ref": "#/$defs/strona" }
+      }
+    },
+    "podstawaSkladki": {
+      "type": "object",
+      "required": ["miesiac", "kwota"],
+      "additionalProperties": false,
+      "properties": {
+        "miesiac": { "type": "string", "pattern": "^\\d{4}-(0[1-9]|1[0-2])$" },
+        "kwota": { "$ref": "#/$defs/kwota" },
+        "platnikId": { "type": "string" },
+        "page": { "$ref": "#/$defs/strona" }
+      }
+    },
+    "przerwa": {
+      "type": "object",
+      "required": ["od", "do"],
+      "additionalProperties": false,
+      "properties": {
+        "od": { "$ref": "#/$defs/data" },
+        "do": { "$ref": "#/$defs/data" },
+        "opis": { "type": "string" },
+        "page": { "$ref": "#/$defs/strona" }
+      }
+    },
+    "pobraneSwiadczenie": {
+      "type": "object",
+      "required": ["rodzaj", "od", "do"],
+      "additionalProperties": false,
+      "properties": {
+        "rodzaj": { "enum": ["wynagrodzenie_chorobowe", "chorobowy", "rehabilitacyjne", "macierzynski", "macierzynski_uzupelniajacy", "rodzicielski", "ojcowski", "opiekunczy", "inne"] },
+        "od": { "$ref": "#/$defs/data" },
+        "do": { "$ref": "#/$defs/data" },
+        "opis": { "type": "string" },
+        "page": { "$ref": "#/$defs/strona" }
+      }
+    },
+    "zwolnienieEzla": {
+      "type": "object",
+      "required": ["od", "do", "szpital"],
+      "additionalProperties": false,
+      "properties": {
+        "od": { "$ref": "#/$defs/data" },
+        "do": { "$ref": "#/$defs/data" },
+        "kod": { "type": ["string", "null"], "description": "Kod literowy, np. B = ciąża." },
+        "szpital": { "type": "boolean" },
+        "dataWystawienia": { "$ref": "#/$defs/data" },
+        "page": { "$ref": "#/$defs/strona" }
+      }
+    },
+    "czescUrlopu": {
+      "type": "object",
+      "required": ["tygodnie"],
+      "additionalProperties": false,
+      "properties": {
+        "tygodnie": { "type": "integer", "minimum": 1 },
+        "od": { "$ref": "#/$defs/data" }
+      }
+    },
+    "pracaNaCzescEtatu": {
+      "type": "object",
+      "required": ["wymiar", "tygodnie"],
+      "additionalProperties": false,
+      "properties": {
+        "wymiar": { "type": "number", "exclusiveMinimum": 0, "maximum": 1, "description": "Limit 0,5 sprawdza silnik (parametr praca_na_rodzicielskim_max_etat)." },
+        "tygodnie": { "type": "integer", "minimum": 1 },
+        "od": { "$ref": "#/$defs/data" }
+      }
+    },
+
+    "faktySprawy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "zdarzenie.rodzaj": { "$ref": "#/$defs/fakt", "properties": { "value": { "enum": ["planuje", "ciaza", "urodzenie", "przyjecie"] } } },
+        "zdarzenie.data": { "$ref": "#/$defs/faktData", "description": "Przewidywana data porodu / data urodzenia / data przyjęcia dziecka." },
+        "zdarzenie.dlaKogo": { "$ref": "#/$defs/fakt", "properties": { "value": { "enum": ["ja", "ja_i_drugi_rodzic"] } } },
+
+        "dziecko.liczba": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "integer", "minimum": 1, "maximum": 10 } }, "description": "Liczba dzieci przy jednym porodzie / przyjęciu." },
+        "dziecko.dataUrodzenia": { "$ref": "#/$defs/faktData", "description": "Przy przyjęciu: data urodzenia przyjmowanego dziecka (wiek liczy silnik)." },
+        "dziecko.tydzienCiazyPrzyPorodzie": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "integer", "minimum": 20, "maximum": 45 } }, "description": "Ukończony tydzień ciąży w dniu porodu." },
+        "dziecko.masaUrodzeniowaG": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "integer", "minimum": 1, "maximum": 8000 } }, "description": "Przy wieloraczkach: najniższa masa." },
+        "dziecko.pobytyWSzpitalu": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "array", "items": { "$ref": "#/$defs/okres" } } }, "description": "Przy wieloraczkach: pobyty dziecka z najdłuższym pobytem." },
+        "dziecko.zaZyciem": { "$ref": "#/$defs/faktBool", "description": "Zaświadczenie „Za życiem”." },
+        "dziecko.martweUrodzenie": { "$ref": "#/$defs/faktBool" },
+        "dziecko.liczbaZmarlych": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "integer", "minimum": 0, "maximum": 10 } } },
+        "dziecko.dataZgonu": { "$ref": "#/$defs/faktData" },
+        "dziecko.dataPochowku": { "$ref": "#/$defs/faktData" },
+
+        "przyjecie.sciezka": { "$ref": "#/$defs/fakt", "properties": { "value": { "enum": ["przysposobienie", "rodzina_zastepcza_niezawodowa", "rodzina_zastepcza_zawodowa"] } } },
+        "przyjecie.wniosekDoSadu": { "$ref": "#/$defs/faktBool", "description": "Złożono wniosek do sądu opiekuńczego o przysposobienie." },
+        "przyjecie.dataUprawomocnieniaPostanowienia": { "$ref": "#/$defs/faktData" },
+        "przyjecie.odroczenieObowiazkuSzkolnego": { "$ref": "#/$defs/faktBool" },
+
+        "matka.sytuacjaSzczegolna": {
+          "$ref": "#/$defs/fakt",
+          "description": "Art. 29 ust. 5–7 ustawy. Tylko gdy użytkownik to zaznaczy.",
+          "properties": {
+            "value": {
+              "type": "object",
+              "required": ["rodzaj", "od"],
+              "additionalProperties": false,
+              "properties": {
+                "rodzaj": { "enum": ["niezdolnosc_do_samodzielnej_egzystencji", "pobyt_w_szpitalu", "zgon", "porzucenie_dziecka"] },
+                "od": { "$ref": "#/$defs/data" },
+                "do": { "anyOf": [{ "$ref": "#/$defs/data" }, { "type": "null" }] }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "faktyOsoby": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "osoba.rola": { "$ref": "#/$defs/fakt", "properties": { "value": { "enum": ["matka", "ojciec"] } } },
+        "osoba.dataUrodzenia": { "$ref": "#/$defs/faktData", "description": "Z mObywatela; wiek ≥ 50 lat (wynagrodzenie chorobowe 14 dni)." },
+        "osoba.dataUkonczeniaSzkoly": { "$ref": "#/$defs/faktData", "description": "Absolwent — art. 4 ust. 3 ustawy." },
+
+        "ubezpieczenie.tytuly": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "array", "items": { "$ref": "#/$defs/tytulUbezpieczenia" } } } },
+        "ubezpieczenie.podstawySkladek": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "array", "items": { "$ref": "#/$defs/podstawaSkladki" } } }, "description": "Przychód stanowiący podstawę składki chorobowej (brutto), miesięcznie." },
+        "ubezpieczenie.przerwy": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "array", "items": { "$ref": "#/$defs/przerwa" } } } },
+        "ubezpieczenie.pobraneSwiadczenia": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "array", "items": { "$ref": "#/$defs/pobraneSwiadczenie" } } } },
+        "ubezpieczenie.latWczesniejszegoObowiazkowego": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "number", "minimum": 0 } } },
+        "ubezpieczenie.podlegaChorobowemu": { "$ref": "#/$defs/faktBool", "description": "Deklaracja, gdy brak danych z ZUS (np. drugi rodzic niezalogowany)." },
+        "ubezpieczenie.ustaniePrzyczyna": {
+          "$ref": "#/$defs/fakt",
+          "properties": {
+            "value": {
+              "enum": [
+                "wypowiedzenie_przez_pracownika",
+                "wypowiedzenie_przez_pracodawce",
+                "porozumienie_stron",
+                "koniec_umowy_na_czas_okreslony",
+                "likwidacja_pracodawcy",
+                "upadlosc_pracodawcy",
+                "smierc_pracodawcy",
+                "naruszenie_prawa_orzeczone_przez_sad",
+                "zamkniecie_dzialalnosci",
+                "inna"
+              ]
+            }
+          }
+        },
+
+        "umowa.naCzasOkreslony": { "$ref": "#/$defs/faktBool" },
+        "umowa.dataKonca": { "$ref": "#/$defs/faktData" },
+        "umowa.planowaneOdejscieData": { "$ref": "#/$defs/faktData" },
+
+        "platnik.liczbaUbezpieczonych": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "integer", "minimum": 0 } }, "description": "Liczba zgłoszonych do ubezpieczenia chorobowego na 30 listopada poprzedniego roku (płatnik głównego tytułu)." },
+
+        "skladki.zadluzenie": {
+          "$ref": "#/$defs/fakt",
+          "properties": {
+            "value": {
+              "type": "object",
+              "required": ["naDzien", "kwota"],
+              "additionalProperties": false,
+              "properties": { "naDzien": { "$ref": "#/$defs/data" }, "kwota": { "$ref": "#/$defs/kwota" } }
+            }
+          }
+        },
+        "skladki.dataSplaty": { "$ref": "#/$defs/faktData" },
+
+        "ezla.zwolnienia": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "array", "items": { "$ref": "#/$defs/zwolnienieEzla" } } } },
+
+        "podstawa.ustalonaPrzezPlatnika": { "$ref": "#/$defs/faktKwota" },
+
+        "plan.wariantWyplaty": { "$ref": "#/$defs/fakt", "properties": { "value": { "enum": ["standardowy", "usredniony"] } } },
+        "plan.dataWnioskuUsrednionego": { "$ref": "#/$defs/faktData" },
+        "plan.macierzynskiPrzedPorodemTyg": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "integer", "minimum": 0, "maximum": 52 } } },
+        "plan.rezygnacjaZMacierzynskiegoPoTyg": { "$ref": "#/$defs/faktTygodnie" },
+        "plan.rodzicielskiCzesci": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "array", "items": { "$ref": "#/$defs/czescUrlopu" } } } },
+        "plan.pracaNaCzescEtatu": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "array", "items": { "$ref": "#/$defs/pracaNaCzescEtatu" } } } },
+        "plan.ojcowskiCzesci": { "$ref": "#/$defs/fakt", "properties": { "value": { "type": "array", "items": { "$ref": "#/$defs/czescUrlopu" } } } }
+      }
+    }
+  }
+}

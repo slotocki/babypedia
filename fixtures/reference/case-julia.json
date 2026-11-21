@@ -1,0 +1,12 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "case-julia",
+  "opis": "Sprawa ZUS: przyjęcie dziecka na wychowanie; przysposobienie",
+  "status": "do_uzupelnienia",
+  "modul": "katalog",
+  "sprawa": "julia",
+  "oczekiwane": {
+    "decyzjaZus": "do_odczytania"
+  },
+  "uwagi": "Dane osoby przepisują ludzie z dokumentów sprawy (sekcja 10). Do tego czasu test jest pomijany."
+}

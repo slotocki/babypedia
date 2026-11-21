@@ -1,0 +1,247 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://babyradnik.local/contracts/assessment.schema.json",
+  "title": "BabyRadnik — żądanie i wynik oceny katalogu świadczeń",
+  "description": "Instrukcja, sekcje 7 i 12.1. Główny schemat = wynik POST /api/assessment.",
+  "$ref": "#/$defs/AssessmentResult",
+  "$defs": {
+    "data": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "person": { "enum": ["wnioskodawca", "drugiRodzic"] },
+    "benefitId": {
+      "enum": [
+        "chorobowy_w_ciazy",
+        "rehabilitacyjne",
+        "zasilek_do_dnia_porodu",
+        "macierzynski",
+        "macierzynski_uzupelniajacy",
+        "rodzicielski",
+        "ojcowski",
+        "przyjecie_dziecka",
+        "przejecie_przez_ojca",
+        "pogrzebowy"
+      ]
+    },
+    "status": { "enum": ["przysługuje", "nie_przysługuje", "brakuje_danych", "nie_dotyczy", "nie_rozstrzygam"] },
+    "payer": { "enum": ["płatnik_składek", "zus"] },
+    "whereToApply": { "enum": ["pracodawca", "płatnik_składek", "zus"] },
+    "basisSource": { "enum": ["szacunek_zus", "ustalona_przez_płatnika", "minimalna"] },
+    "deadlineType": { "enum": ["najpóźniej_do", "najpóźniej_przed", "okno", "przedawnienie"] },
+
+    "AssessmentRequest": {
+      "type": "object",
+      "required": ["facts"],
+      "additionalProperties": false,
+      "properties": {
+        "facts": { "$ref": "facts.schema.json" },
+        "asOf": { "$ref": "#/$defs/data", "description": "Dzień „dzisiaj” dla terminów i najbliższego kroku; domyślnie data serwera." },
+        "completedDeadlines": { "type": "array", "items": { "type": "string" }, "description": "Id terminów oznaczonych jako wykonane." }
+      }
+    },
+    "Period": {
+      "type": "object",
+      "required": ["from", "to", "days", "weeks"],
+      "additionalProperties": false,
+      "properties": {
+        "from": { "$ref": "#/$defs/data" },
+        "to": { "$ref": "#/$defs/data" },
+        "days": { "type": "integer", "minimum": 0 },
+        "weeks": { "type": "number", "minimum": 0 }
+      }
+    },
+    "Amount": {
+      "type": "object",
+      "required": ["daily", "total", "basis", "basisSource"],
+      "additionalProperties": false,
+      "description": "Kwoty brutto, przed zaliczką na podatek (sekcja 14).",
+      "properties": {
+        "daily": { "type": "number" },
+        "total": { "type": "number" },
+        "basis": { "type": "number" },
+        "basisSource": { "$ref": "#/$defs/basisSource" }
+      }
+    },
+    "BenefitPart": {
+      "type": "object",
+      "required": ["label", "period", "rate"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string" },
+        "period": { "$ref": "#/$defs/Period" },
+        "rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "amount": { "anyOf": [{ "$ref": "#/$defs/Amount" }, { "type": "null" }] }
+      }
+    },
+    "Deadline": {
+      "type": "object",
+      "required": ["id", "type", "date", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "$ref": "#/$defs/deadlineType" },
+        "date": { "$ref": "#/$defs/data" },
+        "text": { "type": "string" },
+        "consequence": { "type": ["string", "null"] },
+        "basis": { "type": ["string", "null"] }
+      }
+    },
+    "TraceStep": {
+      "type": "object",
+      "required": ["rule", "basis", "met", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "rule": { "type": "string" },
+        "basis": { "type": "string" },
+        "met": { "type": ["boolean", "null"], "description": "null = brak danych / nie rozstrzygam." },
+        "text": { "type": "string" },
+        "condition": { "type": ["string", "null"] }
+      }
+    },
+    "Link": {
+      "type": "object",
+      "required": ["label", "url"],
+      "additionalProperties": false,
+      "properties": { "label": { "type": "string" }, "url": { "type": "string", "format": "uri" } }
+    },
+    "BenefitResult": {
+      "type": "object",
+      "required": ["id", "person", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/benefitId" },
+        "person": { "$ref": "#/$defs/person" },
+        "status": { "$ref": "#/$defs/status" },
+        "period": { "anyOf": [{ "$ref": "#/$defs/Period" }, { "type": "null" }] },
+        "rate": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "amount": { "anyOf": [{ "$ref": "#/$defs/Amount" }, { "type": "null" }], "description": "null, gdy brak podstawy — wtedy notes zawiera „podaj podstawę, żeby zobaczyć kwotę”." },
+        "parts": { "type": "array", "items": { "$ref": "#/$defs/BenefitPart" } },
+        "payer": { "anyOf": [{ "$ref": "#/$defs/payer" }, { "type": "null" }] },
+        "whereToApply": { "anyOf": [{ "$ref": "#/$defs/whereToApply" }, { "type": "null" }] },
+        "documents": { "type": "array", "items": { "type": "string" } },
+        "deadlines": { "type": "array", "items": { "$ref": "#/$defs/Deadline" } },
+        "reason": { "type": ["string", "null"], "description": "nie_przysługuje / nie_rozstrzygam: powód jednym zdaniem." },
+        "legalBasis": { "type": ["string", "null"] },
+        "whatWouldChange": { "type": ["string", "null"] },
+        "notes": { "type": "array", "items": { "type": "string" } },
+        "links": { "type": "array", "items": { "$ref": "#/$defs/Link" } },
+        "trace": { "type": "array", "items": { "$ref": "#/$defs/TraceStep" } }
+      }
+    },
+    "MissingFact": {
+      "type": "object",
+      "required": ["fact", "question", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "fact": { "type": "string", "description": "Klucz z facts.schema.json, np. umowa.dataKonca." },
+        "question": { "type": "string" },
+        "type": { "enum": ["date", "integer", "number", "money", "boolean", "enum", "list"] },
+        "person": { "anyOf": [{ "$ref": "#/$defs/person" }, { "type": "null" }], "description": "null = fakt sprawy." },
+        "options": { "type": ["array", "null"], "items": { "type": "string" } }
+      }
+    },
+    "ValidationIssue": {
+      "type": "object",
+      "required": ["code", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "code": { "type": "string" },
+        "message": { "type": "string" },
+        "fact": { "type": ["string", "null"] },
+        "person": { "anyOf": [{ "$ref": "#/$defs/person" }, { "type": "null" }] }
+      }
+    },
+    "NextStep": {
+      "type": "object",
+      "required": ["deadlineId", "benefitId"],
+      "additionalProperties": false,
+      "properties": {
+        "deadlineId": { "type": "string" },
+        "benefitId": { "$ref": "#/$defs/benefitId" },
+        "person": { "$ref": "#/$defs/person" }
+      }
+    },
+    "Risk": {
+      "type": "object",
+      "required": ["id", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" },
+        "basis": { "type": ["string", "null"] },
+        "link": { "anyOf": [{ "$ref": "#/$defs/Link" }, { "type": "null" }] }
+      }
+    },
+    "AssessmentResult": {
+      "type": "object",
+      "required": ["rulesetVersion", "benefits", "missingFacts", "risks"],
+      "additionalProperties": false,
+      "properties": {
+        "rulesetVersion": { "type": "string" },
+        "benefits": { "type": "array", "items": { "$ref": "#/$defs/BenefitResult" } },
+        "missingFacts": { "type": "array", "items": { "$ref": "#/$defs/MissingFact" } },
+        "validationErrors": { "type": "array", "items": { "$ref": "#/$defs/ValidationIssue" } },
+        "nextStep": { "anyOf": [{ "$ref": "#/$defs/NextStep" }, { "type": "null" }] },
+        "risks": { "type": "array", "items": { "$ref": "#/$defs/Risk" } },
+        "difficultSituation": { "type": "boolean", "description": "Tryb trudnej sytuacji (sekcja 5)." }
+      }
+    },
+
+    "scenarioId": {
+      "enum": ["odchodze_z_pracy", "umowa_nie_zostanie_przedluzona", "przechodze_na_dzialalnosc", "drugi_rodzic_bierze", "praca_na_czesc_etatu", "wariant_wyplaty", "splacam_zadluzenie"]
+    },
+    "ScenarioChange": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/scenarioId" },
+        "person": { "$ref": "#/$defs/person" },
+        "params": {
+          "type": "object",
+          "description": "odchodze_z_pracy {data}; umowa_nie_zostanie_przedluzona {}; przechodze_na_dzialalnosc {data, dobrowolneChorobowe}; drugi_rodzic_bierze {tygodnie}; praca_na_czesc_etatu {wymiar, tygodnie}; wariant_wyplaty {wariant: standardowy|usredniony}; splacam_zadluzenie {data}.",
+          "properties": {
+            "data": { "$ref": "#/$defs/data" },
+            "dobrowolneChorobowe": { "type": "boolean" },
+            "tygodnie": { "type": "integer", "minimum": 0 },
+            "wymiar": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+            "wariant": { "enum": ["standardowy", "usredniony"] }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "CompareRequest": {
+      "type": "object",
+      "required": ["facts", "scenarios"],
+      "additionalProperties": false,
+      "properties": {
+        "facts": { "$ref": "facts.schema.json" },
+        "scenarios": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/ScenarioChange" } },
+        "asOf": { "$ref": "#/$defs/data" }
+      }
+    },
+    "BenefitDiff": {
+      "type": "object",
+      "required": ["id", "person", "statusBase", "statusVariant", "weeksDelta", "amountDelta"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/benefitId" },
+        "person": { "$ref": "#/$defs/person" },
+        "statusBase": { "$ref": "#/$defs/status" },
+        "statusVariant": { "$ref": "#/$defs/status" },
+        "weeksDelta": { "type": ["number", "null"] },
+        "amountDelta": { "type": ["number", "null"] }
+      }
+    },
+    "CompareResult": {
+      "type": "object",
+      "required": ["base", "variant", "diff", "validationErrors"],
+      "additionalProperties": false,
+      "properties": {
+        "base": { "$ref": "#/$defs/AssessmentResult" },
+        "variant": { "$ref": "#/$defs/AssessmentResult" },
+        "diff": { "type": "array", "items": { "$ref": "#/$defs/BenefitDiff" } },
+        "validationErrors": { "type": "array", "items": { "$ref": "#/$defs/ValidationIssue" } }
+      }
+    }
+  }
+}

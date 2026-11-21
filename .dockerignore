@@ -1,0 +1,10 @@
+**/node_modules
+**/bin
+**/obj
+**/dist
+.git
+.github
+docs
+web
+ops
+**/.env
