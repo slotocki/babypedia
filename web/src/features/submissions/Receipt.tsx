@@ -2,15 +2,15 @@ import { Link } from 'react-router'
 import type { SubmissionReceipt } from '@/app/api/types'
 import { api } from '@/app/api/client'
 import { paths } from '@/app/paths'
-import { Button, Card, SimulationBadge } from '@/ui'
+import { Button, Card } from '@/ui'
 import { dateTimeLabel, recipientLabels, statusLabel, typeLabels } from './kinds'
 import { PdfActions } from './PdfActions'
 
 export function Receipt({ receipt, session }: { receipt: SubmissionReceipt; session: string }) {
+  const isDocument = receipt.type === 'wniosek_urlop' || receipt.type === 'dane_zam'
   return (
     <div className="space-y-6">
       <Card tone="highlight" className="space-y-4">
-        <SimulationBadge />
         <div>
           <p className="text-sm font-semibold text-ink-soft">Numer zgłoszenia</p>
           <p className="break-words text-2xl font-bold text-ink">{receipt.number}</p>
@@ -18,8 +18,8 @@ export function Receipt({ receipt, session }: { receipt: SubmissionReceipt; sess
         <dl className="grid gap-3 sm:grid-cols-2">
           <Item label="Rodzaj" value={typeLabels[receipt.type]} />
           <Item label="Adresat" value={recipientLabels[receipt.recipient]} />
-          <Item label="Data złożenia" value={dateTimeLabel(receipt.submittedAt)} />
-          <Item label="Status" value={statusLabel(receipt.status)} />
+          <Item label={isDocument ? 'Data przygotowania' : 'Data zgłoszenia'} value={dateTimeLabel(receipt.submittedAt)} />
+          <Item label="Status" value={isDocument ? 'Gotowy do pobrania' : statusLabel(receipt.status)} />
         </dl>
         {receipt.summary ? <Item label="Streszczenie" value={receipt.summary} /> : null}
         <p className="text-base text-ink">Symulacja: nic nie zostało wysłane do adresata. Zgłoszenie jest zapisane tylko w tej sesji demonstracyjnej.</p>

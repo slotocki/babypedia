@@ -7,7 +7,7 @@ import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
 import { flowSteps } from '@/features/intake/steps'
 import { useFocusHeading } from '@/features/intake/useFocusHeading'
-import { Alert, Button, Card, Disclosure, ErrorState, Section, SimulationBadge, Spinner, Stepper, ToneScope, PageHeader } from '@/ui'
+import { Alert, Button, Card, Disclosure, ErrorState, Section, Spinner, Stepper, ToneScope, PageHeader } from '@/ui'
 import { AnswerField } from './AnswerField'
 import { draftFromValue, isDraftEmpty, parseDraft, type Draft } from './answers'
 import { FactList } from './FactList'
@@ -34,7 +34,7 @@ function missingEventQuestions(facts: FactSet, fromEngine: MissingFact[]): Missi
 }
 
 export function ReviewPage() {
-  const { facts, setFacts, sessionId } = useCaseState()
+  const { facts, setFacts, sessionId, caseId } = useCaseState()
   const navigate = useNavigate()
   const [params, setParams] = useSearchParams()
   const formRef = useRef<HTMLFormElement>(null)
@@ -45,7 +45,10 @@ export function ReviewPage() {
   const [saved, setSaved] = useState<string | null>(null)
 
   const hasEvent = Boolean(facts.sprawa['zdarzenie.rodzaj'])
-  const needsConfirmation = Boolean(sessionId) && params.get('potwierdzone') !== '1'
+  const hasImportedFacts = [facts.sprawa, facts.wnioskodawca, facts.drugiRodzic ?? {}].some((bucket) =>
+    Object.values(bucket).some((fact) => fact && fact.source !== 'user' && fact.source !== 'assumption'),
+  )
+  const needsConfirmation = Boolean(sessionId && (caseId || hasImportedFacts)) && params.get('potwierdzone') !== '1'
   const assessment = useQuery({
     queryKey: ['assessment', facts],
     queryFn: () => api.assess({ facts }),
@@ -137,9 +140,8 @@ export function ReviewPage() {
         <Stepper steps={flowSteps} current={needsConfirmation ? 0 : 1} />
         {needsConfirmation ? (
           <>
-            <PageHeader title="Potwierdź pobrane dane" description="Sprawdź informacje z wybranego przykładu. Jeśli trzeba, popraw je przed przejściem dalej." />
+            <PageHeader title="Potwierdź pobrane dane" description="Sprawdź dane wybranego profilu lub sprawy. Jeśli trzeba, popraw je przed przejściem dalej." />
             <Card className="space-y-4 p-5 sm:p-7">
-              <SimulationBadge />
               <FactList facts={facts} onChange={changeFact} subset="essential" />
             </Card>
             <Disclosure title="Pozostałe pobrane informacje">

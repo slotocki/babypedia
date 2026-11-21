@@ -1,5 +1,6 @@
 import type { FactSet, ProblemDetails } from '@/app/api/types'
 import type { SubmissionTemplate, TemplateField } from './api'
+import { isValidIsoDate } from '@/features/review/dates'
 
 export type Values = Record<string, string>
 
@@ -20,7 +21,7 @@ export function visibleFields(template: SubmissionTemplate, values: Values): Tem
   return template.fields.filter((field) => shown.has(field.key))
 }
 
-export function prefill(template: SubmissionTemplate, facts: FactSet): Values {
+export function prefill(template: SubmissionTemplate, facts: FactSet, profileName?: string | null): Values {
   const kase = facts.sprawa
   const kind = kase['zdarzenie.rodzaj']?.value
   const eventDate = kase['zdarzenie.data']?.value
@@ -29,6 +30,7 @@ export function prefill(template: SubmissionTemplate, facts: FactSet): Values {
   const path = kase['przyjecie.sciezka']?.value
 
   const candidates: Record<string, string | undefined> = {
+    imieNazwisko: profileName ?? undefined,
     dataPorodu: birthDate ?? (kind === 'ciaza' ? eventDate : undefined),
     dzieckoDataUrodzenia: birthDate,
     przewidywanaDataPorodu: kind === 'ciaza' ? eventDate : undefined,
@@ -65,6 +67,8 @@ export function validateLocally(fields: TemplateField[], values: Values): Record
     }
     if (ELEVEN_DIGITS.test(value.replace(/[\s-]/g, ''))) {
       errors[field.key] = 'Nie wpisuj numeru PESEL ani innych 11-cyfrowych numerów — Kompas Rodzica ich nie przyjmuje.'
+    } else if (field.kind === 'date' && (!isValidIsoDate(value) || Number(value.slice(0, 4)) > 2200)) {
+      errors[field.key] = 'Wybierz datę z kalendarza albo wpisz ją w formacie RRRR-MM-DD.'
     } else if (field.kind === 'integer' && !/^\d{1,6}$/.test(value)) {
       errors[field.key] = 'Wpisz liczbę całkowitą, np. 1.'
     }

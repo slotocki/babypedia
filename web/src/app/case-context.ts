@@ -10,13 +10,14 @@ export interface CaseState {
   setPersonFact: <K extends keyof PersonFacts>(person: PersonRef, key: K, fact: PersonFacts[K] | undefined) => void
   /** Id sesji symulowanego logowania. Sesja zna tylko id osoby — nigdy PESEL. */
   sessionId: string | null
-  setSessionId: (id: string | null) => void
+  profileName: string | null
+  connectProfile: (sessionId: string, profileName: string) => void
   caseId: string | null
-  replaceCase: (facts: FactSet, sessionId: string, caseId: string | null) => void
-  /** Id terminów oznaczonych jako „Zrobione” (wysyłane jako completedDeadlines). Czyści je reset(). */
+  replaceCase: (facts: FactSet, sessionId: string, caseId: string | null, profileName: string) => void
+  /** Id terminów oznaczonych jako „Zrobione” (wysyłane jako completedDeadlines). */
   completedDeadlines: string[]
   setDeadlineDone: (id: string, done: boolean) => void
-  reset: () => void
+  startManual: () => void
 }
 
 export const CaseContext = createContext<CaseState | null>(null)

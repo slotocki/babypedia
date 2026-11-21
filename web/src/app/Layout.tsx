@@ -1,18 +1,13 @@
-import { useEffect, useId, useRef, useState } from 'react'
-import { NavLink, Outlet, useLocation } from 'react-router'
-import { ChevronDownIcon, cn } from '@/ui'
+import { NavLink, Outlet } from 'react-router'
+import { UserIcon, cn } from '@/ui'
 import { paths } from './paths'
+import { useCaseState } from './case-context'
 
 const primaryNav = [
   { to: paths.start, label: 'Start' },
-  { to: paths.result, label: 'Wynik' },
-]
-
-const additionalNav = [
   { to: paths.submissions, label: 'Wnioski' },
-  { to: paths.scenarios, label: 'Porównaj warianty' },
-  { to: paths.zusData, label: 'Moje dane w ZUS' },
-  { to: paths.cases, label: 'Sprawy ZUS' },
+  { to: paths.support, label: 'Wsparcie' },
+  { to: paths.knowledge, label: 'Baza wiedzy' },
 ]
 
 /** Przekierowania S9 (instrukcja, sekcja 4). */
@@ -29,26 +24,7 @@ const linkClass = (isActive: boolean) =>
   )
 
 export function Layout() {
-  const [open, setOpen] = useState(false)
-  const menuId = useId()
-  const toggleRef = useRef<HTMLButtonElement>(null)
-  const location = useLocation()
-
-  useEffect(() => {
-    setOpen(false)
-  }, [location.pathname])
-
-  useEffect(() => {
-    if (!open) return
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setOpen(false)
-        toggleRef.current?.focus()
-      }
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [open])
+  const { sessionId } = useCaseState()
 
   return (
     <div className="flex min-h-dvh flex-col bg-canvas text-ink">
@@ -56,43 +32,27 @@ export function Layout() {
         Przejdź do treści
       </a>
       <header className="border-b border-line bg-surface">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-2 px-4 py-2">
-          <NavLink to={paths.start} onClick={() => setOpen(false)} className="inline-flex min-h-11 items-center text-lg font-bold tracking-tight text-brand-strong sm:text-xl">
-            Kompas Rodzica
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-4 gap-y-2 px-3 py-2 sm:px-4">
+          <NavLink to={paths.start} className="inline-flex min-h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-control text-base font-bold tracking-tight sm:gap-2.5 sm:text-xl">
+            <img src="/kompas-rodzica.png" width={36} height={36} alt="" className="size-8 shrink-0 sm:size-9" />
+            <span className="text-[#0d477d]">Kompas <span className="text-[#007a67]">Rodzica</span></span>
           </NavLink>
 
-          <nav aria-label="Główna nawigacja">
-            <ul className="flex items-center gap-0.5 sm:gap-1">
+          <nav aria-label="Główna nawigacja" className="order-3 w-full sm:order-0 sm:w-auto">
+            <ul className="grid grid-cols-4 gap-1 sm:flex">
               {primaryNav.map(({ to, label }) => (
-                <li key={to} className="hidden sm:block">
-                  <NavLink to={to} end onClick={() => setOpen(false)} className={({ isActive }) => linkClass(isActive)}>{label}</NavLink>
+                <li key={to}>
+                  <NavLink to={to} end className={({ isActive }) => cn(linkClass(isActive), 'justify-center bg-canvas/60 px-1 text-center text-xs sm:px-3 sm:text-sm', isActive && 'bg-brand-soft')}>{label}</NavLink>
                 </li>
               ))}
-              <li><NavLink to={paths.support} onClick={() => setOpen(false)} className={({ isActive }) => linkClass(isActive)}>Wsparcie</NavLink></li>
-              <li>
-                <button
-                  ref={toggleRef}
-                  type="button"
-                  className={cn(linkClass(open || additionalNav.some(({ to }) => to === location.pathname)), 'gap-1')}
-                  aria-expanded={open}
-                  aria-controls={menuId}
-                  onClick={() => setOpen((value) => !value)}
-                >
-                  Więcej <ChevronDownIcon className={cn('size-4', open && 'rotate-180')} />
-                </button>
-              </li>
             </ul>
           </nav>
 
-          <nav id={menuId} aria-label="Pozostałe funkcje" hidden={!open} className="w-full border-t border-line pt-2">
-            <ul className="grid gap-1 sm:flex sm:flex-wrap sm:justify-end">
-              {[...primaryNav, ...additionalNav].map(({ to, label }) => (
-                <li key={to} className={primaryNav.some((item) => item.to === to) ? 'sm:hidden' : undefined}>
-                  <NavLink to={to} end onClick={() => setOpen(false)} className={({ isActive }) => linkClass(isActive)}>{label}</NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {sessionId ? (
+            <NavLink to={paths.account} className={({ isActive }) => cn(linkClass(isActive), 'ml-auto gap-1.5 bg-canvas/60 whitespace-nowrap', isActive && 'bg-brand-soft')}>
+              <UserIcon className="size-4" /> Moje konto
+            </NavLink>
+          ) : null}
         </div>
       </header>
       <main id="main" className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">

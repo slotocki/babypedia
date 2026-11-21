@@ -18,10 +18,10 @@ interface TemplateFormProps {
 const RADIO_LIMIT = 4
 
 export function TemplateForm({ template, sessionId, onDone }: TemplateFormProps) {
-  const { facts } = useCaseState()
+  const { facts, profileName } = useCaseState()
   const queryClient = useQueryClient()
   const formRef = useRef<HTMLFormElement>(null)
-  const [prefilled] = useState(() => prefill(template, facts))
+  const [prefilled] = useState(() => prefill(template, facts, profileName))
   const [values, setValues] = useState<Values>(prefilled)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [general, setGeneral] = useState<string[]>([])

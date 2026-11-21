@@ -10,6 +10,8 @@ import { SubmissionsPage } from '@/features/submissions'
 import { ZusDataPage } from '@/features/zus-data'
 import { CasesPage } from '@/features/cases'
 import { SupportPage } from '@/features/support'
+import { KnowledgePage } from '@/features/support/KnowledgePage'
+import { AccountPage } from './AccountPage'
 import { AdminPage } from '@/features/admin'
 import { NotFoundPage } from './NotFoundPage'
 import { UiGallery } from '@/ui/gallery/UiGallery'
@@ -28,6 +30,8 @@ export const router = createBrowserRouter([
       { path: paths.zusData, element: <ZusDataPage /> },
       { path: paths.cases, element: <CasesPage /> },
       { path: paths.support, element: <SupportPage /> },
+      { path: paths.knowledge, element: <KnowledgePage /> },
+      { path: paths.account, element: <AccountPage /> },
       { path: paths.admin, element: <AdminPage /> },
       { path: '/ui', element: <UiGallery /> },
       { path: '*', element: <NotFoundPage /> },

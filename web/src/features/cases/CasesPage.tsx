@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { lazy, Suspense } from 'react'
 import { api } from '@/app/api/client'
-import { Card, ErrorState, PageHeader, SkeletonText, SimulationBanner, Spinner } from '@/ui'
+import { Card, ErrorState, PageHeader, SkeletonText, Spinner } from '@/ui'
 import { AddCasePdf } from './AddCasePdf'
 import { CaseList } from './CaseList'
 import { useCasePdf } from './useCasePdf'
@@ -20,11 +20,9 @@ export function CasesPage() {
   return (
     <div ref={pageRef} className="mx-auto max-w-6xl space-y-6">
       <PageHeader
-        eyebrow="Sprawy testowe (symulacja)"
         title="Sprawy ZUS"
         description="Wybierz sprawę testową albo dodaj plik PDF sprawy. Wczytamy dane fikcyjnej osoby z tej sprawy, a Ty je sprawdzisz."
       />
-      <SimulationBanner>Wszystkie sprawy i osoby są testowe. Nie łączymy się z prawdziwymi systemami.</SimulationBanner>
 
       <div className={hasPreview ? 'grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start' : 'grid max-w-3xl grid-cols-1 gap-6'}>
         <div className={hasPreview ? 'min-w-0 lg:col-start-1 lg:row-start-1' : 'min-w-0'}>

@@ -7,11 +7,12 @@ const STORAGE_KEY = 'babyradnik.case'
 interface Stored {
   facts: FactSet
   sessionId: string | null
+  profileName: string | null
   caseId: string | null
   completedDeadlines: string[]
 }
 
-const initial = (): Stored => ({ facts: emptyFacts(), sessionId: null, caseId: null, completedDeadlines: [] })
+const initial = (): Stored => ({ facts: emptyFacts(), sessionId: null, profileName: null, caseId: null, completedDeadlines: [] })
 
 function load(): Stored {
   try {
@@ -53,16 +54,17 @@ export function CaseStateProvider({ children }: { children: ReactNode }) {
       setCaseFact,
       setPersonFact,
       sessionId: state.sessionId,
-      setSessionId: (sessionId) => setState((s) => ({ ...s, sessionId })),
+      profileName: state.profileName,
+      connectProfile: (sessionId, profileName) => setState((s) => ({ ...s, sessionId, profileName })),
       caseId: state.caseId,
-      replaceCase: (facts, sessionId, caseId) => setState({ facts, sessionId, caseId, completedDeadlines: [] }),
+      replaceCase: (facts, sessionId, caseId, profileName) => setState({ facts, sessionId, caseId, profileName, completedDeadlines: [] }),
       completedDeadlines: state.completedDeadlines,
       setDeadlineDone: (id, done) =>
         setState((s) => ({
           ...s,
           completedDeadlines: done ? [...new Set([...s.completedDeadlines, id])] : s.completedDeadlines.filter((x) => x !== id),
         })),
-      reset: () => setState(initial()),
+      startManual: () => setState((s) => ({ ...initial(), sessionId: s.sessionId, profileName: s.profileName })),
     }),
     [state, setCaseFact, setPersonFact],
   )

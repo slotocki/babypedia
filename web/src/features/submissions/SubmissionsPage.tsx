@@ -5,7 +5,7 @@ import type { SubmissionReceipt } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
 import { api } from '@/app/api/client'
 import { paths } from '@/app/paths'
-import { Button, Card, ErrorState, PageHeader, Section, SimulationBadge, SimulationBanner, SkeletonText } from '@/ui'
+import { Button, Card, ErrorState, PageHeader, Section, SkeletonText } from '@/ui'
 import { Certificate } from './Certificate'
 import { findKind, leaveKinds, otherKinds, submissionFormPath, type SubmissionKind } from './kinds'
 import { MySubmissions } from './MySubmissions'
@@ -51,7 +51,7 @@ export function SubmissionsPage() {
 
   return (
     <div ref={ref} className="mx-auto max-w-2xl space-y-6">
-      <PageHeader title={header.title} description={header.description} eyebrow={view === 'lista' || view === 'login' ? 'Symulacja' : undefined} />
+      <PageHeader title={header.title} description={header.description} />
 
       {view === 'login' ? <NeedsLogin templateId={kind?.id} /> : null}
 
@@ -94,9 +94,8 @@ function FormView({ kind, sessionId, onDone }: { kind: SubmissionKind; sessionId
 
   return (
     <div className="space-y-6">
-      <SimulationBanner>Ten wniosek jest symulacją. Nic nie zostanie wysłane do adresata.</SimulationBanner>
       {kind.note ? <KindNote note={kind.note} /> : null}
-      <TemplateForm key={template.id} template={template} sessionId={sessionId} onDone={onDone} />
+      <TemplateForm key={template.id + sessionId} template={template} sessionId={sessionId} onDone={onDone} />
     </div>
   )
 }
@@ -117,7 +116,6 @@ function KindNote({ note }: { note: NonNullable<SubmissionKind['note']> }) {
 function KindList() {
   return (
     <div className="space-y-8">
-      <SimulationBanner>Każdy wniosek tutaj to symulacja. Nic nie zostanie wysłane do pracodawcy, ZUS ani urzędu.</SimulationBanner>
 
       <Section title="Wnioski o urlop do pracodawcy" description="Cztery wzory wniosków. Każdy kończy się plikiem PDF do wydrukowania lub przekazania.">
         <ul className="space-y-4">
@@ -138,12 +136,10 @@ function KindList() {
           ))}
           <li>
             <Card as="article" className="space-y-3">
-              <SimulationBadge />
               <h3 className="text-lg font-bold text-ink">Zaświadczenie o stanie składek</h3>
               <p className="text-base text-ink">Pokazuje, czy na wybrany dzień masz zaległe składki. Pobierzesz je jako PDF.</p>
               <p className="text-sm font-semibold text-ink-soft">Adresat: ZUS</p>
-              <p className="text-sm text-ink-soft">Symulacja — nic nie zostanie wysłane.</p>
-              <Button asChild variant="secondary">
+                <Button asChild variant="secondary">
                 <Link to={`${paths.submissions}?widok=zaswiadczenie`}>Wybierz dzień i pobierz</Link>
               </Button>
             </Card>
@@ -163,12 +159,10 @@ function KindList() {
 function KindCard({ kind }: { kind: SubmissionKind }) {
   return (
     <Card as="article" className="space-y-3">
-      <SimulationBadge />
       <h3 className="text-lg font-bold text-ink">{kind.title}</h3>
       <p className="text-base text-ink">{kind.description}</p>
       {kind.note ? <KindNote note={kind.note} /> : null}
       <p className="text-sm font-semibold text-ink-soft">Adresat: {kind.recipient}</p>
-      <p className="text-sm text-ink-soft">Symulacja — nic nie zostanie wysłane.</p>
       <Button asChild>
         <Link to={submissionFormPath(kind.id)}>
           Wypełnij<span className="sr-only">: {kind.title}</span>

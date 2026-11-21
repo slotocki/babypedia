@@ -1,119 +1,84 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router'
 import { api } from '@/app/api/client'
 import { emptyFacts, useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
-import { mergeIntegrationFacts, userFactOf, withFact } from '@/features/review/facts'
-import { eventKindLabels } from '@/features/review/fact-labels'
+import { mergeIntegrationFacts } from '@/features/review/facts'
 import { findKind, submissionFormPath } from '@/features/submissions/kinds'
-import { Alert, Button, Card, ErrorState, Field, PageHeader, Select, ShieldIcon, SimulationBadge, Spinner } from '@/ui'
+import { Button, ErrorState, PageHeader, Spinner, UserIcon } from '@/ui'
 import { useFocusHeading } from './useFocusHeading'
 
 export function LoginPage() {
-  const { caseId, replaceCase, setSessionId } = useCaseState()
+  const { replaceCase, connectProfile } = useCaseState()
   const navigate = useNavigate()
   const pageRef = useFocusHeading<HTMLDivElement>()
   const [params] = useSearchParams()
   const [selected, setSelected] = useState<string | null>(null)
   const requestedKind = findKind(params.get('szablon'))
   const forSubmission = params.get('powrot') === 'wnioski'
-
   const personas = useQuery({ queryKey: ['sim', 'personas'], queryFn: api.sim.personas })
-  const cases = useQuery({ queryKey: ['cases'], queryFn: api.cases.list, enabled: !forSubmission })
   const profiles = (personas.data ?? []).filter((person) => !person.caseId)
-  const examples = forSubmission ? [] : (cases.data ?? []).filter((item) => item.dostepna && item.persona)
-  const picked = selected ?? examples.find((item) => item.id === caseId)?.persona ??
-    profiles.find((person) => person.id === 'anna-przyklad')?.id ?? profiles[0]?.id ?? examples[0]?.persona ?? ''
-  const profile = profiles.find((person) => person.id === picked)
-  const example = examples.find((item) => item.persona === picked)
-  const selectionReady = selected !== null || (personas.isFetched && (forSubmission || cases.isFetched))
 
-  const connection = useQuery({
-    queryKey: ['sim', 'connection', picked, forSubmission],
-    enabled: Boolean(picked) && selectionReady,
-    staleTime: Infinity,
-    gcTime: 0,
-    retry: false,
-    queryFn: async () => {
-      const session = await api.sim.login(picked)
-      const loaded = forSubmission ? emptyFacts() : mergeIntegrationFacts(emptyFacts(), await api.sim.myFacts(session.sessionId))
-      const facts = example && !loaded.sprawa['zdarzenie.dlaKogo']
-        ? withFact(loaded, 'sprawa', 'zdarzenie.dlaKogo', userFactOf('ja'))
-        : loaded
-      return { sessionId: session.sessionId, facts }
+  const connection = useMutation({
+    mutationFn: async (personaId: string) => {
+      const session = await api.sim.login(personaId)
+      const profileName = [session.identity.imie, session.identity.nazwisko].filter(Boolean).join(' ')
+      const facts = forSubmission ? emptyFacts() : mergeIntegrationFacts(emptyFacts(), await api.sim.myFacts(session.sessionId))
+      return { sessionId: session.sessionId, profileName, facts }
+    },
+    onSuccess: ({ sessionId, profileName, facts }) => {
+      if (forSubmission) {
+        connectProfile(sessionId, profileName)
+        navigate(requestedKind ? submissionFormPath(requestedKind.id) : paths.submissions, { replace: true })
+      } else {
+        replaceCase(facts, sessionId, null, profileName)
+        navigate(paths.review)
+      }
     },
   })
 
-  const proceed = () => {
-    if (!connection.data) return
-    if (forSubmission) {
-      setSessionId(connection.data.sessionId)
-      navigate(requestedKind ? submissionFormPath(requestedKind.id) : paths.submissions, { replace: true })
-      return
-    }
-    replaceCase(connection.data.facts, connection.data.sessionId, example?.id ?? null)
-    navigate(paths.review)
-  }
-
-  const event = connection.data?.facts.sprawa['zdarzenie.rodzaj']?.value
-  const date = connection.data?.facts.sprawa['zdarzenie.data']?.value
-
   return (
-    <div ref={pageRef} className="mx-auto max-w-2xl space-y-5 py-3 sm:py-7">
+    <div ref={pageRef} className="mx-auto max-w-4xl space-y-6 py-3 sm:py-7">
       <PageHeader
-        title={forSubmission ? 'Wybierz profil do wniosku' : 'Połącz z mObywatelem'}
-        description={forSubmission ? 'Profil testowy służy do zapisania i pobrania dokumentu. Użyjemy danych z Twojego wyniku.' : 'Wybierz profil lub zapisaną sprawę, a wczytamy dane z symulowanych systemów.'}
+        title={forSubmission ? 'Wybierz profil do wniosku' : 'Wybierz profil'}
+        description={forSubmission ? 'Zachowamy dane wpisane w kalkulatorze i uzupełnimy imię oraz nazwisko z wybranego profilu.' : 'Z wybranego profilu pobierzemy dostępne informacje. Potem możesz je sprawdzić i poprawić.'}
       />
-      <Card className="space-y-5 p-5 sm:p-8">
-        <SimulationBadge />
-        {personas.isError ? <ErrorState error={personas.error} title="Nie udało się wczytać profili" onRetry={() => void personas.refetch()} /> : null}
-        {cases.isError ? <ErrorState error={cases.error} title="Nie udało się wczytać spraw ZUS" onRetry={() => void cases.refetch()} /> : null}
-
-        {picked ? (
-          <Field label={forSubmission ? 'Profil testowy' : 'Profil lub sprawa testowa'}>
-            <Select value={picked} onChange={(event) => setSelected(event.target.value)}>
-              {profiles.length > 0 ? (
-                <optgroup label="Profile testowe">
-                  {profiles.map((person) => <option key={person.id} value={person.id}>{person.imie ?? person.id}</option>)}
-                </optgroup>
-              ) : null}
-              {examples.length > 0 ? (
-                <optgroup label="Sprawy testowe ZUS">
-                  {examples.map((item) => <option key={item.id} value={item.persona ?? ''}>{item.tytul}</option>)}
-                </optgroup>
-              ) : null}
-            </Select>
-          </Field>
-        ) : null}
-
-        {!selectionReady || (picked && connection.isPending) ? (
-          <p role="status" className="flex items-center gap-2 text-ink-soft"><Spinner label={null} /> Wczytuję dane testowe…</p>
-        ) : null}
-        {selectionReady && !picked && !personas.isError && !cases.isError ? (
-          <Alert variant="info" title="Brak dostępnych przykładów">Możesz skorzystać z ręcznego wprowadzania danych.</Alert>
-        ) : null}
-        {connection.isError ? <ErrorState error={connection.error} title="Nie udało się pobrać danych" onRetry={() => void connection.refetch()} /> : null}
-
-        {connection.data ? (
-          <>
-            <div className="flex items-start gap-3 rounded-card bg-canvas p-4">
-              <ShieldIcon className="mt-0.5 size-5 shrink-0 text-brand-strong" />
-              <div className="min-w-0 space-y-1">
-                <p className="font-semibold text-ink">{example?.tytul ?? profile?.imie ?? 'Profil testowy'}</p>
-                {profile?.opis ? <p className="text-sm text-ink-soft">{profile.opis}</p> : null}
-                {event ? <p className="text-sm text-ink-soft">{eventKindLabels[event]}{date ? ` · ${new Intl.DateTimeFormat('pl-PL', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(date))}` : ''}</p> : null}
-              </div>
-            </div>
-            <Button fullWidth className="sm:w-auto" onClick={proceed}>
-              {forSubmission ? 'Przejdź do wniosku' : 'Sprawdź pobrane dane'}
-            </Button>
-          </>
-        ) : null}
-      </Card>
-      <Button asChild variant="link">
-        <Link to={forSubmission ? paths.result : paths.start}>{forSubmission ? 'Wróć do wyniku' : 'Wróć do wyboru sposobu'}</Link>
-      </Button>
+      <p className="text-sm text-ink-soft">To połączenie demonstracyjne. Profile zawierają dane fikcyjne.</p>
+      {personas.isPending ? <p role="status" className="flex items-center gap-2"><Spinner label={null} /> Wczytuję profile…</p> : null}
+      {personas.isError ? <ErrorState error={personas.error} title="Nie udało się wczytać profili" onRetry={() => void personas.refetch()} /> : null}
+      {personas.isSuccess && profiles.length === 0 ? <p>Brak profili do wyboru. Możesz wprowadzić dane ręcznie.</p> : null}
+      {profiles.length > 0 ? (
+        <form className="space-y-6" onSubmit={(event) => {
+          event.preventDefault()
+          if (selected && !connection.isPending) connection.mutate(selected)
+        }}>
+          <fieldset disabled={connection.isPending} className="grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <legend className="sr-only">Dostępne profile</legend>
+            {profiles.map((person) => (
+              <label key={person.id} className="relative flex min-w-0 cursor-pointer items-start gap-3 rounded-card border border-line bg-surface p-4 hover:border-brand has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand">
+                <input type="radio" name="profil" value={person.id} checked={selected === person.id} onChange={() => { setSelected(person.id); connection.reset() }} className="sr-only" />
+                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-canvas text-brand-strong"><UserIcon className="size-5" /></span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-bold">{person.imie ?? person.id}</span>
+                  <span className="block text-sm text-ink-soft">{person.opis}</span>
+                </span>
+                <span className="mt-1 size-4 shrink-0 rounded-full border border-line-strong" aria-hidden="true">
+                  {selected === person.id ? <span className="m-0.5 block size-2.5 rounded-full bg-brand" /> : null}
+                </span>
+              </label>
+            ))}
+          </fieldset>
+          {connection.isError ? <ErrorState error={connection.error} title="Nie udało się pobrać danych" /> : null}
+          <Button type="submit" disabled={!selected} loading={connection.isPending} loadingLabel="Pobieram dane…" className="w-full sm:w-auto">
+            {forSubmission ? 'Przejdź do wniosku' : 'Pobierz dane i przejdź dalej'}
+          </Button>
+        </form>
+      ) : null}
+      <div className="flex flex-wrap gap-x-4">
+        <Button asChild variant="link"><Link to={forSubmission ? paths.result : paths.start}>Wróć</Link></Button>
+        {!forSubmission ? <Button asChild variant="link"><Link to={paths.cases}>Sprawdź na przykładach ZUS</Link></Button> : null}
+      </div>
     </div>
   )
 }

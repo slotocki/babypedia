@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router'
 import { ApiError, api } from '@/app/api/client'
 import { paths } from '@/app/paths'
-import { Button, Card, EmptyState, ErrorState, SimulationBadge, SkeletonText } from '@/ui'
+import { Button, Card, EmptyState, ErrorState, SkeletonText } from '@/ui'
 import { dateTimeLabel, recipientLabels, statusLabel, typeLabels } from './kinds'
 import { NeedsLogin } from './NeedsLogin'
 import { PdfActions } from './PdfActions'
@@ -42,7 +42,6 @@ export function MySubmissions({ session }: { session: string }) {
         <li key={item.id}>
           <Card as="article" className="space-y-3" aria-label={`Zgłoszenie ${item.number}`}>
             <div className="flex flex-wrap items-center gap-2">
-              <SimulationBadge />
               <span className="rounded-pill border border-ok bg-ok-soft px-3 py-0.5 text-sm font-semibold text-ok">{statusLabel(item.status)}</span>
             </div>
             <h2 className="break-words text-lg font-bold text-ink">{item.number}</h2>

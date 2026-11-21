@@ -25,7 +25,8 @@ export function useLoadCase() {
       // Sprawa testowa zastępuje wcześniejsze odpowiedzi w całości — to komplet danych z dokumentów jednej osoby.
       const loaded = mergeIntegrationFacts(emptyFacts(), integration)
       const facts = loaded.sprawa['zdarzenie.dlaKogo'] ? loaded : withFact(loaded, 'sprawa', 'zdarzenie.dlaKogo', userFactOf('ja'))
-      replaceCase(facts, session.sessionId, item.id)
+      const profileName = [session.identity.imie, session.identity.nazwisko].filter(Boolean).join(' ')
+      replaceCase(facts, session.sessionId, item.id, profileName)
       setState({ status: 'idle' })
       navigate(paths.review)
     } catch (error) {

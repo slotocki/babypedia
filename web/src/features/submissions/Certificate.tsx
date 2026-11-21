@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Link } from 'react-router'
 import { api } from '@/app/api/client'
 import { paths } from '@/app/paths'
-import { Alert, Button, DateInput, Field, SimulationBanner } from '@/ui'
+import { Alert, Button, DateInput, Field } from '@/ui'
+import { isValidIsoDate } from '@/features/review/dates'
 import { PdfActions } from './PdfActions'
 
 const todayIso = () => {
@@ -15,19 +16,16 @@ const todayIso = () => {
 export function Certificate({ session }: { session: string }) {
   const [date, setDate] = useState(todayIso)
   const year = Number(date.slice(0, 4))
-  const valid = /^\d{4}-\d{2}-\d{2}$/.test(date) && year >= 2000 && year <= 2100
+  const valid = isValidIsoDate(date) && year >= 2000 && year <= 2100
 
   return (
     <div className="space-y-6">
-      <SimulationBanner>
-        To zaświadczenie jest symulacją. Nie jest dokumentem urzędowym i nie zostało wydane przez ZUS.
-      </SimulationBanner>
       <p className="max-w-prose text-lg text-ink-soft">
         Zaświadczenie pokazuje, czy na wybrany dzień na koncie są zaległe składki. Wybierz dzień, na który ma być wystawione, i pobierz plik PDF.
       </p>
       <div className="max-w-sm">
         <Field label="Na jaki dzień" error={valid ? undefined : 'Wybierz datę z lat 2000–2100.'}>
-          <DateInput value={date} onChange={(e) => setDate(e.target.value)} />
+          <DateInput min="2000-01-01" max="2100-12-31" value={date} onChange={(e) => setDate(e.target.value)} />
         </Field>
       </div>
       {valid ? (

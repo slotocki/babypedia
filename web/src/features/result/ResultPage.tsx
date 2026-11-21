@@ -12,9 +12,7 @@ import {
   Disclosure,
   EmptyState,
   ErrorState,
-  PageHeader,
   Section,
-  SimulationBanner,
   Skeleton,
   Stepper,
   ToneScope,
@@ -37,11 +35,6 @@ const EXAMPLE_COUNT = 5
 function parseExample(value: string | null): number | null {
   const n = Number(value)
   return Number.isInteger(n) && n >= 1 && n <= EXAMPLE_COUNT ? n : null
-}
-
-function hasIntegrationFacts(facts: FactSet): boolean {
-  const buckets = [facts.sprawa, facts.wnioskodawca, facts.drugiRodzic ?? {}] as Record<string, { source?: string } | undefined>[]
-  return buckets.some((bucket) => Object.values(bucket).some((fact) => fact && fact.source !== undefined && fact.source !== 'user' && fact.source !== 'assumption'))
 }
 
 function isDifficult(facts: FactSet, data?: AssessmentResult): boolean {
@@ -93,7 +86,7 @@ function LoadingState() {
 }
 
 export function ResultPage() {
-  const { facts, setPersonFact, sessionId, caseId, completedDeadlines, setDeadlineDone } = useCaseState()
+  const { facts, setPersonFact, sessionId, profileName, caseId, completedDeadlines, setDeadlineDone } = useCaseState()
   const [params] = useSearchParams()
   const exampleIndex = import.meta.env.DEV ? parseExample(params.get('przyklad')) : null
   const pageRef = useFocusHeading<HTMLDivElement>()
@@ -145,7 +138,6 @@ export function ResultPage() {
     else setDeadlineDone(id, done)
   }
 
-  const showBanner = sessionId !== null || hasIntegrationFacts(facts)
   const variant = facts.wnioskodawca['plan.wariantWyplaty']?.value ?? 'standardowy'
 
   const renderBody = (result: AssessmentResult) => {
@@ -263,14 +255,21 @@ export function ResultPage() {
     <ToneScope tone={difficult ? 'difficult' : 'default'} className="-mx-4 -my-6 px-4 py-6">
       <div ref={pageRef} className="mx-auto max-w-5xl space-y-6">
         <Stepper steps={flowSteps} current={2} />
-        <PageHeader
-          title="Twój plan"
-          description={
-            difficult
-              ? 'Poniżej zebraliśmy najważniejsze kroki. Możesz zajmować się nimi we własnym tempie.'
-              : 'Wynik na podstawie dostępnych danych. Decyzję podejmuje ZUS lub płatnik składek.'
-          }
-        />
+        <header className="flex flex-wrap items-start justify-between gap-3 rounded-card border border-line bg-surface p-5 sm:p-7">
+          <div className="max-w-xl space-y-2">
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Twój plan</h1>
+            <p className="text-ink-soft">
+              {difficult
+                ? 'Poniżej zebraliśmy najważniejsze kroki. Możesz zajmować się nimi we własnym tempie.'
+                : 'Wynik na podstawie dostępnych danych. Decyzję podejmuje ZUS lub płatnik składek.'}
+            </p>
+          </div>
+          {sessionId ? (
+            <Link to={paths.account} className="inline-flex min-h-11 items-center rounded-control bg-canvas px-3 text-sm font-semibold text-brand-strong hover:bg-brand-soft">
+              {profileName || 'Moje konto'}
+            </Link>
+          ) : null}
+        </header>
 
         {import.meta.env.DEV ? <ExampleSwitcher current={exampleIndex} /> : null}
 
@@ -283,8 +282,6 @@ export function ResultPage() {
             .
           </Alert>
         ) : null}
-
-        {showBanner ? <SimulationBanner system="Logowanie i dane z ZUS" /> : null}
 
         {data?.validationErrors && data.validationErrors.length > 0 ? (
           <Alert variant="warning" title="Plan wymaga poprawy">

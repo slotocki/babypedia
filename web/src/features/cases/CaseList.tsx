@@ -2,7 +2,7 @@ import { useId, useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import type { CaseSummary } from '@/app/api/types'
 import { paths } from '@/app/paths'
-import { Button, Card, EmptyState, ErrorState, Field, Section, SimulationBadge, TextInput } from '@/ui'
+import { Button, Card, EmptyState, ErrorState, Field, Section, TextInput } from '@/ui'
 import { agreementLabel, decisionLabel, normalize } from './decision'
 import type { useLoadCase } from './useLoadCase'
 
@@ -70,7 +70,6 @@ export function CaseList({ cases, loader }: { cases: CaseSummary[]; loader: Load
                       >
                         Wybierz sprawę
                       </Button>
-                      <SimulationBadge />
                     </div>
                   ) : null}
                   {loader.state.status === 'error' && loader.state.caseId === item.id ? (

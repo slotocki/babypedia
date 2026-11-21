@@ -33,12 +33,12 @@ npm ci --prefix contracts && npm --prefix contracts run validate   # walidacja f
 
 ## Jak przetestować w 3 minuty
 
-1. **Start** (`/`): „Wprowadź dane ręcznie” prowadzi do pytań o sytuację, datę i rodziców. „Połącz z mObywatelem” otwiera symulację.
-2. **Połączenie (symulacja)** (`/logowanie`): dane domyślnego profilu ładują się automatycznie. Wybierz inny profil lub sprawę ZUS, jeśli chcesz zobaczyć inny przebieg.
+1. **Start** (`/`): wybierz wpis ręczny, połączenie z mObywatelem i ZUS albo przejdź do przykładowych spraw ZUS.
+2. **Połączenie (symulacja)** (`/logowanie`): wybierz kafelek z fikcyjnym profilem, a następnie pobierz jego dane. Z poziomu „Moje konto” wrócisz do wyniku, danych i wniosków.
 3. **Sprawdź dane** (`/sprawdz-dane`): sprawdź źródła, popraw informacje w razie potrzeby i potwierdź pobrane dane. Potem zobaczysz pytania o brakujące informacje.
 4. **Wynik** (`/wynik`): karta pokazuje świadczenie, status, okres, kwotę i szczegóły. Sekcja „Co dalej?” prowadzi do terminów i wniosków. Przy odmowie aplikacja podaje powód, podstawę prawną i okoliczności, które mogłyby zmienić wynik.
 5. **Porównaj warianty** (`/porownaj-warianty`): plan bazowy kontra wariant, różnica w tygodniach i złotych oraz zmiana statusów.
-6. **Wnioski** (`/wnioski`), **Moje dane w ZUS** (`/moje-dane-zus`), **Wsparcie** (`/wsparcie`), **Sprawy ZUS** (`/sprawy`), **panel** (`/admin`).
+6. **Wnioski** (`/wnioski`), **Moje dane w ZUS** (`/moje-dane-zus`), **Wsparcie** (`/wsparcie`), **Baza wiedzy** (`/baza-wiedzy`), **Sprawy ZUS** (`/sprawy`), **panel** (`/admin`).
 
 ### Fikcyjne osoby demo
 
@@ -57,7 +57,7 @@ Pliki w `fixtures/personas/`. Opisy w kolumnie „Co pokazuje" wynikają z danyc
 
 ### Sprawy testowe ZUS
 
-Sprawę można wybrać po kliknięciu „Połącz z mObywatelem” albo na ekranie `/sprawy`, który umożliwia też dodanie pliku PDF. Dodany PDF jest rozpoznawany po sumie SHA-256 liczonej w przeglądarce (zapas: nazwa pliku i liczba stron), pokazuje się jego podgląd (pdf.js), a plik nie opuszcza przeglądarki: do API trafia tylko suma. Nieznany plik daje podgląd i komunikat „nie znam tej sprawy". Aplikacja nie czyta treści PDF (bez OCR). Po wybraniu sprawy wczytują się dane odczytane z jej dokumentów, a na wyniku jest porównanie z decyzją ZUS.
+Sprawę można wybrać na ekranie `/sprawy`, który umożliwia też dodanie pliku PDF. Dodany PDF jest rozpoznawany po sumie SHA-256 liczonej w przeglądarce (zapas: nazwa pliku i liczba stron), pokazuje się jego podgląd (pdf.js), a plik nie opuszcza przeglądarki: do API trafia tylko suma. Nieznany plik daje podgląd i komunikat „nie znam tej sprawy". Aplikacja nie czyta treści PDF (bez OCR). Po wybraniu sprawy wczytują się dane odczytane z jej dokumentów, a na wyniku jest porównanie z decyzją ZUS.
 
 Każda sprawa na liście ma oznaczenie, co w niej sprawdzono z dokumentami ZUS:
 

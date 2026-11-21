@@ -9,5 +9,7 @@ export const paths = {
   zusData: '/moje-dane-zus',
   cases: '/sprawy',
   support: '/wsparcie',
+  knowledge: '/baza-wiedzy',
+  account: '/moje-konto',
   admin: '/admin',
 } as const

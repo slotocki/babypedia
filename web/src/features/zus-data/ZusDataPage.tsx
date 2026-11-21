@@ -14,7 +14,6 @@ import {
   ErrorState,
   PageHeader,
   Section,
-  SimulationBanner,
   SkeletonText,
   SourceBadge,
   formatDate,
@@ -36,8 +35,7 @@ export function ZusDataPage() {
   return (
     <div ref={ref} className="mx-auto max-w-2xl space-y-6">
       <PageHeader
-        eyebrow="Symulacja"
-        title="Moje dane w ZUS (symulacja)"
+        title="Moje dane w ZUS"
         description="Tak wyglądałyby Twoje dane na koncie ubezpieczonego. Wszystkie dane są fikcyjne."
         action={
           sessionId ? (
@@ -47,7 +45,6 @@ export function ZusDataPage() {
           ) : undefined
         }
       />
-      <SimulationBanner>Nie łączymy się z prawdziwym ZUS ani z kontem PUE. Poniższe dane pochodzą z symulatora.</SimulationBanner>
       {sessionId ? <Account session={sessionId} /> : <NeedsLogin />}
     </div>
   )

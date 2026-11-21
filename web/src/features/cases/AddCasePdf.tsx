@@ -1,7 +1,7 @@
 import { useRef, useState, type DragEvent } from 'react'
 import { Link } from 'react-router'
 import { paths } from '@/app/paths'
-import { Alert, Button, ErrorState, Section, SimulationBadge, Spinner, cn } from '@/ui'
+import { Alert, Button, ErrorState, Section, Spinner, cn } from '@/ui'
 import { decisionLabel } from './decision'
 import { formatSize, MAX_PDF_BYTES } from './pdf-file'
 import type { useCasePdf } from './useCasePdf'
@@ -75,7 +75,7 @@ function Recognition({ pdf, loader }: { pdf: PdfState; loader: LoadState }) {
         Załaduj dane sprawy
       </Button>
       <p className="flex items-center gap-2 text-sm text-ink-soft">
-        <SimulationBadge /> Zalogujemy Cię jako fikcyjną osobę z tej sprawy.
+        Zalogujemy Cię jako fikcyjną osobę z tej sprawy.
       </p>
       {loader.state.status === 'error' && loader.state.caseId === summary.id ? (
         <ErrorState error={loader.state.error} title="Nie udało się załadować danych sprawy" onRetry={() => void loader.load(summary)} />
