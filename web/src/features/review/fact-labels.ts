@@ -1,5 +1,5 @@
 import type { FactKey, FactSet } from '@/app/api/types'
-import { formatDatePl } from './dates'
+import { formatDate, formatMoney, formatNumber, formatWeeks, pluralize } from '@/ui/format'
 
 export type FactKind = 'date' | 'integer' | 'number' | 'money' | 'boolean' | 'enum' | 'dateRanges' | 'sytuacjaMatki' | 'readonly'
 
@@ -13,19 +13,19 @@ export interface FactMeta {
   format: (value: unknown) => string
 }
 
-const nf = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 2 })
-const money = new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' })
-
-const fmtDate = (v: unknown) => formatDatePl(String(v))
+const fmtDate = (v: unknown) => formatDate(String(v))
 const fmtBool = (v: unknown) => (v ? 'Tak' : 'Nie')
-const fmtNumber = (unit?: string) => (v: unknown) => `${nf.format(Number(v))}${unit ? ` ${unit}` : ''}`
-const fmtMoney = (v: unknown) => money.format(Number(v))
+const fmtNumber = (unit?: string) => (v: unknown) => `${formatNumber(Number(v))}${unit ? ` ${unit}` : ''}`
+const fmtMoney = (v: unknown) => formatMoney(Number(v))
 const fmtEnum = (options: Record<string, string>) => (v: unknown) => options[String(v)] ?? String(v)
 
-const range = (od: string, do_?: string | null) => (do_ ? `${fmtDate(od)} – ${fmtDate(do_)}` : `od ${fmtDate(od)}, trwa`)
+const range = (od: string, do_?: string | null) => (do_ ? `od ${fmtDate(od)} do ${fmtDate(do_)}` : `od ${fmtDate(od)} (trwa nadal)`)
 
-function fmtList<T>(items: unknown, line: (item: T) => string): string {
-  if (!Array.isArray(items) || items.length === 0) return 'Brak'
+const monthYear = new Intl.DateTimeFormat('pl-PL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+const fmtMonth = (iso: string) => monthYear.format(new Date(`${iso}-01T00:00:00Z`)).replace(/^1\s/, '')
+
+function fmtList<T>(items: unknown, line: (item: T) => string, empty = 'Brak'): string {
+  if (!Array.isArray(items) || items.length === 0) return empty
   return (items as T[]).map(line).join('\n')
 }
 
@@ -58,18 +58,20 @@ export const calculationScopeLabels = {
 }
 
 const titleKinds: Record<string, string> = {
-  pracownik: 'Pracownik',
-  zleceniobiorca: 'Zleceniobiorca',
+  pracownik: 'Umowa o pracę',
+  zleceniobiorca: 'Umowa zlecenia',
   dzialalnosc: 'Działalność gospodarcza',
-  osoba_wspolpracujaca: 'Osoba współpracująca',
-  pobierajacy_zasilek: 'Pobiera zasiłek',
-  inny: 'Inny tytuł',
+  osoba_wspolpracujaca: 'Osoba współpracująca przy działalności',
+  pobierajacy_zasilek: 'Pobieranie zasiłku',
+  inny: 'Inny tytuł ubezpieczenia',
 }
 
+const titlesWithEmployer = ['pracownik', 'zleceniobiorca']
+
 const sicknessInsurance: Record<string, string> = {
-  obowiazkowe: 'obowiązkowe',
-  dobrowolne: 'dobrowolne',
-  brak: 'brak',
+  obowiazkowe: 'ubezpieczenie chorobowe obowiązkowe',
+  dobrowolne: 'ubezpieczenie chorobowe dobrowolne',
+  brak: 'bez ubezpieczenia chorobowego',
 }
 
 const benefitKinds: Record<string, string> = {
@@ -107,7 +109,7 @@ const motherSituations: Record<string, string> = {
 const roles = { matka: 'Matka', ojciec: 'Ojciec' }
 
 const leaveParts = (v: unknown) =>
-  fmtList<{ tygodnie: number; od?: string }>(v, (p) => `${p.tygodnie} tyg.${p.od ? `, od ${fmtDate(p.od)}` : ''}`)
+  fmtList<{ tygodnie: number; od?: string }>(v, (p) => `${formatWeeks(p.tygodnie)}${p.od ? `, od ${fmtDate(p.od)}` : ''}`)
 
 export const factMeta: Record<FactKey, FactMeta> = {
   'zdarzenie.rodzaj': enumOf('Co się dzieje', eventKindLabels),
@@ -149,28 +151,44 @@ export const factMeta: Record<FactKey, FactMeta> = {
   'osoba.dataUrodzenia': date('Data urodzenia'),
   'osoba.dataUkonczeniaSzkoly': date('Data ukończenia szkoły'),
   'ubezpieczenie.tytuly': readonly('Tytuły ubezpieczenia', (v) =>
-    fmtList<{ rodzajTytulu: string; platnikNazwa?: string; od: string; do?: string | null; chorobowe: string }>(v, (t) =>
-      [
-        titleKinds[t.rodzajTytulu] ?? t.rodzajTytulu,
-        t.platnikNazwa,
-        range(t.od, t.do),
-        `ubezpieczenie chorobowe: ${sicknessInsurance[t.chorobowe] ?? t.chorobowe}`,
-      ]
-        .filter(Boolean)
-        .join(', '),
+    fmtList<{ rodzajTytulu: string; platnikNazwa?: string; od: string; do?: string | null; chorobowe: string; wymiarEtatu?: number }>(
+      v,
+      (t) => {
+        const name = titleKinds[t.rodzajTytulu] ?? t.rodzajTytulu
+        const withEmployer = t.platnikNazwa && titlesWithEmployer.includes(t.rodzajTytulu)
+        return [
+          withEmployer ? `${name} u: ${t.platnikNazwa}` : name,
+          range(t.od, t.do),
+          t.wymiarEtatu !== undefined && t.wymiarEtatu !== 1 ? `wymiar etatu: ${formatNumber(t.wymiarEtatu)}` : null,
+          sicknessInsurance[t.chorobowe] ?? t.chorobowe,
+        ]
+          .filter(Boolean)
+          .join(', ')
+      },
+      'Brak ubezpieczenia — nie znaleziono żadnego tytułu ubezpieczenia',
     ),
   ),
   'ubezpieczenie.podstawySkladek': readonly('Podstawy składek z ostatnich miesięcy', (v) => {
-    if (!Array.isArray(v) || v.length === 0) return 'Brak'
+    if (!Array.isArray(v) || v.length === 0) return 'Brak danych o podstawach składek'
     const rows = [...(v as { miesiac: string; kwota: number }[])].sort((a, b) => a.miesiac.localeCompare(b.miesiac))
-    const average = rows.reduce((sum, r) => sum + r.kwota, 0) / rows.length
-    return `Miesięcy: ${rows.length} (od ${rows[0].miesiac} do ${rows[rows.length - 1].miesiac}), średnio ${money.format(average)}`
+    const amounts = rows.map((r) => r.kwota)
+    const average = amounts.reduce((sum, a) => sum + a, 0) / rows.length
+    const lines = [
+      `${rows.length} ${pluralize(rows.length, 'miesiąc', 'miesiące', 'miesięcy')}: od ${fmtMonth(rows[0].miesiac)} do ${fmtMonth(rows[rows.length - 1].miesiac)}`,
+      `średnio ${formatMoney(average)} brutto miesięcznie`,
+    ]
+    if (Math.min(...amounts) !== Math.max(...amounts)) lines.push(`od ${formatMoney(Math.min(...amounts))} do ${formatMoney(Math.max(...amounts))}`)
+    return lines.join('\n')
   }),
   'ubezpieczenie.przerwy': readonly('Przerwy w ubezpieczeniu', (v) =>
-    fmtList<{ od: string; do: string; opis?: string }>(v, (r) => `${range(r.od, r.do)}${r.opis ? ` (${r.opis})` : ''}`),
+    fmtList<{ od: string; do: string; opis?: string }>(v, (r) => `Przerwa ${range(r.od, r.do)}${r.opis ? ` (${r.opis})` : ''}`, 'Brak przerw w ubezpieczeniu'),
   ),
   'ubezpieczenie.pobraneSwiadczenia': readonly('Pobrane świadczenia', (v) =>
-    fmtList<{ rodzaj: string; od: string; do: string }>(v, (b) => `${benefitKinds[b.rodzaj] ?? b.rodzaj}: ${range(b.od, b.do)}`),
+    fmtList<{ rodzaj: string; od: string; do: string }>(
+      v,
+      (b) => `${benefitKinds[b.rodzaj] ?? b.rodzaj}, ${range(b.od, b.do)}`,
+      'Brak pobranych świadczeń',
+    ),
   ),
   'ubezpieczenie.latWczesniejszegoObowiazkowego': int('Lata wcześniejszego ubezpieczenia obowiązkowego', { unit: 'lat', min: 0, max: 60 }),
   'ubezpieczenie.podlegaChorobowemu': bool('Podlega ubezpieczeniu chorobowemu'),
@@ -181,12 +199,21 @@ export const factMeta: Record<FactKey, FactMeta> = {
   'platnik.liczbaUbezpieczonych': int('Liczba ubezpieczonych u płatnika składek (30 listopada poprzedniego roku)', { min: 0, max: 10000000 }),
   'skladki.zadluzenie': readonly('Zadłużenie z tytułu składek', (v) => {
     const d = v as { naDzien: string; kwota: number }
-    return `${money.format(d.kwota)} na dzień ${fmtDate(d.naDzien)}`
+    return d.kwota > 0 ? `${formatMoney(d.kwota)} na dzień ${fmtDate(d.naDzien)}` : `Brak zadłużenia na dzień ${fmtDate(d.naDzien)}`
   }),
   'skladki.dataSplaty': date('Data spłaty zadłużenia'),
   'ezla.zwolnienia': readonly('Zwolnienia lekarskie (e-ZLA)', (v) =>
-    fmtList<{ od: string; do: string; kod?: string | null; szpital: boolean }>(v, (z) =>
-      [range(z.od, z.do), z.kod ? `kod ${z.kod}` : null, z.szpital ? 'pobyt w szpitalu' : null].filter(Boolean).join(', '),
+    fmtList<{ od: string; do: string; kod?: string | null; szpital: boolean }>(
+      v,
+      (z) =>
+        [
+          `Zwolnienie ${range(z.od, z.do)}`,
+          z.kod ? (z.kod === 'B' ? 'kod B (ciąża)' : `kod ${z.kod}`) : null,
+          z.szpital ? 'pobyt w szpitalu' : null,
+        ]
+          .filter(Boolean)
+          .join(', '),
+      'Brak zwolnień lekarskich',
     ),
   ),
   'podstawa.ustalonaPrzezPlatnika': { label: 'Podstawa zasiłku ustalona przez płatnika', kind: 'money', format: fmtMoney },
@@ -196,7 +223,7 @@ export const factMeta: Record<FactKey, FactMeta> = {
   'plan.rezygnacjaZMacierzynskiegoPoTyg': int('Rezygnacja z zasiłku macierzyńskiego po tygodniach', { unit: 'tyg.', min: 0, max: 52 }),
   'plan.rodzicielskiCzesci': readonly('Podział urlopu rodzicielskiego na części', leaveParts),
   'plan.pracaNaCzescEtatu': readonly('Praca na część etatu w trakcie urlopu rodzicielskiego', (v) =>
-    fmtList<{ wymiar: number; tygodnie: number; od?: string }>(v, (p) => `wymiar ${p.wymiar}, ${p.tygodnie} tyg.${p.od ? `, od ${fmtDate(p.od)}` : ''}`),
+    fmtList<{ wymiar: number; tygodnie: number; od?: string }>(v, (p) => `wymiar etatu: ${formatNumber(p.wymiar)}, ${formatWeeks(p.tygodnie)}${p.od ? `, od ${fmtDate(p.od)}` : ''}`),
   ),
   'plan.ojcowskiCzesci': readonly('Podział urlopu ojcowskiego na części', leaveParts),
 }
@@ -215,7 +242,7 @@ export function labelFor(key: string, facts?: FactSet): string {
       case 'ciaza':
         return 'Przewidywana data porodu'
       case 'urodzenie':
-        return 'Data urodzenia dziecka'
+        return 'Data porodu (Twoja odpowiedź)'
       case 'przyjecie':
         return 'Data przyjęcia dziecka'
     }

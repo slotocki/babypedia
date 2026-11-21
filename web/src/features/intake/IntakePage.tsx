@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { z } from 'zod'
 import type { EventKind, FactSet } from '@/app/api/types'
@@ -8,11 +8,9 @@ import { paths } from '@/app/paths'
 import { addDaysIso, isValidIsoDate, todayIso } from '@/features/review/dates'
 import { calculationScopeLabels, eventKindLabels } from '@/features/review/fact-labels'
 import { getFact, userFactOf, withFact } from '@/features/review/facts'
-import { Button } from './components/Button'
-import { Field } from './components/Field'
-import { PageHeading } from './components/PageHeading'
-import { RadioCards, type RadioOption } from './components/RadioCards'
-import { inputClass } from './components/cx'
+import { Button, DateInput, Field, PageHeader, RadioGroup, Stepper, type ChoiceOption } from '@/ui'
+import { flowSteps } from './steps'
+import { useFocusHeading } from './useFocusHeading'
 
 const eventKinds = Object.keys(eventKindLabels) as EventKind[]
 const scopes = ['ja', 'ja_i_drugi_rodzic']
@@ -68,9 +66,9 @@ const schema = z
 
 type FormValues = z.infer<typeof schema>
 
-const eventOptions: RadioOption[] = eventKinds.map((value) => ({ value, label: eventKindLabels[value] }))
+const eventOptions: ChoiceOption[] = eventKinds.map((value) => ({ value, label: eventKindLabels[value] }))
 
-const scopeOptions: RadioOption[] = [
+const scopeOptions: ChoiceOption[] = [
   { value: 'ja', label: calculationScopeLabels.ja },
   { value: 'ja_i_drugi_rodzic', label: calculationScopeLabels.ja_i_drugi_rodzic, description: 'Pokażę też, co przysługuje drugiemu rodzicowi.' },
 ]
@@ -103,9 +101,10 @@ function applyAnswers(facts: FactSet, v: FormValues): FactSet {
 export function IntakePage() {
   const { facts, setFacts } = useCaseState()
   const navigate = useNavigate()
+  const pageRef = useFocusHeading<HTMLDivElement>()
 
   const stored = (key: string) => String(getFact(facts, 'sprawa', key)?.value ?? '')
-  const { control, register, handleSubmit, watch, formState } = useForm<FormValues>({
+  const { register, handleSubmit, watch, formState } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
       rodzaj: stored('zdarzenie.rodzaj'),
@@ -116,8 +115,11 @@ export function IntakePage() {
   })
 
   const rodzaj = watch('rodzaj') as EventKind | ''
+  const dlaKogo = watch('dlaKogo')
   const copy = rodzaj ? dateCopy[rodzaj] : null
   const { errors } = formState
+  const rodzajField = register('rodzaj')
+  const dlaKogoField = register('dlaKogo')
 
   const onSubmit = handleSubmit((values) => {
     setFacts(applyAnswers(facts, values))
@@ -125,71 +127,45 @@ export function IntakePage() {
   })
 
   return (
-    <section aria-labelledby="page-title" className="mx-auto max-w-2xl">
-      <PageHeading step="Krok 1 z 3">Powiedz nam, co się dzieje</PageHeading>
-      <p className="mt-2 text-slate-800">
-        Trzy krótkie pytania. Na ich podstawie sprawdzimy, jakie świadczenia mogą Ci przysługiwać. Nic nie jest wysyłane do żadnego urzędu.
-      </p>
+    <div ref={pageRef} className="mx-auto max-w-2xl space-y-6">
+      <Stepper steps={flowSteps} current={0} />
+      <PageHeader
+        title="Powiedz nam, co się dzieje"
+        description="Trzy krótkie pytania. Na ich podstawie sprawdzimy, jakie świadczenia mogą Ci przysługiwać. Nic nie jest wysyłane do żadnego urzędu."
+      />
 
-      <form onSubmit={onSubmit} noValidate className="mt-6 space-y-8">
-        <Controller
-          control={control}
-          name="rodzaj"
-          render={({ field }) => (
-            <RadioCards
-              id="rodzaj"
-              legend="1. Co się dzieje?"
-              error={errors.rodzaj?.message}
-              options={eventOptions}
-              value={field.value}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              firstRef={field.ref}
-            />
-          )}
-        />
+      <form onSubmit={onSubmit} noValidate className="space-y-8">
+        <Field group label="1. Co się dzieje?" error={errors.rodzaj}>
+          <RadioGroup {...rodzajField} value={rodzaj} options={eventOptions} />
+        </Field>
 
         {copy && rodzaj ? (
           <div className="space-y-5">
-            <Field id="data" label={`2. ${copy.label}`} hint={copy.hint} error={errors.data?.message}>
-              {(aria) => <input {...aria} {...register('data')} type="date" className={`${inputClass} sm:max-w-xs`} />}
+            <Field label={`2. ${copy.label}`} description={copy.hint} error={errors.data}>
+              <DateInput {...register('data')} className="sm:max-w-xs" />
             </Field>
             {rodzaj === 'przyjecie' ? (
               <Field
-                id="dataDziecka"
                 label="Kiedy urodziło się przyjmowane dziecko?"
-                hint="Wiek dziecka ma wpływ na zasady, dlatego o niego pytamy."
-                error={errors.dataDziecka?.message}
+                description="Wiek dziecka ma wpływ na zasady, dlatego o niego pytamy."
+                error={errors.dataDziecka}
               >
-                {(aria) => <input {...aria} {...register('dataDziecka')} type="date" className={`${inputClass} sm:max-w-xs`} />}
+                <DateInput {...register('dataDziecka')} className="sm:max-w-xs" />
               </Field>
             ) : null}
           </div>
         ) : (
-          <p className="text-slate-700">2. Gdy wybierzesz odpowiedź na pierwsze pytanie, zapytam o właściwą datę.</p>
+          <p className="text-ink-soft">2. Gdy wybierzesz odpowiedź na pierwsze pytanie, zapytamy o właściwą datę.</p>
         )}
 
-        <Controller
-          control={control}
-          name="dlaKogo"
-          render={({ field }) => (
-            <RadioCards
-              id="dlaKogo"
-              legend="3. Dla kogo liczymy?"
-              error={errors.dlaKogo?.message}
-              options={scopeOptions}
-              value={field.value}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              firstRef={field.ref}
-            />
-          )}
-        />
+        <Field group label="3. Dla kogo liczymy?" error={errors.dlaKogo}>
+          <RadioGroup {...dlaKogoField} value={dlaKogo} options={scopeOptions} />
+        </Field>
 
-        <Button type="submit" className="w-full sm:w-auto">
+        <Button type="submit" fullWidth className="sm:w-auto">
           Dalej
         </Button>
       </form>
-    </section>
+    </div>
   )
 }

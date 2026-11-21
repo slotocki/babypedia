@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import type { FactSet } from '@/app/api/types'
-import { Button } from '@/features/intake/components/Button'
-import { SourceBadge } from '@/features/intake/components/Badges'
+import { Button, Card, Section, SourceBadge } from '@/ui'
 import { AnswerField } from './AnswerField'
 import { draftFromValue, parseDraft, type Draft } from './answers'
 import { factKeyOrder, factMeta, formatFactValue, isFactKey, labelFor, optionsOf } from './fact-labels'
@@ -29,16 +28,12 @@ export function FactList({ facts, onChange }: FactListProps) {
         .map((group) => {
           const map = factsIn(facts, group.bucket)
           const keys = factKeyOrder.filter((key) => map[key] !== undefined)
-          const headingId = `grupa-${group.bucket}`
           return (
-            <section key={group.bucket} aria-labelledby={headingId}>
-              <h3 id={headingId} className="text-lg font-semibold text-slate-900">
-                {group.title}
-              </h3>
+            <Section key={group.bucket} level={3} title={group.title}>
               {keys.length === 0 ? (
-                <p className="mt-2 text-slate-700">{group.empty}</p>
+                <p className="text-ink-soft">{group.empty}</p>
               ) : (
-                <ul className="mt-2 divide-y divide-slate-200 border-y border-slate-200">
+                <ul className="space-y-3">
                   {keys.map((key) => {
                     const rowId = `${group.bucket}:${key}`
                     return (
@@ -60,7 +55,7 @@ export function FactList({ facts, onChange }: FactListProps) {
                   })}
                 </ul>
               )}
-            </section>
+            </Section>
           )
         })}
     </div>
@@ -105,57 +100,66 @@ function FactRow({ rowId, factKey, fact, facts, editing, onEdit, onCancel, onSav
     onSave(result.value)
   }
 
-  return (
-    <li className="py-3">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-        <div className="min-w-0">
-          <p className="text-sm font-medium text-slate-700">{label}</p>
-          <p className="mt-0.5 whitespace-pre-line break-words text-base font-semibold text-slate-900">
-            {formatFactValue(factKey, fact.value)}
-          </p>
-          <p className="mt-1">
-            <SourceBadge source={fact.source} />
-          </p>
-        </div>
-        {editable && !editing ? (
-          <Button
-            id={`popraw-${rowId}`}
-            variant="secondary"
-            aria-label={`Popraw: ${label}`}
-            onClick={() => {
-              setDraft(draftFromValue(meta.kind, fact.value))
-              setError(null)
-              onEdit()
-            }}
-          >
-            Popraw
-          </Button>
-        ) : null}
-        {!editable ? <p className="text-sm text-slate-700 sm:max-w-48 sm:text-right">Tych danych nie poprawiasz tutaj.</p> : null}
-      </div>
+  const lines = formatFactValue(factKey, fact.value).split('\n')
 
-      {editing && meta ? (
-        <form onSubmit={submit} noValidate className="mt-3 space-y-3 rounded-lg border border-slate-300 bg-slate-50 p-3">
-          <AnswerField
-            id={`wartosc-${rowId}`}
-            label={`Nowa wartość: ${label}`}
-            kind={meta.kind}
-            options={options}
-            draft={draft}
-            onChange={setDraft}
-            error={error}
-            autoFocus
-            unit={meta.unit}
-            hint="Po zapisaniu źródłem tej informacji będziesz Ty."
-          />
-          <div className="flex flex-wrap gap-2">
-            <Button type="submit">Zapisz</Button>
-            <Button variant="secondary" onClick={onCancel}>
-              Anuluj
-            </Button>
+  return (
+    <li>
+      <Card className="space-y-3 p-4 sm:p-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 space-y-1">
+            <p className="text-sm font-medium text-ink-soft">{label}</p>
+            {lines.length > 1 ? (
+              <ul className="space-y-1 text-base font-semibold text-ink">
+                {lines.map((line, index) => (
+                  <li key={index}>{line}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="break-words text-base font-semibold text-ink">{lines[0]}</p>
+            )}
+            <SourceBadge source={fact.source} className="pt-1" />
           </div>
-        </form>
-      ) : null}
+          {editable && !editing ? (
+            <Button
+              id={`popraw-${rowId}`}
+              variant="secondary"
+              aria-label={`Popraw: ${label}`}
+              className="shrink-0"
+              onClick={() => {
+                setDraft(draftFromValue(meta.kind, fact.value))
+                setError(null)
+                onEdit()
+              }}
+            >
+              Popraw
+            </Button>
+          ) : null}
+          {!editable ? <p className="text-sm text-ink-soft sm:max-w-48 sm:text-right">Tej informacji nie poprawiasz tutaj.</p> : null}
+        </div>
+
+        {editing && meta ? (
+          <form onSubmit={submit} noValidate className="space-y-3 rounded-card border border-line bg-neutral-soft p-3">
+            <AnswerField
+              id={`wartosc-${rowId}`}
+              label={`Nowa wartość: ${label}`}
+              kind={meta.kind}
+              options={options}
+              draft={draft}
+              onChange={setDraft}
+              error={error}
+              autoFocus
+              unit={meta.unit}
+              hint="Po zapisaniu źródłem tej informacji będziesz Ty."
+            />
+            <div className="flex flex-wrap gap-2">
+              <Button type="submit">Zapisz</Button>
+              <Button variant="secondary" onClick={onCancel}>
+                Anuluj
+              </Button>
+            </div>
+          </form>
+        ) : null}
+      </Card>
     </li>
   )
 }

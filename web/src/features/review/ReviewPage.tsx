@@ -4,10 +4,9 @@ import { Link, useNavigate } from 'react-router'
 import { api } from '@/app/api/client'
 import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
-import { Button } from '@/features/intake/components/Button'
-import { SimulationBadge } from '@/features/intake/components/Badges'
-import { Alert, ErrorState, Spinner } from '@/features/intake/components/Feedback'
-import { PageHeading } from '@/features/intake/components/PageHeading'
+import { flowSteps } from '@/features/intake/steps'
+import { useFocusHeading } from '@/features/intake/useFocusHeading'
+import { Alert, Button, ErrorState, Section, SimulationBanner, Spinner, Stepper, ToneScope, PageHeader } from '@/ui'
 import { AnswerField } from './AnswerField'
 import { draftFromValue, isDraftEmpty, parseDraft, type Draft } from './answers'
 import { FactList } from './FactList'
@@ -18,6 +17,7 @@ export function ReviewPage() {
   const { facts, setFacts, sessionId } = useCaseState()
   const navigate = useNavigate()
   const formRef = useRef<HTMLFormElement>(null)
+  const pageRef = useFocusHeading<HTMLDivElement>()
   const [drafts, setDrafts] = useState<Record<string, Draft>>({})
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [saved, setSaved] = useState<string | null>(null)
@@ -102,112 +102,118 @@ export function ReviewPage() {
     setFacts(withFact(facts, bucket, key, userFactOf(value)))
 
   return (
-    <section aria-labelledby="page-title" className="mx-auto max-w-2xl">
-      <PageHeading step="Krok 3 z 3">Sprawdź swoje dane</PageHeading>
-      <p className="mt-2 text-slate-800">
-        {sessionId
-          ? 'Poniżej są dane, które pobraliśmy z symulowanych systemów, oraz Twoje odpowiedzi. Przy każdej informacji widać, skąd pochodzi.'
-          : 'Poniżej są Twoje odpowiedzi. Resztę informacji uzupełnisz w pytaniach pod spodem.'}{' '}
-        Jeśli coś się nie zgadza, wybierz „Popraw”.
-      </p>
-      {sessionId ? (
-        <p className="mt-2">
-          <SimulationBadge /> <span className="text-sm text-slate-700">Dane z logowania i systemów są symulacją, osoby są fikcyjne.</span>
-        </p>
-      ) : null}
+    <ToneScope tone={difficult ? 'difficult' : 'default'} className="-mx-4 -my-6 px-4 py-6">
+      <div ref={pageRef} className="mx-auto max-w-2xl space-y-6">
+        <Stepper steps={flowSteps} current={2} />
+        <PageHeader
+          title="Sprawdź swoje dane"
+          description={
+            <>
+              {sessionId
+                ? 'Poniżej są dane, które pobraliśmy z symulowanych systemów, oraz Twoje odpowiedzi. Przy każdej informacji widać, skąd pochodzi.'
+                : 'Poniżej są Twoje odpowiedzi. Resztę informacji uzupełnisz w pytaniach pod spodem.'}{' '}
+              Jeśli coś się nie zgadza, wybierz „Popraw”.
+            </>
+          }
+        />
+        {sessionId ? <SimulationBanner system="Logowanie i pobieranie danych" /> : null}
 
-      {!hasEvent ? (
-        <div className="mt-6">
-          <Alert tone="warning" title="Najpierw odpowiedz na trzy pytania">
+        {!hasEvent ? (
+          <Alert variant="warning" title="Najpierw odpowiedz na trzy pytania">
             Nie wiemy jeszcze, czego dotyczy sprawa.{' '}
-            <Link to={paths.start} className="underline underline-offset-4">
+            <Link to={paths.start} className="font-semibold text-brand-strong underline underline-offset-4">
               Wróć do trzech pytań
             </Link>
             .
           </Alert>
-        </div>
-      ) : (
-        <>
-          {difficult ? (
-            <div className="mt-6">
-              <Alert tone="info" title="Pytamy tylko o to, co niezbędne">
+        ) : (
+          <>
+            {difficult ? (
+              <Alert variant="info" title="Pytamy tylko o to, co niezbędne">
                 Rozumiemy, że to może być trudny czas. Na każde pytanie możesz nie odpowiadać — wtedy pokażemy, czego brakuje do ustalenia
                 świadczenia.
               </Alert>
-            </div>
-          ) : null}
+            ) : null}
 
-          <div className="mt-6">
-            <h2 className="text-xl font-semibold">Dane w Twojej sprawie</h2>
-            <div className="mt-3">
+            <Section title="Dane w Twojej sprawie">
               <FactList facts={facts} onChange={changeFact} />
-            </div>
-          </div>
+            </Section>
 
-          <form ref={formRef} onSubmit={submit} noValidate className="mt-10 space-y-6">
-            <h2 className="text-xl font-semibold">Czego jeszcze potrzebujemy</h2>
+            <form ref={formRef} onSubmit={submit} noValidate className="space-y-6">
+              <Section title="Czego jeszcze potrzebujemy" className="space-y-6">
+                {assessment.isPending ? (
+                  <p role="status" className="flex items-center gap-2 text-ink-soft">
+                    <Spinner label={null} /> Sprawdzam, czego jeszcze brakuje…
+                  </p>
+                ) : null}
+                {assessment.isError ? (
+                  <ErrorState
+                    error={assessment.error}
+                    onRetry={() => void assessment.refetch()}
+                    retrying={assessment.isFetching}
+                    title="Nie udało się sprawdzić, czego brakuje"
+                  />
+                ) : null}
 
-            {assessment.isPending ? <Spinner label="Sprawdzam, czego jeszcze brakuje…" /> : null}
-            {assessment.isError ? (
-              <ErrorState error={assessment.error} onRetry={() => void assessment.refetch()} title="Nie udało się sprawdzić, czego brakuje" />
-            ) : null}
+                {assessment.isSuccess && resolved.length === 0 ? (
+                  <Alert variant="info" title="Nic więcej nie trzeba">
+                    Na tym etapie mamy wszystkie informacje, o które musimy zapytać.
+                  </Alert>
+                ) : null}
 
-            {assessment.isSuccess && resolved.length === 0 ? (
-              <Alert tone="info" title="Nic więcej nie trzeba">
-                Na tym etapie mamy wszystkie informacje, o które musimy zapytać.
-              </Alert>
-            ) : null}
+                {answerable.length > 0 ? (
+                  <>
+                    <p className="text-ink-soft">
+                      Te informacje są potrzebne do dokładniejszego wyniku. Możesz pominąć pytanie — wtedy przy świadczeniu zobaczysz, że
+                      brakuje danych.
+                    </p>
+                    <ul className="space-y-6" aria-busy={assessment.isFetching}>
+                      {answerable.map((r) => (
+                        <li key={r.id}>
+                          <AnswerField
+                            id={`pytanie-${r.id}`}
+                            label={r.question.question}
+                            kind={r.kind}
+                            options={r.options}
+                            draft={draftOf(r)}
+                            onChange={(d) => setDraft(r.id, d)}
+                            error={errors[r.id]}
+                            unit={r.meta.unit}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                    <div>
+                      <Button variant="secondary" onClick={saveOnly} disabled={assessment.isFetching}>
+                        Zapisz odpowiedzi i sprawdź ponownie
+                      </Button>
+                    </div>
+                  </>
+                ) : null}
 
-            {answerable.length > 0 ? (
-              <>
-                <p className="text-slate-800">
-                  Te informacje są potrzebne do dokładniejszego wyniku. Możesz pominąć pytanie — wtedy przy świadczeniu zobaczysz, że brakuje danych.
-                </p>
-                <ul className="space-y-6" aria-busy={assessment.isFetching}>
-                  {answerable.map((r) => (
-                    <li key={r.id}>
-                      <AnswerField
-                        id={`pytanie-${r.id}`}
-                        label={r.question.question}
-                        kind={r.kind}
-                        options={r.options}
-                        draft={draftOf(r)}
-                        onChange={(d) => setDraft(r.id, d)}
-                        error={errors[r.id]}
-                        unit={r.meta.unit}
-                      />
-                    </li>
-                  ))}
-                </ul>
-                <div>
-                  <Button variant="secondary" onClick={saveOnly} disabled={assessment.isFetching}>
-                    Zapisz odpowiedzi i sprawdź ponownie
-                  </Button>
-                </div>
-              </>
-            ) : null}
+                {unsupported.length > 0 ? (
+                  <Alert variant="warning" title="Pytania, na które nie da się tu odpowiedzieć">
+                    <ul className="list-disc pl-5">
+                      {unsupported.map((r) => (
+                        <li key={r.id}>{r.question.question}</li>
+                      ))}
+                    </ul>
+                    <p className="mt-1">W wyniku oznaczymy to jako brak danych.</p>
+                  </Alert>
+                ) : null}
+              </Section>
 
-            {unsupported.length > 0 ? (
-              <Alert tone="warning" title="Pytania, na które nie da się tu odpowiedzieć">
-                <ul className="list-disc pl-5">
-                  {unsupported.map((r) => (
-                    <li key={r.id}>{r.question.question}</li>
-                  ))}
-                </ul>
-                <p className="mt-1">W wyniku oznaczymy to jako brak danych.</p>
-              </Alert>
-            ) : null}
+              <p role="status" className="min-h-6 text-ink-soft">
+                {saved ?? (assessment.isFetching && assessment.isSuccess ? 'Aktualizuję pytania…' : '')}
+              </p>
 
-            <p role="status" className="min-h-6 text-slate-800">
-              {saved ?? (assessment.isFetching && assessment.isSuccess ? 'Aktualizuję pytania…' : '')}
-            </p>
-
-            <Button type="submit" className="w-full sm:w-auto">
-              Pokaż, co mi przysługuje
-            </Button>
-          </form>
-        </>
-      )}
-    </section>
+              <Button type="submit" fullWidth className="sm:w-auto">
+                Pokaż, co mi przysługuje
+              </Button>
+            </form>
+          </>
+        )}
+      </div>
+    </ToneScope>
   )
 }
