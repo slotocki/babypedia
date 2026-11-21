@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
-import { ApiError } from '@/app/api/client'
+import { api, ApiError } from '@/app/api/client'
 import { paths } from '@/app/paths'
 import { Button } from '@/ui'
-import { downloadBlob, fetchPdf, showBlob } from './api'
+import { downloadBlob, showBlob } from './api'
 
 type Mode = 'download' | 'open'
 
@@ -40,7 +40,7 @@ export function PdfActions({ path, fileName, session, withOpen = false, download
     setBusy(mode)
     setError(null)
     try {
-      const blob = await fetchPdf(path, session)
+      const blob = await api.submissions.pdf(session, path)
       if (mode === 'open') showBlob(blob, fileName, target)
       else downloadBlob(blob, fileName)
     } catch (e) {

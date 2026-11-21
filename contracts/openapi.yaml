@@ -126,6 +126,40 @@ components:
           type: object
           additionalProperties: { type: string }
           description: Pola formularza wg szablonu (rozporządzenie z 11.03.2025). Bez PESEL.
+    TemplateField:
+      type: object
+      required: [key, label, kind, required, maxLength, basis]
+      properties:
+        key: { type: string }
+        label: { type: string }
+        kind: { enum: [text, longtext, date, integer, choice] }
+        required: { type: boolean }
+        maxLength: { type: integer }
+        basis: { type: string, description: 'Podstawa pola (rozporządzenie z 11.03.2025).' }
+        when:
+          type: [object, 'null']
+          description: 'Pole widoczne tylko, gdy inne pole ma podaną wartość.'
+          properties:
+            key: { type: string }
+            value: { type: string }
+        options:
+          type: [array, 'null']
+          items:
+            type: object
+            required: [value, label]
+            properties:
+              value: { type: string }
+              label: { type: string }
+    SubmissionTemplate:
+      type: object
+      required: [id, type, recipient, title, fields]
+      properties:
+        id: { type: string }
+        type: { $ref: '#/components/schemas/SubmissionType' }
+        template: { anyOf: [{ $ref: '#/components/schemas/LeaveTemplate' }, { type: 'null' }] }
+        recipient: { enum: [pracodawca, zus, ezus, urzad_stanu_cywilnego] }
+        title: { type: string }
+        fields: { type: array, items: { $ref: '#/components/schemas/TemplateField' } }
     SubmissionReceipt:
       type: object
       required: [id, number, type, recipient, submittedAt, simulated]
@@ -310,6 +344,24 @@ paths:
       responses:
         '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/SubmissionReceipt' } } } } }
         '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /api/submissions/templates:
+    get:
+      tags: [zgłoszenia]
+      summary: Szablony zgłoszeń i wniosków (pola formularzy)
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/SubmissionTemplate' } } } } }
+  /api/submissions/{id}/pdf:
+    get:
+      tags: [zgłoszenia]
+      summary: PDF zgłoszenia (symulacja)
+      security: [{ simSession: [] }]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200': { description: PDF, content: { application/pdf: { schema: { type: string, format: binary } } } }
+        '401': { $ref: '#/components/responses/Problem' }
+        '404': { $ref: '#/components/responses/Problem' }
 
   /api/cases:
     get:

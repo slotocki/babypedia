@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query'
 import { Link, useSearchParams } from 'react-router'
 import type { SubmissionReceipt } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
+import { api } from '@/app/api/client'
 import { paths } from '@/app/paths'
 import { Button, Card, ErrorState, PageHeader, Section, SimulationBadge, SimulationBanner, SkeletonText } from '@/ui'
-import { fetchTemplates } from './api'
 import { Certificate } from './Certificate'
 import { findKind, leaveKinds, otherKinds, type SubmissionKind } from './kinds'
 import { MySubmissions } from './MySubmissions'
@@ -79,7 +79,7 @@ export function SubmissionsPage() {
 }
 
 function FormView({ kind, sessionId, onDone }: { kind: SubmissionKind; sessionId: string; onDone: (receipt: SubmissionReceipt) => void }) {
-  const query = useQuery({ queryKey: ['submissions', 'templates'], queryFn: fetchTemplates, staleTime: Infinity })
+  const query = useQuery({ queryKey: ['submissions', 'templates'], queryFn: api.submissions.templates, staleTime: Infinity })
 
   if (query.isPending) return <SkeletonText lines={6} />
   if (query.isError) return <ErrorState error={query.error} onRetry={() => void query.refetch()} retrying={query.isFetching} />

@@ -1,8 +1,8 @@
 import { Link } from 'react-router'
 import type { SubmissionReceipt } from '@/app/api/types'
+import { api } from '@/app/api/client'
 import { paths } from '@/app/paths'
 import { Button, Card, SimulationBadge } from '@/ui'
-import { submissionPdfPath } from './api'
 import { dateTimeLabel, recipientLabels, statusLabel, typeLabels } from './kinds'
 import { PdfActions } from './PdfActions'
 
@@ -25,7 +25,7 @@ export function Receipt({ receipt, session }: { receipt: SubmissionReceipt; sess
         <p className="text-base text-ink">Symulacja: nic nie zostało wysłane do adresata. Zgłoszenie jest zapisane tylko w tej sesji demonstracyjnej.</p>
       </Card>
 
-      <PdfActions path={receipt.pdfUrl ?? submissionPdfPath(receipt.id)} fileName={`${receipt.number}.pdf`} session={session} withOpen />
+      <PdfActions path={receipt.pdfUrl ?? api.submissions.pdfPath(receipt.id)} fileName={`${receipt.number}.pdf`} session={session} withOpen />
 
       <Button asChild variant="secondary">
         <Link to={`${paths.submissions}?widok=moje`}>Zobacz moje zgłoszenia</Link>
