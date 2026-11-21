@@ -1,0 +1,63 @@
+{
+  "$schema": "../../contracts/persona.schema.json",
+  "id": "olga-demo",
+  "opis": "Wymyślona osoba bez ubezpieczenia chorobowego: rejestr ZUS zwraca pustą listę tytułów (partnerka Tadeusza).",
+  "status": "gotowe",
+  "tozsamosc": {
+    "imie": "Olga",
+    "nazwisko": "Przykładowska",
+    "pesel": "93090910570",
+    "dataUrodzenia": "1993-09-09"
+  },
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-01-30",
+        "source": "user"
+      },
+      "zdarzenie.dlaKogo": {
+        "value": "ja",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "assumption"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "assumption"
+      },
+      "osoba.dataUrodzenia": {
+        "value": "1993-09-09",
+        "source": "mobywatel"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [],
+        "source": "zus"
+      },
+      "ubezpieczenie.podstawySkladek": {
+        "value": [],
+        "source": "zus"
+      },
+      "ubezpieczenie.przerwy": {
+        "value": [],
+        "source": "zus"
+      },
+      "ubezpieczenie.pobraneSwiadczenia": {
+        "value": [],
+        "source": "zus"
+      },
+      "ezla.zwolnienia": {
+        "value": [],
+        "source": "ezla"
+      }
+    }
+  },
+  "uwagi": "Osoba wymyślona na potrzeby demonstracji. PESEL fikcyjny — nie przechodzi sumy kontrolnej."
+}

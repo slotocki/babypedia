@@ -1,0 +1,128 @@
+{
+  "$schema": "../../contracts/persona.schema.json",
+  "id": "klara-demo",
+  "opis": "Wymyślona osoba: pracownica w ciąży u dużego płatnika (ponad 20 ubezpieczonych), zasiłek wypłaca płatnik.",
+  "status": "gotowe",
+  "tozsamosc": {
+    "imie": "Klara",
+    "nazwisko": "Wzorcowa",
+    "pesel": "92031810170",
+    "dataUrodzenia": "1992-03-18"
+  },
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-03-20",
+        "source": "user"
+      },
+      "zdarzenie.dlaKogo": {
+        "value": "ja",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "assumption"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "assumption"
+      },
+      "osoba.dataUrodzenia": {
+        "value": "1992-03-18",
+        "source": "mobywatel"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "kodTytulu": "0110",
+            "opis": "pracownik",
+            "rodzajTytulu": "pracownik",
+            "platnikId": "platnik-demo-duzy",
+            "platnikNazwa": "Duża Firma Demo S.A.",
+            "od": "2019-09-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.podstawySkladek": {
+        "value": [
+          {
+            "miesiac": "2025-11",
+            "kwota": 7500
+          },
+          {
+            "miesiac": "2025-12",
+            "kwota": 7500
+          },
+          {
+            "miesiac": "2026-01",
+            "kwota": 7500
+          },
+          {
+            "miesiac": "2026-02",
+            "kwota": 7500
+          },
+          {
+            "miesiac": "2026-03",
+            "kwota": 7500
+          },
+          {
+            "miesiac": "2026-04",
+            "kwota": 7500
+          },
+          {
+            "miesiac": "2026-05",
+            "kwota": 7500
+          },
+          {
+            "miesiac": "2026-06",
+            "kwota": 7500
+          },
+          {
+            "miesiac": "2026-07",
+            "kwota": 7500
+          },
+          {
+            "miesiac": "2026-08",
+            "kwota": 7500
+          },
+          {
+            "miesiac": "2026-09",
+            "kwota": 7500
+          },
+          {
+            "miesiac": "2026-10",
+            "kwota": 7500
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.przerwy": {
+        "value": [],
+        "source": "zus"
+      },
+      "ubezpieczenie.pobraneSwiadczenia": {
+        "value": [],
+        "source": "zus"
+      },
+      "ezla.zwolnienia": {
+        "value": [],
+        "source": "ezla"
+      },
+      "platnik.liczbaUbezpieczonych": {
+        "value": 240,
+        "source": "zus"
+      }
+    }
+  },
+  "uwagi": "Osoba wymyślona na potrzeby demonstracji. PESEL fikcyjny — nie przechodzi sumy kontrolnej."
+}

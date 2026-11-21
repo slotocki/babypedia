@@ -1,0 +1,137 @@
+{
+  "$schema": "../../contracts/persona.schema.json",
+  "id": "halina-demo",
+  "opis": "Wymyślona osoba: pracownica małego płatnika (do 20 ubezpieczonych) z zwolnieniem e-ZLA z kodem B; zasiłek wypłaca ZUS.",
+  "status": "gotowe",
+  "tozsamosc": {
+    "imie": "Halina",
+    "nazwisko": "Okazowa",
+    "nazwiskoRodowe": "Pokazowa",
+    "pesel": "89070210270",
+    "dataUrodzenia": "1989-07-02"
+  },
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-02-10",
+        "source": "user"
+      },
+      "zdarzenie.dlaKogo": {
+        "value": "ja",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "assumption"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "assumption"
+      },
+      "osoba.dataUrodzenia": {
+        "value": "1989-07-02",
+        "source": "mobywatel"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "kodTytulu": "0110",
+            "opis": "pracownik",
+            "rodzajTytulu": "pracownik",
+            "platnikId": "platnik-demo-maly",
+            "platnikNazwa": "Mała Pracownia Demo sp. j.",
+            "od": "2022-05-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.podstawySkladek": {
+        "value": [
+          {
+            "miesiac": "2025-11",
+            "kwota": 5200
+          },
+          {
+            "miesiac": "2025-12",
+            "kwota": 5200
+          },
+          {
+            "miesiac": "2026-01",
+            "kwota": 5200
+          },
+          {
+            "miesiac": "2026-02",
+            "kwota": 5200
+          },
+          {
+            "miesiac": "2026-03",
+            "kwota": 5200
+          },
+          {
+            "miesiac": "2026-04",
+            "kwota": 5200
+          },
+          {
+            "miesiac": "2026-05",
+            "kwota": 5200
+          },
+          {
+            "miesiac": "2026-06",
+            "kwota": 5200
+          },
+          {
+            "miesiac": "2026-07",
+            "kwota": 5200
+          },
+          {
+            "miesiac": "2026-08",
+            "kwota": 5200
+          },
+          {
+            "miesiac": "2026-09",
+            "kwota": 5200
+          },
+          {
+            "miesiac": "2026-10",
+            "kwota": 5200
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.przerwy": {
+        "value": [],
+        "source": "zus"
+      },
+      "ubezpieczenie.pobraneSwiadczenia": {
+        "value": [],
+        "source": "zus"
+      },
+      "ezla.zwolnienia": {
+        "value": [
+          {
+            "od": "2026-10-26",
+            "do": "2026-11-14",
+            "kod": "B",
+            "szpital": false,
+            "dataWystawienia": "2026-10-26"
+          }
+        ],
+        "source": "ezla"
+      },
+      "platnik.liczbaUbezpieczonych": {
+        "value": 12,
+        "source": "zus"
+      }
+    }
+  },
+  "uwagi": "Osoba wymyślona na potrzeby demonstracji. PESEL fikcyjny — nie przechodzi sumy kontrolnej."
+}

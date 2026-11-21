@@ -1,0 +1,105 @@
+{
+  "$schema": "../../contracts/persona.schema.json",
+  "id": "weronika-demo",
+  "opis": "Wymyślona osoba: zleceniobiorczyni z dobrowolnym ubezpieczeniem chorobowym od 22.09.2026 (poniżej 90 dni wyczekiwania), e-ZLA z kodem B.",
+  "status": "gotowe",
+  "tozsamosc": {
+    "imie": "Weronika",
+    "nazwisko": "Próbna",
+    "pesel": "96113010370",
+    "dataUrodzenia": "1996-11-30"
+  },
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-04-25",
+        "source": "user"
+      },
+      "zdarzenie.dlaKogo": {
+        "value": "ja",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "assumption"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "assumption"
+      },
+      "osoba.dataUrodzenia": {
+        "value": "1996-11-30",
+        "source": "mobywatel"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "kodTytulu": "0411",
+            "opis": "zleceniobiorca bez dobrowolnego chorobowego",
+            "rodzajTytulu": "zleceniobiorca",
+            "platnikId": "platnik-demo-zlecenia",
+            "platnikNazwa": "Studio Demo Sp. z o.o.",
+            "od": "2025-02-01",
+            "do": "2026-09-21",
+            "chorobowe": "brak"
+          },
+          {
+            "kodTytulu": "0411",
+            "opis": "zleceniobiorca z dobrowolnym chorobowym",
+            "rodzajTytulu": "zleceniobiorca",
+            "platnikId": "platnik-demo-zlecenia",
+            "platnikNazwa": "Studio Demo Sp. z o.o.",
+            "od": "2026-09-22",
+            "do": null,
+            "chorobowe": "dobrowolne"
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.podstawySkladek": {
+        "value": [
+          {
+            "miesiac": "2026-09",
+            "kwota": 4300
+          },
+          {
+            "miesiac": "2026-10",
+            "kwota": 4300
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.przerwy": {
+        "value": [],
+        "source": "zus"
+      },
+      "ubezpieczenie.pobraneSwiadczenia": {
+        "value": [],
+        "source": "zus"
+      },
+      "ezla.zwolnienia": {
+        "value": [
+          {
+            "od": "2026-11-18",
+            "do": "2026-11-30",
+            "kod": "B",
+            "szpital": false,
+            "dataWystawienia": "2026-11-18"
+          }
+        ],
+        "source": "ezla"
+      },
+      "platnik.liczbaUbezpieczonych": {
+        "value": 30,
+        "source": "zus"
+      }
+    }
+  },
+  "uwagi": "Osoba wymyślona na potrzeby demonstracji. PESEL fikcyjny — nie przechodzi sumy kontrolnej."
+}

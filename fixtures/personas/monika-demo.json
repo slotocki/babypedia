@@ -1,0 +1,140 @@
+{
+  "$schema": "../../contracts/persona.schema.json",
+  "id": "monika-demo",
+  "opis": "Wymyślona osoba po porodzie (08.10.2026) z wpisem dziecka w rejestrze stanu cywilnego; pracownica małego płatnika.",
+  "status": "gotowe",
+  "tozsamosc": {
+    "imie": "Monika",
+    "nazwisko": "Szkoleniowa",
+    "pesel": "91120510770",
+    "dataUrodzenia": "1991-12-05"
+  },
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-10-08",
+        "source": "user"
+      },
+      "zdarzenie.dlaKogo": {
+        "value": "ja",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-10-08",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "assumption"
+      },
+      "osoba.dataUrodzenia": {
+        "value": "1991-12-05",
+        "source": "mobywatel"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "kodTytulu": "0110",
+            "opis": "pracownik",
+            "rodzajTytulu": "pracownik",
+            "platnikId": "platnik-demo-biuro",
+            "platnikNazwa": "Biuro Demo sp. z o.o.",
+            "od": "2020-03-02",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.podstawySkladek": {
+        "value": [
+          {
+            "miesiac": "2025-11",
+            "kwota": 6100
+          },
+          {
+            "miesiac": "2025-12",
+            "kwota": 6100
+          },
+          {
+            "miesiac": "2026-01",
+            "kwota": 6100
+          },
+          {
+            "miesiac": "2026-02",
+            "kwota": 6100
+          },
+          {
+            "miesiac": "2026-03",
+            "kwota": 6100
+          },
+          {
+            "miesiac": "2026-04",
+            "kwota": 6100
+          },
+          {
+            "miesiac": "2026-05",
+            "kwota": 6100
+          },
+          {
+            "miesiac": "2026-06",
+            "kwota": 6100
+          },
+          {
+            "miesiac": "2026-07",
+            "kwota": 6100
+          },
+          {
+            "miesiac": "2026-08",
+            "kwota": 6100
+          },
+          {
+            "miesiac": "2026-09",
+            "kwota": 6100
+          },
+          {
+            "miesiac": "2026-10",
+            "kwota": 6100
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.przerwy": {
+        "value": [],
+        "source": "zus"
+      },
+      "ubezpieczenie.pobraneSwiadczenia": {
+        "value": [],
+        "source": "zus"
+      },
+      "ezla.zwolnienia": {
+        "value": [
+          {
+            "od": "2026-08-24",
+            "do": "2026-10-07",
+            "kod": "B",
+            "szpital": false,
+            "dataWystawienia": "2026-08-24"
+          }
+        ],
+        "source": "ezla"
+      },
+      "platnik.liczbaUbezpieczonych": {
+        "value": 8,
+        "source": "zus"
+      }
+    }
+  },
+  "uwagi": "Osoba wymyślona na potrzeby demonstracji. PESEL fikcyjny — nie przechodzi sumy kontrolnej."
+}
