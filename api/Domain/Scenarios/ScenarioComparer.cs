@@ -14,6 +14,7 @@ public sealed class ScenarioComparer(IAssessmentEngine engine, IParameterProvide
         var errors = new List<ValidationIssue>();
         var facts = request.Facts;
         var seen = new HashSet<(ScenarioId, PersonRef)>();
+        var changes = new List<string>();
 
         if (request.Scenarios.Count == 0)
         {
@@ -38,6 +39,7 @@ public sealed class ScenarioComparer(IAssessmentEngine engine, IParameterProvide
             if (outcome.Succeeded)
             {
                 facts = outcome.Facts!;
+                changes.AddRange(outcome.Changes);
             }
             else
             {
@@ -47,14 +49,14 @@ public sealed class ScenarioComparer(IAssessmentEngine engine, IParameterProvide
 
         if (errors.Count > 0)
         {
-            return new CompareResult(baseResult, baseResult, [], errors);
+            return new CompareResult(baseResult, baseResult, [], errors, null, []);
         }
 
         var variant = engine.Assess(new AssessmentRequest(facts, request.AsOf));
         var introduced = variant.ValidationErrors
             .Where(v => !baseResult.ValidationErrors.Any(b => b.Code == v.Code && b.Fact == v.Fact && b.Person == v.Person))
             .ToList();
-        return new CompareResult(baseResult, variant, ScenarioDiff.Build(baseResult, variant), introduced);
+        return new CompareResult(baseResult, variant, ScenarioDiff.Build(baseResult, variant), introduced, facts, changes);
     }
 }
 

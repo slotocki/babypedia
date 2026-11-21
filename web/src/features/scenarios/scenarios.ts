@@ -1,9 +1,7 @@
 import { z } from 'zod'
 import type {
   FactSet,
-  FactSource,
   InsuranceTitle,
-  IsoDate,
   PaymentVariant,
   PersonFacts,
   PersonRef,
@@ -211,44 +209,6 @@ export function valuesFromChange(change: ScenarioChange): FormValues {
     tygodnie: p.tygodnie !== undefined ? String(p.tygodnie) : '',
     wymiar: p.wymiar !== undefined ? String(p.wymiar).replace('.', ',') : '',
     wariant: p.wariant ?? 'usredniony',
-  }
-}
-
-function dayBefore(iso: IsoDate): IsoDate {
-  const d = new Date(`${iso}T00:00:00Z`)
-  d.setUTCDate(d.getUTCDate() - 1)
-  return d.toISOString().slice(0, 10)
-}
-
-function put(facts: FactSet, person: PersonRef, key: keyof PersonFacts, value: unknown, source: FactSource): FactSet {
-  const bucket = { ...(facts[person] ?? {}), [key]: { value, source } } as PersonFacts
-  return { ...facts, [person]: bucket }
-}
-
-export function applyChange(facts: FactSet, change: ScenarioChange): FactSet {
-  const person = change.person ?? 'wnioskodawca'
-  const p = change.params ?? {}
-  switch (change.id) {
-    case 'odchodze_z_pracy':
-      return put(facts, person, 'umowa.planowaneOdejscieData', p.data, 'assumption')
-    case 'umowa_nie_zostanie_przedluzona':
-      return put(facts, person, 'ubezpieczenie.ustaniePrzyczyna', 'koniec_umowy_na_czas_okreslony', 'assumption')
-    case 'przechodze_na_dzialalnosc': {
-      const start = p.data ?? ''
-      const current = titlesOf(facts[person]) ?? []
-      const ended = current.map((t) => (workTitles.includes(t.rodzajTytulu) && !t.do ? { ...t, do: dayBefore(start) } : t))
-      const business: InsuranceTitle = { rodzajTytulu: 'dzialalnosc', od: start, chorobowe: p.dobrowolneChorobowe ? 'dobrowolne' : 'brak' }
-      const next = put(facts, person, 'umowa.planowaneOdejscieData', start, 'assumption')
-      return put(next, person, 'ubezpieczenie.tytuly', [...ended, business], 'assumption')
-    }
-    case 'drugi_rodzic_bierze':
-      return put(facts, person, 'plan.rodzicielskiCzesci', [{ tygodnie: p.tygodnie ?? 0 }], 'user')
-    case 'praca_na_czesc_etatu':
-      return put(facts, person, 'plan.pracaNaCzescEtatu', [{ wymiar: p.wymiar ?? 0, tygodnie: p.tygodnie ?? 0 }], 'user')
-    case 'wariant_wyplaty':
-      return put(facts, person, 'plan.wariantWyplaty', p.wariant, 'user')
-    case 'splacam_zadluzenie':
-      return put(facts, person, 'skladki.dataSplaty', p.data, 'assumption')
   }
 }
 

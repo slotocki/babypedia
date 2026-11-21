@@ -9,7 +9,6 @@ import { Alert, Button, ErrorState, PageHeader, RadioGroup, Section, SkeletonTex
 import { ComparisonView } from './ComparisonView'
 import { ScenarioForm, type ServerErrors } from './ScenarioForm'
 import {
-  applyChange,
   availability,
   emptyValues,
   isFieldIssue,
@@ -129,9 +128,10 @@ export function ScenariosPage() {
     compare.reset()
   }
 
+  const variantFacts = compare.data?.variantFacts ?? null
   const apply = () => {
-    if (!submitted) return
-    setFacts(applyChange(facts, submitted))
+    if (!variantFacts) return
+    setFacts(variantFacts)
     navigate(paths.result)
   }
 
@@ -204,7 +204,7 @@ export function ScenariosPage() {
 
           {compare.isError ? <CompareError error={compare.error} onRetry={() => submitted && compare.mutate(submitted)} retrying={compare.isPending} /> : null}
 
-          {showResult ? <ComparisonView key={compare.submittedAt} result={compare.data} scenarioTitle={selected.title} onApply={apply} /> : null}
+          {showResult ? <ComparisonView key={compare.submittedAt} result={compare.data} scenarioTitle={selected.title} onApply={variantFacts ? apply : undefined} /> : null}
 
           <div>
             <Button variant="secondary" asChild>

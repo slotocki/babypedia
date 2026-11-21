@@ -38,11 +38,17 @@ public sealed record BenefitDiff(
     [property: JsonPropertyName("weeksDelta")] decimal? WeeksDelta,
     [property: JsonPropertyName("amountDelta")] decimal? AmountDelta);
 
+/// <summary>
+/// Wynik porównania. <see cref="VariantFacts"/> = pełny zbiór faktów po nakładce scenariuszy (ocena tego zbioru daje
+/// dokładnie <see cref="Variant"/>); null, gdy scenariusza nie dało się zastosować. <see cref="Changes"/> = opis zmian prostym językiem.
+/// </summary>
 public sealed record CompareResult(
     [property: JsonPropertyName("base")] AssessmentResult Base,
     [property: JsonPropertyName("variant")] AssessmentResult Variant,
     [property: JsonPropertyName("diff")] IReadOnlyList<BenefitDiff> Diff,
-    [property: JsonPropertyName("validationErrors")] IReadOnlyList<ValidationIssue> ValidationErrors);
+    [property: JsonPropertyName("validationErrors")] IReadOnlyList<ValidationIssue> ValidationErrors,
+    [property: JsonPropertyName("variantFacts")] FactSet? VariantFacts = null,
+    [property: JsonPropertyName("changes")] IReadOnlyList<string>? Changes = null);
 
 public interface IScenarioComparer
 {

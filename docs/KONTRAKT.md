@@ -118,6 +118,13 @@ Kształt jak w 12.1, z rozszerzeniami (oznaczone ★ — wymagają zatwierdzenia
 
 Nieznany klucz faktu albo zła wartość → `400` ProblemDetails (walidacja na granicy API; C# odrzuca nieznane pola).
 
+### 3.1. Wynik porównania (`POST /api/assessment/compare`)
+
+`{base, variant, diff[], validationErrors[], variantFacts, changes[]}`:
+
+- `variantFacts` — pełny zbiór faktów po nakładce scenariuszy (silnik `Domain/Scenarios`); ocena tego zbioru daje dokładnie `variant`. „Zastosuj wariant” na ekranie zapisuje **ten** zbiór — frontend nie tłumaczy scenariuszy na fakty sam. `null`, gdy scenariusza nie dało się zastosować (wtedy `validationErrors` niepuste).
+- `changes[]` — co zmieniono w faktach, zdania prostym językiem (`ScenarioOutcome.Changes`).
+
 ## 4. Identyfikatory i konwencje nazw
 
 - Świadczenia (katalog P0): `chorobowy_w_ciazy`, `rehabilitacyjne`, `zasilek_do_dnia_porodu`, `macierzynski`, `macierzynski_uzupelniajacy`, `rodzicielski`, `ojcowski`, `przyjecie_dziecka`, `przejecie_przez_ojca`, `pogrzebowy`.

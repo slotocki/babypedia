@@ -137,6 +137,10 @@ public sealed class WariantWyplatyScenario : IScenario
 
         var variant = text == "usredniony" ? PaymentVariant.Usredniony : PaymentVariant.Standardowy;
         var facts = context.Facts.WithPerson(context.Person, p => p with { PlanWariantWyplaty = Assume(variant) });
-        return ScenarioOutcome.Ok(facts, $"Wariant wypłaty: {text}.");
+        return ScenarioOutcome.Ok(
+            facts,
+            variant == PaymentVariant.Usredniony
+                ? "Wariant wypłaty: uśredniony (81,5% za urlop macierzyński i rodzicielski)."
+                : "Wariant wypłaty: standardowy (100% za urlop macierzyński, 70% za rodzicielski).");
     }
 }

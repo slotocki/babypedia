@@ -246,6 +246,10 @@ export interface CompareResult {
   variant: AssessmentResult
   diff: BenefitDiff[]
   validationErrors: ValidationIssue[]
+  /** Pełny zbiór faktów po nakładce scenariuszy — ocena daje dokładnie `variant`. null, gdy scenariusza nie zastosowano. */
+  variantFacts?: FactSet | null
+  /** Co zmieniono w faktach, prostym językiem. */
+  changes?: string[]
 }
 
 export interface ProblemDetails {

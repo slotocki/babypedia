@@ -240,7 +240,16 @@
         "base": { "$ref": "#/$defs/AssessmentResult" },
         "variant": { "$ref": "#/$defs/AssessmentResult" },
         "diff": { "type": "array", "items": { "$ref": "#/$defs/BenefitDiff" } },
-        "validationErrors": { "type": "array", "items": { "$ref": "#/$defs/ValidationIssue" } }
+        "validationErrors": { "type": "array", "items": { "$ref": "#/$defs/ValidationIssue" } },
+        "variantFacts": {
+          "anyOf": [{ "$ref": "facts.schema.json" }, { "type": "null" }],
+          "description": "Pełny zbiór faktów po nakładce scenariuszy; ocena tego zbioru daje dokładnie `variant`. „Zastosuj wariant” zapisuje ten zbiór. null, gdy scenariusza nie dało się zastosować."
+        },
+        "changes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Co zmieniono w faktach — zdania prostym językiem (puste, gdy scenariusza nie dało się zastosować)."
+        }
       }
     }
   }

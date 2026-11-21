@@ -10,7 +10,8 @@ import { statusText } from './labels'
 interface ComparisonViewProps {
   result: CompareResult
   scenarioTitle: string
-  onApply: () => void
+  /** Brak = wynik bez faktów wariantu (np. przykład deweloperski) — zastosować nie można. */
+  onApply?: () => void
 }
 
 export function ComparisonView({ result, scenarioTitle, onApply }: ComparisonViewProps) {
@@ -53,8 +54,18 @@ export function ComparisonView({ result, scenarioTitle, onApply }: ComparisonVie
             </>
           )}
         </div>
+        {result.changes && result.changes.length > 0 ? (
+          <div className="space-y-1">
+            <h3 className="font-semibold text-ink">Co zmieniamy w Twoich danych w tym wariancie</h3>
+            <ul className="list-disc space-y-1 pl-5 text-ink">
+              {result.changes.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         <div className="flex flex-wrap gap-3 pt-2">
-          <Button onClick={onApply}>Zastosuj ten wariant w moim planie</Button>
+          {onApply ? <Button onClick={onApply}>Zastosuj ten wariant w moim planie</Button> : null}
           <Button variant="secondary" asChild>
             <Link to={paths.result}>Wróć do wyniku</Link>
           </Button>
