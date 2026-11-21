@@ -4,7 +4,6 @@ import type {
   BenefitId,
   BenefitResult,
   BenefitStatus,
-  DeadlineType,
   Payer,
   PaymentVariant,
   PersonRef,
@@ -31,13 +30,6 @@ export const basisSourceLabels: Record<BasisSource, string> = {
   szacunek_zus: 'szacunek z danych ZUS',
   ustalona_przez_płatnika: 'podstawa ustalona przez płatnika',
   minimalna: 'minimalna podstawa',
-}
-
-export const deadlineTypeLabels: Record<DeadlineType, string> = {
-  najpóźniej_do: 'najpóźniej do',
-  najpóźniej_przed: 'najpóźniej przed',
-  okno: 'w okresie',
-  przedawnienie: 'przedawnienie',
 }
 
 export const payerLabels: Record<Payer, string> = { płatnik_składek: 'Płatnik składek (np. pracodawca)', zus: 'ZUS' }

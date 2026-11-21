@@ -6,6 +6,7 @@ import { benefitName, personLabels, placeLabels } from './labels'
 
 export function DeadlineItemCard({ entry, showPerson }: { entry: DeadlineEntry; showPerson: boolean }) {
   const { deadline, benefit } = entry
+  const hasApplication = benefit.status === 'przysługuje' && !!benefit.whereToApply
   return (
     <Card as="section" aria-label="Najbliższy krok" className="space-y-3 border-l-4 border-l-brand bg-brand-soft shadow-none">
       <DeadlineItem deadline={deadline} emphasized className="border-0 bg-transparent p-0" />
@@ -14,15 +15,15 @@ export function DeadlineItemCard({ entry, showPerson }: { entry: DeadlineEntry; 
           Dotyczy: <span className="font-semibold text-ink">{benefitName(benefit.id)}</span>
           {showPerson ? ` (${personLabels[benefit.person]})` : null}
         </p>
-        {benefit.whereToApply ? <p>Gdzie złożyć wniosek: {placeLabels[benefit.whereToApply]}</p> : null}
+        {hasApplication && benefit.whereToApply ? <p>Gdzie złożyć wniosek: {placeLabels[benefit.whereToApply]}</p> : null}
       </div>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <Button asChild className="w-full sm:w-auto">
-          <Link to={paths.submissions}>Przejdź do wniosków</Link>
-        </Button>
-        <a href="#terminy" className={buttonVariants({ variant: 'link' })}>
-          Zobacz wszystkie terminy
-        </a>
+        {hasApplication ? (
+          <Button asChild className="w-full sm:w-auto">
+            <Link to={paths.submissions}>Przejdź do wniosków</Link>
+          </Button>
+        ) : null}
+        <a href="#terminy" className={buttonVariants({ variant: hasApplication ? 'link' : 'primary' })}>Zobacz wszystkie terminy</a>
       </div>
     </Card>
   )

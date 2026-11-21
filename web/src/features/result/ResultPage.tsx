@@ -188,26 +188,35 @@ export function ResultPage() {
       <>
         {nextOpen ? <DeadlineItemCard entry={nextOpen} showPerson={grouped} /> : null}
 
-        <Section title="Świadczenia w Twojej sprawie" description={summary || undefined}>
-          {visible.length === 0 ? (
-            <EmptyState title="Nie ma jeszcze świadczeń do pokazania" description="Wróć do kroku „Sprawdź dane” i uzupełnij informacje o swojej sytuacji." />
-          ) : grouped ? (
-            <div className="space-y-8">
-              {(['wnioskodawca', 'drugiRodzic'] as const).map((person) => {
-                const list = visible.filter((b) => b.person === person)
-                if (list.length === 0) return null
-                return (
-                  <section key={person} aria-label={personLabels[person]} className="space-y-4">
-                    <h3 className="text-lg font-bold text-brand-strong">{personLabels[person]}</h3>
-                    {renderCards(list)}
-                  </section>
-                )
-              })}
-            </div>
-          ) : (
-            renderCards(visible)
-          )}
-        </Section>
+        <nav aria-label="Przejdź do części wyniku" className="flex flex-wrap gap-x-4 gap-y-1">
+          <a href="#swiadczenia" className={buttonVariants({ variant: 'link' })}>Świadczenia</a>
+          <a href="#terminy" className={buttonVariants({ variant: 'link' })}>Terminy</a>
+          <Link to={paths.scenarios} className={buttonVariants({ variant: 'link' })}>Porównaj warianty</Link>
+          <Link to={paths.review} className={buttonVariants({ variant: 'link' })}>Sprawdź dane</Link>
+        </nav>
+
+        <div id="swiadczenia" className="scroll-mt-4">
+          <Section title="Świadczenia w Twojej sprawie" description={summary || undefined}>
+            {visible.length === 0 ? (
+              <EmptyState title="Nie ma jeszcze świadczeń do pokazania" description="Wróć do kroku „Sprawdź dane” i uzupełnij informacje o swojej sytuacji." />
+            ) : grouped ? (
+              <div className="space-y-8">
+                {(['wnioskodawca', 'drugiRodzic'] as const).map((person) => {
+                  const list = visible.filter((b) => b.person === person)
+                  if (list.length === 0) return null
+                  return (
+                    <section key={person} aria-label={personLabels[person]} className="space-y-4">
+                      <h3 className="text-lg font-bold text-brand-strong">{personLabels[person]}</h3>
+                      {renderCards(list)}
+                    </section>
+                  )
+                })}
+              </div>
+            ) : (
+              renderCards(visible)
+            )}
+          </Section>
+        </div>
 
         {caseSummary ? (
           <CaseDecisionComparison expected={caseSummary.oczekiwanaDecyzja} benefits={visible} />
@@ -233,11 +242,6 @@ export function ResultPage() {
           )}
           onApplicationDate={saveApplicationDate}
         />
-
-        <nav aria-label="Dalsze kroki" className="flex flex-wrap gap-x-5 gap-y-1 border-t border-line pt-3">
-          <Link to={paths.scenarios} className={buttonVariants({ variant: 'link' })}>Porównaj warianty</Link>
-          <Link to={paths.review} className={buttonVariants({ variant: 'link' })}>Sprawdź dane</Link>
-        </nav>
 
         {nextOpen ? null : (
           <Button asChild fullWidth className="sm:w-auto">

@@ -77,7 +77,7 @@ const eventOptions: ChoiceOption[] = eventKinds.map((value) => ({ value, label: 
 
 const scopeOptions: ChoiceOption[] = [
   { value: 'ja', label: calculationScopeLabels.ja },
-  { value: 'ja_i_drugi_rodzic', label: calculationScopeLabels.ja_i_drugi_rodzic, description: 'Pokażę też, co przysługuje drugiemu rodzicowi.' },
+  { value: 'ja_i_drugi_rodzic', label: calculationScopeLabels.ja_i_drugi_rodzic },
 ]
 
 const dateCopy: Record<EventKind, { label: string; hint: string }> = {
@@ -206,12 +206,12 @@ export function IntakePage() {
             </Field>
           ) : null}
 
-          <div className="flex flex-wrap gap-x-4 gap-y-1">
-            <Button type="submit" fullWidth className="sm:w-auto" disabled={isSubmitting || isValidating}>
-              {step === lastStep ? 'Dalej do danych' : 'Dalej'}
+          <div className="grid gap-1">
+            <Button type="submit" fullWidth disabled={isSubmitting || isValidating}>
+              {step === lastStep ? 'Przejdź do uzupełniania danych' : 'Dalej'}
             </Button>
             {step > 0 ? (
-              <Button variant="link" onClick={() => setStep(step - 1)} disabled={isSubmitting || isValidating}>Wróć</Button>
+              <Button variant="link" className="justify-self-center" onClick={() => setStep(step - 1)} disabled={isSubmitting || isValidating}>Wróć</Button>
             ) : null}
           </div>
         </form>

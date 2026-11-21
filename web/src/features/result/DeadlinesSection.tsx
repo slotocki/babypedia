@@ -1,6 +1,6 @@
 import type { BenefitResult, Deadline } from '@/app/api/types'
-import { Checkbox, DeadlineItem, EmptyState, Section, WarningIcon } from '@/ui'
-import { benefitName, deadlineTypeLabels, personLabels } from './labels'
+import { Card, Checkbox, DeadlineItem, Disclosure, EmptyState, Section, WarningIcon } from '@/ui'
+import { benefitName, personLabels } from './labels'
 
 export interface DeadlineEntry {
   deadline: Deadline
@@ -34,14 +34,13 @@ function Entry({
   const { deadline, benefit } = entry
   const past = deadline.date < today
   return (
-    <li className={done ? 'space-y-2 opacity-80' : 'space-y-2'}>
-      <DeadlineItem deadline={deadline} />
-      <div className="space-y-1 px-1 text-sm text-ink-soft">
+    <li className="space-y-2 p-4">
+      <DeadlineItem deadline={deadline} className="border-0 bg-transparent p-0" />
+      <div className="space-y-1 pl-9 text-sm text-ink-soft">
         <p className="break-words">
           Dotyczy: <span className="font-semibold text-ink">{benefitName(benefit.id)}</span>
           {showPerson ? ` (${personLabels[benefit.person]})` : null}
         </p>
-        <p>Rodzaj terminu: {deadlineTypeLabels[deadline.type]}</p>
         {deadline.basis ? <p className="break-words">Podstawa prawna: {deadline.basis}</p> : null}
         {isNext && !done ? <p className="font-semibold text-brand-strong">To jest Twój najbliższy krok.</p> : null}
         {past && !done ? (
@@ -70,7 +69,7 @@ export function DeadlinesSection({ entries, completed, nextDeadlineId, showPerso
   const done = sorted.filter((e) => completed.includes(e.deadline.id))
 
   const renderList = (list: DeadlineEntry[], isDone: boolean) => (
-    <ul className="space-y-6">
+    <ul className="divide-y divide-line">
       {list.map((entry) => (
         <Entry
           key={`${entry.benefit.id}:${entry.benefit.person}:${entry.deadline.id}`}
@@ -87,17 +86,14 @@ export function DeadlinesSection({ entries, completed, nextDeadlineId, showPerso
 
   return (
     <div id="terminy" className="scroll-mt-4">
-      <Section title="Co zrobić i do kiedy" description="Wszystkie terminy od najwcześniejszego. Gdy coś załatwisz, zaznacz „Zrobione”, a przeliczymy, co jest następne.">
+      <Section title="Co zrobić i do kiedy" description="Zaznacz „Zrobione”, żeby przejść do kolejnego kroku.">
         {entries.length === 0 ? (
           <EmptyState title="Nie ma terminów do pilnowania" description="Gdy pojawią się terminy związane z Twoimi świadczeniami, zobaczysz je tutaj." />
         ) : (
           <div className="space-y-6">
-            {open.length > 0 ? renderList(open, false) : <p className="text-ink-soft">Wszystkie terminy są oznaczone jako zrobione.</p>}
+            {open.length > 0 ? <Card className="p-0 sm:p-0">{renderList(open, false)}</Card> : <p className="text-ink-soft">Wszystkie terminy są oznaczone jako zrobione.</p>}
             {done.length > 0 ? (
-              <div className="space-y-3">
-                <h3 className="text-lg font-semibold text-ink">Zrobione ({done.length})</h3>
-                {renderList(done, true)}
-              </div>
+              <Disclosure title={`Zrobione (${done.length})`}>{renderList(done, true)}</Disclosure>
             ) : null}
           </div>
         )}

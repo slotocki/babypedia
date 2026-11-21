@@ -6,7 +6,7 @@ import type { Identity, PersonaListItem } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
 import { countFacts, mergeIntegrationFacts, withoutIntegrationFacts } from '@/features/review/facts'
-import { Alert, Button, Card, EmptyState, ErrorState, PageHeader, Section, SimulationBadge, SimulationBanner, Spinner, Stepper } from '@/ui'
+import { Alert, Button, Card, EmptyState, ErrorState, PageHeader, Section, Spinner, Stepper, UserIcon } from '@/ui'
 import { flowSteps } from './steps'
 import { useFocusHeading } from './useFocusHeading'
 
@@ -53,13 +53,7 @@ export function LoginPage() {
   return (
     <div ref={pageRef} className="mx-auto max-w-2xl space-y-6">
       <Stepper steps={flowSteps} current={1} />
-      <PageHeader
-        title="Jak chcesz uzupełnić dane?"
-        description="Wybierz osobę testową, żeby pobrać jej dane, albo wpisz dane samodzielnie."
-      />
-      <SimulationBanner>
-        Logowanie przez mObywatel i pobieranie danych z ZUS działają na fikcyjnych danych.
-      </SimulationBanner>
+      <PageHeader title="Jak chcesz uzupełnić dane?" />
 
       {missingEvent ? (
         <Alert variant="warning" title="Brakuje odpowiedzi na trzy pytania">
@@ -86,63 +80,65 @@ export function LoginPage() {
         </div>
       ) : (
         <>
-          <Button variant="link" fullWidth className="sm:w-auto" onClick={enterManually} disabled={busy}>
-            Wprowadzę dane samodzielnie
-          </Button>
-          <Section title="Wybierz osobę testową">
-            {personas.isPending ? (
-              <p role="status" className="flex items-center gap-2 text-ink-soft">
-                <Spinner label={null} /> Wczytuję listę osób…
-              </p>
-            ) : null}
-            {personas.isError ? (
-              <ErrorState error={personas.error} onRetry={() => void personas.refetch()} retrying={personas.isFetching} title="Nie udało się wczytać listy osób" />
-            ) : null}
-            {personas.isSuccess && personas.data.length === 0 ? (
-              <EmptyState title="Brak osób do wyboru" description="Lista osób jest pusta. Możesz wprowadzić dane samodzielnie." />
-            ) : null}
+          <Card>
+            <Section title="Pobierz dane osoby testowej" description="Symulacja logowania przez mObywatel i pobierania danych z ZUS.">
+              {personas.isPending ? (
+                <p role="status" className="flex items-center gap-2 text-ink-soft">
+                  <Spinner label={null} /> Wczytuję listę osób…
+                </p>
+              ) : null}
+              {personas.isError ? (
+                <ErrorState error={personas.error} onRetry={() => void personas.refetch()} retrying={personas.isFetching} title="Nie udało się wczytać listy osób" />
+              ) : null}
+              {personas.isSuccess && personas.data.length === 0 ? (
+                <EmptyState title="Brak osób do wyboru" description="Lista osób jest pusta. Możesz wprowadzić dane samodzielnie." />
+              ) : null}
 
-            {personas.isSuccess && personas.data.length > 0 ? (
-              <ul className="space-y-3" aria-busy={busy}>
-                {personas.data.map((persona) => (
-                  <li key={persona.id}>
-                    <Card className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <div className="min-w-0 space-y-1">
-                        <p className="flex flex-wrap items-center gap-2 text-base font-semibold text-ink">
-                          {persona.imie ?? persona.id} <SimulationBadge />
-                        </p>
-                        <p className="text-sm text-ink-soft">{persona.opis}</p>
+              {personas.isSuccess && personas.data.length > 0 ? (
+                <ul className="divide-y divide-line" aria-busy={busy}>
+                  {personas.data.map((persona) => (
+                    <li key={persona.id} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 py-3">
+                      <div className="flex min-w-0 flex-[1_1_12rem] items-start gap-3">
+                        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-soft text-brand-strong">
+                          <UserIcon className="size-5" />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="font-semibold text-ink">{persona.imie ?? persona.id}</p>
+                          <p className="text-sm text-ink-soft">{persona.opis}</p>
+                        </div>
                       </div>
                       <Button
-                        variant="secondary"
+                        variant="link"
                         disabled={busy}
-                        aria-label={`Zaloguj jako ${persona.imie ?? persona.id} (symulacja)`}
+                        aria-label={`Pobierz dane: ${persona.imie ?? persona.id} (symulacja)`}
                         onClick={() => void login(persona)}
                         className="shrink-0"
                       >
-                        Zaloguj
+                        Pobierz dane
                       </Button>
-                    </Card>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
 
-            {progress.state === 'loading' ? (
-              <p role="status" className="flex items-center gap-2 text-ink-soft">
-                <Spinner label={null} /> Loguję (symulacja) i pobieram dane: {progress.persona}…
-              </p>
-            ) : null}
-            {progress.state === 'error' ? (
-              <ErrorState
-                error={progress.error}
-                title="Nie udało się zalogować"
-                onRetry={() => void login(progress.persona)}
-                description="Spróbuj ponownie albo wprowadź dane samodzielnie. Twoje odpowiedzi są zachowane."
-              />
-            ) : null}
-          </Section>
-
+              {progress.state === 'loading' ? (
+                <p role="status" className="flex items-center gap-2 text-ink-soft">
+                  <Spinner label={null} /> Loguję (symulacja) i pobieram dane: {progress.persona}…
+                </p>
+              ) : null}
+              {progress.state === 'error' ? (
+                <ErrorState
+                  error={progress.error}
+                  title="Nie udało się zalogować"
+                  onRetry={() => void login(progress.persona)}
+                  description="Spróbuj ponownie albo wprowadź dane samodzielnie. Twoje odpowiedzi są zachowane."
+                />
+              ) : null}
+            </Section>
+          </Card>
+          <Button variant="secondary" fullWidth className="sm:w-auto" onClick={enterManually} disabled={busy}>
+            Wprowadzę dane samodzielnie
+          </Button>
         </>
       )}
     </div>
