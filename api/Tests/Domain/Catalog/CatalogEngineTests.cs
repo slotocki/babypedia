@@ -219,18 +219,24 @@ public sealed class CatalogEngineTests
     private sealed class FakeBasis(IReadOnlyList<MissingFact>? missing = null) : IBasisStep
     {
         public BasisStepResult Resolve(BenefitContext context) =>
-            new(new BasisResolution(8000m, BasisSource.SzacunekZus), ["Podstawa z danych ZUS."], missing ?? []);
+            new(new BasisResolution(8000m, BasisSource.SzacunekZus), ["Podstawa z danych ZUS."], missing ?? [], [new TraceStep("podstawa_testowa", "test", true, "podstawa")]);
     }
 
     private sealed class FakeAmounts : IAmountsStep
     {
         public int Calls { get; private set; }
 
-        public AmountsStepResult Calculate(BenefitContext context, BasisStepResult basis)
+        public BenefitResult Apply(BenefitContext context, BasisStepResult basis)
         {
             Calls++;
             var amount = new Amount(230.11m, 32215.40m, basis.Basis!.Amount, basis.Basis.Source);
-            return new AmountsStepResult(1m, amount, null, ["Kwota brutto."], [new Deadline("termin_z_kwot", DeadlineType.NajpozniejDo, D("2027-12-31"), "z kwot")]);
+            return context.Benefit with
+            {
+                Rate = 1m,
+                Amount = amount,
+                Notes = [.. context.Benefit.Notes, "Kwota brutto."],
+                Deadlines = [.. context.Benefit.Deadlines, new Deadline("termin_z_kwot", DeadlineType.NajpozniejDo, D("2027-12-31"), "z kwot")],
+            };
         }
     }
 
@@ -252,6 +258,8 @@ public sealed class CatalogEngineTests
         Assert.Contains("Kwota brutto.", benefit.Notes);
         Assert.DoesNotContain(benefit.Notes, n => n.Contains("podaj podstawę", StringComparison.OrdinalIgnoreCase));
         Assert.Contains(benefit.Deadlines, d => d.Id == "termin_z_kwot");
+        var rules = benefit.Trace.Select(t => t.Rule).ToList();
+        Assert.True(rules.IndexOf("macierzynski_wymiar") < rules.IndexOf("podstawa_testowa"));
         Assert.Equal(callsAfterGranted, amounts.Calls);
         Assert.True(callsAfterGranted >= 2);
     }

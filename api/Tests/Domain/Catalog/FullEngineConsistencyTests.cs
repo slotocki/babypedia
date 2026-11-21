@@ -6,7 +6,7 @@ using BabyRadnik.Tests.Reference;
 namespace BabyRadnik.Tests.Domain.Catalog;
 
 /// <summary>
-/// Po złożeniu wyniku pełny silnik nie może dawać wyniku SPRZECZNEGO z „oczekiwane” przypadków uprawnienia-* i okresy-*
+/// Po złożeniu wyniku pełny silnik nie może dawać wyniku SPRZECZNEGO z „oczekiwane” przypadków uprawnienia-*, okresy-*, kwoty-* i parametry-*
 /// (ich własne ewaluatory sprawdzają moduły osobno). Sprzeczność = oczekiwano „przysługuje”, jest „nie przysługuje” (albo odwrotnie),
 /// albo okres/terminy z przypadku nie zgadzają się, gdy pełny wynik jest „przysługuje”.
 /// </summary>
@@ -16,7 +16,7 @@ public sealed class FullEngineConsistencyTests
         Directory.EnumerateFiles(Path.Combine(TestPaths.Fixtures, "reference"), "*.json")
             .Order()
             .Select(Path.GetFileName)
-            .Where(n => n!.StartsWith("uprawnienia-") || n.StartsWith("okresy-"))!;
+            .Where(n => n!.StartsWith("uprawnienia-") || n.StartsWith("okresy-") || n.StartsWith("kwoty-") || n.StartsWith("parametry-"))!;
 
     public static TheoryData<string> Files()
     {
@@ -61,7 +61,7 @@ public sealed class FullEngineConsistencyTests
 
         var provider = CatalogKit.Params([.. referenceCase.Parametry]);
         var request = referenceCase.Request() with { AsOf = referenceCase.AsOf ?? CatalogKit.AsOf };
-        var result = CatalogKit.Engine(provider).Assess(request);
+        var result = CatalogKit.FullEngine(provider).Assess(request);
         var actualJson = JsonSerializer.SerializeToElement(result, ApiJson.Options);
 
         if (!expected.TryGetProperty("benefits", out var benefits))
@@ -104,7 +104,7 @@ public sealed class FullEngineConsistencyTests
                 continue;
             }
 
-            foreach (var name in new[] { "period", "payer", "whereToApply", "parts", "deadlineIds", "deadlines", "documentsContain" })
+            foreach (var name in new[] { "period", "payer", "whereToApply", "rate", "amount", "parts", "deadlineIds", "deadlines", "documentsContain" })
             {
                 if (!eb.TryGetProperty(name, out var value))
                 {

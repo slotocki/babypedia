@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Text.Json;
 using BabyRadnik.Api;
+using BabyRadnik.Domain.Amounts;
+using BabyRadnik.Domain.Basis;
 using BabyRadnik.Domain.Catalog;
 using BabyRadnik.Domain.Contracts;
 using BabyRadnik.Domain.Deadlines;
@@ -48,6 +50,12 @@ public static class CatalogKit
             new FixedTimeProvider(new DateTimeOffset(now, TimeSpan.Zero)));
     }
 
+    public static AssessmentEngine FullEngine(IParameterProvider? parameters = null, DateOnly? today = null)
+    {
+        var p = parameters ?? Params();
+        return Engine(p, new BasisServiceStep(new BasisService(p)), new AmountsServiceStep(new AmountsService(p)), today: today);
+    }
+
     public static AssessmentResult Assess(FactSet facts, DateOnly? asOf = null, IEnumerable<string>? completed = null, AssessmentEngine? engine = null) =>
         (engine ?? Engine()).Assess(new AssessmentRequest(facts, asOf ?? AsOf, completed?.ToList()));
 
@@ -59,8 +67,9 @@ public static class CatalogKit
         TitleKind kind = TitleKind.Pracownik,
         string from = "2020-01-01",
         string? to = null,
-        SicknessInsurance sickness = SicknessInsurance.Obowiazkowe) =>
-        new(kind, D(from), to is null ? null : D(to), sickness);
+        SicknessInsurance sickness = SicknessInsurance.Obowiazkowe,
+        decimal? etat = null) =>
+        new(kind, D(from), to is null ? null : D(to), sickness, WymiarEtatu: etat);
 
     public static PersonFacts Person(
         ParentRole role,

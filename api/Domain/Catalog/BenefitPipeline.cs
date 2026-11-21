@@ -2,38 +2,40 @@ using BabyRadnik.Domain.Contracts;
 
 namespace BabyRadnik.Domain.Catalog;
 
-public sealed record BenefitContext(BenefitResult Benefit, FactSet Facts, DateOnly AsOf, IParameterProvider Parameters)
+/// <summary>Kontekst kroku potoku: karta świadczenia, wszystkie karty tej samej osoby (przed potokiem), fakty i parametry.</summary>
+public sealed record BenefitContext(
+    BenefitResult Benefit,
+    IReadOnlyList<BenefitResult> Siblings,
+    FactSet Facts,
+    DateOnly AsOf,
+    IParameterProvider Parameters)
 {
     public PersonRef Person => Benefit.Person;
+
+    public DateOnly EventDate => Facts.Sprawa.ZdarzenieData?.Value ?? AsOf;
 }
 
 public sealed record BasisResolution(decimal Amount, BasisSource Source);
 
-public sealed record BasisStepResult(BasisResolution? Basis, IReadOnlyList<string> Notes, IReadOnlyList<MissingFact> Missing)
-{
-    public static readonly BasisStepResult None = new(null, [], []);
-}
-
-public sealed record AmountsStepResult(
-    decimal? Rate,
-    Amount? Amount,
-    IReadOnlyList<BenefitPart>? Parts,
+public sealed record BasisStepResult(
+    BasisResolution? Basis,
     IReadOnlyList<string> Notes,
-    IReadOnlyList<Deadline> Deadlines)
+    IReadOnlyList<MissingFact> Missing,
+    IReadOnlyList<TraceStep> Trace)
 {
-    public static readonly AmountsStepResult None = new(null, null, null, [], []);
+    public static readonly BasisStepResult None = new(null, [], [], []);
 }
 
-/// <summary>Ogniwo „podstawa” potoku. Moduł Domain/Basis podmienia domyślną implementację (<see cref="NoBasisStep"/>).</summary>
+/// <summary>Ogniwo „podstawa” potoku. Domyślnie puste (<see cref="NoBasisStep"/>); z modułem Basis — <see cref="BasisServiceStep"/>.</summary>
 public interface IBasisStep
 {
     BasisStepResult Resolve(BenefitContext context);
 }
 
-/// <summary>Ogniwo „kwoty” potoku. Moduł Domain/Amounts podmienia domyślną implementację (<see cref="NoAmountsStep"/>).</summary>
+/// <summary>Ogniwo „kwoty” potoku: zwraca kartę ze stawką, częściami i kwotą. Domyślnie puste (<see cref="NoAmountsStep"/>); z modułem Amounts — <see cref="AmountsServiceStep"/>.</summary>
 public interface IAmountsStep
 {
-    AmountsStepResult Calculate(BenefitContext context, BasisStepResult basis);
+    BenefitResult Apply(BenefitContext context, BasisStepResult basis);
 }
 
 public sealed class NoBasisStep : IBasisStep
@@ -45,10 +47,8 @@ public sealed class NoAmountsStep : IAmountsStep
 {
     public const string MissingBasisNote = "Podaj podstawę, żeby zobaczyć kwotę.";
 
-    public AmountsStepResult Calculate(BenefitContext context, BasisStepResult basis) =>
-        context.Benefit.Period is null
-            ? AmountsStepResult.None
-            : AmountsStepResult.None with { Notes = [MissingBasisNote] };
+    public BenefitResult Apply(BenefitContext context, BasisStepResult basis) =>
+        context.Benefit.Period is null ? context.Benefit : context.Benefit with { Notes = [.. context.Benefit.Notes, MissingBasisNote] };
 }
 
 public sealed record PipelineOutcome(BenefitResult Benefit, IReadOnlyList<MissingFact> Missing);
@@ -56,26 +56,21 @@ public sealed record PipelineOutcome(BenefitResult Benefit, IReadOnlyList<Missin
 /// <summary>Potok: podstawa → kwoty. Działa tylko na świadczeniach ze statusem „przysługuje”.</summary>
 public sealed class BenefitPipeline(IBasisStep basisStep, IAmountsStep amountsStep)
 {
-    public PipelineOutcome Run(BenefitResult benefit, FactSet facts, DateOnly asOf, IParameterProvider parameters)
+    public PipelineOutcome Run(BenefitResult benefit, IReadOnlyList<BenefitResult> siblings, FactSet facts, DateOnly asOf, IParameterProvider parameters)
     {
         if (benefit.Status != BenefitStatus.Przysluguje)
         {
             return new PipelineOutcome(benefit, []);
         }
 
-        var context = new BenefitContext(benefit, facts, asOf, parameters);
+        var context = new BenefitContext(benefit, siblings, facts, asOf, parameters);
         var basis = basisStep.Resolve(context);
-        var amounts = amountsStep.Calculate(context, basis);
-        var notes = benefit.Notes.Concat(basis.Notes).Concat(amounts.Notes).Distinct().ToList();
-        var deadlines = benefit.Deadlines.Concat(amounts.Deadlines).DistinctBy(d => d.Id).ToList();
-        var result = benefit with
+        var withBasis = benefit with
         {
-            Rate = amounts.Rate,
-            Amount = amounts.Amount,
-            Parts = amounts.Parts ?? benefit.Parts,
-            Notes = notes,
-            Deadlines = deadlines,
+            Notes = [.. benefit.Notes.Concat(basis.Notes).Distinct()],
+            Trace = [.. benefit.Trace, .. basis.Trace],
         };
-        return new PipelineOutcome(result, basis.Missing);
+        var priced = amountsStep.Apply(context with { Benefit = withBasis }, basis);
+        return new PipelineOutcome(priced with { Notes = [.. priced.Notes.Distinct()] }, basis.Missing);
     }
 }

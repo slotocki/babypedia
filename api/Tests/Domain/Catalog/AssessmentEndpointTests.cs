@@ -14,14 +14,26 @@ using Microsoft.Extensions.Logging;
 
 namespace BabyRadnik.Tests.Domain.Catalog;
 
-public sealed class AssessmentEndpointTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
+public sealed class AssessmentFixture : WebApplicationFactory<Program>
+{
+    protected override void ConfigureWebHost(Microsoft.AspNetCore.Hosting.IWebHostBuilder builder) =>
+        builder.ConfigureTestServices(services =>
+        {
+            services.RemoveAll<IParameterProvider>();
+            services.AddSingleton<IParameterProvider>(CatalogKit.Params());
+            services.RemoveAll<ISettingsStore>();
+            services.AddSingleton<ISettingsStore>(new AssessmentEndpointTests.MemorySettingsStore());
+        });
+}
+
+public sealed class AssessmentEndpointTests(AssessmentFixture fixture) : IClassFixture<AssessmentFixture>
 {
     private static readonly CancellationToken Ct = TestContext.Current.CancellationToken;
 
     private static readonly JsonElement Schema = JsonDocument.Parse(
         File.ReadAllText(Path.Combine(TestPaths.Contracts, "assessment.schema.json"))).RootElement.Clone();
 
-    private sealed class MemorySettingsStore(string? catalogJson = null, bool fail = false) : ISettingsStore
+    internal sealed class MemorySettingsStore(string? catalogJson = null, bool fail = false) : ISettingsStore
     {
         public Task<string?> GetAsync(string name, CancellationToken ct) =>
             fail ? throw new InvalidOperationException("baza niedostępna") : Task.FromResult(name == "catalog" ? catalogJson : null);
@@ -55,18 +67,27 @@ public sealed class AssessmentEndpointTests(WebApplicationFactory<Program> facto
         }
     }
 
-    private HttpClient Client(ISettingsStore? settings = null, CapturingLoggerProvider? logs = null) =>
-        factory.WithWebHostBuilder(builder => builder.ConfigureTestServices(services =>
+    private HttpClient Client(ISettingsStore? settings = null, CapturingLoggerProvider? logs = null)
+    {
+        if (settings is null && logs is null)
         {
-            services.RemoveAll<IParameterProvider>();
-            services.AddSingleton<IParameterProvider>(CatalogKit.Params());
-            services.RemoveAll<ISettingsStore>();
-            services.AddSingleton(settings ?? new MemorySettingsStore());
+            return fixture.CreateClient();
+        }
+
+        return fixture.WithWebHostBuilder(builder => builder.ConfigureTestServices(services =>
+        {
+            if (settings is not null)
+            {
+                services.RemoveAll<ISettingsStore>();
+                services.AddSingleton(settings);
+            }
+
             if (logs is not null)
             {
                 services.AddSingleton<ILoggerProvider>(logs);
             }
         })).CreateClient();
+    }
 
     private static StringContent Json(string body) => new(body, Encoding.UTF8, "application/json");
 
@@ -152,6 +173,12 @@ public sealed class AssessmentEndpointTests(WebApplicationFactory<Program> facto
         Assert.Equal("2027-08-01", maternity.GetProperty("period").GetProperty("to").GetString());
         Assert.Equal(140, maternity.GetProperty("period").GetProperty("days").GetInt32());
         Assert.Equal("płatnik_składek", maternity.GetProperty("payer").GetString());
+        Assert.Equal(1m, maternity.GetProperty("rate").GetDecimal());
+        var amount = maternity.GetProperty("amount");
+        Assert.Equal(6903.20m, amount.GetProperty("basis").GetDecimal());
+        Assert.Equal(230.11m, amount.GetProperty("daily").GetDecimal());
+        Assert.Equal(32215.40m, amount.GetProperty("total").GetDecimal());
+        Assert.Equal("szacunek_zus", amount.GetProperty("basisSource").GetString());
         Assert.DoesNotContain("ATRAPA", result.GetRawText());
         Assert.Equal("wniosek_usredniona", result.GetProperty("nextStep").GetProperty("deadlineId").GetString());
     }

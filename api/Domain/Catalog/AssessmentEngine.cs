@@ -47,6 +47,7 @@ public sealed class AssessmentEngine(
 
         foreach (var person in persons)
         {
+            var cards = new List<BenefitResult>();
             foreach (var entry in BenefitCatalog.Entries.Where(e => catalogSettings.IsEnabled(e.Id)))
             {
                 if (entry.Id == BenefitId.Pogrzebowy)
@@ -61,16 +62,19 @@ public sealed class AssessmentEngine(
                 var period = periodsResult.Benefits.FirstOrDefault(b => b.Id == entry.Id && b.Person == person);
                 var employee = InsuranceFacts.IsEmployee(facts.For(person), facts.Sprawa.ZdarzenieData?.Value, asOf);
                 var composed = StatusComposer.Compose(entry, person, rights.Result, period, employee);
-
-                var piped = pipeline.Run(composed, facts, asOf, parameters);
-                composed = WithDeadlines(piped.Benefit, facts, asOf);
-                otherMissing.AddRange(piped.Missing);
                 if (composed.Status is BenefitStatus.BrakujeDanych or BenefitStatus.Przysluguje)
                 {
                     rightsMissing.AddRange(rights.MissingFacts);
                 }
 
-                benefits.Add(composed);
+                cards.Add(composed);
+            }
+
+            foreach (var card in cards)
+            {
+                var piped = pipeline.Run(card, cards, facts, asOf, parameters);
+                benefits.Add(WithDeadlines(piped.Benefit, facts, asOf));
+                otherMissing.AddRange(piped.Missing);
             }
         }
 

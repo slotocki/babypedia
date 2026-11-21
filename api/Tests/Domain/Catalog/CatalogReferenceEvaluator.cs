@@ -4,7 +4,7 @@ using BabyRadnik.Tests.Reference;
 
 namespace BabyRadnik.Tests.Domain.Catalog;
 
-/// <summary>Ewaluator przypadków modułu „katalog”: pełny silnik (<see cref="AssessmentEngine"/>) na parametrach seed + wiersze z przypadku.</summary>
+/// <summary>Ewaluator przypadków modułu „katalog”: pełny silnik (<see cref="AssessmentEngine"/> z modułami podstawy i kwot) na parametrach seed + wiersze z przypadku.</summary>
 public class CatalogReferenceEvaluator : IReferenceEvaluator
 {
     public virtual string Modul => "katalog";
@@ -15,7 +15,7 @@ public class CatalogReferenceEvaluator : IReferenceEvaluator
     {
         var provider = CatalogKit.Params([.. referenceCase.Parametry]);
         var request = referenceCase.Request() with { AsOf = referenceCase.AsOf ?? CatalogKit.AsOf };
-        ReferenceAssert.Matches(referenceCase, CatalogKit.Engine(provider).Assess(request));
+        ReferenceAssert.Matches(referenceCase, CatalogKit.FullEngine(provider).Assess(request));
     }
 }
 
