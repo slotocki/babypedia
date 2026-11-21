@@ -20,6 +20,7 @@ import {
   buttonVariants,
 } from '@/ui'
 import { CaseDecisionComparison } from '@/features/cases'
+import { flowSteps } from '@/features/intake/steps'
 import { BenefitCard } from './BenefitCard'
 import { DeadlineItemCard } from './DeadlineItemCard'
 import { DeadlinesSection, type DeadlineEntry } from './DeadlinesSection'
@@ -28,7 +29,6 @@ import { RisksSection } from './RisksSection'
 import { useFocusHeading } from './useFocusHeading'
 import { VariantSection } from './VariantSection'
 
-const steps = ['Pytania', 'Logowanie', 'Sprawdź dane', 'Wynik']
 const EXAMPLE_COUNT = 5
 
 function parseExample(value: string | null): number | null {
@@ -188,7 +188,7 @@ export function ResultPage() {
       <>
         {nextOpen ? <DeadlineItemCard entry={nextOpen} showPerson={grouped} /> : null}
 
-        <Section title="Co Ci przysługuje" description={summary || undefined}>
+        <Section title="Świadczenia w Twojej sprawie" description={summary || undefined}>
           {visible.length === 0 ? (
             <EmptyState title="Nie ma jeszcze świadczeń do pokazania" description="Wróć do kroku „Sprawdź dane” i uzupełnij informacje o swojej sytuacji." />
           ) : grouped ? (
@@ -234,6 +234,11 @@ export function ResultPage() {
           onApplicationDate={saveApplicationDate}
         />
 
+        <nav aria-label="Dalsze kroki" className="flex flex-wrap gap-x-5 gap-y-1 border-t border-line pt-3">
+          <Link to={paths.scenarios} className={buttonVariants({ variant: 'link' })}>Porównaj warianty</Link>
+          <Link to={paths.review} className={buttonVariants({ variant: 'link' })}>Sprawdź dane</Link>
+        </nav>
+
         {nextOpen ? null : (
           <Button asChild fullWidth className="sm:w-auto">
             <Link to={paths.submissions}>Przejdź do wniosków i zgłoszeń</Link>
@@ -246,13 +251,13 @@ export function ResultPage() {
   return (
     <ToneScope tone={difficult ? 'difficult' : 'default'} className="-mx-4 -my-6 px-4 py-6">
       <div ref={pageRef} className="mx-auto max-w-3xl space-y-8">
-        <Stepper steps={steps} current={3} />
+        <Stepper steps={flowSteps} current={3} />
         <PageHeader
-          title="Twój wynik"
+          title="Twój plan"
           description={
             difficult
               ? 'Poniżej zebraliśmy najważniejsze kroki. Możesz zajmować się nimi we własnym tempie.'
-              : 'Co Ci przysługuje, co zrobić i do kiedy. To szacunek na podstawie podanych danych. Kompas Rodzica informuje, a decyzję podejmuje ZUS lub płatnik składek.'
+              : 'Wynik na podstawie dostępnych danych. Decyzję podejmuje ZUS lub płatnik składek.'
           }
         />
 

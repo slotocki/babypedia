@@ -20,22 +20,27 @@ export interface RadioGroupProps {
   ref?: Ref<HTMLInputElement>
   disabled?: boolean
   columns?: 1 | 2
+  appearance?: 'cards' | 'rows'
   className?: string
 }
 
-export function RadioGroup({ name, options, value, defaultValue, onChange, onBlur, ref, disabled, columns = 1, className }: RadioGroupProps) {
+export function RadioGroup({ name, options, value, defaultValue, onChange, onBlur, ref, disabled, columns = 1, appearance = 'cards', className }: RadioGroupProps) {
   const field = useFieldControl()
   const controlled = value !== undefined
+  const rows = appearance === 'rows'
 
   return (
-    <div className={cn('grid gap-3', columns === 2 && 'sm:grid-cols-2', className)}>
+    <div className={cn('grid', rows ? 'gap-1' : 'gap-3', columns === 2 && 'sm:grid-cols-2', className)}>
       {options.map((option) => {
         const off = Boolean(disabled || option.disabled)
         return (
           <label
             key={option.value}
             className={cn(
-              'flex min-h-14 cursor-pointer items-start gap-3 rounded-card border-2 border-line bg-surface p-4 transition-colors hover:border-brand',
+              'flex min-h-14 cursor-pointer items-start gap-3 bg-surface transition-colors',
+              rows
+                ? 'rounded-control border border-transparent px-3 py-3 hover:bg-brand-soft'
+                : 'rounded-card border-2 border-line p-4 hover:border-brand',
               'has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:focus]:outline-3 has-[:focus]:outline-offset-2 has-[:focus]:outline-brand',
               // Wyszarzenie kolorami tokenów (bez przezroczystości) — tekst ink-soft na neutral-soft ma kontrast > 4,5:1 (WCAG AA).
               off && 'cursor-not-allowed border-dashed border-line-strong bg-neutral-soft hover:border-line-strong',

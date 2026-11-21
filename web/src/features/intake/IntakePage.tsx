@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { useEffect, useState, type FormEvent } from 'react'
+import { useForm, type FieldPath } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { z } from 'zod'
 import type { EventKind, FactSet } from '@/app/api/types'
@@ -9,8 +10,7 @@ import { QuickStart } from '@/features/cases/QuickStart'
 import { addDaysIso, isValidIsoDate, todayIso } from '@/features/review/dates'
 import { calculationScopeLabels, eventKindLabels } from '@/features/review/fact-labels'
 import { getFact, userFactOf, withFact } from '@/features/review/facts'
-import { Button, DateInput, Field, PageHeader, RadioGroup, Stepper, type ChoiceOption } from '@/ui'
-import { flowSteps } from './steps'
+import { Button, Card, DateInput, Field, PageHeader, RadioGroup, type ChoiceOption } from '@/ui'
 import { useFocusHeading } from './useFocusHeading'
 
 const eventKinds = Object.keys(eventKindLabels) as EventKind[]
@@ -44,7 +44,7 @@ const schema = z
       case 'ciaza':
         if (checkDate(v.data, 'data', true, 'przewidywaną datę porodu')) {
           if (v.data < addDaysIso(today, -30))
-            issue('data', 'Ta data już minęła. Jeśli dziecko się urodziło, wróć wyżej i wybierz „Dziecko się urodziło”.')
+            issue('data', 'Ta data już minęła. Jeśli dziecko się urodziło, wybierz „Wróć”, a potem „Dziecko się urodziło”.')
           else if (v.data > addDaysIso(today, 330))
             issue('data', 'Ta data jest zbyt odległa jak na termin porodu. Sprawdź ją w karcie ciąży.')
         }
@@ -67,6 +67,12 @@ const schema = z
 
 type FormValues = z.infer<typeof schema>
 
+const questions = [
+  { title: 'Co się u Ciebie dzieje?', fields: ['rodzaj'] },
+  { title: 'Podaj datę', fields: ['data', 'dataDziecka'] },
+  { title: 'Dla kogo sprawdzić świadczenia?', fields: ['dlaKogo'] },
+] satisfies { title: string; fields: FieldPath<FormValues>[] }[]
+
 const eventOptions: ChoiceOption[] = eventKinds.map((value) => ({ value, label: eventKindLabels[value] }))
 
 const scopeOptions: ChoiceOption[] = [
@@ -80,7 +86,7 @@ const dateCopy: Record<EventKind, { label: string; hint: string }> = {
     hint: 'Możesz zostawić to pole puste. Z przybliżoną datą łatwiej policzyć okresy.',
   },
   ciaza: {
-    label: 'Jaka jest przewidywana data porodu?',
+    label: 'Kiedy masz termin porodu?',
     hint: 'Znajdziesz ją w karcie ciąży albo zapytaj lekarza prowadzącego.',
   },
   urodzenie: { label: 'Kiedy urodziło się dziecko?', hint: 'Jeśli to poród mnogi, podaj datę urodzenia pierwszego dziecka.' },
@@ -103,10 +109,12 @@ export function IntakePage() {
   const { facts, setFacts } = useCaseState()
   const navigate = useNavigate()
   const pageRef = useFocusHeading<HTMLDivElement>()
+  const [step, setStep] = useState(0)
 
   const stored = (key: string) => String(getFact(facts, 'sprawa', key)?.value ?? '')
-  const { register, handleSubmit, watch, formState } = useForm<FormValues>({
+  const { register, handleSubmit, trigger, watch, formState } = useForm<FormValues>({
     resolver: zodResolver(schema),
+    shouldFocusError: false,
     defaultValues: {
       rodzaj: stored('zdarzenie.rodzaj'),
       data: stored('zdarzenie.data'),
@@ -117,60 +125,99 @@ export function IntakePage() {
 
   const rodzaj = watch('rodzaj') as EventKind | ''
   const dlaKogo = watch('dlaKogo')
-  const copy = rodzaj ? dateCopy[rodzaj] : null
-  const { errors } = formState
+  const copy = rodzaj ? dateCopy[rodzaj] : undefined
+  const { errors, isSubmitting, isValidating } = formState
   const rodzajField = register('rodzaj')
   const dlaKogoField = register('dlaKogo')
+  const lastStep = questions.length - 1
 
-  const onSubmit = handleSubmit((values) => {
-    setFacts(applyAnswers(facts, values))
-    navigate(paths.login)
-  })
+  useEffect(() => {
+    pageRef.current?.querySelector('h1')?.focus()
+  }, [pageRef, step])
+
+  const focusInvalid = () => {
+    requestAnimationFrame(() => pageRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus())
+  }
+
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (step < lastStep) {
+      if (await trigger(questions[step].fields)) setStep(step + 1)
+      else focusInvalid()
+      return
+    }
+
+    await handleSubmit(
+      (values) => {
+        setFacts(applyAnswers(facts, values))
+        navigate(paths.login)
+      },
+      (invalid) => {
+        const firstInvalid = questions.findIndex(({ fields }) => fields.some((field) => invalid[field]))
+        if (firstInvalid >= 0) setStep(firstInvalid)
+        focusInvalid()
+      },
+    )()
+  }
 
   return (
-    <div ref={pageRef} className="mx-auto max-w-2xl space-y-6">
-      <Stepper steps={flowSteps} current={0} />
-      <PageHeader
-        title="Powiedz nam, co się dzieje"
-        description="Trzy krótkie pytania. Na ich podstawie sprawdzimy, jakie świadczenia mogą Ci przysługiwać. Nic nie jest wysyłane do żadnego urzędu."
-      />
+    <div ref={pageRef} className="mx-auto max-w-xl space-y-4">
+      <Card className="space-y-5">
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-ink-soft">Pytanie {step + 1} z {questions.length}</p>
+          <div className="flex gap-1.5" aria-hidden="true">
+            {questions.map(({ title }, index) => (
+              <span key={title} className={`h-1.5 flex-1 rounded-full ${index <= step ? 'bg-brand' : 'bg-line'}`} />
+            ))}
+          </div>
+        </div>
+        <PageHeader
+          title={step === 1 ? (copy?.label ?? questions[step].title) : questions[step].title}
+          description={step === 0 ? 'Sprawdź, jakie świadczenia mogą Ci przysługiwać.' : undefined}
+        />
 
-      <QuickStart />
-
-      <h2 className="border-t border-line pt-6 text-xl font-semibold text-ink">Albo podaj własne dane</h2>
-
-      <form onSubmit={onSubmit} noValidate className="space-y-8">
-        <Field group label="1. Co się dzieje?" error={errors.rodzaj}>
-          <RadioGroup {...rodzajField} value={rodzaj} options={eventOptions} />
-        </Field>
-
-        {copy && rodzaj ? (
-          <div className="space-y-5">
-            <Field label={`2. ${copy.label}`} description={copy.hint} error={errors.data}>
-              <DateInput {...register('data')} className="sm:max-w-xs" />
+        <form onSubmit={(event) => void onSubmit(event)} noValidate className="space-y-5">
+          {step === 0 ? (
+            <Field group label={<span className="sr-only">Twoja sytuacja</span>} error={errors.rodzaj}>
+              <RadioGroup {...rodzajField} value={rodzaj} options={eventOptions} appearance="rows" />
             </Field>
-            {rodzaj === 'przyjecie' ? (
-              <Field
-                label="Kiedy urodziło się przyjmowane dziecko?"
-                description="Wiek dziecka ma wpływ na zasady, dlatego o niego pytamy."
-                error={errors.dataDziecka}
-              >
-                <DateInput {...register('dataDziecka')} className="sm:max-w-xs" />
+          ) : null}
+
+          {step === 1 && copy ? (
+            <div className="space-y-5">
+              <Field label={<span className="sr-only">{copy.label}</span>} description={copy.hint} error={errors.data}>
+                <DateInput {...register('data')} className="sm:max-w-xs" />
               </Field>
+              {rodzaj === 'przyjecie' ? (
+                <Field
+                  label="Kiedy urodziło się przyjmowane dziecko?"
+                  description="Wiek dziecka wpływa na zasady."
+                  error={errors.dataDziecka}
+                >
+                  <DateInput {...register('dataDziecka')} className="sm:max-w-xs" />
+                </Field>
+              ) : null}
+            </div>
+          ) : null}
+
+          {step === lastStep ? (
+            <Field group label={<span className="sr-only">Dla kogo sprawdzić świadczenia</span>} error={errors.dlaKogo}>
+              <RadioGroup {...dlaKogoField} value={dlaKogo} options={scopeOptions} appearance="rows" />
+            </Field>
+          ) : null}
+
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <Button type="submit" fullWidth className="sm:w-auto" disabled={isSubmitting || isValidating}>
+              {step === lastStep ? 'Dalej do danych' : 'Dalej'}
+            </Button>
+            {step > 0 ? (
+              <Button variant="link" onClick={() => setStep(step - 1)} disabled={isSubmitting || isValidating}>Wróć</Button>
             ) : null}
           </div>
-        ) : (
-          <p className="text-ink-soft">2. Gdy wybierzesz odpowiedź na pierwsze pytanie, zapytamy o właściwą datę.</p>
-        )}
-
-        <Field group label="3. Dla kogo liczymy?" error={errors.dlaKogo}>
-          <RadioGroup {...dlaKogoField} value={dlaKogo} options={scopeOptions} />
-        </Field>
-
-        <Button type="submit" fullWidth className="sm:w-auto">
-          Dalej
-        </Button>
-      </form>
+        </form>
+      </Card>
+      <p className="text-sm text-ink-soft">Twoje odpowiedzi nie są wysyłane do urzędu.</p>
+      <QuickStart />
     </div>
   )
 }

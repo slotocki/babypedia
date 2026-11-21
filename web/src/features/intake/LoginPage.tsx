@@ -54,12 +54,11 @@ export function LoginPage() {
     <div ref={pageRef} className="mx-auto max-w-2xl space-y-6">
       <Stepper steps={flowSteps} current={1} />
       <PageHeader
-        eyebrow="Logowanie przez mObywatel (symulacja)"
-        title="Pobierz dane, żeby nie wpisywać ich ręcznie"
-        description="Po zalogowaniu pokażemy dane, które pobraliśmy, a Ty je sprawdzisz i w razie potrzeby poprawisz."
+        title="Jak chcesz uzupełnić dane?"
+        description="Wybierz osobę testową, żeby pobrać jej dane, albo wpisz dane samodzielnie."
       />
       <SimulationBanner>
-        Nie łączymy się z prawdziwym mObywatelem ani z ZUS. Poniższe osoby są wymyślone, a ich dane fikcyjne.
+        Logowanie przez mObywatel i pobieranie danych z ZUS działają na fikcyjnych danych.
       </SimulationBanner>
 
       {missingEvent ? (
@@ -87,7 +86,10 @@ export function LoginPage() {
         </div>
       ) : (
         <>
-          <Section title="Wybierz osobę (symulacja)">
+          <Button variant="link" fullWidth className="sm:w-auto" onClick={enterManually} disabled={busy}>
+            Wprowadzę dane samodzielnie
+          </Button>
+          <Section title="Wybierz osobę testową">
             {personas.isPending ? (
               <p role="status" className="flex items-center gap-2 text-ink-soft">
                 <Spinner label={null} /> Wczytuję listę osób…
@@ -136,16 +138,11 @@ export function LoginPage() {
                 error={progress.error}
                 title="Nie udało się zalogować"
                 onRetry={() => void login(progress.persona)}
-                description="Spróbuj ponownie albo wybierz „Wprowadzę dane sam”. Twoje odpowiedzi z pierwszego kroku nie zostały utracone."
+                description="Spróbuj ponownie albo wprowadź dane samodzielnie. Twoje odpowiedzi są zachowane."
               />
             ) : null}
           </Section>
 
-          <Section title="Nie chcesz się logować?" description="Odpowiesz na kilka pytań sam. Niczego nie pobieramy z żadnych systemów." className="border-t border-line pt-6">
-            <Button variant="secondary" fullWidth className="sm:w-auto" onClick={enterManually} disabled={busy}>
-              Wprowadzę dane sam
-            </Button>
-          </Section>
         </>
       )}
     </div>

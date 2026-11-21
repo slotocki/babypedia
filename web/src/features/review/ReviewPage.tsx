@@ -7,7 +7,7 @@ import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
 import { flowSteps } from '@/features/intake/steps'
 import { useFocusHeading } from '@/features/intake/useFocusHeading'
-import { Alert, Button, ErrorState, Section, SimulationBanner, Spinner, Stepper, ToneScope, PageHeader } from '@/ui'
+import { Alert, Button, Disclosure, ErrorState, Section, SimulationBanner, Spinner, Stepper, ToneScope, PageHeader } from '@/ui'
 import { AnswerField } from './AnswerField'
 import { draftFromValue, isDraftEmpty, parseDraft, type Draft } from './answers'
 import { FactList } from './FactList'
@@ -134,22 +134,10 @@ export function ReviewPage() {
         <Stepper steps={flowSteps} current={2} />
         <PageHeader
           title="Sprawdź swoje dane"
-          description={
-            <>
-              {sessionId
-                ? 'Poniżej są dane, które pobraliśmy z symulowanych systemów, oraz Twoje odpowiedzi. Przy każdej informacji widać, skąd pochodzi.'
-                : 'Poniżej są Twoje odpowiedzi. Resztę informacji uzupełnisz w pytaniach pod spodem.'}{' '}
-              Jeśli coś się nie zgadza, wybierz „Popraw”.
-            </>
-          }
+          description="Możesz poprawić zapisane informacje i odpowiedzieć na pytania potrzebne do wyliczenia wyniku."
         />
         {sessionId ? <SimulationBanner system="Logowanie i pobieranie danych" /> : null}
 
-        {!hasEvent ? (
-          <Alert variant="info" title="Zacznij od pytań o zdarzenie">
-            Dane z systemów nie mówią, czego dotyczy sprawa. Odpowiedz na pytania pod listą danych — potem sprawdzimy, czego jeszcze brakuje.
-          </Alert>
-        ) : null}
         {difficult ? (
           <Alert variant="info" title="Pytamy tylko o to, co niezbędne">
             Rozumiemy, że to może być trudny czas. Na każde pytanie możesz nie odpowiadać — wtedy pokażemy, czego brakuje do ustalenia
@@ -157,12 +145,12 @@ export function ReviewPage() {
           </Alert>
         ) : null}
 
-        <Section title="Dane w Twojej sprawie">
+        <Disclosure title="Zobacz lub popraw zapisane dane" summary={sessionId ? 'Dane z symulowanych systemów i Twoje odpowiedzi' : 'Twoje odpowiedzi'}>
           <FactList facts={facts} onChange={changeFact} />
-        </Section>
+        </Disclosure>
 
         <form ref={formRef} onSubmit={submit} noValidate className="space-y-6">
-          <Section title="Czego jeszcze potrzebujemy" className="space-y-6">
+          <Section title={hasEvent ? 'Pytania uzupełniające' : 'Pytania o Twoją sytuację'} className="space-y-6">
             {hasEvent && assessment.isPending ? (
               <p role="status" className="flex items-center gap-2 text-ink-soft">
                 <Spinner label={null} /> Sprawdzam, czego jeszcze brakuje…
@@ -185,10 +173,7 @@ export function ReviewPage() {
 
             {answerable.length > 0 ? (
               <>
-                <p className="text-ink-soft">
-                  Te informacje są potrzebne do dokładniejszego wyniku. Możesz pominąć pytanie — wtedy przy świadczeniu zobaczysz, że
-                  brakuje danych.
-                </p>
+                {hasEvent ? <p className="text-ink-soft">Jeśli pominiesz pytanie, w wyniku pokażemy, których danych brakuje do oceny świadczenia.</p> : null}
                 <ul className="space-y-6" aria-busy={assessment.isFetching}>
                   {answerable.map((r) => (
                     <li key={r.id}>

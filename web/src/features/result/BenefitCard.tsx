@@ -2,7 +2,7 @@ import { useId, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import type { BenefitPart, BenefitResult, MissingFact } from '@/app/api/types'
 import { paths } from '@/app/paths'
-import { Alert, Amount, Button, Card, Disclosure, Period, SimulationBadge, StatusBadge, formatMoney, formatPercent } from '@/ui'
+import { Alert, Amount, Button, Card, Disclosure, Period, StatusBadge, formatMoney, formatPercent, formatWeeks } from '@/ui'
 import { BasisForm } from './BasisForm'
 import { ExtLink } from './ExtLink'
 import { basisSourceLabels, benefitName, payerLabels, placeLabels } from './labels'
@@ -77,89 +77,77 @@ function Parts({ parts }: { parts: BenefitPart[] }) {
 }
 
 function Entitled({ benefit, onSaveBasis, busy }: Pick<BenefitCardProps, 'benefit' | 'onSaveBasis' | 'busy'>) {
-  const { amount, period, rate, payer, whereToApply, documents, links, notes, parts } = benefit
+  const { amount, period, rate, payer, whereToApply, documents, links, notes, parts, trace, lumpSum } = benefit
   const save = (value: number) => onSaveBasis(benefit, value)
+  const hasDetails = period || payer || whereToApply || parts.length || documents.length || notes.length || links.length || trace.length
+
   return (
-    <div className="space-y-4">
-      {period ? (
-        <dl className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
-          <Row label="Okres">
-            <Period period={period} />
-          </Row>
-          {rate != null ? <Row label="Stawka">{formatPercent(rate)} podstawy</Row> : null}
-        </dl>
-      ) : null}
-
-      {benefit.lumpSum != null ? (
-        <div className="space-y-1 rounded-control bg-brand-soft p-3">
-          <p className="text-sm text-ink-soft">Kwota (stała, jednorazowa)</p>
-          <Amount value={benefit.lumpSum} size="lg" />
-        </div>
-      ) : null}
-
-      {amount ? (
-        <div className="space-y-3 rounded-control bg-brand-soft p-3">
-          <div className="flex flex-wrap items-end gap-x-8 gap-y-3">
-            {period ? (
-              <div>
-                <p className="text-sm text-ink-soft">Za jeden dzień</p>
-                <Amount value={amount.daily} showNote={false} />
-              </div>
-            ) : null}
+    <div className="space-y-3">
+      {lumpSum != null || amount || period ? (
+        <div className="flex flex-wrap items-start gap-x-5 gap-y-3">
+          {lumpSum != null ? (
             <div>
-              <p className="text-sm text-ink-soft">{period ? 'Łącznie za okres' : 'Kwota'}</p>
-              <Amount value={amount.total} size="lg" />
+              <p className="text-sm text-ink-soft">Kwota jednorazowa</p>
+              <Amount value={lumpSum} />
             </div>
-          </div>
+          ) : null}
+          {amount ? (
+            <div>
+              <p className="text-sm text-ink-soft">
+                {amount.basisSource === 'szacunek_zus' ? 'Szacowana kwota' : period ? 'Łącznie za okres' : 'Kwota'}
+              </p>
+              <Amount value={amount.total} />
+            </div>
+          ) : null}
           {period ? (
-            <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-soft">
-              <span>
-                Podstawa: {formatMoney(amount.basis)} brutto, {basisSourceLabels[amount.basisSource]}
-              </span>
-              {amount.basisSource === 'szacunek_zus' ? <SimulationBadge /> : null}
-            </p>
+            <div>
+              <p className="text-sm text-ink-soft">Okres</p>
+              <p className="text-xl font-bold text-ink">{formatWeeks(period.weeks)}</p>
+            </div>
           ) : null}
         </div>
-      ) : period ? (
-        <Alert variant="info" title="Podaj podstawę, żeby zobaczyć kwotę">
-          Znamy okres i stawkę, ale bez podstawy nie wyliczymy kwoty.
-          {' Wpisz podstawę ustaloną przez płatnika.'}
-        </Alert>
       ) : null}
 
-      {!amount && period ? <BasisForm onSave={save} busy={busy} /> : null}
-      {amount && period && amount.basisSource !== 'ustalona_przez_płatnika' ? (
-        <Disclosure title="Znasz podstawę ustaloną przez płatnika?" summary="Wpisz ją, a przeliczymy kwotę">
+      {!amount && period ? (
+        <div className="space-y-2">
+          <p className="text-sm text-ink-soft">Podaj podstawę ustaloną przez płatnika, żeby zobaczyć kwotę.</p>
           <BasisForm onSave={save} busy={busy} />
+        </div>
+      ) : null}
+
+      {hasDetails ? (
+        <Disclosure title="Szczegóły świadczenia">
+          <div className="space-y-4">
+            <dl className="grid gap-x-5 gap-y-3 sm:grid-cols-2">
+              {period ? <Row label="Daty świadczenia"><Period period={period} /></Row> : null}
+              {period && rate != null ? <Row label="Stawka">{formatPercent(rate)} podstawy</Row> : null}
+              {period && amount ? <Row label="Za jeden dzień">{formatMoney(amount.daily)}</Row> : null}
+              {period && amount ? <Row label="Podstawa">{formatMoney(amount.basis)} brutto, {basisSourceLabels[amount.basisSource]}</Row> : null}
+              {payer ? <Row label="Kto wypłaca">{payerLabels[payer]}</Row> : null}
+              {whereToApply ? <Row label="Gdzie złożyć wniosek">{placeLabels[whereToApply]}</Row> : null}
+            </dl>
+            {amount && period && amount.basisSource !== 'ustalona_przez_płatnika' ? (
+              <Disclosure title="Podaj podstawę ustaloną przez płatnika">
+                <BasisForm onSave={save} busy={busy} />
+              </Disclosure>
+            ) : null}
+            {parts.length > 0 ? <Parts parts={parts} /> : null}
+            {documents.length > 0 ? (
+              <div className="space-y-1">
+                <h4 className="text-base font-semibold text-ink">Dokumenty</h4>
+                <ul className="list-disc space-y-1 pl-5">
+                  {documents.map((doc) => <li key={doc} className="break-words">{doc}</li>)}
+                </ul>
+              </div>
+            ) : null}
+            <Notes notes={notes} />
+            {links.length > 0 ? <LinkList links={links} /> : null}
+            <TraceList trace={trace} />
+          </div>
         </Disclosure>
       ) : null}
 
-      {parts.length > 0 ? <Parts parts={parts} /> : null}
-
-      {payer || whereToApply ? (
-        <dl className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
-          {payer ? <Row label="Kto wypłaca">{payerLabels[payer]}</Row> : null}
-          {whereToApply ? <Row label="Gdzie złożyć wniosek">{placeLabels[whereToApply]}</Row> : null}
-        </dl>
-      ) : null}
-
-      {documents.length > 0 ? (
-        <div className="space-y-1">
-          <h4 className="text-base font-semibold text-ink">Dokumenty</h4>
-          <ul className="list-disc space-y-1 pl-5 text-base text-ink">
-            {documents.map((doc) => (
-              <li key={doc} className="break-words">
-                {doc}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-
-      <Notes notes={notes} />
-      {links.length > 0 ? <LinkList links={links} /> : null}
-
-      <Button asChild variant="secondary" className="w-full sm:w-auto">
+      <Button asChild variant="link" className="w-full sm:w-auto">
         <Link to={paths.submissions}>Przygotuj wniosek</Link>
       </Button>
     </div>
@@ -236,8 +224,8 @@ export function BenefitCard({ benefit, missing, headingLevel = 3, onSaveBasis, b
   const headingId = useId()
   const Heading = headingLevel === 3 ? 'h3' : 'h4'
   return (
-    <Card as="article" aria-labelledby={headingId} className="space-y-4">
-      <header className="space-y-2">
+    <Card as="article" aria-labelledby={headingId} className="space-y-3">
+      <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
         <Heading id={headingId} className="break-words text-lg font-semibold leading-snug text-ink">
           {benefitName(benefit.id)}
         </Heading>
@@ -249,7 +237,7 @@ export function BenefitCard({ benefit, missing, headingLevel = 3, onSaveBasis, b
       {benefit.status === 'brakuje_danych' ? <MissingData missing={missing} /> : null}
       {benefit.status === 'nie_rozstrzygam' ? <Undecided benefit={benefit} /> : null}
 
-      <TraceList trace={benefit.trace} />
+      {benefit.status !== 'przysługuje' ? <TraceList trace={benefit.trace} /> : null}
     </Card>
   )
 }

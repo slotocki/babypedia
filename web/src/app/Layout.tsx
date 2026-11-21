@@ -1,15 +1,18 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router'
+import { ChevronDownIcon, cn } from '@/ui'
 import { paths } from './paths'
 
-const nav = [
+const primaryNav = [
   { to: paths.start, label: 'Start' },
   { to: paths.result, label: 'Wynik' },
-  { to: paths.scenarios, label: 'Warianty' },
+]
+
+const additionalNav = [
   { to: paths.submissions, label: 'Wnioski' },
+  { to: paths.scenarios, label: 'Porównaj warianty' },
   { to: paths.zusData, label: 'Moje dane w ZUS' },
   { to: paths.cases, label: 'Sprawy ZUS' },
-  { to: paths.support, label: 'Wsparcie' },
 ]
 
 /** Przekierowania S9 (instrukcja, sekcja 4). */
@@ -20,23 +23,15 @@ const externalLinks = [
 ]
 
 const linkClass = (isActive: boolean) =>
-  `block rounded-control px-3 py-2 underline-offset-4 hover:underline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand ${
-    isActive ? 'font-semibold text-brand-strong underline' : 'text-ink-soft'
-  }`
-
-function NavItems({ onNavigate }: { onNavigate?: () => void }) {
-  return nav.map((item) => (
-    <li key={item.to}>
-      <NavLink to={item.to} end={item.to === paths.start} onClick={onNavigate} className={({ isActive }) => linkClass(isActive)}>
-        {item.label}
-      </NavLink>
-    </li>
-  ))
-}
+  cn(
+    'flex min-h-11 items-center rounded-control px-2.5 py-2 text-sm font-semibold hover:bg-brand-soft hover:text-brand-strong sm:px-3',
+    isActive ? 'bg-brand-soft text-brand-strong' : 'text-ink-soft',
+  )
 
 export function Layout() {
   const [open, setOpen] = useState(false)
   const menuId = useId()
+  const toggleRef = useRef<HTMLButtonElement>(null)
   const location = useLocation()
 
   useEffect(() => {
@@ -46,7 +41,10 @@ export function Layout() {
   useEffect(() => {
     if (!open) return
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false)
+      if (event.key === 'Escape') {
+        setOpen(false)
+        toggleRef.current?.focus()
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -58,37 +56,43 @@ export function Layout() {
         Przejdź do treści
       </a>
       <header className="border-b border-line bg-surface">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-4 py-3">
-          <NavLink to={paths.start} className="text-xl font-bold tracking-tight text-brand-strong">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-2 px-4 py-2">
+          <NavLink to={paths.start} onClick={() => setOpen(false)} className="inline-flex min-h-11 items-center text-lg font-bold tracking-tight text-brand-strong sm:text-xl">
             Kompas Rodzica
           </NavLink>
 
-          <button
-            type="button"
-            className="inline-flex min-h-11 items-center gap-2 rounded-control border-2 border-brand bg-surface px-4 py-2 text-base font-semibold text-brand-strong hover:bg-brand-soft focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand md:hidden"
-            aria-expanded={open}
-            aria-controls={menuId}
-            onClick={() => setOpen((v) => !v)}
-          >
-            <span aria-hidden="true" className="text-lg leading-none">
-              {open ? '×' : '≡'}
-            </span>
-            Menu
-          </button>
-
-          <nav aria-label="Główna nawigacja" className="hidden md:block">
-            <ul className="flex flex-wrap gap-1 text-sm">
-              <NavItems />
+          <nav aria-label="Główna nawigacja">
+            <ul className="flex items-center gap-0.5 sm:gap-1">
+              {primaryNav.map(({ to, label }) => (
+                <li key={to} className="hidden sm:block">
+                  <NavLink to={to} end onClick={() => setOpen(false)} className={({ isActive }) => linkClass(isActive)}>{label}</NavLink>
+                </li>
+              ))}
+              <li><NavLink to={paths.support} onClick={() => setOpen(false)} className={({ isActive }) => linkClass(isActive)}>Wsparcie</NavLink></li>
+              <li>
+                <button
+                  ref={toggleRef}
+                  type="button"
+                  className={cn(linkClass(open || additionalNav.some(({ to }) => to === location.pathname)), 'gap-1')}
+                  aria-expanded={open}
+                  aria-controls={menuId}
+                  onClick={() => setOpen((value) => !value)}
+                >
+                  Więcej <ChevronDownIcon className={cn('size-4', open && 'rotate-180')} />
+                </button>
+              </li>
             </ul>
           </nav>
 
-          {open ? (
-            <nav id={menuId} aria-label="Główna nawigacja (menu)" className="w-full md:hidden">
-              <ul className="space-y-1 border-t border-line pt-2 text-base">
-                <NavItems onNavigate={() => setOpen(false)} />
-              </ul>
-            </nav>
-          ) : null}
+          <nav id={menuId} aria-label="Pozostałe funkcje" hidden={!open} className="w-full border-t border-line pt-2">
+            <ul className="grid gap-1 sm:flex sm:flex-wrap sm:justify-end">
+              {[...primaryNav, ...additionalNav].map(({ to, label }) => (
+                <li key={to} className={primaryNav.some((item) => item.to === to) ? 'sm:hidden' : undefined}>
+                  <NavLink to={to} end onClick={() => setOpen(false)} className={({ isActive }) => linkClass(isActive)}>{label}</NavLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </header>
       <main id="main" className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">
@@ -108,7 +112,7 @@ export function Layout() {
               ))}
             </ul>
           </nav>
-          <p>Kompas Rodzica informuje, nie orzeka. Wszystkie integracje z systemami zewnętrznymi to symulacja. Dane osób są fikcyjne.</p>
+          <p>Decyzję podejmuje ZUS lub płatnik składek. Integracje działają w trybie symulacji na fikcyjnych danych.</p>
         </div>
       </footer>
     </div>
