@@ -142,6 +142,11 @@ export function ResultPage() {
     if (facts.sprawa['zdarzenie.dlaKogo']?.value === 'ja_i_drugi_rodzic') setPersonFact('drugiRodzic', 'plan.wariantWyplaty', userFact(variant))
   }
 
+  const saveApplicationDate = (date: string) => {
+    if (exampleIndex) return
+    setPersonFact('wnioskodawca', 'plan.dataWnioskuUsrednionego', userFact(date))
+  }
+
   const toggleDone = (id: string, done: boolean) => setCompleted((list) => (done ? [...new Set([...list, id])] : list.filter((x) => x !== id)))
 
   const showBanner = sessionId !== null || hasIntegrationFacts(facts)
@@ -220,7 +225,15 @@ export function ResultPage() {
 
         <RisksSection risks={result.risks} />
 
-        <VariantSection variant={variant} onChange={changeVariant} disabled={busy} />
+        <VariantSection
+          variant={variant}
+          onChange={changeVariant}
+          disabled={busy}
+          applicationDateQuestion={result.missingFacts.find(
+            (m) => m.fact === 'plan.dataWnioskuUsrednionego' && (m.person ?? 'wnioskodawca') === 'wnioskodawca',
+          )}
+          onApplicationDate={saveApplicationDate}
+        />
 
         {nextOpen ? null : (
           <Button asChild fullWidth className="sm:w-auto">

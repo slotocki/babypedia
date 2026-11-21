@@ -88,7 +88,7 @@ public sealed class AssessmentEngine(
         var missing = rightsMissing
             .Concat(PeriodsMissing(periodsResult.MissingFacts, benefits, facts))
             .Concat(otherMissing)
-            .Concat(CatalogMissingFacts.For(facts, persons, asOf))
+            .Concat(CatalogMissingFacts.For(facts, persons, asOf, parameters))
             .Select(FactQuestionBook.Normalize)
             .DistinctBy(m => (m.Fact, m.Person))
             .ToList();

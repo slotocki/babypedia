@@ -62,6 +62,17 @@ public sealed class VariantFactsTests
     }
 
     [Fact]
+    public void Averaged_variant_after_missed_deadline_explains_standard_rates_and_asks_for_date()
+    {
+        var change = new ScenarioChange(ScenarioId.WariantWyplaty, Params: P("""{"wariant":"usredniony"}"""));
+
+        var result = Comparer().Compare(new CompareRequest(CatalogKit.LoadPersona("monika-demo"), [change], AsOf));
+
+        Assert.Contains(result.Changes!, c => c.Contains("minął", StringComparison.Ordinal));
+        Assert.Contains(result.Variant.MissingFacts, m => m.Fact == FactKeys.PlanDataWnioskuUsrednionego);
+    }
+
+    [Fact]
     public void Failed_scenario_has_no_variant_facts()
     {
         var change = new ScenarioChange(ScenarioId.OdchodzeZPracy, Params: P("""{"data":"nie-data"}"""));

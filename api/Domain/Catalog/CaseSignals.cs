@@ -60,12 +60,17 @@ public static class DifficultSituation
 /// <summary>Pytania wynikające z tabeli 6.2 („kiedy pytać”), których nie zgłaszają moduły uprawnień i okresów.</summary>
 public static class CatalogMissingFacts
 {
-    public static IReadOnlyList<MissingFact> For(FactSet facts, IReadOnlyList<PersonRef> persons, DateOnly asOf)
+    public static IReadOnlyList<MissingFact> For(FactSet facts, IReadOnlyList<PersonRef> persons, DateOnly asOf, IParameterProvider? parameters = null)
     {
         var missing = new List<MissingFact>();
         if (facts.Sprawa.ZdarzenieDlaKogo is null)
         {
             missing.Add(FactQuestionBook.Ask(FactKeys.ZdarzenieDlaKogo));
+        }
+
+        if (parameters is not null)
+        {
+            missing.AddRange(AveragedApplicationDate(facts, persons, asOf, parameters));
         }
 
         if (facts.Sprawa.ZdarzenieRodzaj?.Value is not (EventKind.Planuje or EventKind.Ciaza))
@@ -94,6 +99,50 @@ public static class CatalogMissingFacts
         }
 
         return missing;
+    }
+
+    /// <summary>
+    /// Wariant uśredniony zadeklarowany, termin wniosku (art. 30a) minął, a brak daty wniosku: silnik kwot liczy wtedy
+    /// stawki standardowe (reguły nie zmieniamy) — pytamy o datę wniosku, żeby wynik nie był cichym 70%.
+    /// </summary>
+    private static IEnumerable<MissingFact> AveragedApplicationDate(FactSet facts, IReadOnlyList<PersonRef> persons, DateOnly asOf, IParameterProvider parameters)
+    {
+        var kind = facts.Sprawa.ZdarzenieRodzaj?.Value;
+        if (kind is not (EventKind.Urodzenie or EventKind.Przyjecie) || facts.Sprawa.ZdarzenieData?.Value is not { } eventDate)
+        {
+            yield break;
+        }
+
+        int days;
+        try
+        {
+            days = parameters.GetInt(DeadlineParameterKeys.WniosekUsredniona, eventDate);
+        }
+        catch (ParameterNotFoundException)
+        {
+            yield break;
+        }
+
+        if (asOf <= eventDate.AddDays(days))
+        {
+            yield break;
+        }
+
+        foreach (var person in persons)
+        {
+            var personFacts = facts.For(person);
+            if (personFacts?.PlanWariantWyplaty?.Value != PaymentVariant.Usredniony || personFacts.PlanDataWnioskuUsrednionego is not null)
+            {
+                continue;
+            }
+
+            if (kind == EventKind.Urodzenie && personFacts.OsobaRola?.Value != ParentRole.Matka)
+            {
+                continue;
+            }
+
+            yield return FactQuestionBook.Ask(FactKeys.PlanDataWnioskuUsrednionego, person);
+        }
     }
 }
 
