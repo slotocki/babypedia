@@ -158,6 +158,8 @@ Opcjonalny model, np. DeepSeek przez OpenCode Go, wybiera cytaty spośród wysł
 
 **(a2) Przygotowanie danych testowych.** Dokumenty spraw ZUS (skany) odczytano z pomocą modeli językowych, poza aplikacją. Odczyty są w katalogu prywatnym, a w aplikacji występują tylko jako dane wejściowe silnika; sam silnik liczy deterministycznie.
 
+**(a3) Grafika.** Ilustracja na ekranie startowym (`web/public/kompas-start.png`) została wygenerowana przez model AI. Nie pochodzi z zewnętrznego banku zdjęć ani z cudzej pracy.
+
 **(b) Wytworzenie kodu.** Kod, testy i dokumentację wytworzyły modele językowe (głównie Claude firmy Anthropic w narzędziu Claude Code), pracujące jako zespół agentów pod nadzorem ludzi: modele pisały kod gałęzi, a osobny model przeglądał i zatwierdzał zmiany silnika (instrukcja, sekcja 13). Ludzie dostarczyli materiały prawne, decyzje o zakresie i weryfikację. Reguły pisano z wyciągów przepisów w `docs/prawo/`, nie z pamięci modelu. Spójność wyciągów z instrukcją opisuje [docs/prawo/ROZBIEZNOSCI.md](docs/prawo/ROZBIEZNOSCI.md).
 
 ## Komponenty zewnętrzne i licencje

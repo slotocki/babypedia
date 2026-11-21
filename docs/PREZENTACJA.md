@@ -88,6 +88,7 @@ Kryterium: oryginalność, uczciwość.
 - „Zapytaj o przepisy” pokazuje artykuły z materiałów ZUS w oknie rozmowy. Opcjonalny model wybiera cytaty, które aplikacja sprawdza przed pokazaniem.
 - Kod, testy i dokumentację napisały modele Claude (Anthropic) w narzędziu Claude Code
 - Zespół agentów: modele pisały gałęzie, osobny model przeglądał i zatwierdzał zmiany silnika
+- Ilustracja na ekranie startowym została wygenerowana przez model AI
 - Ludzie: materiały prawne, decyzje zakresu, weryfikacja; reguły z wyciągów przepisów, nie z pamięci modelu
 
 Notatka: Mówimy wprost, że kod pisały modele, i pokazujemy, jak to kontrolowaliśmy: testy referencyjne przed regułami i przegląd silnika przez osobny model.
