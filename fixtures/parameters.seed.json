@@ -824,6 +824,87 @@
       "validFrom": "2000-01-01",
       "legalBasis": "ustawa art. 31 ust. 3g i 4",
       "status": "ok"
+    },
+    {
+      "key": "termin_wniosku_macierzynski_przed_porodem_dni",
+      "wiersz": "termin_wniosku_macierzynski_przed_porodem_dni",
+      "value": 14,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "Poradnik ZUS s. 27",
+      "status": "ok"
+    },
+    {
+      "key": "termin_rezygnacji_matki_dni",
+      "wiersz": "termin_rezygnacji_matki_dni",
+      "value": 7,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180 § 8",
+      "status": "ok"
+    },
+    {
+      "key": "termin_wniosku_ojca_czesc_macierzynskiego_dni",
+      "wiersz": "termin_wniosku_ojca_czesc_macierzynskiego_dni",
+      "value": 14,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180 § 9",
+      "status": "ok"
+    },
+    {
+      "key": "termin_wniosku_uzupelniajacy_dni",
+      "wiersz": "termin_wniosku_uzupelniajacy_dni",
+      "value": 21,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180² § 4",
+      "status": "ok"
+    },
+    {
+      "key": "termin_wniosku_rodzicielski_dni",
+      "wiersz": "termin_wniosku_rodzicielski_dni",
+      "value": 21,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹d § 1",
+      "status": "ok"
+    },
+    {
+      "key": "termin_wniosku_praca_czesc_etatu_dni",
+      "wiersz": "termin_wniosku_praca_czesc_etatu_dni",
+      "value": 21,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹e § 2",
+      "status": "ok"
+    },
+    {
+      "key": "termin_wniosku_ojcowski_dni",
+      "wiersz": "termin_wniosku_ojcowski_dni",
+      "value": 7,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182³ § 2",
+      "status": "ok"
+    },
+    {
+      "key": "termin_wniosku_przyjecie_dni",
+      "wiersz": "termin_wniosku_przyjecie_dni",
+      "value": 7,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 183 § 6",
+      "status": "ok"
+    },
+    {
+      "key": "przyjecie_start_urlopu_max_dni",
+      "wiersz": "przyjecie_start_urlopu_max_dni",
+      "value": 21,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 183 § 6",
+      "status": "ok"
     }
   ]
 }

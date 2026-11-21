@@ -29,7 +29,15 @@ public static class CatalogKit
     public static IParameterProvider Params(params SeedRow[] extra) =>
         SeedParameterProvider.Load([.. DeadlineRows(), .. extra]);
 
-    public static IParameterProvider SeedWithoutDeadlineKeys() => SeedParameterProvider.Load();
+    public static IParameterProvider SeedWithoutDeadlineKeys() => new WithoutDeadlineKeys(SeedParameterProvider.Load());
+
+    private sealed class WithoutDeadlineKeys(IParameterProvider inner) : IParameterProvider
+    {
+        private static readonly HashSet<string> Hidden = [.. DeadlineParameterKeys.Supplement.Select(r => r.Key)];
+
+        public Parameter Get(string key, DateOnly date) =>
+            Hidden.Contains(key) ? throw new ParameterNotFoundException(key, date) : inner.Get(key, date);
+    }
 
     public static AssessmentEngine Engine(
         IParameterProvider? parameters = null,

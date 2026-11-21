@@ -15,18 +15,6 @@ public sealed class ApiSmokeTests(WebApplicationFactory<Program> factory) : ICla
         "application/json");
 
     [Fact]
-    public async Task Assessment_returns_example_until_engine_exists()
-    {
-        using var client = factory.CreateClient();
-        var response = await client.PostAsync("/api/assessment", ExampleRequest(), TestContext.Current.CancellationToken);
-
-        response.EnsureSuccessStatusCode();
-        var result = await response.Content.ReadFromJsonAsync<AssessmentResult>(ApiJson.Options, TestContext.Current.CancellationToken);
-        Assert.NotNull(result);
-        Assert.Contains(result.Benefits, b => b.Id == BenefitId.Macierzynski && b.Status == BenefitStatus.Przysluguje);
-    }
-
-    [Fact]
     public async Task Assessment_rejects_unknown_fact_key_as_problem_details()
     {
         using var client = factory.CreateClient();
