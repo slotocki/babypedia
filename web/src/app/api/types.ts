@@ -195,6 +195,8 @@ export interface MissingFact {
   type: MissingFactType
   person?: PersonRef | null
   options?: string[] | null
+  /** Świadczenia, których dotyczy pytanie (karty tej samej osoby); puste = pytanie ogólne. */
+  benefitIds?: BenefitId[] | null
 }
 
 export interface ValidationIssue { code: string; message: string; fact?: FactKey | null; person?: PersonRef | null }

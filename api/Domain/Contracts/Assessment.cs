@@ -140,7 +140,8 @@ public sealed record MissingFact(
     [property: JsonPropertyName("question")] string Question,
     [property: JsonPropertyName("type")] MissingFactType Type,
     [property: JsonPropertyName("person")] PersonRef? Person = null,
-    [property: JsonPropertyName("options")] IReadOnlyList<string>? Options = null);
+    [property: JsonPropertyName("options")] IReadOnlyList<string>? Options = null,
+    [property: JsonPropertyName("benefitIds")] IReadOnlyList<BenefitId>? BenefitIds = null);
 
 public sealed record ValidationIssue(
     [property: JsonPropertyName("code")] string Code,

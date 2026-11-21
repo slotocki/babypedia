@@ -135,7 +135,12 @@
         "question": { "type": "string" },
         "type": { "enum": ["date", "integer", "number", "money", "boolean", "enum", "list"] },
         "person": { "anyOf": [{ "$ref": "#/$defs/person" }, { "type": "null" }], "description": "null = fakt sprawy." },
-        "options": { "type": ["array", "null"], "items": { "type": "string" } }
+        "options": { "type": ["array", "null"], "items": { "type": "string" } },
+        "benefitIds": {
+          "type": ["array", "null"],
+          "items": { "$ref": "#/$defs/benefitId" },
+          "description": "Świadczenia (karty tej samej osoby), których dotyczy pytanie; puste = pytanie ogólne."
+        }
       }
     },
     "ValidationIssue": {

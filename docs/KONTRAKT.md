@@ -111,7 +111,7 @@ Kształt jak w 12.1, z rozszerzeniami (oznaczone ★ — wymagają zatwierdzenia
 - `reason` + ★`legalBasis` + `whatWouldChange` — dla `nie_przysługuje` / `nie_rozstrzygam`.
 - `trace[] {rule, basis, met, text, condition}` — ścieżka decyzji; `met: null` = brak danych / nie rozstrzygam.
 - ★ `notes[]`, `links[]` (S9).
-- `missingFacts[] {fact, question, type, person, options}` — `fact` to klucz z sekcji 2; ★ `person` (null = fakt sprawy).
+- `missingFacts[] {fact, question, type, person, options, benefitIds}` — `fact` to klucz z sekcji 2; ★ `person` (null = fakt sprawy); `benefitIds[]` — świadczenia, których dotyczy pytanie (karta „brakuje danych” pokazuje tylko swoje pytania; puste = pytanie ogólne).
 - ★ `validationErrors[] {code, message, fact, person}` — błędy planu (np. 33 tyg. z 41 dla jednego rodzica, szósta część) pokazywane przy polu; to nie jest błąd HTTP.
 - `nextStep {deadlineId, benefitId, person★}` — najwcześniejszy niewykonany termin typu „najpóźniej”.
 - `risks[] {id, text, basis★, link★}`; ★ `difficultSituation` — tryb trudnej sytuacji.
