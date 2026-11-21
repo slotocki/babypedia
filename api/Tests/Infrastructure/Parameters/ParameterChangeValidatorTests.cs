@@ -29,6 +29,31 @@ public sealed class ParameterChangeValidatorTests
         Assert.Equal(0.75m, row.ValueNumber);
     }
 
+    [Fact]
+    public void New_row_inherits_status_of_previous_row_unless_request_sets_it()
+    {
+        IReadOnlyList<ParameterRow> existing =
+        [
+            TestRows.Number("stawka", 1m, "2000-01-01", "ulamek", 1),
+            new ParameterRow
+            {
+                Id = 2, Key = "stawka", ValueNumber = 0.9m, Unit = "ulamek", ValidFrom = new DateOnly(2026, 1, 1),
+                LegalBasis = "podstawa testowa", Status = ParameterStatus.DoWeryfikacji,
+            },
+        ];
+        var value = JsonDocument.Parse("0.75").RootElement;
+
+        var inherited = ParameterChangeValidator.Validate(new ParameterChangeRequest("stawka", value, "2027-01-01", null, null), existing).Row;
+        var confirmed = ParameterChangeValidator.Validate(new ParameterChangeRequest("stawka", value, "2027-01-01", null, null, ParameterStatus.Ok), existing).Row;
+        var marked = ParameterChangeValidator.Validate(new ParameterChangeRequest("stawka", value, "2027-01-01", null, null, ParameterStatus.DoWeryfikacji), Existing).Row;
+        var invalid = ParameterChangeValidator.Validate(new ParameterChangeRequest("stawka", value, "2027-01-01", null, null, "zatwierdzone"), existing).Errors;
+
+        Assert.Equal(ParameterStatus.DoWeryfikacji, inherited!.Status);
+        Assert.Equal(ParameterStatus.Ok, confirmed!.Status);
+        Assert.Equal(ParameterStatus.DoWeryfikacji, marked!.Status);
+        Assert.Contains("status", invalid.Keys);
+    }
+
     [Theory]
     [InlineData(null, "1", "2027-01-01", "key")]
     [InlineData("Zly Klucz", "1", "2027-01-01", "key")]

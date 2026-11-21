@@ -313,10 +313,19 @@ export interface Parameter {
   unit?: string
   validFrom: IsoDate
   legalBasis: string
-  status: 'ok' | 'do_weryfikacji'
+  status: ParameterStatus
   note?: string
 }
-export interface ParameterChange { key: string; value: ParameterValue; validFrom: IsoDate; legalBasis?: string; reason?: string }
+export type ParameterStatus = 'ok' | 'do_weryfikacji'
+export interface ParameterChange {
+  key: string
+  value: ParameterValue
+  validFrom: IsoDate
+  legalBasis?: string
+  reason?: string
+  /** Bez pola — status poprzedniej wartości tego klucza. */
+  status?: ParameterStatus
+}
 export interface ParameterHistoryEntry {
   key: string
   value: ParameterValue

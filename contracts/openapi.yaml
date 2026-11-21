@@ -159,6 +159,9 @@ components:
         validFrom: { type: string, format: date }
         legalBasis: { type: string }
         reason: { type: string }
+        status:
+          enum: [ok, do_weryfikacji]
+          description: 'Status nowej wartości. Bez pola — status poprzedniej wartości tego klucza (do_weryfikacji nie znika po zmianie).'
     ParameterHistoryEntry:
       type: object
       required: [key, value, validFrom, changedAt]

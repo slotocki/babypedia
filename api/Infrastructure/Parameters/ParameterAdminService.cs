@@ -5,7 +5,8 @@ using System.Text.RegularExpressions;
 
 namespace BabyRadnik.Infrastructure.Parameters;
 
-public sealed record ParameterChangeRequest(string? Key, JsonElement Value, string? ValidFrom, string? LegalBasis, string? Reason);
+/// <summary>Zmiana parametru. <c>Status</c> pominięty = status poprzedniego wiersza tego klucza (np. „do_weryfikacji” zostaje).</summary>
+public sealed record ParameterChangeRequest(string? Key, JsonElement Value, string? ValidFrom, string? LegalBasis, string? Reason, string? Status = null);
 
 public sealed record ParameterDto(
     string Key,
@@ -85,6 +86,11 @@ public static partial class ParameterChangeValidator
             errors["reason"] = [$"Powód może mieć najwyżej {MaxText} znaków."];
         }
 
+        if (request.Status is not null && request.Status is not (ParameterStatus.Ok or ParameterStatus.DoWeryfikacji))
+        {
+            errors["status"] = ["Status: ok albo do_weryfikacji (bez pola — zostaje status poprzedniej wartości)."];
+        }
+
         if (errors.Count > 0 || template is null)
         {
             return (null, errors);
@@ -100,7 +106,7 @@ public static partial class ParameterChangeValidator
             Unit = template.Unit,
             ValidFrom = validFrom,
             LegalBasis = legalBasis,
-            Status = ParameterStatus.Ok,
+            Status = request.Status ?? template.Status,
         };
         return (row, errors);
     }

@@ -141,6 +141,7 @@ Nieznany klucz faktu albo zła wartość → `400` ProblemDetails (walidacja na 
 - `validFrom = 2000-01-01` = data techniczna „od zawsze”: instrukcja nie podaje dat obowiązywania wymiarów i stawek.
 - `placa_minimalna` od `2026-01-01` (z instrukcji). Pochodne kwoty (`podstawa_minimalna_pelny_etat`, `max_podstawa_dobrowolnej_skladki*`, `prog_zadluzenia`) też od `2026-01-01` — **przyjęte**, opisane w `note`.
 - `[DO WERYFIKACJI]` (`status: do_weryfikacji`): `kwota_swiadczenia_rodzicielskiego = null`, `zaokraglanie.*`, `kwoty = brutto`.
+- `PUT /api/admin/parameters` (`ParameterChange`): opcjonalne `status` (`ok` | `do_weryfikacji`); bez pola nowa wartość dziedziczy status poprzedniej wartości tego klucza.
 - Testy silnika używają `SeedParameterProvider` (`api/Tests/Reference/`) — bez bazy i bez gałęzi `be/params`.
 
 ## 6. Przypadki referencyjne

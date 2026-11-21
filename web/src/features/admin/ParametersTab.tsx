@@ -1,8 +1,8 @@
 import { useMemo, useState, type FormEvent } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/app/api/client'
-import type { Parameter } from '@/app/api/types'
-import { Alert, Button, Card, Checkbox, DateInput, EmptyState, Field, Section, Stack, TextInput, formatDate } from '@/ui'
+import type { Parameter, ParameterStatus } from '@/app/api/types'
+import { Alert, Button, Card, Checkbox, DateInput, EmptyState, Field, RadioGroup, Section, Stack, TextInput, formatDate } from '@/ui'
 import { QueryView } from './QueryView'
 import { fieldErrors, generalMessage } from './problem'
 import { useAdminSession } from './session'
@@ -188,7 +188,7 @@ function ParameterCard({ item, today, editing, onToggle, onSaved }: ParameterCar
         </div>
 
         {editing ? (
-          <ChangeForm item={item} unit={unit} currentValue={reference.value} onCancel={onToggle} onSaved={onSaved} />
+          <ChangeForm item={item} unit={unit} currentValue={reference.value} previousStatus={latest.status} onCancel={onToggle} onSaved={onSaved} />
         ) : (
           <div>
             <Button variant="secondary" onClick={onToggle} aria-label={`Dodaj wartość od dnia… dla ${item.key}`}>
@@ -205,11 +205,12 @@ interface ChangeFormProps {
   item: KeyGroup
   unit: string | undefined
   currentValue: Parameter['value']
+  previousStatus: ParameterStatus
   onCancel: () => void
   onSaved: (message: string) => void
 }
 
-function ChangeForm({ item, unit, currentValue, onCancel, onSaved }: ChangeFormProps) {
+function ChangeForm({ item, unit, currentValue, previousStatus, onCancel, onSaved }: ChangeFormProps) {
   const { password } = useAdminSession()
   const queryClient = useQueryClient()
   const [value, setValue] = useState('')
@@ -217,6 +218,7 @@ function ChangeForm({ item, unit, currentValue, onCancel, onSaved }: ChangeFormP
   const [validFrom, setValidFrom] = useState('')
   const [legalBasis, setLegalBasis] = useState('')
   const [reason, setReason] = useState('')
+  const [status, setStatus] = useState<ParameterStatus>(previousStatus)
   const [clientErrors, setClientErrors] = useState<Record<string, string>>({})
 
   const save = useMutation({
@@ -248,6 +250,7 @@ function ChangeForm({ item, unit, currentValue, onCancel, onSaved }: ChangeFormP
       validFrom,
       legalBasis: legalBasis.trim() || undefined,
       reason: reason.trim() || undefined,
+      status,
     })
   }
 
@@ -301,6 +304,23 @@ function ChangeForm({ item, unit, currentValue, onCancel, onSaved }: ChangeFormP
 
       <Field label="Powód zmiany" optional error={errors.reason}>
         <TextInput value={reason} onChange={(e) => setReason(e.target.value)} maxLength={500} />
+      </Field>
+
+      <Field
+        label="Status nowej wartości"
+        group
+        error={errors.status}
+        description={`Domyślnie jak poprzednia wartość (${previousStatus === 'do_weryfikacji' ? 'do weryfikacji' : 'zweryfikowana'}).`}
+      >
+        <RadioGroup
+          name={`status-${item.key}`}
+          value={status}
+          onChange={(e) => setStatus(e.target.value as ParameterStatus)}
+          options={[
+            { value: 'do_weryfikacji', label: 'Do weryfikacji', description: 'Wartość wymaga potwierdzenia w przepisach lub materiałach ZUS.' },
+            { value: 'ok', label: 'Zweryfikowana', description: 'Wartość potwierdzona.' },
+          ]}
+        />
       </Field>
 
       {errors.key ? (
