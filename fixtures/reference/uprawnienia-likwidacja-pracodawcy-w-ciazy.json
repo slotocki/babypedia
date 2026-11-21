@@ -1,0 +1,56 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "uprawnienia-likwidacja-pracodawcy-w-ciazy",
+  "opis": "Likwidacja pracodawcy w ciąży → macierzyński przysługuje + zasiłek do dnia porodu",
+  "status": "gotowe",
+  "modul": "uprawnienia",
+  "test": 20,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-03-20",
+        "source": "user"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2024-01-01",
+            "do": "2026-11-15",
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.ustaniePrzyczyna": {
+        "value": "likwidacja_pracodawcy",
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "przysługuje"
+      },
+      {
+        "id": "zasilek_do_dnia_porodu",
+        "status": "przysługuje"
+      }
+    ]
+  },
+  "uwagi": "Ustanie ubezpieczenia 2026-11-15 = ok. 5. miesiąc ciąży (przewidywany poród 2027-03-20)."
+}

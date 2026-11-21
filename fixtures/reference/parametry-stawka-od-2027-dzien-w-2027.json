@@ -1,0 +1,76 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "parametry-stawka-od-2027-dzien-w-2027",
+  "opis": "Stawka rodzicielskiego 75% od 1.01.2027 zmienia wynik dla dnia zasiłku w 2027 r. (75%)",
+  "status": "gotowe",
+  "modul": "parametry",
+  "test": 24,
+  "asOf": "2026-11-21",
+  "parametry": [
+    {
+      "key": "stawka_rodzicielski",
+      "value": 0.75,
+      "unit": "ulamek",
+      "validFrom": "2027-01-01",
+      "legalBasis": "Parametr testowy (test 24)",
+      "status": "ok"
+    }
+  ],
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "plan.rodzicielskiCzesci": {
+        "value": [
+          {
+            "tygodnie": 8,
+            "od": "2027-02-01"
+          }
+        ],
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "rodzicielski",
+        "status": "przysługuje",
+        "rate": 0.75
+      }
+    ]
+  },
+  "uwagi": "Część rodzicielskiego 8 tyg. od 2027-02-01; dzień zasiłku decyduje o stawce."
+}

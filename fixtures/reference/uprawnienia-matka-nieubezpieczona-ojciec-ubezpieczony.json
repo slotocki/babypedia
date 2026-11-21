@@ -1,0 +1,86 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "uprawnienia-matka-nieubezpieczona-ojciec-ubezpieczony",
+  "opis": "Matka nieubezpieczona, ojciec ubezpieczony → rodzicielski i ojcowski dla ojca przysługują",
+  "status": "gotowe",
+  "modul": "uprawnienia",
+  "test": 22,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-09-01",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-09-01",
+        "source": "usc"
+      },
+      "zdarzenie.dlaKogo": {
+        "value": "ja_i_drugi_rodzic",
+        "source": "user"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "ojciec",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      }
+    },
+    "drugiRodzic": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "zleceniobiorca",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "brak"
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.podlegaChorobowemu": {
+        "value": false,
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "rodzicielski",
+        "person": "wnioskodawca",
+        "status": "przysługuje"
+      },
+      {
+        "id": "ojcowski",
+        "person": "wnioskodawca",
+        "status": "przysługuje"
+      }
+    ]
+  }
+}

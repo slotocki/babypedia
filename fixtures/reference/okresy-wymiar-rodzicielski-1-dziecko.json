@@ -1,0 +1,67 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-wymiar-rodzicielski-1-dziecko",
+  "opis": "Wymiar rodzicielskiego: 1 dz. = 41 tyg. (łączny wymiar urlopu)",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 1,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 20,
+          "days": 140
+        }
+      },
+      {
+        "id": "rodzicielski",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 41
+        }
+      }
+    ]
+  },
+  "uwagi": "Wymiar łączny dla obojga rodziców (jak w teście 3); bez podziału planu."
+}

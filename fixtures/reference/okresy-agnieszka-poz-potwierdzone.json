@@ -1,0 +1,108 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-agnieszka-poz-potwierdzone",
+  "opis": "Potwierdzone okresy (sekcja 10): pracownica od 2011 r., poród 12.06.2025, skrajny wcześniak, masa < 1000 g",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 2,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2025-06-12",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2025-06-12",
+        "source": "usc"
+      },
+      "dziecko.tydzienCiazyPrzyPorodzie": {
+        "value": 26,
+        "source": "usc"
+      },
+      "dziecko.masaUrodzeniowaG": {
+        "value": 900,
+        "source": "usc"
+      },
+      "dziecko.pobytyWSzpitalu": {
+        "value": [
+          {
+            "od": "2025-06-12",
+            "do": "2025-10-31"
+          }
+        ],
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2011-03-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "plan.rodzicielskiCzesci": {
+        "value": [
+          {
+            "tygodnie": 32,
+            "od": "2026-02-12"
+          }
+        ],
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "przysługuje",
+        "period": {
+          "from": "2025-06-12",
+          "to": "2025-10-29",
+          "days": 140,
+          "weeks": 20
+        }
+      },
+      {
+        "id": "macierzynski_uzupelniajacy",
+        "status": "przysługuje",
+        "period": {
+          "from": "2025-10-30",
+          "to": "2026-02-11",
+          "days": 105,
+          "weeks": 15
+        }
+      },
+      {
+        "id": "rodzicielski",
+        "status": "przysługuje",
+        "period": {
+          "from": "2026-02-12",
+          "to": "2026-09-23",
+          "days": 224,
+          "weeks": 32
+        }
+      }
+    ]
+  },
+  "uwagi": "Okresy z tabeli w sekcji 10. Dane wcześniactwa (tydzień ciąży, masa, pobyt w szpitalu) i plan rodzicielskiego (jedna część 32 tyg.) dobrane tak, by dawały podane okresy; nie pochodzą z dokumentów sprawy."
+}

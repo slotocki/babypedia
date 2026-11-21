@@ -1,0 +1,79 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-rodzicielski-szosta-czesc",
+  "opis": "Wniosek o szóstą część rodzicielskiego → odmowa",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 10,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "plan.rodzicielskiCzesci": {
+        "value": [
+          {
+            "tygodnie": 6
+          },
+          {
+            "tygodnie": 6
+          },
+          {
+            "tygodnie": 5
+          },
+          {
+            "tygodnie": 5
+          },
+          {
+            "tygodnie": 5
+          },
+          {
+            "tygodnie": 5
+          }
+        ],
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "rodzicielski",
+        "status": "nie_przysługuje"
+      }
+    ]
+  },
+  "uwagi": "Kontrakt §3 wymienia szóstą część także jako błąd walidacji planu; tu sprawdzany jest status zgodnie z sekcją 11 (odmowa)."
+}

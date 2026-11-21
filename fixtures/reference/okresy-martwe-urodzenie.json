@@ -1,0 +1,63 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-martwe-urodzenie",
+  "opis": "Martwe urodzenie → macierzyński 8 tygodni po porodzie",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 6,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      },
+      "dziecko.martweUrodzenie": {
+        "value": true,
+        "source": "user"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 8,
+          "days": 56
+        }
+      }
+    ]
+  }
+}

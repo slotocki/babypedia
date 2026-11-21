@@ -1,0 +1,52 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "uprawnienia-wlasne-wypowiedzenie-w-ciazy",
+  "opis": "Własne wypowiedzenie w 5. miesiącu ciąży → macierzyński: odmowa",
+  "status": "gotowe",
+  "modul": "uprawnienia",
+  "test": 20,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-03-20",
+        "source": "user"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2024-01-01",
+            "do": "2026-11-15",
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.ustaniePrzyczyna": {
+        "value": "wypowiedzenie_przez_pracownika",
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "nie_przysługuje"
+      }
+    ]
+  },
+  "uwagi": "Ustanie ubezpieczenia 2026-11-15 = ok. 5. miesiąc ciąży (przewidywany poród 2027-03-20)."
+}

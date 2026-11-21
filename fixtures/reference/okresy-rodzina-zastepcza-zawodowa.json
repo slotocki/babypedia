@@ -1,0 +1,63 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-rodzina-zastepcza-zawodowa",
+  "opis": "Rodzina zastępcza zawodowa → odmowa",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 9,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "przyjecie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-05-04",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "user"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2021-03-15",
+        "source": "user"
+      },
+      "przyjecie.sciezka": {
+        "value": "rodzina_zastepcza_zawodowa",
+        "source": "user"
+      },
+      "przyjecie.odroczenieObowiazkuSzkolnego": {
+        "value": false,
+        "source": "user"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "przyjecie_dziecka",
+        "status": "nie_przysługuje"
+      }
+    ]
+  }
+}
