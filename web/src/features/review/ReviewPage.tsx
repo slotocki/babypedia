@@ -1,7 +1,8 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useRef, useState, type FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { api } from '@/app/api/client'
+import type { FactSet, MissingFact } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
 import { flowSteps } from '@/features/intake/steps'
@@ -12,6 +13,25 @@ import { draftFromValue, isDraftEmpty, parseDraft, type Draft } from './answers'
 import { FactList } from './FactList'
 import { getFact, userFactOf, withFact } from './facts'
 import { resolveQuestion } from './questions'
+
+/** Trzy pytania z ekranu 1 jako brakujące fakty — gdy wejście nie przeszło przez ekran 1 (np. „Sprawy ZUS”), a integracje nie dały zdarzenia. */
+const eventQuestions: MissingFact[] = [
+  {
+    fact: 'zdarzenie.rodzaj',
+    question: 'Co się dzieje: planujesz dziecko, jesteś w ciąży, dziecko się urodziło czy przyjmujesz dziecko na wychowanie?',
+    type: 'enum',
+    person: null,
+    options: ['planuje', 'ciaza', 'urodzenie', 'przyjecie'],
+  },
+  { fact: 'zdarzenie.data', question: 'Jaka jest przewidywana data porodu, data urodzenia dziecka albo data przyjęcia dziecka?', type: 'date', person: null },
+  { fact: 'zdarzenie.dlaKogo', question: 'Dla kogo liczymy: tylko dla Ciebie czy dla Ciebie i drugiego rodzica?', type: 'enum', person: null, options: ['ja', 'ja_i_drugi_rodzic'] },
+]
+
+function missingEventQuestions(facts: FactSet, fromEngine: MissingFact[]): MissingFact[] {
+  return eventQuestions.filter(
+    (q) => facts.sprawa[q.fact as keyof FactSet['sprawa']] === undefined && !fromEngine.some((m) => m.fact === q.fact && !m.person),
+  )
+}
 
 export function ReviewPage() {
   const { facts, setFacts, sessionId } = useCaseState()
@@ -30,7 +50,8 @@ export function ReviewPage() {
     placeholderData: keepPreviousData,
   })
 
-  const resolved = (assessment.data?.missingFacts ?? []).map(resolveQuestion)
+  const engineMissing = hasEvent ? (assessment.data?.missingFacts ?? []) : []
+  const resolved = [...missingEventQuestions(facts, engineMissing), ...engineMissing].map(resolveQuestion)
   const answerable = resolved.filter((r) => r.kind !== 'readonly')
   const unsupported = resolved.filter((r) => r.kind === 'readonly')
 
@@ -90,6 +111,12 @@ export function ReviewPage() {
     const result = collect()
     if (!result) return
     if (result.count > 0) setFacts(result.next)
+    if (!result.next.sprawa['zdarzenie.rodzaj'] || !result.next.sprawa['zdarzenie.data']) {
+      const missing = !result.next.sprawa['zdarzenie.rodzaj'] ? 'sprawa:zdarzenie.rodzaj' : 'sprawa:zdarzenie.data'
+      setErrors((e) => ({ ...e, [missing]: 'Odpowiedz na to pytanie — bez niego nie wiemy, czego dotyczy sprawa.' }))
+      focusFirstInvalid()
+      return
+    }
     navigate(paths.result)
   }
 
@@ -119,100 +146,93 @@ export function ReviewPage() {
         {sessionId ? <SimulationBanner system="Logowanie i pobieranie danych" /> : null}
 
         {!hasEvent ? (
-          <Alert variant="warning" title="Najpierw odpowiedz na trzy pytania">
-            Nie wiemy jeszcze, czego dotyczy sprawa.{' '}
-            <Link to={paths.start} className="font-semibold text-brand-strong underline underline-offset-4">
-              Wróć do trzech pytań
-            </Link>
-            .
+          <Alert variant="info" title="Zacznij od pytań o zdarzenie">
+            Dane z systemów nie mówią, czego dotyczy sprawa. Odpowiedz na pytania pod listą danych — potem sprawdzimy, czego jeszcze brakuje.
           </Alert>
-        ) : (
-          <>
-            {difficult ? (
-              <Alert variant="info" title="Pytamy tylko o to, co niezbędne">
-                Rozumiemy, że to może być trudny czas. Na każde pytanie możesz nie odpowiadać — wtedy pokażemy, czego brakuje do ustalenia
-                świadczenia.
+        ) : null}
+        {difficult ? (
+          <Alert variant="info" title="Pytamy tylko o to, co niezbędne">
+            Rozumiemy, że to może być trudny czas. Na każde pytanie możesz nie odpowiadać — wtedy pokażemy, czego brakuje do ustalenia
+            świadczenia.
+          </Alert>
+        ) : null}
+
+        <Section title="Dane w Twojej sprawie">
+          <FactList facts={facts} onChange={changeFact} />
+        </Section>
+
+        <form ref={formRef} onSubmit={submit} noValidate className="space-y-6">
+          <Section title="Czego jeszcze potrzebujemy" className="space-y-6">
+            {hasEvent && assessment.isPending ? (
+              <p role="status" className="flex items-center gap-2 text-ink-soft">
+                <Spinner label={null} /> Sprawdzam, czego jeszcze brakuje…
+              </p>
+            ) : null}
+            {assessment.isError ? (
+              <ErrorState
+                error={assessment.error}
+                onRetry={() => void assessment.refetch()}
+                retrying={assessment.isFetching}
+                title="Nie udało się sprawdzić, czego brakuje"
+              />
+            ) : null}
+
+            {hasEvent && assessment.isSuccess && resolved.length === 0 ? (
+              <Alert variant="info" title="Nic więcej nie trzeba">
+                Na tym etapie mamy wszystkie informacje, o które musimy zapytać.
               </Alert>
             ) : null}
 
-            <Section title="Dane w Twojej sprawie">
-              <FactList facts={facts} onChange={changeFact} />
-            </Section>
+            {answerable.length > 0 ? (
+              <>
+                <p className="text-ink-soft">
+                  Te informacje są potrzebne do dokładniejszego wyniku. Możesz pominąć pytanie — wtedy przy świadczeniu zobaczysz, że
+                  brakuje danych.
+                </p>
+                <ul className="space-y-6" aria-busy={assessment.isFetching}>
+                  {answerable.map((r) => (
+                    <li key={r.id}>
+                      <AnswerField
+                        id={`pytanie-${r.id}`}
+                        label={r.question.question}
+                        kind={r.kind}
+                        options={r.options}
+                        draft={draftOf(r)}
+                        onChange={(d) => setDraft(r.id, d)}
+                        error={errors[r.id]}
+                        unit={r.meta.unit}
+                      />
+                    </li>
+                  ))}
+                </ul>
+                <div>
+                  <Button variant="secondary" onClick={saveOnly} disabled={assessment.isFetching}>
+                    Zapisz odpowiedzi i sprawdź ponownie
+                  </Button>
+                </div>
+              </>
+            ) : null}
 
-            <form ref={formRef} onSubmit={submit} noValidate className="space-y-6">
-              <Section title="Czego jeszcze potrzebujemy" className="space-y-6">
-                {assessment.isPending ? (
-                  <p role="status" className="flex items-center gap-2 text-ink-soft">
-                    <Spinner label={null} /> Sprawdzam, czego jeszcze brakuje…
-                  </p>
-                ) : null}
-                {assessment.isError ? (
-                  <ErrorState
-                    error={assessment.error}
-                    onRetry={() => void assessment.refetch()}
-                    retrying={assessment.isFetching}
-                    title="Nie udało się sprawdzić, czego brakuje"
-                  />
-                ) : null}
+            {unsupported.length > 0 ? (
+              <Alert variant="warning" title="Pytania, na które nie da się tu odpowiedzieć">
+                <ul className="list-disc pl-5">
+                  {unsupported.map((r) => (
+                    <li key={r.id}>{r.question.question}</li>
+                  ))}
+                </ul>
+                <p className="mt-1">W wyniku oznaczymy to jako brak danych.</p>
+              </Alert>
+            ) : null}
+          </Section>
 
-                {assessment.isSuccess && resolved.length === 0 ? (
-                  <Alert variant="info" title="Nic więcej nie trzeba">
-                    Na tym etapie mamy wszystkie informacje, o które musimy zapytać.
-                  </Alert>
-                ) : null}
+          <p role="status" className="min-h-6 text-ink-soft">
+            {saved ?? (assessment.isFetching && assessment.isSuccess ? 'Aktualizuję pytania…' : '')}
+          </p>
 
-                {answerable.length > 0 ? (
-                  <>
-                    <p className="text-ink-soft">
-                      Te informacje są potrzebne do dokładniejszego wyniku. Możesz pominąć pytanie — wtedy przy świadczeniu zobaczysz, że
-                      brakuje danych.
-                    </p>
-                    <ul className="space-y-6" aria-busy={assessment.isFetching}>
-                      {answerable.map((r) => (
-                        <li key={r.id}>
-                          <AnswerField
-                            id={`pytanie-${r.id}`}
-                            label={r.question.question}
-                            kind={r.kind}
-                            options={r.options}
-                            draft={draftOf(r)}
-                            onChange={(d) => setDraft(r.id, d)}
-                            error={errors[r.id]}
-                            unit={r.meta.unit}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                    <div>
-                      <Button variant="secondary" onClick={saveOnly} disabled={assessment.isFetching}>
-                        Zapisz odpowiedzi i sprawdź ponownie
-                      </Button>
-                    </div>
-                  </>
-                ) : null}
-
-                {unsupported.length > 0 ? (
-                  <Alert variant="warning" title="Pytania, na które nie da się tu odpowiedzieć">
-                    <ul className="list-disc pl-5">
-                      {unsupported.map((r) => (
-                        <li key={r.id}>{r.question.question}</li>
-                      ))}
-                    </ul>
-                    <p className="mt-1">W wyniku oznaczymy to jako brak danych.</p>
-                  </Alert>
-                ) : null}
-              </Section>
-
-              <p role="status" className="min-h-6 text-ink-soft">
-                {saved ?? (assessment.isFetching && assessment.isSuccess ? 'Aktualizuję pytania…' : '')}
-              </p>
-
-              <Button type="submit" fullWidth className="sm:w-auto">
-                Pokaż, co mi przysługuje
-              </Button>
-            </form>
-          </>
-        )}
+          <Button type="submit" fullWidth className="sm:w-auto">
+            Pokaż, co mi przysługuje
+          </Button>
+        </form>
       </div>
     </ToneScope>
   )

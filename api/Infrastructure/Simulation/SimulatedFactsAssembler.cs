@@ -50,14 +50,38 @@ public sealed class SimulatedFactsAssembler(
         };
 
         var caseFacts = persona.Fakty.Sprawa;
+        var registered = EmitStruct(FactSource.Usc, FactKeys.DzieckoDataUrodzenia, child?.DataUrodzenia, caseFacts.DzieckoDataUrodzenia?.Page);
         var caseSet = new CaseFacts
         {
             DzieckoLiczba = EmitStruct(FactSource.Usc, FactKeys.DzieckoLiczba, child?.Liczba, caseFacts.DzieckoLiczba?.Page),
-            DzieckoDataUrodzenia = EmitStruct(FactSource.Usc, FactKeys.DzieckoDataUrodzenia, child?.DataUrodzenia, caseFacts.DzieckoDataUrodzenia?.Page),
+            DzieckoDataUrodzenia = registered,
+            // Wpis urodzenia w rejestrze stanu cywilnego = zdarzenie „dziecko się urodziło” w dniu urodzenia.
+            ZdarzenieRodzaj = registered is null ? null : new Fact<EventKind>(EventKind.Urodzenie, FactSource.Usc, registered.Page),
+            ZdarzenieData = registered is null ? null : new Fact<DateOnly>(registered.Value, FactSource.Usc, registered.Page),
         };
+
+        if (persona.Sprawa is not null)
+        {
+            caseSet = CaseDocumentFacts(caseFacts, caseSet);
+        }
 
         return new FactSet { Sprawa = caseSet, Wnioskodawca = applicant, DrugiRodzic = await PartnerFactsAsync(persona, ct) };
     }
+
+    /// <summary>
+    /// Osoba sprawy ZUS: fakty sprawy przepisane z dokumentów (z numerem strony) przechodzą do faktów z integracji;
+    /// pola rejestru stanu cywilnego biorą wartość z rejestru (i znikają, gdy panel administratora je wyłączył).
+    /// </summary>
+    private CaseFacts CaseDocumentFacts(CaseFacts fromDocuments, CaseFacts fromRegistry) => fromDocuments with
+    {
+        ZdarzenieRodzaj = fromRegistry.ZdarzenieRodzaj ?? fromDocuments.ZdarzenieRodzaj,
+        ZdarzenieData = fromRegistry.ZdarzenieData ?? fromDocuments.ZdarzenieData,
+        ZdarzenieDlaKogo = null,
+        DzieckoLiczba = fromRegistry.DzieckoLiczba ?? (UscEnabled(FactKeys.DzieckoLiczba) ? fromDocuments.DzieckoLiczba : null),
+        DzieckoDataUrodzenia = fromRegistry.DzieckoDataUrodzenia ?? (UscEnabled(FactKeys.DzieckoDataUrodzenia) ? fromDocuments.DzieckoDataUrodzenia : null),
+    };
+
+    private bool UscEnabled(string key) => settings.IsFieldEnabled(FactSource.Usc, key);
 
     private async Task<PersonFacts?> PartnerFactsAsync(Persona persona, CancellationToken ct)
     {

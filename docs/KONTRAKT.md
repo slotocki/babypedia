@@ -35,6 +35,7 @@ Brak klucza = fakt nieznany. Silnik nigdy nie zgaduje brakującego faktu; zgłas
 - `sprawa` — fakty o zdarzeniu i dziecku (wspólne dla rodziców).
 - `wnioskodawca` — osoba zalogowana / dla której liczymy.
 - `drugiRodzic` — opcjonalnie (gdy „dla mnie i drugiego rodzica” albo gdy prawo ojca zależy od sytuacji matki).
+- `GET /api/sim/me/facts`: po urodzeniu rejestr stanu cywilnego daje też `zdarzenie.rodzaj = urodzenie` i `zdarzenie.data` (źródło `usc`, sterowane polem `usc/dziecko.dataUrodzenia` w panelu); osoba sprawy ZUS (`persona.sprawa`) niesie fakty sprawy przepisane z dokumentów (bez `zdarzenie.dlaKogo`). Gdy zdarzenia brak, ekran „Sprawdź dane” zadaje trzy pytania z ekranu 1 jako brakujące fakty.
 - Brak PESEL, imion i nazwisk w faktach — silnik ich nie dostaje (zasada 2.5). Tożsamość tylko w odpowiedzi `POST /api/sim/login`.
 
 ### 2.1. Klucze faktów sprawy (`sprawa`)

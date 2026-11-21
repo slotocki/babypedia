@@ -127,6 +127,8 @@ public sealed class IntegrationSettingsTests : IDisposable
         var fields = await factory.Services.GetRequiredService<AdminSettingsService>().GetIntegrationsAsync(Ct);
         var panel = fields.Select(f => AdminIntegrationSettings.Key(f.Source!, f.Fact!)).ToHashSet();
         var factKeys = typeof(FactKeys).GetFields().Select(f => (string)f.GetRawConstantValue()!).ToHashSet();
+        // zdarzenie.* z rejestru stanu cywilnego wynika z wpisu urodzenia — włącza je i wyłącza pole usc/dziecko.dataUrodzenia.
+        emitted.ExceptWith([$"usc/{FactKeys.ZdarzenieRodzaj}", $"usc/{FactKeys.ZdarzenieData}"]);
         Assert.Subset(panel, emitted);
         Assert.All(panel, key => Assert.Contains(key.Split('/')[1], factKeys));
     }
