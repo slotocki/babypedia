@@ -1,0 +1,103 @@
+# POBRANE: Ustawa z dnia 13 października 1998 r. o systemie ubezpieczeń społecznych (t.j. Dz.U. 2026 poz. 199), art. 18
+
+> **POBRANE — do potwierdzenia przez człowieka, nie pochodzi z materiałów organizatora.**
+>
+> - Źródło: https://api.sejm.gov.pl/eli/acts/DU/2026/199/text.pdf (metadane: https://api.sejm.gov.pl/eli/acts/DU/2026/199)
+> - Akt: Obwieszczenie Marszałka Sejmu Rzeczypospolitej Polskiej z dnia 9 lutego 2026 r. w sprawie ogłoszenia jednolitego tekstu ustawy o systemie ubezpieczeń społecznych
+> - Adres publikacyjny: Dz.U. 2026 poz. 199; status w ISAP/API: wygaśnięcie aktu (NOT_IN_FORCE); stan prawny wg obwieszczenia: 2026-02-06
+> - Data pobrania: 2026-11-21
+> - Tekst wycięty skryptem `tools/pobierz_art.py` z PDF-a (usunięto tylko nagłówki stron i przeniesienia wyrazów).
+
+## Art. 18
+
+1. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe ubezpieczonych wymienionych w art. 6 ust. 1 pkt 1–3 stanowi przychód, o którym mowa w art. 4 pkt 9 i 10, z zastrzeżeniem ust. 1a, 2, ust. 4 pkt 5 i ust. 12.
+
+1a. W przypadku ubezpieczonych, o których mowa w art. 8 ust. 2a, w podstawie wymiaru składek na ubezpieczenia emerytalne i rentowe uwzględnia się również przychód z tytułu umowy agencyjnej, umowy zlecenia lub innej umowy o świadczenie usług, do której zgodnie z Kodeksem cywilnym stosuje się przepisy dotyczące zlecenia albo umowy o dzieło.
+
+2. W podstawie wymiaru składek na ubezpieczenia emerytalne i rentowe osób, o których mowa w art. 6 ust. 1 pkt 1–3, nie uwzględnia się wynagrodzenia za czas niezdolności do pracy wskutek choroby lub odosobnienia w związku z chorobą zakaźną oraz zasiłków.
+
+25) W brzmieniu ustalonym przez art. 380 pkt 6 ustawy, o której mowa w odnośniku 1.
+
+3. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe zleceniobiorców ustala się zgodnie z ust. 1, jeżeli w umowie agencyjnej lub umowie zlecenia albo w innej umowie o świadczenie usług, do której zgodnie z Kodeksem cywilnym stosuje się przepisy dotyczące zlecenia, określono odpłatność za jej wykonywanie kwotowo, w kwotowej stawce godzinowej lub akordowej albo prowizyjnie.
+
+4. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe:
+
+1) posłów i senatorów – stanowi kwota uposażenia,
+
+2) stypendystów sportowych – stanowi kwota stypendium,
+
+2a) słuchaczy Krajowej Szkoły Administracji Publicznej im. Prezydenta Rzeczypospolitej Polskiej Lecha Kaczyńskiego – stanowi kwota stypendium,
+
+2b) otrzymujących stypendium doktoranckie doktorantów – stanowi kwota stypendium doktoranckiego,
+
+3) bezrobotnych – stanowi kwota zasiłku, świadczenia integracyjnego lub stypendium,
+
+4) osób, o których mowa w art. 6 ust. 1 pkt 20 – stanowi kwota świadczenia socjalnego, zasiłku socjalnego lub wynagrodzenia przysługującego w okresie świadczenia górniczego lub w okresie stypendium na przekwalifikowanie,
+
+5) żołnierzy niezawodowych pełniących czynną służbę wojskową, z wyjątkiem żołnierzy pełniących terytorialną służbę wojskową, stanowi kwota minimalnego wynagrodzenia za pracę obowiązującego w grudniu roku poprzedniego, ustalonego na podstawie odrębnych przepisów, z zastrzeżeniem ust. 9 i 10, a w przypadku żołnierzy pełniących terytorialną służbę wojskową rotacyjnie – kwota uposażenia z tytułu tej służby,
+
+5a) duchownych – stanowi kwota minimalnego wynagrodzenia za pracę, ustalonego na podstawie odrębnych przepisów, zwana dalej „kwotą minimalnego wynagrodzenia”, z zastrzeżeniem ust. 9 i 10,
+
+6) żołnierzy odbywających nadterminową służbę wojskową – stanowi kwota uposażenia,
+
+7) osób, o których mowa w art. 6 ust. 1 pkt 21 – stanowi kwota świadczenia szkoleniowego,
+
+8) osób, o których mowa w art. 6 ust. 1 pkt 9a – stanowi kwota stypendium,
+
+9) (uchylony)26) 9a)27) osób, o których mowa w art. 6 ust. 1 pkt 9c – stanowi kwota stypendium,
+
+10) osób, o których mowa w art. 6 ust. 1 pkt 22 – stanowi przychód
+
+– łącznie z kosztami uzyskania i kwotą podatku, o których mowa w przepisach o podatku dochodowym od osób fizycznych.
+
+4a. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe ubezpieczonych, o których mowa w art. 6 ust. 1 pkt 8, stanowi przysługujące im wynagrodzenie za pracę.
+
+4b. Przepis ust. 4a stosuje się odpowiednio do ubezpieczonych wykonujących w czasie odbywania kary pozbawienia wolności lub tymczasowego aresztowania pracę w ramach stosunku pracy.
+
+4c. Podstawę wymiaru składek dla duchownych będących ubezpieczonymi, o których mowa w art. 9 ust. 1a, stanowi różnica pomiędzy kwotą minimalnego wynagrodzenia a kwotą podstawy wymiaru składek na ubezpieczenia emerytalne i rentowe z tytułu stosunku pracy, członkostwa w spółdzielni lub służby.
+
+4d. Podstawę wymiaru składek na ubezpieczenie emerytalne i rentowe ubezpieczonych, o których mowa w art. 6 ust. 1 pkt 12, stanowi świadczenie pieniężne ustalone na podstawie przepisów ustawy z dnia 28 listopada 2003 r. o służbie zastępczej (Dz. U. z 2018 r. poz. 885)28).
+
+5. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe osób rezygnujących z zatrudnienia w związku z koniecznością sprawowania bezpośredniej, osobistej opieki nad długotrwale lub ciężko chorym członkiem rodziny oraz wspólnie niezamieszkującymi matką, ojcem lub rodzeństwem stanowi kwota kryterium dochodowego na osobę w rodzinie ustalona według odrębnych przepisów, z zastrzeżeniem ust. 9.
+
+5a. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe osób pobierających świadczenie pielęgnacyjne albo specjalny zasiłek opiekuńczy na podstawie przepisów o świadczeniach rodzinnych stanowi odpowiednio kwota świadczenia pielęgnacyjnego albo specjalnego zasiłku opiekuńczego.
+
+26) Przez art. 380 pkt 7 lit. a ustawy, o której mowa w odnośniku 1.
+
+27) Dodany przez art. 380 pkt 7 lit. b ustawy, o której mowa w odnośniku 1.
+
+28) Ustawa utraciła moc z dniem 23 kwietnia 2022 r. na podstawie art. 823 pkt 13 ustawy z dnia 11 marca 2022 r. o obronie Ojczyzny (Dz. U. poz. 655), która weszła w życie z dniem 23 kwietnia 2022 r.
+
+5b. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe osób przebywających na urlopie wychowawczym oraz osób, o których mowa w art. 6a ust. 1 pkt 1–4, stanowi kwota 60 % prognozowanego przeciętnego wynagrodzenia miesięcznego przyjętego do ustalenia kwoty ograniczenia rocznej podstawy wymiaru składek, ogłoszonego w trybie art. 19 ust. 10 na dany rok kalendarzowy, z zastrzeżeniem ust. 14 i 15. Składka w nowej wysokości obowiązuje od dnia 1 stycznia do dnia 31 grudnia danego roku.
+
+5c. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe osób wykonujących umowę uaktywniającą określoną w ustawie, o której mowa w art. 6 ust. 2d, ustala się na zasadach określonych dla zleceniobiorców.
+
+5d. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe osób, o których mowa w art. 6a ust. 1 pkt 5, stanowi kwota minimalnego wynagrodzenia.
+
+5e. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe osób pobierających zasiłek dla opiekuna na podstawie przepisów o ustaleniu i wypłacie zasiłków dla opiekunów stanowi kwota zasiłku dla opiekuna.
+
+5f. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe osób niepodejmujących zatrudnienia lub innej pracy zarobkowej, o których mowa w art. 6c ust. 1, stanowi kwota odpowiadająca wysokości pobieranego świadczenia wspierającego przez osobę, nad którą sprawowana jest opieka.
+
+6. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe osób pobierających zasiłek macierzyński albo zasiłek w wysokości zasiłku macierzyńskiego stanowi kwota tego zasiłku.
+
+7. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe ubezpieczonych, o których mowa w art. 6 ust. 1 pkt 4, oraz ubezpieczonych podlegających dobrowolnie tym ubezpieczeniom, o których mowa w art. 7, stanowi zadeklarowana kwota, nieniższa jednak niż kwota minimalnego wynagrodzenia, z zastrzeżeniem ust. 3, 9 i 10.
+
+8. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe ubezpieczonych, o których mowa w art. 6 ust. 1 pkt 5 i 5a, stanowi zadeklarowana kwota, nieniższa jednak niż 60 % prognozowanego przeciętnego wynagrodzenia miesięcznego przyjętego do ustalenia kwoty ograniczenia rocznej podstawy wymiaru składek, ogłoszonego w trybie art. 19 ust. 10 na dany rok kalendarzowy. Składka w nowej wysokości obowiązuje od dnia 1 stycznia do dnia 31 grudnia danego roku.
+
+8a. W przypadku gdy podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe stanowi zadeklarowana kwota, zadeklarowanie przez ubezpieczonego kwoty wyższej niż obowiązująca go najniższa podstawa wymiaru składek oznacza rezygnację z ustalenia podstawy wymiaru składek w kwocie najniższej i nie podlega korekcie przez ubezpieczonego za miesiąc, w którym zadeklarował wyższą kwotę podstawy wymiaru składek.
+
+8b. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe ubezpieczonego, o którym mowa w art. 6 ust. 1 pkt 23, stanowi kwota prognozowanego przeciętnego wynagrodzenia miesięcznego przyjętego do ustalenia kwoty ograniczenia rocznej podstawy wymiaru składek, ogłoszonego w trybie art. 19 ust. 10 na dany rok kalendarzowy, z zastrzeżeniem art. 18 ust. 9 i 10. Składka w nowej wysokości obowiązuje od dnia 1 stycznia do dnia 31 grudnia danego roku.
+
+9. Za miesiąc, w którym nastąpiło odpowiednio objęcie ubezpieczeniami emerytalnym i rentowymi lub ich ustanie i jeżeli trwały one tylko przez część miesiąca, kwotę najniższej podstawy wymiaru składek zmniejsza się proporcjonalnie, dzieląc ją przez liczbę dni kalendarzowych tego miesiąca i mnożąc przez liczbę dni podlegania ubezpieczeniu.
+
+10. Zasady zmniejszania najniższej podstawy wymiaru składek, o których mowa w ust. 9, stosuje się odpowiednio w przypadku niezdolności do pracy trwającej przez część miesiąca, jeżeli z tego tytułu ubezpieczony spełnia warunki do przyznania zasiłku.
+
+11. Na wniosek ubezpieczonych, o których mowa w art. 6 ust. 1 pkt 10, podstawa wymiaru może być wyższa niż określona w ust. 4 pkt 5a i ust. 4c. Składkę od podstawy wymiaru w części przewyższającej kwotę minimalnego wynagrodzenia finansują duchowni, instytucje diecezjalne lub zakonne.
+
+12. W podstawie wymiaru składki na ubezpieczenia emerytalne, rentowe, chorobowe oraz wypadkowe członków służby zagranicznej nie uwzględnia się dodatku zagranicznego i innych świadczeń przysługujących członkom służby zagranicznej wykonującym obowiązki służbowe w placówce zagranicznej.
+
+13. (uchylony)
+
+14. Podstawa wymiaru składek na ubezpieczenia emerytalne i rentowe osób przebywających na urlopie wychowawczym nie może być wyższa niż przeciętne miesięczne wynagrodzenie wypłacone za okres 12 miesięcy kalendarzowych poprzedzających urlop wychowawczy i nie może być niższa niż 75 % kwoty minimalnego wynagrodzenia.
+
+15. Podstawa wymiaru składek na ubezpieczenia emerytalne i rentowe osób, o których mowa w art. 6a ust. 1 pkt 3, nie może być wyższa niż przeciętna miesięczna kwota stanowiąca podstawę wymiaru składek w okresie 6 miesięcy kalendarzowych poprzedzających okres sprawowania osobistej opieki nad dzieckiem i nie może być niższa niż 75 % kwoty minimalnego wynagrodzenia. 16.29) Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe marynarzy stanowi zadeklarowana kwota, nieniższa jednak niż kwota minimalnego wynagrodzenia.

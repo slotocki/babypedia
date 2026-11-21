@@ -1,0 +1,544 @@
+# KODEKS PRACY
+
+> Uwaga redakcyjna (nie jest częścią aktu). Plik wygenerowany skryptem `tools/clean_prawo.py` z `raw/kodeks-pracy.txt`; treść przepisów niezmieniona (usunięto stopki "Legalis", sklejono przeniesienia wyrazów i zawinięte wiersze, przypisy dolne przeniesiono na koniec). Cyfra doklejona do numeru ustępu po kropce (np. `4.3`, `1d.4`, `5a.10`) to znacznik przypisu z tekstu surowego, nie część numeru. Źródłem prawdy jest plik w `raw/`.
+>
+> Numeracja z indeksami górnymi: w tekście surowym indeksy zostały spłaszczone (np. `1821a` = art. 182¹a). W nagłówkach artykułów zapisano je znakami indeksu; w treści (numery § na początku ustępów oraz odwołania wewnątrz zdań, np. `art. 1801 § 2`, `§ 11`) pozostawiono postać surową. Numery § na początku ustępów, które po spłaszczeniu wyglądają jak liczby dwucyfrowe, a wg kolejności ustępów są paragrafami z indeksem (heurystyka: kolejność § w artykule):
+>
+> - Art. 92: `§ 11` = § 1¹
+> - Art. 177: `§ 11` = § 1¹
+> - Art. 177: `§ 31` = § 3¹
+> - Art. 177: `§ 41` = § 4¹
+> - Art. 182¹f: `§ 11` = § 1¹
+> - Art. 182³: `§ 11` = § 1¹
+> - Art. 183: `§ 11` = § 1¹
+> - Art. 183: `§ 31` = § 3¹
+> - Art. 183: `§ 41` = § 4¹
+> - Art. 183: `§ 42` = § 4²
+> - Art. 183: `§ 43` = § 4³
+> - Art. 183: `§ 44` = § 4⁴
+> - Art. 183: `§ 45` = § 4⁵
+> - Art. 183: `§ 46` = § 4⁶
+>
+> Heurystykę trzeba potwierdzić w PDF przed użyciem w regule.
+
+z dnia 26 czerwca 1974 r. (Dz.U. Nr 24, poz. 141)
+
+tj. z dnia 23 grudnia 1997 r. (Dz.U. 1998 Nr 21, poz. 94)
+
+tj. z dnia 17 września 2014 r. (Dz.U. z 2014 r. poz. 1502)
+
+tj. z dnia 8 września 2016 r. (Dz.U. z 2016 r. poz. 1666)
+
+tj. z dnia 8 grudnia 2017 r. (Dz.U. z 2018 r. poz. 108)
+
+tj. z dnia 13 kwietnia 2018 r. (Dz.U. z 2018 r. poz. 917)
+
+tj. z dnia 16 maja 2019 r. (Dz.U. z 2019 r. poz. 1040)
+
+tj. z dnia 18 czerwca 2020 r. (Dz.U. z 2020 r. poz. 1320)
+
+tj. z dnia 9 czerwca 2022 r. (Dz.U. z 2022 r. poz. 1510)
+
+tj. z dnia 16 czerwca 2023 r. (Dz.U. z 2023 r. poz. 1465)
+
+tj. z dnia 14 lutego 2025 r. (Dz.U. z 2025 r. poz. 277)
+
+tj. z dnia 1 września 2026 r. (Dz.U. z 2026 r. poz. 1245)
+
+PREAMBUŁA
+
+(uchylona)
+
+# DZIAŁ PIERWSZY. PRZEPISY OGÓLNE ROZDZIAŁ I. PRZEPISY WSTĘPNE
+
+## Art. 1
+
+[Przedmiot regulacji]
+
+Kodeks pracy określa prawa i obowiązki pracowników i pracodawców.
+
+## Art. 2
+
+[Pojęcie pracownika]
+
+Pracownikiem jest osoba zatrudniona na podstawie umowy o pracę, powołania, wyboru, mianowania lub spółdzielczej umowy o pracę.
+
+## Art. 3
+
+[Pojęcie pracodawcy]
+
+Pracodawcą jest jednostka organizacyjna, choćby nie posiadała osobowości prawnej, a także osoba fizyczna, jeżeli zatrudniają one pracowników.
+
+# ROZDZIAŁ III. ŚWIADCZENIA PRZYSŁUGUJĄCE W OKRESIE CZASOWEJ NIEZDOLNOŚCI DO PRACY
+
+## Art. 92
+
+[Wynagrodzenie za czas niezdolności do pracy]
+
+§ 1. Za czas niezdolności pracownika do pracy wskutek:
+
+1) choroby lub odosobnienia w związku z chorobą zakaźną - trwającej łącznie do 33 dni w ciągu roku kalendarzowego, a w przypadku pracownika, który ukończył 50 rok życia - trwającej łącznie do 14 dni w ciągu roku kalendarzowego - pracownik zachowuje prawo do 80% wynagrodzenia, chyba że obowiązujące u danego pracodawcy przepisy prawa pracy przewidują wyższe wynagrodzenie z tego tytułu;
+
+2) wypadku w drodze do pracy lub z pracy albo choroby przypadającej w czasie ciąży - w okresie wskazanym w pkt 1 - pracownik zachowuje prawo do 100% wynagrodzenia;
+
+3) poddania się niezbędnym badaniom lekarskim przewidzianym dla kandydatów na dawców komórek, tkanek i narządów oraz poddania się zabiegowi pobrania komórek, tkanek i narządów - w okresie wskazanym w pkt 1 - pracownik zachowuje prawo do 100% wynagrodzenia.
+
+§ 11. (uchylony)
+
+§ 2. Wynagrodzenie, o którym mowa w § 1, oblicza się według zasad obowiązujących przy ustalaniu podstawy wymiaru zasiłku chorobowego i wypłaca za każdy dzień niezdolności do pracy, nie wyłączając dni wolnych od pracy.
+
+§ 3. Wynagrodzenie, o którym mowa w § 1:
+
+1) nie ulega obniżeniu w przypadku ograniczenia podstawy wymiaru zasiłku chorobowego;
+
+2) nie przysługuje w przypadkach, w których pracownik nie ma prawa do zasiłku chorobowego.
+
+§ 4. Za czas niezdolności do pracy, o której mowa w § 1, trwającej łącznie dłużej niż 33 dni w ciągu roku kalendarzowego, a w przypadku pracownika, który ukończył 50 rok życia, trwającej łącznie dłużej niż 14 dni w ciągu roku kalendarzowego, pracownikowi przysługuje zasiłek chorobowy na zasadach określonych w odrębnych przepisach.
+
+§ 5. Przepisy § 1 pkt 1 i § 4 w części dotyczącej pracownika, który ukończył 50 rok życia, dotyczą niezdolności pracownika do pracy przypadającej po roku kalendarzowym, w którym pracownik ukończył 50 rok życia.
+
+(…)
+
+# DZIAŁ ÓSMY. UPRAWNIENIA PRACOWNIKÓW ZWIĄZANE Z RODZICIELSTWEM
+
+## Art. 175¹
+
+[Definicje pojęć]
+
+Ilekroć w przepisach działu jest mowa o:
+
+1) ubezpieczonej - matce dziecka - należy przez to rozumieć matkę dziecka niebędącą pracownicą, objętą ubezpieczeniem społecznym w razie choroby i macierzyństwa, określonym w ustawie z dnia 13 października 1998 r. o systemie ubezpieczeń społecznych (Dz.U. z 2026 r. poz. 199, 252, 426, 473, 507 i 734);
+
+2) ubezpieczonym - ojcu dziecka - należy przez to rozumieć ojca dziecka niebędącego pracownikiem, objętego ubezpieczeniem społecznym w razie choroby i macierzyństwa, określonym w ustawie z dnia 13 października 1998 r. o systemie ubezpieczeń społecznych;
+
+3) pracowniku - innym członku najbliższej rodziny - należy przez to rozumieć będącego pracownikiem, innego niż pracownik - ojciec wychowujący dziecko, członka najbliższej rodziny, o którym mowa w art. 29 ust. 5 ustawy z dnia 25 czerwca 1999 r. o świadczeniach pieniężnych z ubezpieczenia społecznego w razie choroby i macierzyństwa (Dz.U. z 2026 r. poz. 854 i 1123);
+
+4) ubezpieczonym - innym członku najbliższej rodziny - należy przez to rozumieć niebędącego pracownikiem, innego niż ubezpieczony - ojciec dziecka, ubezpieczonego członka najbliższej rodziny, o którym mowa w art. 29 ust. 5 ustawy z dnia 25 czerwca 1999 r. o świadczeniach pieniężnych z ubezpieczenia społecznego w razie choroby i macierzyństwa.
+
+## Art. 177
+
+[Ochrona szczególna pracownicy w ciąży]
+
+§ 1. W okresie ciąży oraz w okresie urlopu macierzyńskiego, a także od dnia złożenia przez pracownicę lub pracownika wniosku o udzielenie urlopu macierzyńskiego albo jego części, urlopu na warunkach urlopu macierzyńskiego albo jego części, uzupełniającego urlopu macierzyńskiego, urlopu ojcowskiego albo jego części, urlopu rodzicielskiego albo jego części - do dnia zakończenia tego urlopu pracodawca nie może:
+
+1) prowadzić przygotowań do wypowiedzenia lub rozwiązania bez wypowiedzenia stosunku pracy z tą pracownicą lub tym pracownikiem;
+
+2) wypowiedzieć ani rozwiązać stosunku pracy z tą pracownicą lub tym pracownikiem, chyba że zachodzą przyczyny uzasadniające rozwiązanie umowy bez wypowiedzenia z ich winy i reprezentująca tę pracownicę lub tego pracownika zakładowa organizacja związkowa wyraziła zgodę na rozwiązanie umowy.
+
+§ 11. W przypadku złożenia wniosku, o którym mowa w § 1, wcześniej niż w terminach określonych w art. 180 § 9, art. 1802 § 4, art. 1821d § 1, art. 1823 § 2 oraz art. 183 § 6 zakaz, o którym mowa w § 1, zaczyna obowiązywać na:
+
+1) 14 dni przed rozpoczęciem korzystania z części urlopu macierzyńskiego oraz części urlopu na warunkach urlopu macierzyńskiego;
+
+2) 21 dni przed rozpoczęciem korzystania z uzupełniającego urlopu macierzyńskiego oraz urlopu rodzicielskiego albo jego części;
+
+3) 7 dni przed rozpoczęciem korzystania z urlopu ojcowskiego albo jego części.
+
+§ 2. (uchylony)
+
+§ 3. Umowa o pracę zawarta na czas określony albo na okres próbny przekraczający jeden miesiąc, która uległaby rozwiązaniu po upływie trzeciego miesiąca ciąży, ulega przedłużeniu do dnia porodu.
+
+§ 31. Przepisu § 3 nie stosuje się do umowy o pracę na czas określony zawartej w celu zastępstwa pracownika w czasie jego usprawiedliwionej nieobecności w pracy.
+
+§ 4. Rozwiązanie przez pracodawcę umowy o pracę za wypowiedzeniem w okresie ciąży oraz w okresie urlopu macierzyńskiego, a także od dnia złożenia przez pracownicę lub pracownika wniosku o udzielenie urlopu macierzyńskiego albo jego części, urlopu na warunkach urlopu macierzyńskiego albo jego części, uzupełniającego urlopu macierzyńskiego, urlopu ojcowskiego albo jego części, urlopu rodzicielskiego albo jego części – do dnia zakończenia tego urlopu może nastąpić tylko w razie ogłoszenia upadłości lub likwidacji pracodawcy. Pracodawca jest obowiązany uzgodnić termin rozwiązania umowy o pracę z zakładową organizacją związkową reprezentującą tę pracownicę lub tego pracownika. W przypadku niemożności zapewnienia w tym okresie pracownicy lub pracownikowi innego zatrudnienia przysługują im świadczenia określone w odrębnych przepisach. Okres pobierania tych świadczeń wlicza się do okresu zatrudnienia, od którego zależą uprawnienia pracownicze.
+
+§ 41. Istnienie przyczyn, o których mowa w § 1 pkt 2 i § 4, udowodni pracodawca.
+
+§ 5. (uchylony)
+
+## Art. 180
+
+[Urlop macierzyński; wymiar]
+
+§ 1. Pracownicy przysługuje urlop macierzyński w wymiarze:
+
+1) 20 tygodni - w przypadku urodzenia jednego dziecka przy jednym porodzie;
+
+2) 31 tygodni - w przypadku urodzenia dwojga dzieci przy jednym porodzie;
+
+3) 33 tygodni - w przypadku urodzenia trojga dzieci przy jednym porodzie;
+
+4) 35 tygodni - w przypadku urodzenia czworga dzieci przy jednym porodzie;
+
+5) 37 tygodni - w przypadku urodzenia pięciorga i więcej dzieci przy jednym porodzie.
+
+§ 2. Przed przewidywaną datą porodu pracownica może wykorzystać niewięcej niż 6 tygodni urlopu macierzyńskiego.
+
+§ 3. Po porodzie przysługuje urlop macierzyński niewykorzystany przed porodem aż do wyczerpania wymiaru, o którym mowa w § 1.
+
+§ 4. Pracownica, po wykorzystaniu po porodzie co najmniej 14 tygodni urlopu macierzyńskiego, ma prawo zrezygnować z pozostałej części tego urlopu i powrócić do pracy, jeżeli:
+
+1) pozostałą część urlopu macierzyńskiego wykorzysta pracownik - ojciec wychowujący dziecko;
+
+2) przez okres odpowiadający okresowi, który pozostał do końca urlopu macierzyńskiego, osobistą opiekę nad dzieckiem będzie sprawował ubezpieczony - ojciec dziecka, który w celu sprawowania tej opieki przerwał działalność zarobkową.
+
+§ 5. Pracownikowi - ojcu wychowującemu dziecko przysługuje, w przypadku rezygnacji przez ubezpieczoną - matkę dziecka z pobierania zasiłku macierzyńskiego po wykorzystaniu przez nią tego zasiłku za okres co najmniej 14 tygodni po porodzie, prawo do części urlopu macierzyńskiego przypadającej po dniu rezygnacji przez ubezpieczoną - matkę dziecka z pobierania zasiłku macierzyńskiego.
+
+§ 6. Pracownica legitymująca się orzeczeniem o niezdolności do samodzielnej egzystencji, po wykorzystaniu po porodzie co najmniej 8 tygodni urlopu macierzyńskiego, ma prawo zrezygnować z pozostałej części tego urlopu, jeżeli:
+
+1) pozostałą część urlopu macierzyńskiego wykorzysta pracownik - ojciec wychowujący dziecko albo pracownik - inny członek najbliższej rodziny;
+
+2) przez okres odpowiadający okresowi, który pozostał do końca urlopu macierzyńskiego, osobistą opiekę nad dzieckiem będzie sprawował ubezpieczony - ojciec dziecka albo ubezpieczony - inny członek najbliższej rodziny, który w celu sprawowania tej opieki przerwał działalność zarobkową.
+
+§ 7. Pracownikowi - ojcu wychowującemu dziecko albo pracownikowi - innemu członkowi najbliższej rodziny przysługuje, w przypadku rezygnacji przez ubezpieczoną - matkę dziecka, legitymującą się orzeczeniem o niezdolności do samodzielnej egzystencji, z pobierania zasiłku macierzyńskiego po wykorzystaniu przez nią tego zasiłku za okres co najmniej 8 tygodni po porodzie, prawo do części urlopu macierzyńskiego przypadającej po dniu rezygnacji przez ubezpieczoną - matkę dziecka z pobierania zasiłku macierzyńskiego.
+
+§ 8. W przypadkach, o których mowa w § 4 i 6, pracownica składa pracodawcy wniosek w postaci papierowej lub elektronicznej w sprawie rezygnacji z korzystania z części urlopu macierzyńskiego w terminie niekrótszym niż 7 dni przed przystąpieniem do pracy. Do wniosku dołącza się dokumenty określone w przepisach wydanych na podstawie art. 1868a. Pracodawca jest obowiązany uwzględnić wniosek pracownicy.
+
+§ 9. Części urlopu macierzyńskiego, o której mowa w § 4 pkt 1, § 5, § 6 pkt 1 i § 7, pracodawca udziela, odpowiednio, pracownikowi - ojcu wychowującemu dziecko albo pracownikowi - innemu członkowi najbliższej rodziny, na wniosek w postaci papierowej lub elektronicznej składany w terminie niekrótszym niż 14 dni przed rozpoczęciem korzystania z części urlopu. Do wniosku dołącza się dokumenty określone w przepisach wydanych na podstawie art. 1868a. Pracodawca jest obowiązany uwzględnić wniosek pracownika - ojca wychowującego dziecko albo pracownika - innego członka najbliższej rodziny.
+
+§ 10. Pracownica, która przebywa w szpitalu albo innym zakładzie leczniczym podmiotu leczniczego wykonującego działalność leczniczą w rodzaju stacjonarne i całodobowe świadczenia zdrowotne ze względu na stan zdrowia uniemożliwiający jej sprawowanie osobistej opieki nad dzieckiem, po wykorzystaniu po porodzie co najmniej 8 tygodni urlopu macierzyńskiego, może przerwać urlop macierzyński na okres pobytu w tym szpitalu albo zakładzie leczniczym, jeżeli:
+
+1) część urlopu macierzyńskiego za ten okres wykorzysta pracownik - ojciec wychowujący dziecko albo pracownik
+
+- inny członek najbliższej rodziny;
+
+2) osobistą opiekę nad dzieckiem w tym okresie będzie sprawował ubezpieczony - ojciec dziecka albo ubezpieczony - inny członek najbliższej rodziny, który w celu sprawowania tej opieki przerwał działalność zarobkową.
+
+§ 11. Pracownikowi - ojcu wychowującemu dziecko albo pracownikowi - innemu członkowi najbliższej rodziny przysługuje, w przypadku przerwania przez ubezpieczoną - matkę dziecka pobierania zasiłku macierzyńskiego po wykorzystaniu przez nią tego zasiłku za okres co najmniej 8 tygodni po porodzie, prawo do części urlopu macierzyńskiego odpowiadającej okresowi, w którym ubezpieczona - matka dziecka przebywa w szpitalu albo innym zakładzie leczniczym podmiotu leczniczego wykonującego działalność leczniczą w rodzaju stacjonarne i całodobowe świadczenia zdrowotne ze względu na stan zdrowia uniemożliwiający jej sprawowanie osobistej opieki nad dzieckiem.
+
+§ 12. W przypadku zgonu pracownicy w czasie urlopu macierzyńskiego albo ubezpieczonej - matki dziecka w czasie pobierania zasiłku macierzyńskiego za okres odpowiadający okresowi tego urlopu, pracownikowi - ojcu wychowującemu dziecko albo pracownikowi - innemu członkowi najbliższej rodziny, przysługuje prawo do części urlopu macierzyńskiego przypadającej po dniu zgonu pracownicy albo ubezpieczonej - matki dziecka.
+
+§ 13. W przypadku porzucenia dziecka przez pracownicę w czasie urlopu macierzyńskiego albo ubezpieczoną - matkę dziecka w czasie pobierania zasiłku macierzyńskiego za okres odpowiadający okresowi tego urlopu, pracownikowi
+
+- ojcu wychowującemu dziecko albo pracownikowi - innemu członkowi najbliższej rodziny, przysługuje prawo do części urlopu macierzyńskiego przypadającej po dniu porzucenia dziecka, niewcześniej jednak niż po wykorzystaniu przez:
+
+1) pracownicę, po porodzie, co najmniej 8 tygodni urlopu macierzyńskiego;
+
+2) ubezpieczoną - matkę dziecka, zasiłku macierzyńskiego za okres co najmniej 8 tygodni po porodzie.
+
+§ 14. Łączny wymiar urlopu macierzyńskiego oraz urlopu macierzyńskiego i okresu pobierania zasiłku macierzyńskiego za okres odpowiadający okresowi tego urlopu w okolicznościach, o których mowa w § 4-7 i § 10-13, nie może przekroczyć wymiaru urlopu macierzyńskiego, o którym mowa w § 1.
+
+§ 15. W przypadku:
+
+1) zgonu matki dziecka nieobjętej ubezpieczeniem społecznym w razie choroby i macierzyństwa, określonym w ustawie z dnia 13 października 1998 r. o systemie ubezpieczeń społecznych, albo nieposiadającej tytułu do objęcia takim ubezpieczeniem,
+
+2) porzucenia dziecka przez matkę nieobjętą ubezpieczeniem, o którym mowa w pkt 1, albo nieposiadającą tytułu do objęcia takim ubezpieczeniem,
+
+3) niemożności sprawowania osobistej opieki nad dzieckiem przez matkę nieobjętą ubezpieczeniem, o którym mowa w pkt 1, albo nieposiadającą tytułu do objęcia takim ubezpieczeniem, legitymującą się orzeczeniem o niezdolności do samodzielnej egzystencji
+
+- pracownikowi - ojcu wychowującemu dziecko albo pracownikowi - innemu członkowi najbliższej rodziny przysługuje prawo do części urlopu macierzyńskiego przypadającej po dniu zgonu matki dziecka, porzucenia przez nią dziecka albo powstania niezdolności do samodzielnej egzystencji.
+
+§ 16. W okolicznościach, o których mowa w § 10 pkt 1 i § 11-13 i 15, części urlopu macierzyńskiego udziela się na wniosek składany w postaci papierowej lub elektronicznej przez pracownika - ojca wychowującego dziecko albo pracownika - innego członka najbliższej rodziny. Do wniosku dołącza się dokumenty określone w przepisach wydanych na podstawie art. 1868a. Pracodawca jest obowiązany uwzględnić wniosek pracownika - ojca wychowującego dziecko albo pracownika - innego członka najbliższej rodziny.
+
+§ 17. W przypadku podjęcia przez matkę dziecka nieposiadającą tytułu do objęcia ubezpieczeniem społecznym w razie choroby i macierzyństwa, określonym w ustawie z dnia 13 października 1998 r. o systemie ubezpieczeń społecznych, zatrudnienia w wymiarze nieniższym niż połowa pełnego wymiaru czasu pracy, pracownikowi - ojcu wychowującemu dziecko przysługuje, w okresie trwania zatrudnienia matki dziecka, prawo do części urlopu macierzyńskiego przypadającej od dnia podjęcia zatrudnienia przez matkę dziecka aż do wyczerpania wymiaru, o którym mowa w § 1. Przepis § 9 stosuje się odpowiednio.
+
+## Art. 180¹
+
+[Urodzenie martwego dziecka]
+
+§ 1. W razie urodzenia martwego dziecka lub zgonu dziecka przed upływem 8 tygodni życia, pracownicy przysługuje urlop macierzyński w wymiarze 8 tygodni po porodzie, niekrócej jednak niż przez okres 7 dni od dnia zgonu dziecka. Pracownicy, która urodziła więcej niż jedno dziecko przy jednym porodzie, przysługuje w takim przypadku urlop macierzyński w wymiarze stosownym do liczby dzieci pozostałych przy życiu.
+
+§ 2. W przypadku zgonu dziecka po upływie 8 tygodni życia, pracownica zachowuje prawo do urlopu macierzyńskiego przez okres 7 dni od dnia zgonu dziecka. Pracownicy, która urodziła więcej niż jedno dziecko przy jednym porodzie, przysługuje w takim przypadku urlop macierzyński w wymiarze stosownym do liczby dzieci pozostałych przy życiu, niekrócej jednak niż przez okres 7 dni od dnia zgonu dziecka.
+
+## Art. 180²
+
+[Uzupełniający urlop macierzyński]
+
+§ 1. Pracownica albo pracownik - ojciec wychowujący dziecko ma prawo bezpośrednio po wykorzystaniu urlopu macierzyńskiego do uzupełniającego urlopu macierzyńskiego - w przypadku urodzenia dziecka:
+
+1) przed ukończeniem 28. tygodnia ciąży lub z masą urodzeniową niewiększą niż 1000 g - w wymiarze tygodnia uzupełniającego urlopu macierzyńskiego za każdy tydzień pobytu dziecka w szpitalu do upływu 15. tygodnia po porodzie;
+
+2) po ukończeniu 28. tygodnia ciąży i przed ukończeniem 37. tygodnia ciąży i z masą urodzeniową większą niż 1000 g - w wymiarze tygodnia uzupełniającego urlopu macierzyńskiego za każdy tydzień pobytu dziecka w szpitalu do upływu 8. tygodnia po porodzie;
+
+3) po ukończeniu 37. tygodnia ciąży i jego pobytu w szpitalu, pod warunkiem że pobyt dziecka w szpitalu po porodzie będzie wynosił co najmniej 2 kolejne dni, przy czym pierwszy z tych dni będzie przypadał w okresie od 5. do 28. dnia po porodzie - w wymiarze tygodnia uzupełniającego urlopu macierzyńskiego za każdy tydzień pobytu dziecka w szpitalu w okresie od 5. dnia do upływu 8. tygodnia po porodzie.
+
+§ 2. W przypadku urodzenia więcej niż jednego dziecka przy jednym porodzie przy ustalaniu wymiaru uzupełniającego urlopu macierzyńskiego należy uwzględnić wagę dziecka o najniższej masie urodzeniowej oraz okres pobytu w szpitalu dziecka najdłużej hospitalizowanego.
+
+§ 3. Przy ustalaniu wymiaru uzupełniającego urlopu macierzyńskiego okresy pobytu dziecka w szpitalu do upływu odpowiednio 8. albo 15. tygodnia po porodzie sumuje się. Niepełny tydzień zaokrągla się w górę do pełnego tygodnia.
+
+§ 4. Uzupełniający urlop macierzyński jest udzielany jednorazowo na wniosek składany w postaci papierowej lub elektronicznej przez pracownicę albo pracownika - ojca wychowującego dziecko w terminie niekrótszym niż 21 dni przed zakończeniem korzystania z urlopu macierzyńskiego. Pracodawca jest obowiązany uwzględnić wniosek.
+
+§ 5. Do wniosku dołącza się zaświadczenie wydane przez szpital, w którym przebywało dziecko, oraz dokumenty określone w przepisach wydanych na podstawie art. 1868a. Zaświadczenie zawiera informacje o okresie pobytu dziecka w szpitalu oraz o urodzeniu dziecka:
+
+1) przed ukończeniem 28. tygodnia ciąży lub z masą urodzeniową niewiększą niż 1000 g;
+
+2) po ukończeniu 28. tygodnia ciąży i przed ukończeniem 37. tygodnia ciąży i z masą urodzeniową większą niż 1000 g;
+
+3) po ukończeniu 37. tygodnia ciąży.
+
+§ 6. We wniosku o udzielenie uzupełniającego urlopu macierzyńskiego określa się termin zakończenia urlopu macierzyńskiego.
+
+§ 7. Do uzupełniającego urlopu macierzyńskiego przepisy art. 45 § 3, art. 47, art. 57 § 2, art. 163 § 3, art. 165 pkt 4, art. 166 pkt 4, art. 180 § 6-17, art. 1801 § 2, art. 182 zdanie pierwsze i art. 1831 § 1 stosuje się odpowiednio.
+
+## Art. 181
+
+[Dziecko wymagające opieki szpitalnej]
+
+W razie urodzenia dziecka wymagającego opieki szpitalnej pracownica, która wykorzystała po porodzie 8 tygodni urlopu macierzyńskiego, pozostałą część tego urlopu może wykorzystać w terminie późniejszym, po wyjściu dziecka ze szpitala.
+
+## Art. 182
+
+[Porzucenie dziecka]
+
+W przypadku porzucenia dziecka przez pracownicę lub umieszczenia dziecka, na podstawie orzeczenia sądu, w pieczy zastępczej, w zakładzie opiekuńczo-leczniczym, w zakładzie pielęgnacyjnoopiekuńczym albo w zakładzie rehabilitacji leczniczej, pracownicy nie przysługuje część urlopu macierzyńskiego przypadająca po dniu porzucenia dziecka albo umieszczenia dziecka w pieczy zastępczej, w zakładzie opiekuńczoleczniczym, w zakładzie pielęgnacyjno-opiekuńczym albo w zakładzie rehabilitacji leczniczej. Jednakże urlop macierzyński po porodzie nie może wynosić mniej niż 8 tygodni.
+
+## Art. 182¹
+
+(uchylony)
+
+## Art. 182¹a
+
+[Urlop rodzicielski, wymiar]
+
+§ 1. Pracownicy - rodzice dziecka mają prawo do urlopu rodzicielskiego w celu sprawowania opieki nad dzieckiem w wymiarze do:
+
+1) 41 tygodni - w przypadku, o którym mowa w art. 180 § 1 pkt 1;
+
+2) 43 tygodni - w przypadkach, o których mowa w art. 180 § 1 pkt 2-5.
+
+§ 2. Pracownicy - rodzice dziecka posiadającego zaświadczenie, o którym mowa w art. 4 ust. 3 ustawy z dnia 4 listopada 2016 r. o wsparciu kobiet w ciąży i rodzin,,Za życiem'', mają prawo do urlopu rodzicielskiego w celu sprawowania opieki nad tym dzieckiem w wymiarze do:
+
+1) 65 tygodni - w przypadku, o którym mowa w art. 180 § 1 pkt 1;
+
+2) 67 tygodni - w przypadkach, o których mowa w art. 180 § 1 pkt 2-5.
+
+§ 3. Urlop rodzicielski w wymiarze, o którym mowa w § 1 i 2, przysługuje łącznie obojgu pracownikom - rodzicom dziecka.
+
+§ 4. Każdemu z pracowników - rodziców dziecka przysługuje wyłączne prawo do 9 tygodni urlopu rodzicielskiego z wymiaru urlopu określonego w § 1 i 2. Prawa tego nie można przenieść na drugiego z pracowników - rodziców dziecka.
+
+§ 5. Skorzystanie z urlopu rodzicielskiego w wymiarze co najmniej 9 tygodni oznacza wykorzystanie przez pracownika
+
+- rodzica dziecka urlopu, o którym mowa w § 4.
+
+§ 6. Z urlopu rodzicielskiego mogą jednocześnie korzystać oboje pracownicy - rodzice dziecka. W takim przypadku łączny wymiar urlopu rodzicielskiego nie może przekraczać wymiaru, o którym mowa w § 1 albo 2.
+
+§ 7. W okresie pobierania przez jednego z rodziców dziecka zasiłku macierzyńskiego za okres odpowiadający okresowi urlopu rodzicielskiego drugi rodzic może korzystać z urlopu rodzicielskiego. W takim przypadku łączny wymiar urlopu rodzicielskiego i okresu pobierania zasiłku macierzyńskiego za okres odpowiadający okresowi urlopu rodzicielskiego nie może przekraczać wymiaru, o którym mowa w § 1 albo 2.
+
+## Art. 182¹b
+
+(uchylony)
+
+## Art. 182¹c
+
+[Urlop rodzicielski, zasady udzielania]
+
+Urlop rodzicielski jest udzielany jednorazowo albo niewięcej niż w 5 częściach niepóźniej niż do zakończenia roku kalendarzowego, w którym dziecko kończy 6 rok życia.
+
+## Art. 182¹d
+
+[Wniosek o urlop rodzicielski]
+
+§ 1. Urlop rodzicielski jest udzielany na wniosek w postaci papierowej lub elektronicznej składany przez pracownika - rodzica dziecka w terminie niekrótszym niż 21 dni przed rozpoczęciem korzystania z urlopu. Do wniosku dołącza się dokumenty określone w przepisach wydanych na podstawie art. 1868a. Pracodawca jest obowiązany uwzględnić wniosek pracownika.
+
+§ 2. Liczbę części urlopu ustala się w oparciu o liczbę złożonych wniosków o udzielenie urlopu. W liczbie wykorzystanych części urlopu uwzględnia się także liczbę wniosków o zasiłek macierzyński za okres odpowiadający okresowi urlopu rodzicielskiego albo jego części, złożonych przez ubezpieczoną - matkę dziecka lub ubezpieczonego - ojca dziecka.
+
+§ 3. Pracownik może zrezygnować z korzystania z urlopu rodzicielskiego w każdym czasie za zgodą pracodawcy i powrócić do pracy.
+
+## Art. 182¹e
+
+[Łączenie urlopu z pracą, dopuszczalny wymiar]
+
+§ 1. Pracownik może łączyć korzystanie z urlopu rodzicielskiego z wykonywaniem pracy u pracodawcy udzielającego tego urlopu w wymiarze niewyższym niż połowa pełnego wymiaru czasu pracy. W takim przypadku urlopu rodzicielskiego udziela się na pozostałą część wymiaru czasu pracy.
+
+§ 2. W przypadku, o którym mowa w § 1, podjęcie pracy następuje na wniosek w postaci papierowej lub elektronicznej składany przez pracownika w terminie niekrótszym niż 21 dni przed rozpoczęciem wykonywania pracy. Pracodawca jest obowiązany uwzględnić wniosek pracownika, chyba że nie jest to możliwe ze względu na organizację pracy lub rodzaj pracy wykonywanej przez pracownika. O przyczynie odmowy uwzględnienia wniosku pracodawca informuje pracownika w postaci papierowej lub elektronicznej w terminie 7 dni od dnia otrzymania wniosku.
+
+## Art. 182¹f
+
+[Wydłużenie urlopu rodzicielskiego]
+
+§ 1. W przypadku łączenia przez pracownika - rodzica dziecka korzystania z urlopu rodzicielskiego z wykonywaniem pracy u pracodawcy udzielającego tego urlopu wymiar urlopu rodzicielskiego ulega wydłużeniu proporcjonalnie do wymiaru czasu pracy wykonywanej przez pracownika w trakcie korzystania z urlopu lub jego części, niedłużej jednak niż do:
+
+1) 82 tygodni - w przypadku, o którym mowa w art. 180 § 1 pkt 1;
+
+2) 86 tygodni - w przypadkach, o których mowa w art. 180 § 1 pkt 2-5.
+
+§ 11. W przypadku łączenia przez pracownika - rodzica dziecka posiadającego zaświadczenie, o którym mowa w art. 4 ust. 3 ustawy z dnia 4 listopada 2016 r. o wsparciu kobiet w ciąży i rodzin "Za życiem", korzystania z urlopu rodzicielskiego z wykonywaniem pracy u pracodawcy udzielającego tego urlopu wymiar urlopu rodzicielskiego ulega wydłużeniu proporcjonalnie do wymiaru czasu pracy wykonywanej przez pracownika - rodzica dziecka w trakcie korzystania z urlopu lub jego części, niedłużej jednak niż do:
+
+1) 130 tygodni - w przypadku, o którym mowa w art. 180 § 1 pkt 1;
+
+2) 134 tygodni - w przypadkach, o których mowa w art. 180 § 1 pkt 2-5.
+
+§ 2. Okres, o który urlop rodzicielski ulega wydłużeniu, stanowi iloczyn liczby tygodni, przez jaką pracownik łączy korzystanie z urlopu rodzicielskiego z wykonywaniem pracy u pracodawcy udzielającego tego urlopu i wymiaru czasu pracy wykonywanej przez pracownika w trakcie korzystania z urlopu rodzicielskiego.
+
+§ 3. W przypadku gdy łączenie korzystania z urlopu z wykonywaniem pracy, o którym mowa w § 1 albo § 11, odbywa się przez część urlopu rodzicielskiego, proporcjonalne wydłużenie wymiaru tego urlopu, następuje wyłącznie w odniesieniu do tej części urlopu rodzicielskiego.
+
+§ 4. W przypadku gdy powstała w wyniku wydłużenia wymiaru urlopu rodzicielskiego część urlopu rodzicielskiego nie odpowiada wielokrotności tygodnia, jest ona udzielana w dniach. Przy udzielaniu urlopu niepełny dzień pomija się.
+
+§ 5. Część urlopu rodzicielskiego, o którą urlop został proporcjonalnie wydłużony zgodnie z § 1-4, wydłuża część urlopu rodzicielskiego, podczas której pracownik łączył korzystanie z urlopu z wykonywaniem pracy w niepełnym wymiarze czasu pracy u pracodawcy udzielającego urlopu.
+
+§ 6. We wniosku, o którym mowa w art. 1821e § 2, pracownik określa sposób wykorzystania części urlopu rodzicielskiego, o którą urlop zostanie proporcjonalnie wydłużony.
+
+§ 7. W przypadku gdy pracownik zamierza łączyć korzystanie z części urlopu rodzicielskiego powstałej w wyniku proporcjonalnego wydłużenia tego urlopu, obliczonej zgodnie z § 2, z wykonywaniem pracy w niepełnym wymiarze czasu pracy, wymiar tej części urlopu oblicza się dzieląc długość części urlopu powstałej w wyniku proporcjonalnego wydłużenia przez różnicę liczby 1 i wymiaru czasu pracy, w jakim pracownik zamierza łączyć korzystanie z tej części urlopu z wykonywaniem pracy. Przepis § 4 stosuje się odpowiednio.
+
+## Art. 182¹g
+
+[Odesłanie]
+
+Do urlopu rodzicielskiego stosuje się odpowiednio przepisy art. 45 § 3, art. 47, art. 57 § 2, art. 163 § 3, art. 165 pkt 4, art. 166 pkt 4, art. 180 § 6-17, art. 1801 § 2, art. 181, art. 182 zdanie pierwsze i art. 1831 § 1.
+
+## Art. 182²
+
+(uchylony)
+
+## Art. 182³
+
+[Wymiar urlopu pracownika - ojca]
+
+§ 1. W celu sprawowania opieki nad dzieckiem pracownik - ojciec ma prawo do urlopu ojcowskiego w wymiarze do 2 tygodni, niedłużej jednak niż do:
+
+1) ukończenia przez dziecko 12 miesiąca życia albo
+
+2) upływu 12 miesięcy od dnia uprawomocnienia się postanowienia orzekającego przysposobienie dziecka i niedłużej niż do ukończenia przez dziecko 14 roku życia.
+
+§ 11. Urlop ojcowski może być wykorzystany jednorazowo albo niewięcej niż w 2 częściach, z których żadna nie może być krótsza niż tydzień.
+
+§ 2. Urlop ojcowski jest udzielany na wniosek w postaci papierowej lub elektronicznej składany przez pracownika - ojca w terminie niekrótszym niż 7 dni przed rozpoczęciem korzystania z urlopu. Do wniosku dołącza się dokumenty określone w przepisach wydanych na podstawie art. 1868a. Pracodawca jest obowiązany uwzględnić wniosek pracownika.
+
+§ 3. Do urlopu ojcowskiego stosuje się odpowiednio przepisy art. 45 § 3, art. 47, art. 57 § 2, art. 163 § 3, art. 165 pkt 4, art. 166 pkt 4, art. 181 i art. 1831 § 1.
+
+## Art. 182⁴
+
+(uchylony)
+
+## Art. 183
+
+[Urlop z tytułu przysposobienia]
+
+§ 1. Pracownik, który przyjął dziecko na wychowanie jako rodzina zastępcza, z wyjątkiem rodziny zastępczej zawodowej, ma prawo do urlopu na warunkach urlopu macierzyńskiego w wymiarze:
+
+1) 20 tygodni - w przypadku przyjęcia jednego dziecka,
+
+2) 31 tygodni - w przypadku jednoczesnego przyjęcia dwojga dzieci,
+
+3) 33 tygodni - w przypadku jednoczesnego przyjęcia trojga dzieci,
+
+4) 35 tygodni - w przypadku jednoczesnego przyjęcia czworga dzieci,
+
+5) 37 tygodni - w przypadku jednoczesnego przyjęcia pięciorga i więcej dzieci
+
+- niedłużej jednak niż do ukończenia przez dziecko 7 roku życia, a w przypadku dziecka, wobec którego podjęto decyzję o odroczeniu obowiązku szkolnego, niedłużej niż do ukończenia przez nie 10 roku życia.
+
+§ 11. Pracownik, który przyjął dziecko na wychowanie i wystąpił do sądu opiekuńczego z wnioskiem o wszczęcie postępowania w sprawie przysposobienia dziecka, ma prawo do urlopu na warunkach urlopu macierzyńskiego w wymiarze:
+
+1) 20 tygodni - w przypadku przyjęcia jednego dziecka,
+
+2) 31 tygodni - w przypadku jednoczesnego przyjęcia dwojga dzieci,
+
+3) 33 tygodni - w przypadku jednoczesnego przyjęcia trojga dzieci,
+
+4) 35 tygodni - w przypadku jednoczesnego przyjęcia czworga dzieci,
+
+5) 37 tygodni - w przypadku jednoczesnego przyjęcia pięciorga i więcej dzieci
+
+- niedłużej jednak niż do ukończenia przez dziecko 14 roku życia.
+
+§ 2. Do urlopu na warunkach urlopu macierzyńskiego przepisy art. 45 § 3, art. 47, art. 57 § 2, art. 163 § 3, art. 165 pkt 4, art. 166 pkt 4, art. 180 § 4-17, art. 1801 § 2 i art. 181 stosuje się odpowiednio.
+
+§ 3. Pracownik, o którym mowa w § 1, który przyjął dziecko w wieku do 7 roku życia, a w przypadku dziecka, wobec którego podjęto decyzję o odroczeniu obowiązku szkolnego, do 10 roku życia, oraz pracownik, o którym mowa w § 11, który przyjął dziecko w wieku do 14 roku życia - ma prawo do 9 tygodni urlopu na warunkach urlopu macierzyńskiego.
+
+§ 31. Pracownik, o którym mowa w § 1 albo § 11, ma prawo do uzupełniającego urlopu macierzyńskiego na zasadach określonych w art. 1802, jeżeli pobyt dziecka w szpitalu miał miejsce po przyjęciu dziecka na wychowanie.
+
+§ 4. Pracownicy, którzy przyjęli dziecko na wychowanie jako rodzina zastępcza, z wyjątkiem rodziny zastępczej zawodowej, mają prawo do urlopu rodzicielskiego w celu sprawowania opieki nad tym dzieckiem w wymiarze do:
+
+1) 41 tygodni - w przypadku, o którym mowa w § 1 pkt 1;
+
+2) 43 tygodni - w przypadkach, o których mowa w § 1 pkt 2-5;
+
+3) 38 tygodni - w przypadku, o którym mowa w § 3.
+
+§ 41. Pracownicy, którzy przyjęli dziecko na wychowanie i wystąpili do sądu opiekuńczego z wnioskiem o wszczęcie postępowania w sprawie przysposobienia dziecka, mają prawo do urlopu rodzicielskiego w celu sprawowania opieki nad tym dzieckiem w wymiarze do:
+
+1) 41 tygodni - w przypadku, o którym mowa w § 11 pkt 1,
+
+2) 43 tygodni - w przypadkach, o których mowa w § 11 pkt 2-5
+
+- niedłużej jednak niż do ukończenia przez dziecko 14 roku życia.
+
+§ 42. Pracownicy, o których mowa w § 3, którzy przyjęli na wychowanie dziecko w wieku do ukończenia 14 roku życia, mają prawo do 38 tygodni urlopu rodzicielskiego.
+
+§ 43. Pracownicy, o których mowa w § 4, w przypadku dziecka posiadającego zaświadczenie, o którym mowa w art. 4 ust. 3 ustawy z dnia 4 listopada 2016 r. o wsparciu kobiet w ciąży i rodzin,,Za życiem'', mają prawo do urlopu rodzicielskiego w celu sprawowania opieki nad tym dzieckiem w wymiarze do:
+
+1) 65 tygodni - w przypadku, o którym mowa w § 1 pkt 1;
+
+2) 67 tygodni - w przypadkach, o których mowa w § 1 pkt 2-5;
+
+3) 62 tygodni - w przypadku, o którym mowa w § 3.
+
+§ 44. Pracownicy, o których mowa w § 41, w przypadku dziecka posiadającego zaświadczenie, o którym mowa w art. 4 ust. 3 ustawy z dnia 4 listopada 2016 r. o wsparciu kobiet w ciąży i rodzin "Za życiem", mają prawo do urlopu rodzicielskiego w celu sprawowania opieki nad tym dzieckiem w wymiarze do:
+
+1) 65 tygodni - w przypadku, o którym mowa w § 11 pkt 1,
+
+2) 67 tygodni - w przypadkach, o których mowa w § 11 pkt 2-5
+
+- nie dłużej jednak niż do ukończenia przez dziecko 14 roku życia.
+
+§ 45. Pracownicy, o których mowa w § 3, którzy przyjęli na wychowanie dziecko w wieku do ukończenia 14 roku życia, w przypadku dziecka posiadającego zaświadczenie, o którym mowa w art. 4 ust. 3 ustawy z dnia 4 listopada 2016 r. o wsparciu kobiet w ciąży i rodzin "Za życiem", mają prawo do 62 tygodni urlopu rodzicielskiego.
+
+§ 46. Urlop rodzicielski jest udzielany jednorazowo albo niewięcej niż w 5 częściach.
+
+§ 5. Do urlopu rodzicielskiego stosuje się odpowiednio przepisy art. 1821a § 3-7 i art. 1821c -1821g.
+
+§ 6. Urlop na warunkach urlopu macierzyńskiego jest udzielany na wniosek w postaci papierowej lub elektronicznej składany przez pracownika w terminie 7 dni od dnia przyjęcia dziecka na wychowanie jako rodzina zastępcza albo przyjęcia dziecka na wychowanie i wystąpienia do sądu opiekuńczego z wnioskiem o wszczęcie postępowania w sprawie przysposobienia dziecka. Urlop rozpoczyna się w terminie określonym we wniosku pracownika, jednak niepóźniej niż 21 dni od dnia odpowiednio przyjęcia dziecka na wychowanie jako rodzina zastępcza albo przyjęcia dziecka na wychowanie i wystąpienia do sądu opiekuńczego z wnioskiem o wszczęcie postępowania w sprawie przysposobienia dziecka. Do wniosku dołącza się dokumenty określone w przepisach wydanych na podstawie art. 1868a. Pracodawca jest obowiązany uwzględnić wniosek pracownika.
+
+§ 7. Pracownik, który korzysta lub korzystał z urlopu na warunkach urlopu macierzyńskiego w związku z przyjęciem dziecka na wychowanie jako rodzina zastępcza, a następnie wystąpił do sądu opiekuńczego z wnioskiem o wszczęcie postępowania w sprawie przysposobienia dziecka, ma prawo do urlopu na warunkach urlopu macierzyńskiego w związku z wystąpieniem do sądu opiekuńczego z wnioskiem o wszczęcie postępowania w sprawie przysposobienia dziecka w wymiarze określonym w § 11 obniżonym o wykorzystany urlop na warunkach urlopu macierzyńskiego w związku z przyjęciem dziecka na wychowanie jako rodzina zastępcza.
+
+§ 8. Pracownik, który korzysta lub korzystał z urlopu rodzicielskiego w związku z przyjęciem dziecka na wychowanie jako rodzina zastępcza, a następnie wystąpił do sądu opiekuńczego z wnioskiem o wszczęcie postępowania w sprawie przysposobienia dziecka, ma prawo do urlopu rodzicielskiego w związku z wystąpieniem do sądu opiekuńczego z wnioskiem o wszczęcie postępowania w sprawie przysposobienia dziecka w wymiarze określonym w § 41 albo 42 albo § 44 albo 45, obniżonym o wykorzystany urlop rodzicielski w związku z przyjęciem dziecka na wychowanie jako rodzina zastępcza.
+
+## Art. 183¹
+
+[Pierwszy dzień urlopu]
+
+§ 1. Przy udzielaniu urlopu macierzyńskiego i urlopu na warunkach urlopu macierzyńskiego tydzień urlopu odpowiada 7 dniom kalendarzowym.
+
+§ 2. Jeżeli pracownica nie korzysta z urlopu macierzyńskiego przed przewidywaną datą porodu, pierwszym dniem urlopu macierzyńskiego jest dzień porodu.
+
+## Art. 183²
+
+(uchylony)
+
+## Art. 184
+
+[Zasiłek macierzyński]
+
+Za okres urlopu macierzyńskiego, urlopu na warunkach urlopu macierzyńskiego, uzupełniającego urlopu macierzyńskiego, urlopu rodzicielskiego oraz urlopu ojcowskiego przysługuje zasiłek macierzyński na zasadach określonych w ustawie z dnia 25 czerwca 1999 r. o świadczeniach pieniężnych z ubezpieczenia społecznego w razie choroby i macierzyństwa.
+
+## Art. 185
+
+[Badania lekarskie]
+
+§ 1. Stan ciąży powinien być stwierdzony świadectwem lekarskim.
+
+§ 2. Pracodawca jest obowiązany udzielać pracownicy ciężarnej zwolnień od pracy na zalecone przez lekarza badania lekarskie przeprowadzane w związku z ciążą, jeżeli badania te nie mogą być przeprowadzone poza godzinami pracy. Za czas nieobecności w pracy z tego powodu pracownica zachowuje prawo do wynagrodzenia.
+
+## Art. 186⁴
+
+[Zatrudnienie po urlopie]
+
+Pracodawca dopuszcza pracownika po zakończeniu urlopu macierzyńskiego, urlopu na warunkach urlopu macierzyńskiego, uzupełniającego urlopu macierzyńskiego, urlopu rodzicielskiego, urlopu ojcowskiego oraz urlopu wychowawczego do pracy na dotychczasowym stanowisku, a jeżeli nie jest to możliwe - na stanowisku równorzędnym z zajmowanym przed rozpoczęciem urlopu na warunkach niemniej korzystnych od tych, które obowiązywałyby, gdyby pracownik nie korzystał z urlopu.
+
+## Art. 186⁸a
+
+[Delegacja ustawowa]
+
+Minister właściwy do spraw pracy określi, w drodze rozporządzenia:
+
+1) treść wniosku o udzielenie części urlopu macierzyńskiego, urlopu na warunkach urlopu macierzyńskiego lub jego części, uzupełniającego urlopu macierzyńskiego, urlopu rodzicielskiego lub jego części i urlopu ojcowskiego lub jego części,
+
+2) dokumenty dołączane do wniosków, o których mowa w pkt 1,
+
+3) treść wniosku w sprawie rezygnacji z części urlopu macierzyńskiego i części urlopu na warunkach urlopu macierzyńskiego,
+
+4) dokumenty dołączane do wniosków, o których mowa w pkt 3,
+
+5) treść wniosku o łączenie korzystania z urlopu rodzicielskiego lub jego części z wykonywaniem pracy u pracodawcy udzielającego takiego urlopu,
+
+6) treść wniosku o udzielenie urlopu wychowawczego lub jego części,
+
+7) dokumenty dołączane do wniosku, o którym mowa w pkt 6,
+
+8) treść wniosku o obniżenie wymiaru czasu pracy pracownika uprawnionego do urlopu wychowawczego,
+
+9) dokumenty dołączane do wniosku, o którym mowa w pkt 8
+
+- biorąc pod uwagę potrzebę zapewnienia prawidłowej realizacji uprawnień pracowników do urlopów związanych z rodzicielstwem i obniżenia wymiaru czasu pracy oraz zapewnienia właściwej organizacji czasu pracy.
+
+## Art. 189¹
+
+[Korzystanie z uprawnień związanych z rodzicielstwem]
+
+Jeżeli oboje rodzice lub opiekunowie dziecka są zatrudnieni, z uprawnień określonych w art. 148 pkt 3, art. 178 § 2, art. 1867 § 1 i art. 188 może korzystać jedno z nich.
+
+## Przypisy
+
+*(przypisy dolne przeniesione ze stron surowego tekstu; numer przypisu = pierwszy znak wiersza)*
+
+1 Treść odnośnika publikujemy na końcu ustawy.

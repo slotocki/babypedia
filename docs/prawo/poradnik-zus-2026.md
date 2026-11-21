@@ -1,0 +1,1063 @@
+# PORADNIK DLA RODZICÓW I OPIEKUNÓW DZIECI (ZUS, stan prawny na 1 kwietnia 2026 r.)
+
+<!-- pdf p. 1 -->
+
+PORADNIK DLA RODZICÓW I OPIEKUNÓW DZIECI Ubezpieczenia społeczne i ubezpieczenie zdrowotne oraz świadczenia <!-- pdf p. 2 --> ZAKŁAD UBEZPIECZEŃ SPOŁECZNYCH Poradnik dla rodziców i opiekunów dzieci Stan prawny na 1 kwietnia 2026 r.
+
+Warszawa 2026 <!-- pdf p. 3 --> Korekta techniczna Departament Zarządzania Dokumentacją i Poligrafią Wydawca Zakład Ubezpieczeń Społecznych ul. Szamocka 3, 5 01–748 Warszawa Skład: Poligrafia ZUS w Warszawie. Zam. nr 1184/2026 <!-- s. 5 --> Objaśnienie używanych pojęć i skrótów
+
+## Objaśnienie używanych pojęć i skrótów
+
+Kwota minimalnego wynagrodzenia – kwota minimalnego wynagrodzenia za pracę, o którym mowa w ustawie z 10 października 2002 r. o minimalnym wynagrodzeniu za pracę (Dz.U. z 2024 r. poz. 1773, z późn. zm.).
+
+NFZ – Narodowy Fundusz Zdrowia. Prawo przedsiębiorców – u stawa z dnia 6 marca 2018 r. Prawo przedsiębiorców (Dz.U. z 2025 r. poz. 1480, z późn. zm.).
+
+Ubezpieczenia społeczne – ubezpieczenia emerytalne, rentowe, chorobowe i wypadkowe, regulowane ustawą z dnia 13 października 1998 r. o systemie ubezpieczeń społecznych (Dz.U. z 2026 r. poz. 199, z późn. zm.).
+
+Ubezpieczenie zdrowotne – ubezpieczenie określone ustawą z dnia 27 sierpnia 2004 r. o świadczeniach opieki zdrowotnej finansowanych ze środków publicznych (Dz.U. z 2025 r. poz. 1461, z późn. zm.).
+
+Zasiłki – z asiłki i świadczenie rehabilitacyjne z ubezpieczenia chorobowego oraz ubezpieczenia wypadkowego.
+
+Zleceniobiorca – osoba wykonująca pracę na podstawie umowy agencyjnej lub umowy zlecenia albo innej umowy o świadczenie usług, do której zgodnie z Kodeksem cywilnym stosuje się przepisy dotyczące zlecenia.
+
+ZUS – Zakład Ubezpieczeń Społecznych.
+
+<!-- s. 6 -->
+
+## Wstęp
+
+Drodzy przyszli Rodzice, Rodzice lub Opiekunowie dzieci, w poradniku przedstawiamy Wam najważniejsze w kontekście rodzicielstwa informacje
+
+▪dotyczące: zasad podlegania ubezpieczeniom społecznym, w tym ubezpieczeniu chorobowemu,
+
+▪ i ubezpieczeniu zdrowotnemu, prawa do świadczeń z ubezpieczenia chorobowego.
+
+Jeśli będziecie potrzebować dodatkowych wyjaśnień, możecie je uzyskać:
+
+▪ na infolinii ZUS pod numerem 22 560 16 00,
+
+▪ wysyłając e-mail na adres cot@zus.pl,
+
+▪ osobiście w każdej placówce ZUS.
+
+Ponadto na stronie www.zus.pl znajdziecie poradniki ze szczegółowymi informacjami na temat poruszonych tutaj zagadnień. Wykaz poradników znajdziecie w rozdziale 8 „Przydatne poradniki”.
+
+### Zasady podlegania ubezpieczeniom społecznym i ubezpieczeniu zdrowotnemu z wybranych tytułów
+
+### Pracownicy
+
+#### Ubezpieczenia społeczne
+
+Każdy pracownik podlega obowiązkowo ubezpieczeniom społecznym: emerytalnemu, rentowym, chorobowemu i wypadkowemu. Nie mają przy tym znaczenia:
+
+▪ wymiar czasu pracy,
+
+▪ to, czy jest inny tytuł do ubezpieczeń społecznych,
+
+▪ to, czy pracownik ma uprawnienie do emerytury lub renty,
+
+▪ fakt bycia studentem lub uczniem.
+
+Obowiązek ubezpieczeń trwa od dnia nawiązania stosunku pracy do dnia jego ustania.
+
+Za pracownika dla celów ubezpieczeń społecznych uważa się:
+
+▪ osobę pozostającą w stosunku pracy,
+
+▪ osobę wykonującą pracę na podstawie umowy zlecenia, umowy agencyjnej, innej umowy o świadczenie usług, do której stosuje się przepisy Kodeksu cywilnego dotyczące zlecenia1 albo umowy o dzieło, jeżeli zostały one zawarte z pracodawcą, z którym dana osoba pozostaje równocześnie w stosunku pracy, lub z innym podmiotem niż pracodawca, ale w ramach tych umów praca jest wykonywana na rzecz pracodawcy, z którym osoba ta pozostaje w stosunku pracy. 1 Dotyczy umów zawartych po 13 stycznia 2000 r.
+
+<!-- s. 7 -->
+
+Umowa o dzieło nie powoduje obowiązku ubezpieczeń społecznych, jeśli jest zawarta z innym podmiotem niż pracodawca, praca w ramach tej umowy nie jest wykonywana na rzecz pracodawcy.
+
+Jeżeli pracownik spełnia kryteria określone dla osób współpracujących, dla celów ubezpieczeń społecznych jest traktowany jako osoba współpracująca. Nie dotyczy to osób, z którymi została zawarta umowa o pracę w celu przygotowania zawodowego. Pojęcie osoby współpracującej dotyczy współpracy z osobami prowadzącymi pozarolniczą działalność, korzystającymi z ulgi na start oraz zleceniobiorcami.
+
+Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe pracownika stanowi przychód – w rozumieniu przepisów o podatku dochodowym od osób fizycznych – z tytułu
+
+▪zatrudnienia w ramach stosunku pracy, z wyłączeniem: wynagrodzenia za czas niezdolności do pracy wskutek choroby lub odosobnienia w związku z chorobą zakaźną oraz zasiłków i świadczenia rehabilitacyjnego,
+
+▪ składników przychodu wymienionych w rozporządzeniu z dnia 18 grudnia 1998 r.2 Podstawę wymiaru składek na ubezpieczenia chorobowe i wypadkowe stanowi podstawa wymiaru na ubezpieczenia emerytalne i rentowe bez stosowania rocznego ograniczenia tej podstawy.
+
+Wysokość stóp procentowych składek znajdziecie w rozdziale 7 „Stopy procentowe składek na ubezpieczenia społeczne”.
+
+W podstawie wymiaru składek na ubezpieczenia emerytalne i rentowe pracownika uwzględnia się również przychód z tytułu umowy agencyjnej, umowy zlecenia lub innej umowy o świadczenie usług, do której zgodnie z Kodeksem cywilnym stosuje się przepisy dotyczące zlecenia, albo z tytułu umowy o dzieło, jeżeli umowa taka została zawarta z pracodawcą, z którym pracownik pozostaje w stosunku pracy, lub jeżeli w ramach takiej umowy wykonuje pracę na rzecz pracodawcy.
+
+▪Składki za pracownika finansowane są zgodnie z następującymi zasadami: składki na ubezpieczenie emerytalne finansują z własnych środków, w równych częściach,
+
+▪ ubezpieczony i płatnik składek, składki na ubezpieczenia rentowe finansują z własnych środków ubezpieczony – w wysokości 1,5% podstawy wymiaru – oraz płatnik składek – w wysokości 6,5% podstawy wymiaru,
+
+▪ składki na ubezpieczenie chorobowe finansuje z własnych środków ubezpieczony,
+
+▪ składki na ubezpieczenie wypadkowe finansuje z własnych środków płatnik składek. 2 Rozporządzenie Ministra Pracy i Polityki Socjalnej z dnia 18 grudnia 1998 r. w sprawie szczegółowych zasad ustalania podstawy wymiaru składek na ubezpieczenia emerytalne i rentowe (Dz.U. z 2025 r. poz. 316), dalej jako rozporządzenie MPiPS ws. wymiaru składek.
+
+<!-- s. 8 -->
+
+Możecie spotkać się z poradami, aby zawrzeć pozorną umowę o pracę, żeby uzyskać świadczenia z ubezpieczeń społecznych związane z macierzyństwem. Pamiętajcie, że nie należy tego robić!
+
+Aby objęcie danej osoby ubezpieczeniami społecznymi jako pracownika było skuteczne, ta osoba musi faktycznie pozostawać w stosunku pracy. Jako ZUS mamy prawo badać okoliczności zawarcia umowy o pracę i jej ważność.
+
+Umowa o pracę zawarta dla pozoru lub w celu obejścia prawa nie rodzi skutków prawnych, także w sferze ubezpieczeń społecznych. Jeśli podczas postępowania ustalimy, że umowa została zawarta w takich okolicznościach, wydamy decyzję o niepodleganiu ubezpieczeniom społecznym.
+
+Możemy badać także ważność postanowień umowy o pracę w zakresie wysokości wynagrodzenia. W takim przypadku możemy wydać decyzję w sprawie podstawy wymiaru składek na ubezpieczenia.
+
+#### Ubezpieczenie zdrowotne
+
+Każdy pracownik podlega również obowiązkowo ubezpieczeniu zdrowotnemu. Podstawę wymiaru składek na ubezpieczenie zdrowotne pracownika stanowi podstawa
+
+▪wymiaru składek na ubezpieczenia emerytalne i rentowe, z tym że: uwzględnia się wynagrodzenie za czas niezdolności do pracy wskutek choroby lub odosobnienia w związku z chorobą zakaźną oraz zasiłków i świadczenia
+
+▪ rehabilitacyjnego, nie stosuje się rocznego ograniczenia podstawy wymiaru składek na ubezpieczenia emerytalne i rentowe3,
+
+▪ podstawę wymiaru składki na ubezpieczenie zdrowotne pomniejsza się o kwoty składek na ubezpieczenia emerytalne, rentowe i chorobowe finansowane przez ubezpieczonego, który nie jest płatnikiem składek, i zostały potrącone przez płatnika ze środków ubezpieczonego, zgodnie z przepisami o systemie ubezpieczeń społecznych.
+
+Pracownika zgłasza do ubezpieczeń płatnik składek, czyli pracodawca. Płatnik składek rozlicza też i opłaca składki za pracownika.
+
+Składka na ubezpieczenie zdrowotne wynosi 9% podstawy wymiaru składki. 3 Zobacz rozdział 7.
+
+<!-- s. 9 -->
+
+### Zleceniobiorcy
+
+Ubezpieczenia społeczne4 Zleceniobiorca podlega obowiązkowo ubezpieczeniom emerytalnemu, rentowym i wypadkowemu, chyba że zachodzą okoliczności wyłączające ten obowiązek.
+
+Obowiązek ubezpieczeń trwa od dnia oznaczonego w umowie jako dzień rozpoczęcia jej wykonywania do dnia rozwiązania lub wygaśnięcia umowy. Nie ma znaczenia okres, na jaki umowa została zawarta.
+
+Natomiast ubezpieczeniu chorobowemu zleceniobiorca może podlegać dobrowolnie, na swój wniosek.
+
+▶ WAŻNE! ▶ Do dobrowolnego ubezpieczenia chorobowego nie można zgłosić się z okresem wstecznym (z jedynym wyjątkiem wskazanym poniżej). Objęcie dobrowolnymi ubezpieczeniami, w tym chorobowym, następuje od dnia wskazanego w zgłoszeniu ZUS ZUA, jednak nie wcześniej niż od dnia, w którym zgłoszenie to zostało złożone w ZUS. Objęcie dobrowolnie ubezpieczeniem chorobowym następuje od dnia wskazanego w zgłoszeniu ZUS ZUA, gdy zgłoszenie do obowiązkowych ubezpieczeń emerytalnego i rentowych nastąpi w terminie 7 dni od powstania obowiązku tych ubezpieczeń. ▶ Dobrowolnym ubezpieczeniem chorobowym zleceniobiorca może zostać objęty wyłącznie wtedy, gdy obowiązkowo podlega ubezpieczeniom emerytalnemu i rentowym.
+
+Obowiązujące przepisy ściśle określają sytuacje, w których obowiązek ubezpieczeń społecznych zleceniobiorcy jest wyłączony. Poniżej omówimy te występujące najczęściej. Szczegółowe zasady rozstrzygania sytuacji, gdy występują dwa (lub więcej) równoległe tytuły do obowiązkowych ubezpieczeń emerytalnego i rentowych (tzw. zbieg tytułów) znajdziecie w poradniku „Zasady podlegania ubezpieczeniom społecznym i ubezpieczeniu zdrowotnemu oraz ustalania podstaw wymiaru składek osób wykonujących pracę na podstawie umów cywilnoprawnych”, dostępnym na www.zus.pl.
+
+Zbieg z umową o pracę5 Osoba spełniająca jednocześnie warunki do objęcia obowiązkowo ubezpieczeniami emerytalnym i rentowymi z tytułu stosunku pracy oraz jako zleceniobiorca jest obejmowana tymi ubezpieczeniami wyłącznie ze stosunku pracy, jeżeli:
+
+▪ w umowie o pracę ma zagwarantowane co najmniej minimalne wynagrodzenie,
+
+▪ podstawa wymiaru składek z tytułu stosunku pracy w przeliczeniu na miesiąc wynosi co najmniej tyle, ile minimalne wynagrodzenie – w razie gdy pracodawca nie gwarantuje co najmniej minimalnego wynagrodzenia (może się tak zdarzyć w przypadku pracownika zatrudnionego w niepełnym wymiarze czasu pracy). 4 Dotyczy umów zawartych po 13 stycznia 2000 r. 5 Dotyczy przypadków, gdy umowa zlecenia nie została zawarta z własnym pracodawcą albo nie jest wykonywana na rzecz własnego pracodawcy.
+
+<!-- s. 10 -->
+
+Taka osoba może na swój wniosek zostać objęta dobrowolnymi ubezpieczeniami emerytalnym i rentowymi z tytułu umowy zlecenia. Jeśli skorzysta z tej możliwości, obowiązkowe będzie ubezpieczenie wypadkowe z tego tytułu. Nie może jednak zostać objęta z tego tytułu dobrowolnym ubezpieczeniem chorobowym.
+
+W sytuacji, gdy:
+
+▪ w umowie o pracę nie ma zagwarantowanego co najmniej minimalnego wynagrodzenia,
+
+▪ podstawa wymiaru składek z tytułu stosunku pracy w przeliczeniu na miesiąc wynosi mniej niż minimalne wynagrodzenie – w razie gdy pracodawca nie gwarantuje co najmniej minimalnego wynagrodzenia (może się tak zdarzyć w przypadku pracownika zatrudnionego w niepełnym wymiarze czasu pracy) taka osoba podlega obowiązkowo ubezpieczeniom społecznym z obu tytułów, i jako pracownik i jako zleceniobiorca.
+
+#### Zbieg z pobieraniem zasiłku macierzyńskiego
+
+Zleceniobiorca, który spełnia jednocześnie warunki do objęcia obowiązkowo ubezpieczeniami emerytalnym i rentowymi z tytułu pobierania zasiłku macierzyńskiego, podlega obowiązkowo ubezpieczeniom emerytalnemu i rentowym z tytułu pobierania tego zasiłku. Taka osoba może na swój wniosek być objęta ubezpieczeniami emerytalnym i rentowymi z tytułu umowa zlecenia (obowiązkowe będzie wtedy ubezpieczenie wypadkowe). Nie może jednak zostać objęta z tego tytułu dobrowolnym ubezpieczeniem chorobowym.
+
+#### Zbieg z przebywaniem na urlopie wychowawczym
+
+Zleceniobiorca, który spełnia jednocześnie warunki do objęcia obowiązkowo ubezpieczeniami emerytalnym i rentowymi z tytułu przebywania na urlopie wychowawczym, podlega obowiązkowo ubezpieczeniom emerytalnemu i rentowym z tytułu wykonywania umowy. Z tytułu przebywania na urlopie wychowawczym nie podlega ubezpieczeniom ani obowiązkowo ani dobrowolnie.
+
+#### Status ucznia lub studenta
+
+Nie podlega ubezpieczeniom społecznym zleceniobiorca, który jest studentem lub uczniem szkoły ponadpodstawowej – do ukończenia 26 lat6.
+
+#### Podstawa wymiaru składek
+
+Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe zleceniobiorcy stanowi przychód osiągany z tytułu wykonywania umowy zlecenia, jeżeli w umowie tej określono odpłatność za jej wykonywanie kwotowo, w kwotowej stawce godzinowej lub akordowej albo prowizyjnie. W podstawie tej nie uwzględnia się:
+
+▪ zasiłków i świadczenia rehabilitacyjnego,
+
+▪ odpowiednich składników przychodu wymienionych w rozporządzeniu MPiPS ws. wymiaru składek. 6 Zasady tej nie stosuje się do osób świadczących pracę na podstawie umowy uaktywniającej, o której mowa w ustawie z 4 lutego 2011 r. o opiece nad dziećmi w wieku do lat 3.
+
+<!-- s. 11 -->
+
+Podstawę wymiaru składek na ubezpieczenia chorobowe i wypadkowe stanowi podstawa wymiaru na ubezpieczenia emerytalne i rentowe bez stosowania rocznego ograniczenia tej podstawy. Ponadto podstawa wymiaru składek na dobrowolne ubezpieczenie chorobowe nie może przekraczać miesięcznie 250% prognozowanego przeciętnego wynagrodzenia. Wysokość stóp procentowych składek znajdziesz w rozdziale 7 „Stopy procentowe składek na ubezpieczenia społeczne”.
+
+Pamiętajcie, że aby objęcie danej osoby ubezpieczeniami społecznymi jako zleceniobiorcy było skuteczne, tytuł do ubezpieczeń musi faktycznie istnieć. Umowa zlecenia zawarta dla pozoru albo w celu obejścia prawa nie rodzi skutków prawnych także w sferze ubezpieczeń społecznych. Jeśli podczas postępowania ustalimy, że umowa została zawarta w takich okolicznościach, wydamy decyzję o niepodleganiu ubezpieczeniom społecznym.
+
+Zasady finansowania składek są takie same jak w przypadku pracowników7.
+
+#### Ubezpieczenie zdrowotne
+
+Zleceniobiorca podlega obowiązkowo ubezpieczeniu zdrowotnemu. Podstawę wymiaru składek na ubezpieczenie zdrowotne zleceniobiorcy stanowi podstawa
+
+▪wymiaru składek na ubezpieczenia emerytalne i rentowe, z tym że: nie stosuje się rocznego ograniczenia podstawy wymiaru składek na ubezpieczenia emerytalne i rentowe8,
+
+▪ podstawę wymiaru składki na ubezpieczenie zdrowotne pomniejsza się o kwoty składek na ubezpieczenia emerytalne, rentowe i chorobowe finansowane przez ubezpieczonego, który nie jest płatnikiem składek i potrąconych przez płatnika ze środków ubezpieczonego, zgodnie z przepisami o systemie ubezpieczeń społecznych.
+
+Do ubezpieczeń zgłasza zleceniobiorcę płatnik składek, czyli zleceniodawca. On też rozlicza i opłaca składki za zleceniobiorcę.
+
+Składka na ubezpieczenie zdrowotne wynosi 9% podstawy wymiaru składki. 7 Zobacz rozdział 1. 8 Zobacz rozdział 7.
+
+<!-- s. 12 -->
+
+### Osoby prowadzące pozarolniczą działalność
+
+#### Ubezpieczenia społeczne
+
+Za osobę prowadzącą pozarolniczą działalność uważa się:
+
+1) osobę prowadzącą pozarolniczą działalność gospodarczą na podstawie przepisów ustawy Prawo przedsiębiorców lub innych przepisów szczególnych, z wyjątkiem osób korzystających z tzw. ulgi na start,
+
+2) twórcę i artystę,
+
+3) osobę prowadzącą działalność w zakresie wolnego zawodu:
+
+a) w rozumieniu przepisów o zryczałtowanym podatku dochodowym od niektórych przychodów osiąganych przez osoby fizyczne,
+
+b) z której przychody są przychodami z działalności gospodarczej w rozumieniu przepisów o podatku dochodowym od osób fizycznych,
+
+4) wspólnika jednoosobowej spółki z ograniczoną odpowiedzialnością oraz wspólników spółki jawnej, komandytowej lub partnerskiej,
+
+5) akcjonariusza prostej spółki akcyjnej wnoszącego do spółki wkład, którego przedmiotem jest świadczenie pracy lub usług,
+
+6) komplementariusza w spółce komandytowo-akcyjnej,
+
+7) osobę prowadzącą publiczną lub niepubliczną szkołę, inną formę wychowania przedszkolnego, placówkę lub ich zespół, na podstawie przepisów ustawy Prawo oświatowe.
+
+Obowiązek ubezpieczeń trwa w następujących okresach:
+
+Sytuacja zawodowa danej osoby Okres, w którym podlega obowiązkowo ubezpieczeniom wspólnik jednoosobowej spółki • od dnia wpisania spółki do Krajowego Rejestru Sądowego z ograniczoną odpowiedzialnością (KRS) albo od dnia nabycia udziałów w spółce,
+
+• do dnia wykreślenia spółki z KRS albo zbycia wszystkich udziałów w spółce,
+
+• z wyłączeniem okresu, na który wykonywanie działalności przez spółkę zostało zawieszone na podstawie przepisów ustawy Prawo przedsiębiorców wspólnik spółki jawnej, • od dnia wpisania spółki do KRS albo od dnia nabycia ogółu partnerskiej lub komandytowej, praw i obowiązków w spółce, komplementariusz w spółce komandytowo-akcyjnej • do dnia wykreślenia spółki z KRS albo zbycia ogółu praw i obowiązków w spółce,
+
+• z wyłączeniem okresu, na który wykonywanie działalności przez spółkę zostało zawieszone na podstawie przepisów ustawy Prawo przedsiębiorców osoba świadcząca pracę lub usługi • od dnia rozpoczęcia świadczenia tej pracy lub tych usług, w zamian za akcje obejmowane • do dnia zakończenia świadczenia pracy lub usług w prostej spółce akcyjnej osoba prowadząca pozarolniczą • od dnia rozpoczęcia wykonywania działalności, działalność, która nie znajduje się • do dnia zaprzestania wykonywania tej działalności, w żadnej z wymienionych wyżej • z wyłączeniem okresu, na który wykonywanie działalności sytuacji zostało zawieszone na podstawie art. 36aa oraz przepisów ustawy Prawo przedsiębiorców <!-- s. 13 --> Ubezpieczenie chorobowe jest dla osoby prowadzącej pozarolniczą działalność dobrowolne.
+
+▶ WAŻNE! ▶ Do dobrowolnego ubezpieczenia chorobowego nie można zgłosić się z okresem wstecznym (z jedynym wyjątkiem wskazanym poniżej). Objęcie dobrowolnymi ubezpieczeniami, w tym chorobowym, następuje od dnia wskazanego w zgłoszeniu ZUS ZUA, jednak nie wcześniej niż od dnia, w którym zgłoszenie to zostało złożone w ZUS. Objęcie dobrowolnie ubezpieczeniem chorobowym następuje od dnia wskazanego w zgłoszeniu ZUS ZUA, gdy zgłoszenie do obowiązkowych ubezpieczeń emerytalnego i rentowych nastąpi w terminie 7 dni od powstania obowiązku tych ubezpieczeń albo do końca stycznia danego roku, jeżeli osoba rozpoczęła lub wznowiła działalność w styczniu i korzysta z ulgi mały ZUS+. ▶ Dobrowolnym ubezpieczeniem chorobowym osoba prowadząca działalność może zostać objęta wyłącznie wtedy, gdy obowiązkowo podlega ubezpieczeniom emerytalnemu i rentowym.
+
+Dobrowolne ubezpieczenie chorobowe ustaje m.in., gdy wygasa obowiązek ubezpieczeń emerytalnego i rentowych z tytułu prowadzonej działalności. Dzieje się tak w sytuacji, gdy równolegle istnieje kilka tytułów do ubezpieczeń (tzw. zbieg tytułów), np. w przypadku gdy przedsiębiorca zawiera umowę o pracę z zagwarantowanym wynagrodzeniem wynoszącym co najmniej tyle, ile minimalne wynagrodzenie, albo gdy nabędzie prawo do zasiłku macierzyńskiego. Po takiej przerwie, aby ponownie zostać objętym dobrowolnym ubezpieczeniem chorobowym, osoba prowadząca działalność musi się ponownie zgłosić do tego ubezpieczenia na formularzu ZUS ZUA. W okresie od dnia objęcia dobrowolnym ubezpieczeniem chorobowym do dnia jego ustania przedsiębiorca ma obowiązek rozliczać i opłacać składki za każdy miesiąc trwania tego ubezpieczenia.
+
+Obowiązujące przepisy ściśle określają sytuacje, w których obowiązek ubezpieczeń społecznych osoby prowadzącej pozarolniczą działalność jest wyłączony. Poniżej omówimy najczęściej występujące. Szczegółowe zasady rozstrzygania sytuacji, gdy występują równolegle różne tytuły do obowiązkowych ubezpieczeń emerytalnego i rentowych (tzw. zbieg tytułów) w poradniku „Zasady podlegania ubezpieczeniom społecznym i ubezpieczeniu zdrowotnemu oraz ustalania podstawy wymiaru składek osób prowadzących pozarolniczą działalność i osób z nimi współpracujących”, dostępnym na www.zus.pl.
+
+#### Zbieg z umową o pracę
+
+Osoba, która jednocześnie spełnia warunki do objęcia obowiązkowo ubezpieczeniami emerytalnym i rentowymi z tytułu stosunku pracy oraz z tytułu prowadzenia pozarolniczej działalności, jest obejmowana tymi ubezpieczeniami wyłącznie ze stosunku pracy, jeżeli:
+
+▪ w umowie o pracę ma zagwarantowane co najmniej minimalne wynagrodzenie,
+
+▪ podstawa wymiaru składek z tytułu stosunku pracy w przeliczeniu na miesiąc wynosi co najmniej tyle, ile minimalne wynagrodzenie – w razie gdy pracodawca nie gwarantuje co najmniej minimalnego wynagrodzenia (może się tak zdarzyć w przypadku pracownika zatrudnionego w niepełnym wymiarze czasu pracy).
+
+<!-- s. 14 -->
+
+Taka osoba może na swój wniosek zostać objęta dobrowolnymi ubezpieczeniami emerytalnym i rentowymi z tytułu prowadzenia działalności. Jeśli skorzysta z tej możliwości, obowiązkowe będzie ubezpieczenie wypadkowe z tego tytułu. Nie może jednak zostać objęta z tego tytułu dobrowolnym ubezpieczeniem chorobowym.
+
+W sytuacji, gdy:
+
+▪ w umowie o pracę nie ma zagwarantowanego co najmniej minimalnego wynagrodzenia,
+
+▪ podstawa wymiaru składek z tytułu stosunku pracy w przeliczeniu na miesiąc wynosi mniej niż minimalne wynagrodzenie – w razie gdy pracodawca nie gwarantuje co najmniej minimalnego wynagrodzenia (może się tak zdarzyć w przypadku pracownika zatrudnionego w niepełnym wymiarze czasu pracy). taka osoba podlega obowiązkowo ubezpieczeniom społecznym z obu tytułów, i jako pracownik, i jako osoba prowadząca działalność.
+
+#### Zbieg z pobieraniem zasiłku macierzyńskiego
+
+Osoba prowadząca pozarolnicza działalność, która spełnia jednocześnie warunki do objęcia obowiązkowo ubezpieczeniami emerytalnym i rentowymi z tytułu pobierania zasiłku macierzyńskiego, podlega obowiązkowo ubezpieczeniom emerytalnemu i rentowym z tytułu pobierania tego zasiłku. Taka osoba może na swój wniosek być objęta ubezpieczeniami emerytalnym i rentowymi z tytułu prowadzenia działalności (obowiązkowe będzie wtedy ubezpieczenie wypadkowe). Nie może jednak zostać objęta z tego tytułu dobrowolnym ubezpieczeniem chorobowym.
+
+#### Zbieg z przebywaniem na urlopie wychowawczym
+
+Osoba prowadząca działalność, która spełnia jednocześnie warunki do objęcia obowiązkowo ubezpieczeniami emerytalnym i rentowymi z tytułu przebywania na urlopie wychowawczym, podlega obowiązkowo ubezpieczeniom emerytalnemu i rentowym z tytułu prowadzenia działalności. Z tytułu przebywania na urlopie wychowawczym nie podlega ubezpieczeniom ani obowiązkowo, ani dobrowolnie.
+
+#### Działalność nierejestrowa (nieewidencjonowana)
+
+Nie stanowi działalności gospodarczej tzw. działalność nierejestrowa (nieewidencjonowana), której warunki określają przepisy Prawa przedsiębiorców. Osoba prowadząca taką działalność nie podlega ani ubezpieczeniom społecznym, ani ubezpieczeniu zdrowotnemu. Kwestie zasad i warunków prowadzenia tej działalności nie leżą w kompetencji ZUS.
+
+#### Tzw. ulga na start
+
+Jeśli przedsiębiorca rozpoczyna prowadzenie działalności gospodarczej, może skorzystać z tzw. ulgi na start – nie podlega wtedy ubezpieczeniom społecznym ani obowiązkowo, ani dobrowolnie. Prawo do korzystania z ulgi na start przysługuje przez maksymalnie 6 miesięcy kalendarzowych od dnia, w którym faktycznie rozpoczęto działalność gospodarczą. Jeżeli dzień ten przypada pierwszego dnia miesiąca kalendarzowego, miesiąc ten należy wliczać do 6 miesięcy trwania ulgi. Jeśli przypada w trakcie miesiąca kalendarzowego, miesiąca tego się
+
+▪nie wlicza. Warunki, które trzeba spełnić, aby skorzystać z ulgi na start, są następujące: działalność gospodarcza jest podejmowana po raz pierwszy albo ponownie po upływie co najmniej 60 miesięcy kalendarzowych od dnia jej ostatniego zawieszenia lub zakończenia,
+
+<!-- s. 15 -->
+
+▪ działalność nie jest wykonywana na rzecz byłego pracodawcy, na rzecz którego przed dniem rozpoczęcia działalności gospodarczej w bieżącym lub poprzednim roku kalendarzowym osoba wykonywała w ramach stosunku pracy lub spółdzielczego stosunku pracy czynności wchodzące w zakres działalności.
+
+Przykład Pan Adam rozpoczął działalność gospodarczą 7 maja 2026 r. Spełnił warunki do skorzystania z ulgi na start. Sześć miesięcy, za które nie będzie opłacał składek na ubezpieczenia społeczne, upłynie 30 listopada 2026 r.
+
+W okresie korzystania z ulgi na start przedsiębiorca podlega obowiązkowo ubezpieczeniu zdrowotnemu.
+
+▶ WAŻNE! ▶ W okresie korzystania z ulgi na start przedsiębiorca nie ma ochrony ubezpieczeniowej w zakresie ubezpieczeń społecznych. Nie podlega między innymi ubezpieczeniu chorobowemu.
+
+Przedsiębiorca może nie skorzystać z ulgi na start. Może także z niej zrezygnować już w trakcie korzystania – wystarczy, że złoży zgłoszenie do ubezpieczeń społecznych.
+
+Zgodnie z przepisami Prawa przedsiębiorców działalnością gospodarczą jest zorganizowana działalność zarobkowa, wykonywana we własnym imieniu i w sposób ciągły. Jako ZUS mamy prawo zbadać, czy osoba zgłoszona do ubezpieczeń społecznych faktycznie spełnia warunki, aby objąć ją nimi z tego tytułu. Jeśli działalność gospodarcza nie była faktycznie prowadzona, po przeprowadzeniu postępowania możemy wydać decyzję o niepodleganiu ubezpieczeniom społecznym.
+
+#### Podstawa wymiaru składki
+
+Podstawą wymiaru składki na ubezpieczenia emerytalne i rentowe osoby prowadzącej pozarolniczą działalność jest zadeklarowana kwota, która wynosi co najmniej 60% prognozowanego przeciętnego wynagrodzenia miesięcznego.
+
+Osoba prowadząca działalność gospodarczą, która spełnia warunki ustawowe, może skorzystać z ulg dających prawo do opłacania niższych składek.
+
+#### Preferencyjna podstawa wymiaru
+
+Jeśli przedsiębiorca rozpoczyna działalność gospodarczą i nie korzysta z ulgi na start lub skończył z niej korzystać (także przed upływem 6 miesięcy), opłaca składki od preferencyjnej podstawy. Kwota, którą zadeklaruje jako podstawę wymiaru, musi wynosić co najmniej 30% minimalnego wynagrodzenia.
+
+<!-- s. 16 -->
+
+Warunki, które musi spełnić przedsiębiorca, aby korzystać z preferencyjnej podstawy
+
+▪wymiaru: nie prowadzi pozarolniczej działalności ani nie prowadził jej w ciągu ostatnich 60 miesięcy
+
+▪ kalendarzowych przed dniem rozpoczęcia wykonywania działalności gospodarczej, nie wykonuje działalności gospodarczej na rzecz byłego lub obecnego pracodawcy, na rzecz którego przed dniem rozpoczęcia działalności gospodarczej w bieżącym lub poprzednim roku kalendarzowym wykonywał w ramach stosunku pracy lub spółdzielczego stosunku pracy czynności wchodzące w zakres działalności gospodarczej.
+
+▪Prawo do opłacania składek od preferencyjnej podstawy wymiaru przysługuje odpowiednio: przez 24 miesiące kalendarzowe od dnia rozpoczęcia działalności gospodarczej (jeśli
+
+▪ przedsiębiorca nie skorzystał z ulgi na start), od dnia wskazanego we wniosku o objęcie ubezpieczeniami społecznymi, ale dzień ten nie może być wcześniejszy od dnia, w którym przedsiębiorca zgłosi wniosek – jeśli rezygnuje
+
+▪ z ulgi na start przed upływem 6 miesięcy, od następnego dnia po upływie 6 miesięcy – jeśli korzysta z ulgi na start przez cały dopuszczalny okres.
+
+Przykład Pan Krzysztof rozpoczął pozarolniczą działalność gospodarczą 1 marca 2026 r. Od 1 września 2023 r. do 10 lutego 2024 r. podlegał ubezpieczeniom społecznym i ubezpieczeniu zdrowotnemu jako wspólnik jednoosobowej spółki z ograniczoną odpowiedzialnością. Pan Krzysztof nie może więc opłacać składek od zadeklarowanej kwoty wynoszącej co najmniej 30% minimalnego wynagrodzenia, ponieważ nie spełnia warunków. Bycie wspólnikiem spółki z o.o. jest prowadzeniem pozarolniczej działalności w rozumieniu przepisów o ubezpieczeniach społecznych, a więc pan Krzysztof w ciągu ostatnich 60 miesięcy kalendarzowych przed dniem rozpoczęcia wykonywania działalności gospodarczej prowadził taką działalność.
+
+▶ WAŻNE! ▶ Z preferencyjnej podstawy wymiaru nie można zrezygnować.
+
+#### Mały ZUS+
+
+▪Aby skorzystać w danym roku z ulgi mały ZUS+: przedsiębiorca musi prowadzić działalność gospodarczą na podstawie wpisu do Centralnej Ewidencji i Informacji o Działalności Gospodarczej (CEIDG) lub innych przepisów
+
+▪ szczególnych, jego przychód z tytułu działalności gospodarczej w poprzednim roku kalendarzowym nie mógł przekroczyć 120 000 zł.
+
+Jeśli w poprzednim roku przedsiębiorca rozpoczął, zakończył lub zawieszał działalność, przez co prowadził ją tylko przez część roku, limit, którego nie może przekroczyć przychód z działalności, jest odpowiednio niższy.
+
+Roczny limit przychodu zmniejsza się w takim przypadku proporcjonalnie, dzieląc kwotę 120 000 zł przez liczbę dni kalendarzowych w poprzednim roku kalendarzowym i mnożąc przez liczbę dni kalendarzowych prowadzenia pozarolniczej działalności gospodarczej <!-- s. 17 --> w poprzednim roku kalendarzowym. Otrzymany wynik jest zaokrąglany do pełnych groszy w górę, jeśli końcówka jest równa lub wyższa niż 0,5 grosza, lub w dół, jeśli jest niższa.
+
+▪W danym roku kalendarzowym przedsiębiorca nie może skorzystać z małego ZUS+, jeśli: w poprzednim roku prowadził działalność gospodarczą krócej niż 60 dni, tj. podlegał ubezpieczeniom społecznym lub ubezpieczeniu zdrowotnemu z tytułu tej działalności
+
+▪ krócej niż 60 dni, w poprzednim roku rozliczał się w formie karty podatkowej i korzystał ze zwolnienia sprzedaży od podatku VAT,
+
+▪ spełnia warunki do preferencyjnej podstawy wymiaru składek,
+
+▪ w poprzednim roku kalendarzowym prowadził pozarolniczą działalność, inną niż
+
+▪ działalność gospodarcza (np. był wspólnikiem spółki jawnej), wykonuje działalność gospodarczą na rzecz byłego pracodawcy, na rzecz którego przed dniem rozpoczęcia pozarolniczej działalności gospodarczej w bieżącym lub w poprzednim roku kalendarzowym wykonywał w ramach stosunku pracy lub spółdzielczego stosunku pracy czynności wchodzące w zakres wykonywanej pozarolniczej działalności gospodarczej.
+
+Niższe składki na ubezpieczenia społeczne można opłacać maksymalnie przez 36 miesięcy kalendarzowych w każdym okresie 60 miesięcy kalendarzowych prowadzenia pozarolniczej działalności gospodarczej. Okres pierwszych 60 miesięcy kalendarzowych prowadzenia pozarolniczej działalności gospodarczej zaczyna się od pierwszego miesiąca kalendarzowego, w którym przedsiębiorca skorzysta z małego ZUS+. Kolejne okresy 60 miesięcy kalendarzowych prowadzenia pozarolniczej działalności gospodarczej zaczynają się każdorazowo od pierwszego miesiąca kalendarzowego prowadzenia pozarolniczej działalności gospodarczej po upływie poprzedniego okresu 60-miesięcznego. Jako miesiąc kalendarzowy przedsiębiorca powinien przyjąć każdy miesiąc kalendarzowy, w którym korzystał z ulgi mały ZUS+ lub podlegał ubezpieczeniom z tytułu prowadzonej działalności przez co najmniej jeden dzień kalendarzowy. Osoby, które korzystały z ulgi mały ZUS+ w 2023 r. mają także prawo do dodatkowych 12 miesięcy tej ulgi.
+
+Najniższą podstawę wymiaru składek w ramach małego ZUS+ można ustalić w 3 krokach:
+
+1. Najpierw trzeba ustalić przeciętny miesięczny dochód z działalności gospodarczej w poprzednim roku kalendarzowym według wzoru: roczny dochód z tytułu prowadzenia pozarolniczej działalności gospodarczej w poprzednim roku kalendarzowym × 30 liczba dni kalendarzowych prowadzenia pozarolniczej działalności Otrzymany wynik należy zaokrąglić do pełnych groszy w górę, jeśli końcówka jest równa lub wyższa niż 0,5 grosza lub w dół, jeśli jest niższa.
+
+▶ WAŻNE! ▶ Jeśli do przedsiębiorcy w poprzednim roku kalendarzowym miały zastosowanie przepisy dotyczące zryczałtowanego podatku dochodowego w formie:
+
+<!-- s. 18 -->
+
+▶ karty podatkowej i nie korzystał ze zwolnienia z VAT, roczny dochód z działalności gospodarczej ustali, mnożąc roczny przychód z tej działalności w poprzednim roku przez współczynnik 0,5, ▶ ryczałtu od przychodów ewidencjonowanych, roczny dochód z działalności gospodarczej w poprzednim roku kalendarzowym ustali, mnożąc roczny przychód z tej działalności w poprzednim roku przez współczynnik 0,5.
+
+▶ Wynik mnożenia musi zaokrąglić do pełnych groszy, jeśli końcówka jest równa lub wyższa niż 0,5 grosza, lub w dół, jeśli jest niższa.
+
+▶ Jeśli własne składki na ubezpieczenia społeczne oraz składki osób współpracujących przedsiębiorca zaliczył do kosztów uzyskania przychodu, roczny dochód z działalności gospodarczej uzyskany w poprzednim roku kalendarzowym musi powiększyć o kwoty tych składek.
+
+2. Następnie trzeba pomnożyć przeciętny miesięczny dochód z tytułu prowadzenia pozarolniczej działalności gospodarczej w poprzednim roku kalendarzowym przez współczynnik 0,5. Otrzymany wynik przedsiębiorca musi zaokrąglić do pełnych groszy w górę, jeśli końcówka jest równa lub wyższa niż 0,5 grosza lub w dół, jeśli jest niższa.
+
+3. W końcu przedsiębiorca musi porównać otrzymany wynik z 30% minimalnego wynagrodzenia w roku, na który oblicza podstawę, i 60% prognozowanego przeciętnego wynagrodzenia miesięcznego. Najniższa podstawa wymiaru składek w ramach ulgi mały ZUS+ nie może być bowiem niższa niż 30% minimalnego wynagrodzenia ani nie może przekraczać 60% prognozowanego przeciętnego wynagrodzenia miesięcznego ustalonej na dany rok. W okresie, w którym przedsiębiorca będzie korzystał z małego ZUS+, może w poszczególnych miesiącach opłacać składki obliczone od kwoty wyższej niż obliczona według tych zasad.
+
+Podstawę wymiaru składek na ubezpieczenia chorobowe i wypadkowe stanowi podstawa wymiaru na ubezpieczenia emerytalne i rentowe bez stosowania rocznego ograniczenia tej podstawy. Ponadto podstawa wymiaru składek na dobrowolne ubezpieczenie chorobowe nie może przekraczać miesięcznie 250% prognozowanego przeciętnego wynagrodzenia.
+
+Wysokość stóp procentowych składek znajdziecie w rozdziale 7 „Stopy procentowe składek na ubezpieczenia społeczne”.
+
+Składki na ubezpieczenia emerytalne, rentowe, chorobowe i wypadkowe przedsiębiorca finansuje w całości z własnych środków.
+
+#### Ubezpieczenie zdrowotne
+
+Wysokość składki zdrowotnej zależy od formy opodatkowania. Szczegółowe informacje znajdziecie w poradniku „Zasady podlegania ubezpieczeniom społecznym i ubezpieczeniu zdrowotnemu oraz ustalania podstawy wymiaru składek osób prowadzących pozarolniczą działalność i osób z nimi współpracujących”, dostępnym na www.zus.pl.
+
+<!-- s. 19 -->
+
+### Osoby pobierające zasiłek macierzyński
+
+#### Ubezpieczenia społeczne
+
+Osoba pobierająca zasiłek macierzyński podlega obowiązkowo ubezpieczeniom emerytalnemu i rentowym.
+
+Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe osoby pobierającej zasiłek macierzyński stanowi kwota tego zasiłku.
+
+Jeśli miesięczna kwota zasiłku macierzyńskiego pomniejszonego o zaliczkę na podatek dochodowy od osób fizycznych, obliczonego na zasadach przewidzianych w tej ustawie, jest niższa niż kwota świadczenia rodzicielskiego, określonego w ustawie z dnia 28 listopada 2003 r. o świadczeniach rodzinnych, kwotę zasiłku macierzyńskiego pomniejszonego o zaliczkę na podatek dochodowy od osób fizycznych podwyższa się do wysokości świadczenia rodzicielskiego. Podstawę wymiaru składek na ubezpieczenia emerytalne i rentowe z tytułu pobierania zasiłku macierzyńskiego stanowi więc kwota tego zasiłku po podwyższeniu. Oznacza to, że podstawę wymiaru składek na ubezpieczenia społeczne osób osoby pobierających pobierającej zasiłek macierzyński (rozumiany według dotychczasowych zasad jako zasiłek w kwocie brutto, łącznie z zaliczką na podatek dochodowy od osób fizycznych) podwyższony do kwoty świadczenia rodzicielskiego, stanowi kwota po podwyższeniu, uwzględniająca zaliczkę na podatek.
+
+Jeśli osoba ubezpieczona ma prawo do więcej niż jednego zasiłku macierzyńskiego, a łączna kwota zasiłków macierzyńskich pomniejszonych o zaliczkę na podatek dochodowy od osób fizycznych jest niższa od kwoty świadczenia rodzicielskiego, kwota podwyższenia zasiłku macierzyńskiego jest obliczana jako różnica między kwotą świadczenia rodzicielskiego a łączną kwotą zasiłków macierzyńskich pomniejszonych o zaliczkę na podatek dochodowy ze wszystkich tytułów. Osoba uprawniona do zasiłku wskazuje płatnika składek zobowiązanego do naliczenia podwyższenia zasiłku.
+
+Pracownik, który łączy urlop rodzicielski z wykonywaniem pracy u pracodawcy udzielającego tego urlopu na zasadach określonych w przepisach Kodeksu pracy, podlega obowiązkowo ubezpieczeniom emerytalnemu i rentowym, zarówno z tytułu stosunku pracy, jak i z tytułu pobierania zasiłku przyznanego za okres tego urlopu. Pracownik może łączyć korzystanie z urlopu rodzicielskiego z wykonywaniem pracy u pracodawcy udzielającego tego urlopu w wymiarze, który nie jest wyższy niż połowa pełnego wymiaru czasu pracy. W takim przypadku urlopu rodzicielskiego udziela się na pozostałą część wymiaru czasu pracy.
+
+Osoba pobierająca zasiłek macierzyński, która ma prawo do emerytury lub renty, dalej podlega ubezpieczeniom emerytalnemu i rentowym z tytułu pobierania zasiłku macierzyńskiego.
+
+Składki na ubezpieczenia finansuje w całości budżet państwa za pośrednictwem Zakładu Ubezpieczeń Społecznych.
+
+<!-- s. 20 -->
+
+#### Ubezpieczenie zdrowotne
+
+Osoba pobierająca zasiłek macierzyński nie podlega z tego tytułu ubezpieczeniu zdrowotnemu. Prawo do świadczeń leczniczych w okresie pobierania zasiłku macierzyńskiego należy do właściwości NFZ.
+
+### Osoby przebywające na urlopie wychowawczym
+
+#### Ubezpieczenia społeczne
+
+Osoba przebywająca na urlopie wychowawczym podlega obowiązkowo ubezpieczeniom emerytalnemu i rentowym tylko wówczas, gdy nie ma ustalonego prawa do emerytury lub renty i nie ma innych tytułów powodujących obowiązek ubezpieczeń społecznych.
+
+Przykład Pani Maria przebywa na urlopie wychowawczym i jednocześnie 1 stycznia 2026 r. rozpoczęła prowadzenie pozarolniczej działalności gospodarczej. Od 1 stycznia 2026 r. jest objęta obowiązkowo ubezpieczeniami emerytalnym, rentowymi i wypadkowym z tytułu prowadzenia działalności. Nie jest natomiast objęta ubezpieczeniami emerytalnym i rentowymi z tytułu przebywania na urlopie wychowawczym.
+
+Podstawę wymiaru składki osoby, która jest ubezpieczona obowiązkowo z tytułu przebywania na urlopie wychowawczym, stanowi kwota przeciętnego miesięcznego wynagrodzenia wypłaconego za okres 12 miesięcy kalendarzowych poprzedzających ten urlop. Podstawa wymiaru składek nie może być jednak większa niż kwota 60% prognozowanego przeciętnego wynagrodzenia miesięcznego przyjętego do ustalenia kwoty ograniczenia rocznej podstawy wymiaru składek i nie może być niższa niż 75% kwoty minimalnego wynagrodzenia. Składka w nowej wysokości obowiązuje od 1 stycznia do 31 grudnia danego roku.
+
+Składki na ubezpieczenia finansuje w całości budżet państwa za pośrednictwem Zakładu Ubezpieczeń Społecznych.
+
+#### Ubezpieczenie zdrowotne
+
+Osoba przebywająca na urlopie wychowawczym obowiązkowo podlega ubezpieczeniu zdrowotnemu, o ile nie podlega temu obowiązkowi z innego tytułu.
+
+Składka na ubezpieczenie zdrowotne za osobę przebywającą na urlopie wychowawczym jest finansowana z budżetu państwa.
+
+### Osoby sprawujące osobistą opiekę nad dzieckiem
+
+Osoba sprawująca osobistą opiekę nad dzieckiem podlega obowiązkowo ubezpieczeniom emerytalnemu i rentowym, jeżeli nie ma ustalonego prawa do emerytury lub renty i nie ma innych tytułów powodujących obowiązek ubezpieczeń społecznych oraz spełnia warunki ustawowe.
+
+<!-- s. 21 -->
+
+Sytuacja osoby sprawującej osobistą opiekę Podstawa wymiaru składek nad dzieckiem osoba, która prowadziła pozarolniczą • 60% prognozowanego przeciętnego działalność gospodarczą przez okres wynagrodzenia miesięcznego przyjętego co najmniej 6 miesięcy i zaprzestała jej do ustalenia kwoty ograniczenia rocznej podstawy prowadzenia albo zawiesiła wykonywanie tej wymiaru składek, działalności na podstawie art. 36aa ustawy systemie ubezpieczeń społecznych • składka w nowej wysokości obowiązuje od 1 stycznia do 31 grudnia danego roku. osoba, która prowadziła inną niż określona • 60% prognozowanego przeciętnego w przepisach ustawy Prawo przedsiębiorców, wynagrodzenia miesięcznego przyjętego pozarolniczą działalność, o której mowa do ustalenia kwoty ograniczenia rocznej podstawy w art. 8 ust. 6 ustawy o systemie ubezpieczeń wymiaru składek, społecznych, przez okres co najmniej 6 miesięcy i zaprzestała jej prowadzenia • składka w nowej wysokości obowiązuje od 1 stycznia do 31 grudnia danego roku. osoba, która jest zleceniobiorcą i wykonywała • 60% prognozowanego przeciętnego pracę na podstawie umowy agencyjnej wynagrodzenia miesięcznego przyjętego lub umowy zlecenia albo innej umowy do ustalenia kwoty ograniczenia rocznej podstawy o świadczenie usług, do której zgodnie wymiaru składek, z Kodeksem cywilnym stosuje się przepisy dotyczące zlecenia, przez okres co najmniej • składka w nowej wysokości obowiązuje 6 miesięcy i zaprzestała jej wykonywania od 1 stycznia do 31 grudnia danego roku,
+
+• podstawa wymiaru składek nie może być wyższa niż przeciętna miesięczna kwota stanowiąca podstawę wymiaru składek w okresie 6 miesięcy kalendarzowych poprzedzających okres sprawowania osobistej opieki nad dzieckiem ani niższa niż 75% kwoty minimalnego wynagrodzenia.
+
+Osoba sprawująca osobistą opiekę nad dzieckiem, która nie spełnia warunków podlegania obowiązkowym ubezpieczeniom emerytalnemu i rentowym9, obowiązkowo podlega wyłącznie ubezpieczeniu emerytalnemu. Podstawę wymiaru składek stanowi kwota 75% kwoty minimalnego wynagrodzenia.
+
+Płatnikiem składek za osobę sprawującą osobistą opiekę nad dzieckiem jest ZUS. Składki na ubezpieczenie emerytalne i ubezpieczenia rentowe albo tylko ubezpieczenie emerytalne finansuje w całości budżet państwa za pośrednictwem ZUS.
+
+Szczegółowe informacje dotyczące osób sprawujących osobistą opiekę nad dzieckiem znajdziecie na podstronie Osoby sprawujące osobistą opiekę nad dzieckiem.
+
+### Stopy procentowe składek na ubezpieczenia społeczne
+
+Wysokość składek na ubezpieczenia emerytalne, rentowe, chorobowe i wypadkowe jest ustalona w formie stóp procentowych od podstawy wymiaru. Stopy procentowe
+
+▪na poszczególne ryzyka ubezpieczeniowe wynoszą: na ubezpieczenie emerytalne – 19,52% podstawy wymiaru, 9 O których mowa w art. 6a ustawy o systemie ubezpieczeń społecznych.
+
+<!-- s. 22 -->
+
+▪ na ubezpieczenia rentowe – 8% podstawy wymiaru,
+
+▪ na ubezpieczenie chorobowe – 2,45% podstawy wymiaru,
+
+▪ na ubezpieczenie wypadkowe – stopa procentowa składki jest zróżnicowana, zgodnie z ustawą o ubezpieczeniu społecznym z tytułu wypadków przy pracy i chorób zawodowych oraz odpowiednimi aktami wykonawczymi do tej ustawy.
+
+Kwoty składek na ubezpieczenia społeczne należy zaokrąglać do pełnych groszy w górę, jeżeli końcówka jest równa lub wyższa od 0,50 grosza lub w dół, jeżeli jest niższa. Szczegółowe zasady ustalania stopy procentowej składki na ubezpieczenie wypadkowe zawiera poradnik „Ustalanie stopy procentowej składki na ubezpieczenie wypadkowe”, dostępny na www.zus.pl.8 Roczne ograniczenie podstawy wymiaru składek na ubezpieczenia emerytalne i rentowe.
+
+Podstawa wymiaru składek na ubezpieczenia emerytalne i rentowe w danym roku kalendarzowym nie może być wyższa od 30-krotności prognozowanego przeciętnego wynagrodzenia miesięcznego w gospodarce narodowej na dany rok kalendarzowy.
+
+### Przydatne poradniki
+
+Szczegółowe informacje na temat zagadnień opisanych w tym poradniku znajdziesz w poradnikach dostępnych na www.zus.pl (w zakładce Baza wiedzy → Biblioteka ZUS):
+
+1) „Zasady podlegania ubezpieczeniom społecznym i ubezpieczeniu zdrowotnemu oraz ustalania podstawy wymiaru składek”,
+
+2) „Zasady ustalania podstawy wymiaru składek pracowników”,
+
+3) „Zasady podlegania ubezpieczeniom społecznym i ubezpieczeniu zdrowotnemu oraz ustalania podstawy wymiaru składek osób wykonujących pracę na podstawie umów cywilnoprawnych”,
+
+4) „Zasady podlegania ubezpieczeniom społecznym i ubezpieczeniu zdrowotnemu oraz ustalania podstawy wymiaru składek osób prowadzących pozarolniczą działalność i osób z nimi współpracujących”,
+
+5) „Zasady podlegania ubezpieczeniom społecznym i ubezpieczeniu zdrowotnemu osób przebywających na urlopie wychowawczym lub pobierających zasiłek macierzyński”,
+
+6) „Ustalanie stopy procentowej składki na ubezpieczenie wypadkowe”,
+
+7) „Polski Ład. Co zmienia się w przepisach dotyczących rozliczania składki na ubezpieczenie zdrowotne od 1 stycznia 2022 r.”.
+
+### Podstawy prawne
+
+1) Ustawa z dnia 13 października 1998 r. o systemie ubezpieczeń społecznych (Dz.U. z 2026 r. poz. 199, z późn. zm.).
+
+2) Ustawa z dnia 27 sierpnia 2004 r. o świadczeniach opieki zdrowotnej finansowanych ze środków publicznych (Dz.U. z 2025 r. poz. 1461, z późn. zm.).
+
+3) Rozporządzenie Ministra Pracy i Polityki Socjalnej z dnia 18 grudnia 1998 r. w sprawie szczegółowych zasad ustalania podstawy wymiaru składek na ubezpieczenia emerytalne i rentowe (Dz.U. z 2025 r. poz. 316).
+
+<!-- s. 23 -->
+
+#### Świadczenia z ubezpieczenia chorobowego
+
+#### Świadczenia dla kobiet w ciąży
+
+#### Słowa uznania
+
+Gratulacje! Pojawienie się dziecka w rodzinie to rewolucja w życiu każdego rodzica lub opiekuna. Abyście mogli w pełni skupić się na maluszku, przygotowaliśmy przejrzysty przewodnik po świadczeniach, które w tym wyjątkowym czasie mają zapewnić Wam bezpieczeństwo finansowe.
+
+#### Wynagrodzenie chorobowe / zasiłek chorobowy
+
+Kobiety w ciąży podlegają w Polsce szczególnej ochronie w ramach stosunku pracy. Więcej informacji znajdziecie w publikacji Państwowej Inspekcji Pracy „Ochrona stosunku pracy w ciąży” oraz na stronie internetowej www.pip.gov.pl.
+
+#### Zwolnienie lekarskie (e-ZLA)
+
+Jeżeli w okresie ciąży lekarz stwierdzi, że jesteś niezdolna do pracy, może wystawić Ci zaświadczenie lekarskie o czasowej niezdolności do pracy (e-ZLA), potocznie zwane „L4”, z kodem B. Należy pamiętać, że zwolnienie lekarskie jest wystawiane z powodu choroby występującej w okresie ciąży, a nie z powodu ciąży. Sama ciąża nie jest przesłanką do wystawienia e-ZLA.
+
+#### Wynagrodzenie chorobowe
+
+Jeśli obowiązkowo podlegasz ubezpieczeniu chorobowemu, za pierwsze 33/1410 dni zwolnienia chorobowego w roku pracodawca wypłaci Ci wynagrodzenie chorobowe. Od 34/15 dnia niezdolności do pracy przysługuje zasiłek chorobowy finansowany ze środków FUS.
+
+Jeśli podlegasz ubezpieczeniu chorobowemu dobrowolnie, nie przysługuje Ci wynagrodzenie chorobowe. Może przysługiwać Ci zasiłek chorobowy.
+
+#### Zasiłek chorobowy
+
+Zasiłek chorobowy wypłaca pracodawca albo ZUS. Zależy to od tego, ilu ubezpieczonych było zgłoszonych przez płatnika składek do ubezpieczenia chorobowego na 30 listopada w roku poprzedzającym rok kalendarzowy, w którym są wypłacane zasiłki. Dotyczy to osób podlegających temu ubezpieczeniu zarówno obowiązkowo, jak i dobrowolnie. Jeśli płatnik składek zgłosił:
+
+▪ co najmniej 21 osób (tzw. duży płatnik składek) – on jest płatnikiem zasiłków;
+
+▪ najwyżej 20 osób (tzw. mały płatnik składek) – płatnikiem zasiłków jest ZUS.
+
+Osobie prowadzącej pozarolniczą działalność gospodarczą (przedsiębiorcy lub przedsiębiorczyni) świadczenie zawsze wypłaca ZUS. 10 Za czas niezdolności pracownika do pracy wskutek choroby trwającej łącznie do 33 dni w ciągu roku kalendarzowego, a w przypadku pracownika, który ukończył 50. rok życia – trwającej łącznie do 14 dni w ciągu roku kalendarzowego – pracownik zachowuje prawo do wynagrodzenia chorobowego.
+
+<!-- s. 24 -->
+
+▶ WAŻNE! ▶ Osoby, które same opłacają za siebie składki, otrzymają świadczenie, o ile nie stwierdzimy na ich koncie zaległości z tytułu składek na ubezpieczenia społeczne przekraczających 1% minimalnego wynagrodzenia za pracę (określonego w odrębnych przepisach) to świadczenie im nie przysługuje. Stan zadłużenia ustalamy na dzień powstania prawa do świadczenia.
+
+Dotyczy to osób, które prowadzą działalność gospodarczą lub współpracują z taką osobą albo z osobą fizyczną, która prowadzi działalność gospodarczą i korzysta z ulgi na start w zakresie obowiązkowych ubezpieczeń społecznych albo jest duchownym.
+
+#### Okres zasiłkowy
+
+Okres zasiłkowy to maksymalny czas trwania niezdolności do pracy, przez który możesz otrzymywać wynagrodzenie chorobowe lub zasiłek. Standardowo wynosi on 182 dni, jednak gdy niezdolność przypada w trakcie ciąży wydłuża się do 270 dni. Sumuje się w nim wszystkie nieprzerwane okresy niezdolności do pracy (zwolnienia) oraz te z przerwą krótszą niż 61 dni. Jeśli wyczerpiesz okres zasiłkowy, ale rokujesz odzyskanie zdolności do pracy, możesz się ubiegać o świadczenie rehabilitacyjne.
+
+Jeśli chorowałaś przed ciążą, tzn. miałaś zwolnienia lekarskie bez kodu B11, a następnie po przerwie zachorujesz w trakcie ciąży i dostaniesz zwolnienie lekarskie z kodem B, okres zasiłkowy liczy się od nowa. Przerwa między zwolnieniem bez kodu B a zwolnieniem z kodem B może być krótsza niż 61 dni.
+
+#### Wysokość zasiłku chorobowego
+
+Zasiłek chorobowy w czasie ciąży przysługuje w wysokości 100% podstawy wymiaru od pierwszego dnia zwolnienia, oczywiście pod warunkiem że na zwolnieniu lekarskim jest kod B.
+
+#### Pracownicy
+
+Podstawa wymiaru zasiłku chorobowego w ciąży to 100% przeciętnego miesięcznego
+
+▪wynagrodzenia brutto: z ostatnich 12 miesięcy poprzedzających miesiąc, w którym pracownica otrzymała
+
+▪ zwolnienie lekarskie (czyli powstała niezdolność do pracy), albo za pełne kalendarzowe miesiące ubezpieczenia, jeżeli niezdolność do pracy pracownicy powstała przed upływem 12 miesięcy kalendarzowych ubezpieczenia.
+
+Przy obliczaniu podstawy wymiaru zasiłku wyłącza się wynagrodzenie za miesiące, w których z usprawiedliwionych przyczyn pracownica przepracowała mniej niż połowę obowiązującego w tym miesiącu czasu pracy.
+
+Tak uzyskaną kwotę pomniejsza się o należne składki na ubezpieczenia społeczne (13,71%) oraz o zaliczkę na podatek dochodowy (PIT). Zasiłków z ubezpieczeń społecznych nie pomniejsza się o koszty uzyskania przychodu. 11 Kod B na zwolnieniu lekarskim oznacza niezdolność do pracy przypadającą w okresie ciąży.
+
+<!-- s. 25 -->
+
+Dla pracownic zatrudnionych w pełnym wymiarze czasu pracy podstawa wymiaru nie może być niższa od kwoty minimalnego wynagrodzenia po odliczeniu kwoty odpowiadającej 13,71% tego wynagrodzenia.
+
+Podstawa wymiaru zasiłku przysługującego u tego samego pracodawcy pozostaje taka sama, tj. nie oblicza się jej na nowo, jeżeli pracownica pobierała wynagrodzenie za okres choroby i zasiłki bez przerwy lub przerwa trwała krócej niż miesiąc kalendarzowy. Wyjątkiem jest sytuacja, gdy między poszczególnymi okresami pobierania zasiłków zmieniono wymiar czasu pracy.
+
+Szczegółowe zasady dotyczące ustalania podstawy wymiaru zasiłku znajdziesz na www.zus.pl w zakładce [Świadczenia] → [Zasiłki] → [Zasiłek chorobowy] → [Podstawa
+
+▪wymiaru] → [Dla pracowników]. Opisujemy tam m.in. takie zagadnienia: jak obliczać podstawę wymiaru zasiłku, jeśli niezdolność do pracy wystąpi przed upływem pierwszego miesiąca pracy,
+
+▪ co w przypadku wynagrodzenia zmiennego,
+
+▪ jakie są zasady dotyczące niezdolności do pracy w okresie po ustaniu zatrudnienia,
+
+▪ co w sytuacji, gdy zakład pracy lub jego część przechodzi pod zwierzchnictwo innego
+
+▪ pracodawcy, jakie składniki wynagrodzenia uwzględnia się w podstawie wymiaru zasiłku, a jakich nie.
+
+#### Ubezpieczeni, którzy nie są pracownikami
+
+Podstawę wymiaru zasiłku chorobowego w ciąży dla ubezpieczonej, która nie jest pracownicą, ustala się na podstawie jej przeciętnego miesięcznego przychodu. Jest to podstawa wymiaru składek, od której opłacano składkę na jej ubezpieczenie chorobowe przez 12 miesięcy kalendarzowych poprzedzających miesiąc, w którym powstała niezdolność do pracy.
+
+Tak uzyskaną kwotę pomniejsza się o należne składki na ubezpieczenia społeczne (13,71%) oraz o zaliczkę na podatek dochodowy (PIT). Zasiłków z ubezpieczeń społecznych nie pomniejsza się o koszty uzyskania przychodu.
+
+Gdy ustala się podstawę wymiaru zasiłku, uwzględnia się przychód uzyskany za okres nieprzerwanego ubezpieczenia chorobowego, z tytułu którego przysługuje zasiłek. Za okres nieprzerwanego ubezpieczenia chorobowego uważa się także kolejne okresy podlegania ubezpieczeniu chorobowemu z tego samego tytułu, np.:
+
+▪ kolejne umowy zlecenia zawarte z tym samym zleceniodawcą,
+
+▪ kolejne okresy prowadzenia działalności pozarolniczej.
+
+#### Jak otrzymać zasiłek
+
+#### Pracownicy
+
+Zwolnienie lekarskie (e-ZLA) lekarz zazwyczaj przesyła elektronicznie do ZUS i pracodawcy, więc nie trzeba go przynosić w formie papierowej.
+
+Jeśli pracownicę zatrudnia duży płatnik składek, to on ustala wysokość zasiłków i je wypłaca. Wypłata następuje w terminach przyjętych dla wypłaty wynagrodzeń.
+
+<!-- s. 26 -->
+
+Jeśli pracownicę zatrudnia mały płatnik składek, to przesyła wniosek do ZUS, który następnie ustala wysokość zasiłków i je wypłaca. ZUS wypłaca zasiłki na bieżąco po stwierdzeniu uprawnień – nie później jednak niż w ciągu 30 dni od dnia, w którym wyjaśniła się ostatnia okoliczność niezbędna do ustalenia prawa do zasiłku.
+
+#### Ubezpieczeni, którzy nie są pracownikami
+
+Jeśli dana osoba wykonuje pracę na podstawie umowy cywilnoprawnej u dużego płatnika składek, to on ustala wysokość zasiłków i je wypłaca. Wypłata następuje w terminach przyjętych dla wypłaty wynagrodzeń.
+
+Jeśli dana osoba wykonuje pracę na podstawie umowy cywilnoprawnej u małego płatnika składek, prowadzi pozarolniczą działalność gospodarczą lub współpracuje z osobą prowadzącą pozarolniczą działalność, to ZUS ustala wysokość zasiłków i wypłaca je na wniosek ubezpieczonych.
+
+Osoba prowadząca pozarolniczą działalność gospodarczą ubiegająca się o zasiłek chorobowy powinna złożyć do ZUS zaświadczenie płatnika składek na druku Z-3b. Najwygodniej jest je złożyć za pośrednictwem portalu eZUS.
+
+#### Kontrola prawidłowości wykorzystywania zwolnień lekarskich
+
+Taka kontrola polega na tym, że ZUS lub płatnik składek weryfikuje, czy osoba niezdolna do pracy rzeczywiście powstrzymuje się od wykonywania w okresie zwolnienia pracy zarobkowej lub czy nie podejmuje aktywności niezgodnej z celem zwolnienia. Aktywnością niezgodną z celem zwolnienia od pracy są wszelkie działania utrudniające lub wydłużające proces leczenia lub rekonwalescencję, z wyłączeniem zwykłych czynności dnia codziennego lub czynności incydentalnych, których podjęcia w okresie zwolnienia od pracy wymagają istotne okoliczności. Zwykłe czynności dnia codziennego to np. wyjście do sklepu po codzienne zakupy, wyjście na wizytę do przychodni, na rehabilitację, krótki spacer, odprowadzenie dziecka do przedszkola. Czynności incydentalne, których podjęcia w okresie zwolnienia od pracy wymagają istotne okoliczności, to np. odpowiedź na maila, podpisanie faktury, jak również czynności niezwiązane z pracą, np. załatwienie sprawy urzędowej, której nie da się przełożyć.
+
+Kontrolę ZUS lub płatnik składek mogą przeprowadzić od pierwszego dnia zwolnienia, w dowolnym czasie. Może przybierać różne formy:
+
+▪ wizyty kontrolerów w miejscu zamieszkania, pobytu, pracy lub wykonywania działalności,
+
+▪ zdalnej kontroli na podstawie dokumentacji.
+
+ZUS może zwrócić się do osoby kontrolowanej, aby złożyła dodatkowe wyjaśnienia lub przekazała dokumentację potwierdzającą okoliczności choroby. Zgodnie z obowiązującymi przepisami taka osoba ma obowiązek udzielać informacji na żądanie ZUS. Co istotne, kontrola musi odbywać się z uwzględnieniem poniższych zasad:
+
+▪ z wykorzystaniem środków adekwatnych i proporcjonalnych do celu kontroli,
+
+▪ z poszanowaniem prywatności osoby kontrolowanej oraz innych osób przebywających w miejscu kontroli,
+
+<!-- s. 27 -->
+
+▪ w sposób wolny od ryzyka pogorszenia się stanu zdrowia osoby kontrolowanej
+
+▪ i zakłócania procesu leczenia lub rekonwalescencji, czas trwania kontroli musi ograniczać się do okresu niezbędnego, aby poczynić ustalenia z tej kontroli.
+
+Kontrolerzy ZUS posiadają stosowne upoważnienia, które powinni okazać osobie kontrolowanej. Osoba kontrolująca w imieniu pracodawcy (np. pracująca w kadrach) musi posiadać imienne upoważnienie od pracodawcy.
+
+Jeżeli kontrolerzy ustalą, że osoba niezdolna do pracy zamiast wykorzystywać czas zwolnienia na rekonwalescencję i powrót do zdrowia wykonuje w tym czasie pracę zarobkową lub podejmuje aktywności niezgodne z celem zwolnienia, sporządzają protokół z przeprowadzonej kontroli. Osoba kontrolowana może złożyć zastrzeżenia do ustaleń zawartych w protokole kontroli. Wątpliwości, czy osoba niezdolna do pracy wykorzystywała zwolnienie od pracy niezgodnie z jego celem, rozstrzyga ZUS. Może w tym celu uzyskać opinię lekarza, który wystawił zwolnienie lekarskie, lub lekarza orzecznika.
+
+▶ WAŻNE! ▶ Jeśli stwierdzimy, że zwolnienie było wykorzystywane niewłaściwie, osoba ubezpieczona traci prawo do zasiłku chorobowego za cały okres tego zwolnienia. Gdy zasiłek został już w całości lub częściowo wypłacony, zobowiążemy taką osobę do jego zwrotu jako nienależnie pobranego świadczenia, wraz z odsetkami. Od takiej decyzji ZUS przysługuje odwołanie do sądu.
+
+#### Przedawnienie roszczenia o wypłatę zasiłku chorobowego
+
+Roszczenie o wypłatę zasiłku chorobowego przedawnia się po upływie 6 miesięcy od ostatniego dnia okresu, za który zasiłek przysługuje. Oznacza to, że aby otrzymać zasiłek, wniosek musisz złożyć w ciągu tych 6 miesięcy. Wyjątek stanowi sytuacja, gdy to, że zasiłek nie został wypłacony, było wynikiem błędu ZUS lub dużego płatnika. W takim przypadku termin przedawnienia wynosi 3 lata.
+
+#### Zasiłek macierzyński za okres urlopu macierzyńskiego przed porodem
+
+Ubezpieczona, która jest w ciąży, może rozpocząć korzystanie z zasiłku macierzyńskiego jeszcze przed przewidywaną datą porodu – maksymalnie na 6 tygodni przed tym terminem. Jeśli ubezpieczona jest zatrudniona na umowę o pracę, musi w takim przypadku złożyć u pracodawcy wniosek wraz z odpowiednim zaświadczeniem lekarskim o przewidywanym terminie porodu.
+
+Wniosek o zasiłek macierzyński za okres urlopu macierzyńskiego przed porodem przyszła mama musi złożyć najpóźniej na 14 dni przed planowanym rozpoczęciem tego urlopu.
+
+#### Wysokość zasiłku macierzyńskiego przed porodem
+
+Zasiłek macierzyński za czas urlopu macierzyńskiego przed porodem jest płatny i wynosi 100% podstawy wymiaru.
+
+<!-- s. 28 -->
+
+Jeśli w czasie ciąży ubezpieczona pobierała zasiłek chorobowy, to podstawa wymiaru zasiłku macierzyńskiego za okres przed porodem jest taka sama, jak tego zasiłku, który go poprzedzał.
+
+Szczegółowe zasady dotyczące ustalania podstawy wymiaru zasiłku znajdziesz na www.zus.pl w zakładce [Świadczenia] → [Zasiłki] → [Zasiłek chorobowy] → [Podstawa
+
+▪wymiaru] → [Dla pracowników]. Opisujemy tam m.in. następujące zagadnienia: jak obliczać podstawę wymiaru zasiłku, jeśli niezdolność do pracy wystąpi przed upływem pierwszego miesiąca pracy,
+
+▪ co w przypadku wynagrodzenia zmiennego,
+
+▪ jakie są zasady dotyczące niezdolności do pracy w okresie po ustaniu zatrudnienia,
+
+▪ co w sytuacji, gdy zakład pracy lub jego część przechodzi pod zwierzchnictwo innego
+
+▪ pracodawcy, jakie składniki wynagrodzenia uwzględnia się w podstawie wymiaru zasiłku, a jakich nie.
+
+#### Jak otrzymać zasiłek
+
+#### Pracownicy
+
+Jeśli pracownicę zatrudnia duży płatnik składek, to on ustala wysokość zasiłków i je wypłaca. Aby mógł to zrobić, przyszła mama powinna wraz z wnioskiem o zasiłek macierzyński złożyć zaświadczenie o przewidywanym terminie porodu. Wypłata zasiłku następuje w terminach przyjętych dla wypłaty wynagrodzeń.
+
+Jeśli pracownicę zatrudnia mały płatnik składek, to on na podstawie wniosku o zasiłek macierzyński oraz zaświadczenia o przewidywanym terminie porodu, które złożyła przyszła mama, przesyła je w jej imieniu do ZUS, który następnie ustala wysokość zasiłków i je wypłaca. ZUS wypłaca zasiłki na bieżąco po stwierdzeniu uprawnień – nie później jednak niż w ciągu 30 dni od dnia, w którym wyjaśniła się ostatnia okoliczność niezbędna do ustalenia prawa do zasiłku.
+
+#### Ubezpieczeni, którzy nie są pracownikami
+
+Jeśli dana osoba wykonuje pracę na podstawie umowy cywilnoprawnej u dużego płatnika składek, to on ustala wysokość zasiłków i wypłaca je na podstawie wniosku o zasiłek macierzyński oraz zaświadczenia o przewidywanym terminie porodu, które złożyła przyszła mama. Wypłata następuje w terminach przyjętych dla wypłaty wynagrodzeń.
+
+Jeśli dana osoba wykonuje pracę na podstawie umowy cywilnoprawnej u małego płatnika składek, prowadzi pozarolniczą działalność gospodarczą lub współpracuje z osobą prowadzącą pozarolniczą działalność gospodarczą, to ZUS ustala wysokość zasiłków i je wypłaca.
+
+▪Wypłata następuje na wniosek przekazany do ZUS przez: płatnika składek w następstwie złożonego wniosku o zasiłek macierzyński oraz zaświadczenia o przewidywanym terminie porodu – w przypadku osoby wykonującej pracę na podstawie umowy cywilnoprawnej i osoby współpracującej z osobą prowadzącą działalność gospodarczą,
+
+<!-- s. 29 -->
+
+▪ samozatrudnioną (osobę prowadzącą pozarolniczą działalność gospodarczą), która powinna złożyć do ZUS wniosek na zaświadczeniu płatnika składek na druku Z-3b; najwygodniej jest je złożyć za pośrednictwem portalu eZUS.
+
+#### Świadczenia po narodzinach dziecka
+
+Narodziny dziecka to moment, w którym system ubezpieczeń społecznych przewiduje szeroki katalog uprawnień dla rodziców. Mają one:
+
+▪ zapewnić bezpieczeństwo finansowe w okresie opieki nad dzieckiem,
+
+▪ umożliwić godzenie życia zawodowego z rodzinnym.
+
+Poniżej przedstawiamy najważniejsze świadczenia przysługujące po narodzinach dziecka wraz z zasadami ich przyznawania.
+
+#### Zasiłek macierzyński – podstawowe informacje
+
+Zasiłek macierzyński to fundament Waszego bezpieczeństwa – jest jednym z kluczowych świadczeń przysługujących po narodzinach dziecka. Zastępuje wynagrodzenie w czasie, gdy trwa Wasza opieka nad dzieckiem.
+
+#### Kiedy przysługuje i przez jaki okres jest wypłacany
+
+Prawo do zasiłku macierzyńskiego powstaje:
+
+▪ z dniem urodzenia dziecka,
+
+▪ z dniem przyjęcia dziecka na wychowanie (np. przysposobienia).
+
+Kluczowy warunek: w dniu powstania prawa do zasiłku musicie podlegać ubezpieczeniu chorobowemu.
+
+Zasiłek macierzyński przysługuje osobom objętym ubezpieczeniem chorobowym:
+
+▪ obowiązkowo, np. pracownikom i pracownicom,
+
+▪ dobrowolnie, np. przedsiębiorcom i przedsiębiorczyniom, osobom z nimi współpracującym, osobom świadczącym pracę na podstawie umowy cywilnoprawnej.
+
+Zasiłek wypłaca płatnik albo ZUS – w zależności od liczby ubezpieczonych, których zgłasza płatnik składek (podobnie jak zasiłek chorobowy). Osobom prowadzącym pozarolniczą działalność gospodarczą świadczenie zawsze wypłaca ZUS.
+
+Zasiłek macierzyński nie jest jednym świadczeniem, ale grupą wypłat, które przysługują za okresy różnych urlopów związanych z rodzicielstwem. Poniżej rozbijamy go na czynniki pierwsze.
+
+#### Zasiłek macierzyński za okres urlopu macierzyńskiego
+
+To podstawowy okres ochrony zaraz po porodzie. Zaczyna się w dniu porodu, chyba że mama wykorzystała część wcześniej (zob. Zasiłek macierzyński za okres urlopu macierzyńskiego przed porodem).
+
+<!-- s. 30 -->
+
+Czas, przez jaki jest wypłacany Liczba urodzonych dzieci zasiłek macierzyński 1 20 tygodni 2 31 tygodni 3 33 tygodnie 4 35 tygodni >5 37 tygodni Podział między rodziców:
+
+▪ pierwsze 14 tygodni przysługuje wyłącznie mamie,
+
+▪ pozostały okres może wykorzystać mama, a jeśli ona wróci do pracy, może zrezygnować z pozostałej części zasiłku na rzecz taty.
+
+▶ WAŻNE! ▶ Aby mama skróciła okres pobierania zasiłku macierzyńskiego, musi złożyć o to wniosek w formie papierowej lub elektronicznej w terminie nie krótszym niż 7 dni przed przystąpieniem do pracy.
+
+▶ WAŻNE! ▶ ZUS bada, czy tata ma ubezpieczenie chorobowe i tym samym prawo do zasiłku, gdy zgłosi on chęć skorzystania z zasiłku macierzyńskiego.
+
+#### Zasiłek macierzyński za okres urlopu na warunkach urlopu macierzyńskiego
+
+Świadczenie to przysługuje opiekunom, którzy:
+
+▪ przyjęli dziecko na wychowanie i wystąpili do sądu o jego przysposobienie (adopcję),
+
+▪ przyjęli dziecko w ramach rodziny zastępczej (z wyłączeniem rodziny zastępczej zawodowej).
+
+Zasiłek uzależniony jest od wieku dziecka i liczby dzieci przyjętych jednocześnie na wychowanie – czas trwania i warunki co do zasady są identyczne jak przy biologicznym rodzicielstwie.
+
+Prawo do tego zasiłku przysługuje zazwyczaj do ukończenia przez dziecko 7. roku życia (lub 10. roku życia w przypadku odroczenia obowiązku szkolnego).
+
+#### Zasiłek macierzyński za okres uzupełniającego urlopu macierzyńskiego
+
+Przysługuje on zatrudnionym na podstawie umowy o pracę rodzicom dzieci przedwcześnie urodzonych oraz urodzonych w terminie, ale wymagających hospitalizacji.
+
+Kto może skorzystać: jedno z rodziców wychowujących dziecko, jeśli dziecko przebywa w szpitalu co najmniej 5 dni po narodzinach.
+
+<!-- s. 31 -->
+
+Czas, przez jaki przysługuje zasiłek macierzyński (tydzień za każdy tydzień pobytu dziecka
+
+▪w szpitalu): do 15 tygodni – gdy dziecko urodziło się przed 28. tygodniem ciąży lub z masą
+
+▪ urodzeniową poniżej 1000 g, do 8 tygodni – gdy dziecko urodziło się po 28. tygodniu ciąży i przebywa w szpitalu
+
+▪ po porodzie, do 8 tygodni – gdy dziecko urodziło się po 37. tygodniu ciąży i przebywa w szpitalu po porodzie, o ile pobyt dziecka w szpitalu będzie wynosił co najmniej 2 kolejne dni, przy czym pierwszy z nich przypada między 5. a 28. dniem po porodzie.
+
+Kiedy ustala się wymiar uzupełniającego urlopu macierzyńskiego, okresy pobytu dziecka w szpitalu sumuje się do upływu odpowiednio 8. albo 15. tygodnia po porodzie. Niepełny tydzień zaokrągla się w górę do pełnego tygodnia.
+
+Jeśli podczas porodu urodziło się więcej dzieci, to ustalając wymiar uzupełniającego urlopu macierzyńskiego, należy uwzględnić wagę dziecka o najniższej masie urodzeniowej oraz okres pobytu w szpitalu dziecka najdłużej hospitalizowanego.
+
+Uprawnienia do zasiłku macierzyńskiego za okres uzupełniającego urlopu macierzyńskiego ustala się, gdy jedno z rodziców złoży wniosek o zasiłek macierzyński za okres tego urlopu.
+
+▶ WAŻNE! ▶ Uzupełniający urlop macierzyński mama lub tata może wykorzystać bezpośrednio po zakończeniu urlopu macierzyńskiego.
+
+Pracodawca udziela uzupełniającego urlopu macierzyńskiego jednorazowo, gdy mama lub tata złoży wniosek w postaci papierowej lub elektronicznej co najmniej 21 dni przed zakończeniem podstawowego urlopu macierzyńskiego. Do wniosku mama lub tata musi załączyć zaświadczenie ze szpitala potwierdzające pobyt dziecka. Dokument ten musi zawierać informacje o:
+
+▪ okresie pobytu dziecka w szpitalu,
+
+▪ tygodniu ciąży, w którym urodziło się dziecko, lub jego masie urodzeniowej.
+
+Wraz z wnioskiem mama lub tata musi złożyć oświadczenie drugiego z rodziców dziecka, że nie ma zamiaru korzystać z uzupełniającego urlopu macierzyńskiego albo z zasiłku macierzyńskiego za okres odpowiadający okresowi uzupełniającego urlopu macierzyńskiego.
+
+#### Zasiłek macierzyński za okres urlopu rodzicielskiego
+
+Urlop rodzicielski to dobrowolny, płatny urlop pracowniczy na opiekę nad dzieckiem. To najdłuższy etap wsparcia. Rodzice mają elastyczność w dzieleniu się uprawnieniami do niego.
+
+Wymiar zasiłku macierzyńskiego za okres urlopu rodzicielskiego:
+
+▪ 41 tygodni – gdy urodziło się jedno dziecko,
+
+▪ 43 tygodni – gdy urodziło się co najmniej dwoje dzieci.
+
+<!-- s. 32 -->
+
+▪Podział między rodziców: każdemu z rodziców przysługuje wyłączne, 9-tygodniowe, nieprzenoszalne prawo
+
+▪ do części tego zasiłku, rodzice mogą jednocześnie lub naprzemiennie przebywać na urlopie rodzicielskim oraz
+
+▪ pobierać zasiłek macierzyński, okres pobierania zasiłku można podzielić na maksymalnie 5 części aż do zakończenia roku kalendarzowego, w którym dziecko skończy 6 lat.
+
+#### Zasiłek macierzyński za okres urlopu rodzicielskiego dla rodziców dzieci z zaświadczeniem „Za życiem”
+
+Rodzice lub opiekunowie dzieci posiadających zaświadczenie „Za życiem” (ciężka, nieodwracalna choroba lub upośledzenie)12 mają prawo do wydłużonego urlopu rodzicielskiego w wymiarze:
+
+▪ 65 tygodni – gdy urodziło się jedno dziecko,
+
+▪ 67 tygodni – gdy urodziła się co najmniej dwójka dzieci,
+
+▪ 62 tygodni – jeśli dziecko do 7. roku życia zostało przyjęte na wychowanie w ramach rodziny zastępczej, a w przypadku dziecka, wobec którego podjęto decyzję o odroczeniu obowiązku szkolnego, do 10. roku życia albo dziecka w wieku do 14. roku życia, jeśli wystąpiono do sądu w sprawie jego przysposobienia.
+
+Ze wskazanego wymiaru urlopu rodzicielskiego każdemu z zatrudnionych na podstawie umowy o pracę rodziców lub opiekunów dziecka przysługuje wyłączne prawo do 9 tygodni urlopu rodzicielskiego. Tego prawa nie można przenieść na drugie z rodziców lub opiekunów. Za wydłużone okresy urlopu rodzicielskiego przysługuje prawo do zasiłku macierzyńskiego.
+
+Jeśli jedno z rodziców lub opiekunów dziecka posiadającego zaświadczenie „Za życiem” pracuje na podstawie umowy o pracę i chce korzystać z urlopu rodzicielskiego i jednocześnie wykonywać pracę u pracodawcy udzielającego tego urlopu, czas wypłaty zasiłku macierzyńskiego za ten okres nie może przekroczyć:
+
+▪ 130 tygodni – gdy urodziło się lub przyjęto na wychowanie jedno dziecko,
+
+▪ 134 tygodni – gdy urodziło się lub przyjęto na wychowanie co najmniej dwójkę dzieci.
+
+#### Zasiłek macierzyński za okres urlopu ojcowskiego
+
+Prawo do zasiłku macierzyńskiego za okres urlopu ojcowskiego jest wyłącznym i samodzielnym prawem taty, niezależnym od uprawnień mamy. Przysługuje także wtedy, gdy mama nie podlega ubezpieczeniu chorobowemu i nie może korzystać ze świadczeń związanych z urodzeniem dziecka.
+
+Urlop ojcowski to okres zwolnienia od pracy, który przysługuje tacie zatrudnionemu na podstawie umowy o pracę na opiekę nad dzieckiem do czasu, aż dziecko skończy 12. miesiąc życia (albo aż upłynie 12 miesięcy od dnia uprawomocnienia się postanowienia orzekającego przysposobienie dziecka i nie dłużej niż do ukończenia przez dziecko 14. roku życia). 12 Art. 4 ust. 3 ustawy z dnia 4 listopada 2016 r. o wsparciu kobiet w ciąży i rodzin „Za życiem” (Dz.U. z 2024 r. poz. 1829).
+
+<!-- s. 33 -->
+
+▶ WAŻNE! ▶ Jeśli tata nie zdąży z niego skorzystać przed pierwszymi urodzinami malucha, prawo do tego urlopu wygasa.
+
+Wymiar zasiłku macierzyńskiego za okres urlopu ojcowskiego: 2 tygodnie (14 dni kalendarzowych). Tata może go wykorzystać jednorazowo lub w dwóch 7-dniowych częściach.
+
+#### Zasiłek macierzyński, gdy dziecko urodzi się martwe lub po śmierci dziecka
+
+To niezwykle trudny temat, ale system przewiduje wsparcie również w takich sytuacjach. Ma to zapewnić czas na regenerację fizyczną i psychiczną bez konieczności martwienia się o powrót do pracy.
+
+Jeżeli dziecko urodziło się martwe lub zmarło przed upływem 8. tygodnia życia (56 dni), ubezpieczonej matce przysługuje zasiłek macierzyński za okres urlopu macierzyńskiego w wymiarze 8 tygodni po porodzie – nie krócej jednak niż przez 7 dni od dnia śmierci dziecka. Jeśli dziecko zmarło po 8. tygodniu życia, zasiłek przysługuje przez 7 dni od dnia śmierci.
+
+Zasiłek macierzyński jest przyznawany na takich samych zasadach zarówno ubezpieczonej będącej pracownicą, jak i ubezpieczonej, która podlega ubezpieczeniu chorobowemu z innego tytułu, np. prowadzi pozarolniczą działalność gospodarczą.
+
+Dokumentami wymaganymi do wypłaty zasiłku macierzyńskiego, gdy dziecko urodzi się
+
+▪martwe lub po śmierci dziecka, są: odpis skrócony aktu urodzenia dziecka lub jego kopia potwierdzona przez płatnika składek albo ZUS za zgodność z oryginałem – w przypadku występowania o zasiłek macierzyński za okres od dnia porodu (na Twój wniosek oddział ZUS sam może uzyskać odpis skrócony
+
+▪ aktu urodzenia z rejestru stanu cywilnego), w przypadku gdy dziecko urodziło się martwe – odpis skrócony aktu urodzenia dziecka, z adnotacją, że dziecko urodziło się martwe, a w przypadku gdy nie został sporządzony akt urodzenia dziecka – zaświadczenie o martwym urodzeniu wydane na podstawie dokumentacji medycznej przez:
+
+— lekarza posiadającego tytuł specjalisty w dziedzinie położnictwa i ginekologii lub
+
+— lekarza w trakcie odbywania specjalizacji w dziedzinie położnictwa i ginekologii albo
+
+— położną lub
+
+— kopie tych dokumentów potwierdzone za zgodność z oryginałem przez ubezpieczonego, płatnika składek albo ZUS.
+
+W sytuacji, gdy dziecko urodzi się martwe lub po śmierci dziecka przysługuje również zasiłek pogrzebowy, który stanowi pomoc w pokryciu kosztów pochówku.
+
+#### Wysokość zasiłku macierzyńskiego
+
+Zasiłek macierzyński może być wypłacany w różnych wariantach. Poniżej przedstawiliśmy poszczególne wysokości wymiaru zasiłku macierzyńskiego w zależności od przyjętego wariantu:
+
+1. Zasiłek macierzyński za okres urlopu macierzyńskiego przed porodem wynosi 100% podstawy wymiaru zasiłku.
+
+<!-- s. 34 -->
+
+2. Zasiłek macierzyński za okres urlopu macierzyńskiego oraz urlopu rodzicielskiego:
+
+1) Wariant uśredniony – 81,5% podstawy wymiaru zasiłku przez cały okres
+
+— Warunek: mama musi w ciągu 21 dni po porodzie złożyć wniosek o zasiłek macierzyński za urlop w pełnym wymiarze, tj. za okres urlopu macierzyńskiego i przysługującej jej części urlopu rodzicielskiego, lub deklarację, że zamierza korzystać z zasiłku w takim wymiarze przez cały okres urlopu macierzyńskiego (od 20 do 37 tygodni w zależności od liczby dzieci) i rodzicielskiego (32 lub 34 tygodnie w zależności od liczby dzieci).
+
+2) Wariant zmienny – 100% i 70% podstawy wymiaru zasiłku
+
+— Warunek: mama nie złożyła wniosku o zasiłek w pełnym wymiarze w ciągu 21 dni po porodzie lub złożyła wniosek o zasiłek w niepełnym wymiarze i nie złożyła deklaracji, że zamierza korzystać z zasiłku w uśrednionej wysokości.
+
+— Wysokość: 100% podstawy wymiaru zasiłku za okres urlopu macierzyńskiego, a następnie 70% za okres urlopu rodzicielskiego.
+
+3. Takie same zasady jak w przypadku zasiłku za okres urlopu macierzyńskiego i rodzicielskiego przyjmuje się, ustalając wysokość zasiłku macierzyńskiego za okres urlopu na warunkach urlopu macierzyńskiego.
+
+4. Takie same zasady jak w przypadku zasiłku za okres urlopu macierzyńskiego i rodzicielskiego przyjmuje się, ustalając wysokość zasiłku w przypadku dzieci z zaświadczeniem „Za życiem” – z odpowiednim wydłużeniem przysługujących urlopów.
+
+5. Zasiłek macierzyński za okres uzupełniającego urlopu macierzyńskiego – 100% podstawy wymiaru zasiłku.
+
+6. Zasiłek macierzyński za okres urlopu ojcowskiego – 100% podstawy wymiaru zasiłku.
+
+7. Zasiłek macierzyński, gdy dziecko urodzi się martwe – 100% podstawy wymiaru zasiłku.
+
+▶ WAŻNE! ▶ Część urlopu rodzicielskiego (9 tygodni) jest zarezerwowana dla drugiego z rodziców.
+
+Wysokość zasiłku za ten okres wynosi zawsze 70% podstawy wymiaru zasiłku.
+
+#### Jak otrzymać zasiłek
+
+### Pracownicy
+
+Jeśli pracownicę lub pracownika zatrudnia duży płatnik składek, to on ustala wysokość zasiłków i je wypłaca. Aby przyznał i wypłacał zasiłek macierzyński, wystarczy złożyć wniosek o jego udzielenie i okazać pracodawcy do wglądu skrócony odpis aktu urodzenia dziecka. Wariant zasiłku macierzyńskiego, który płatnik wypłaci, zwykle można wskazać na formularzu przez niego udostępnionym. Nie musicie wtedy składać osobnego wniosku o zasiłek macierzyński do ZUS. Płatnik wypłaci zasiłek w terminach przyjętych dla wypłaty wynagrodzeń.
+
+Jeśli pracownicę lub pracownika zatrudnia mały płatnik składek, to występuje on w jej lub jego imieniu z wnioskiem o zasiłek macierzyński za okres urlopu macierzyńskiego / urlopu rodzicielskiego do ZUS, który następnie ustala wysokość zasiłków i je wypłaca. Aby ZUS przyznał i wypłacał zasiłek macierzyński, wystarczy złożyć wniosek o jego udzielenie oraz okazać pracodawcy do wglądu skrócony odpis aktu urodzenia dziecka lub zgłosić wniosek o to, aby ZUS sam uzyskał odpis skrócony aktu urodzenia z urzędu stanu cywilnego. Nie musicie wtedy składać osobnego wniosku o zasiłek macierzyński do ZUS. ZUS wypłaca zasiłki na bieżąco po stwierdzeniu uprawnień – nie później jednak niż w ciągu 30 dni od dnia wyjaśnienia ostatniej okoliczności niezbędnej do ustalenia prawa do zasiłku.
+
+<!-- s. 35 -->
+
+#### Osoby ubezpieczone, które nie są pracownikami
+
+Jeśli osoba ubezpieczona wykonuje pracę na podstawie umowy cywilnoprawnej u dużego płatnika składek, to płatnik ustala wysokość zasiłków i je wypłaca. Aby płatnik przyznał i wypłacał zasiłek macierzyński, wystarczy złożyć wniosek o jego udzielenie oraz okazać mu do wglądu skrócony odpis aktu urodzenia dziecka.
+
+Jeśli osoba ubezpieczona wykonuje pracę na podstawie umowy cywilnoprawnej u małego płatnika składek, to ZUS ustala wysokość zasiłków i je wypłaca. Wniosek przekazuje do ZUS płatnik składek. Aby płatnik przekazał wniosek do ZUS, wystarczy złożyć go u płatnika i okazać mu do wglądu skrócony odpis aktu urodzenia dziecka lub zgłosić wniosek o to, aby ZUS sam uzyskał odpis skrócony aktu urodzenia z urzędu stanu cywilnego. Nie musicie składać osobnego wniosku o zasiłek macierzyński do ZUS.
+
+Osoba prowadząca pozarolniczą działalność gospodarczą (przedsiębiorca lub przedsiębiorczyni) lub osoba współpracująca z osobą prowadzącą pozarolniczą działalność gospodarczą, która ubiega się o zasiłek macierzyński, powinna złożyć do ZUS wniosek o zasiłek macierzyński na druku ZAM lub zaświadczenie płatnika składek na druku Z-3b. Najwygodniej jest je złożyć za pośrednictwem portalu eZUS.
+
+#### Przedawnienie roszczenia o wypłatę zasiłku macierzyńskiego
+
+Roszczenie o wypłatę zasiłku macierzyńskiego przedawnia się po upływie 6 miesięcy od ostatniego dnia okresu, za który ten zasiłek przysługuje. Oznacza to, że aby otrzymać zasiłek, wniosek musicie złożyć w ciągu tych 6 miesięcy. Jeśli nie zgłosiliście roszczenia o wypłatę zasiłku z przyczyn niezależnych od Was, termin 6 miesięcy liczy się od dnia, w którym ustała przeszkoda uniemożliwiająca zgłoszenie roszczenia.
+
+#### Ważne informacje uzupełniające
+
+▪ Zasiłek macierzyński nie przysługuje za czas urlopu wychowawczego.
+
+▪ Osoba, która podlega dobrowolnie ubezpieczeniu chorobowemu – np. przedsiębiorczyni lub przedsiębiorca, osoba z nią lub nim współpracująca, osoba wykonująca pracę na podstawie umowy cywilnoprawnej – zostaje automatycznie i obowiązkowo wyrejestrowana z tego ubezpieczenia, gdy zaczyna pobierać zasiłek macierzyński. Aby ponownie podlegać dobrowolnemu ubezpieczeniu chorobowemu, gdy zakończy pobierać zasiłek macierzyński, musi ponownie zgłosić się do tego
+
+▪ ubezpieczenia. Osobom sprawującym opiekę nad dzieckiem, które z powodu swojej sytuacji zawodowej nie mogą skorzystać z zasiłku macierzyńskiego, przysługuje świadczenie rodzicielskie lub uposażenie macierzyńskie. Ze wsparcia tego mogą skorzystać np. osoby bezrobotne, studenci czy pracujący na umowę o dzieło. Więcej informacji można uzyskać na stronie: Świadczenie rodzicielskie – Ministerstwo Rodziny, Pracy i Polityki Społecznej – Portal Gov.pl.
+
+#### Zasiłek pogrzebowy, gdy dziecko urodzi się martwe
+
+Jeżeli dziecko urodzi się martwe (bez względu na czas trwania ciąży) przysługuje zasiłek pogrzebowy w wysokości 7000 zł. Zasiłek otrzymuje osoba, która zorganizowała pogrzeb i pokryła jego koszty. Wniosek wraz z dokumentacją osoba ta musi złożyć do ZUS w ciągu 12 miesięcy od dnia pochówku.
+
+<!-- s. 36 -->
+
+Wymagane dokumenty:
+
+1) wniosek o zasiłek pogrzebowy (druk Z-12),
+
+2) rachunki, które dotyczą poniesionych kosztów pogrzebu (np. dokumenty z kościoła, które potwierdzą koszty związane z ceremonią kościelną),
+
+3) w przypadku gdy nie został sporządzony akt urodzenia dziecka z adnotacją, że dziecko urodziło się martwe:
+
+a) karta zgonu lub jej kopia albo
+
+b) zaświadczenie o martwym urodzeniu bez względu na czas trwania ciąży, wydane na podstawie dokumentacji medycznej przez:
+
+— lekarza posiadającego tytuł specjalisty w dziedzinie położnictwa i ginekologii lub
+
+— lekarza w trakcie odbywania specjalizacji w dziedzinie położnictwa i ginekologii albo
+
+— położną.
+
+▶ WAŻNE! ▶ Rodzicom przysługuje pełna kwota zasiłku, nawet jeśli koszty pogrzebu były niższe niż 7000 zł.
+
+#### Zasiłek opiekuńczy
+
+Zasiłek opiekuńczy to świadczenie z ubezpieczenia chorobowego, które przysługuje osobie zwolnionej od wykonywania pracy z powodu konieczności osobistego sprawowania opieki nad chorym dzieckiem lub członkiem rodziny albo zdrowym dzieckiem do lat 8. Zasiłek opiekuńczy przysługuje niezależnie od tego, jak długo podlegacie ubezpieczeniu. Prawo do tego zasiłku mają na równi mama i tata dziecka. Zasiłek ten może za dany okres otrzymać tylko jedno z Was – to, które wystąpi z wnioskiem o jego wypłatę. Zasiłek opiekuńczy przysługuje wyłącznie wtedy, gdy nie ma innych członków rodziny, którzy mogą zapewnić opiekę (chyba że dziecko choruje i ma mniej niż 2 lata).
+
+Zasiłek opiekuńczy wypłaca płatnik składek albo ZUS – analogicznie jak w przypadku zasiłku chorobowego i macierzyńskiego.
+
+Osobie prowadzącej pozarolniczą działalność gospodarczą (przedsiębiorcy lub przedsiębiorczyni) zasiłek opiekuńczy wypłaca ZUS.
+
+▶ WAŻNE! ▶ Osoby, które same opłacają za siebie składki, otrzymają świadczenie, o ile nie stwierdzimy na ich koncie zaległości z tytułu składek na ubezpieczenia społeczne przekraczających 1% minimalnego wynagrodzenia za pracę (określonego w odrębnych przepisach) to świadczenie im nie przysługuje. Stan zadłużenia ustalamy na dzień powstania prawa do świadczenia.
+
+Dotyczy to osób, które prowadzą działalność gospodarczą lub współpracują z taką osobą albo z osobą fizyczną, która prowadzi działalność gospodarczą i korzysta z ulgi na start w zakresie obowiązkowych ubezpieczeń społecznych albo jest duchownym.
+
+<!-- s. 37 -->
+
+#### Kiedy jedno z Was ma prawo do zasiłku opiekuńczego
+
+Jedno z Was może skorzystać z zasiłku opiekuńczego, jeśli jest zwolnione od wykonywania
+
+▪pracy, bo musi opiekować się: dzieckiem, które nie ukończyło 8 lat i wystąpiła jedna z następujących sytuacji:
+
+— nieprzewidziane zamknięcie żłobka, klubu dziecięcego, przedszkola lub szkoły, do których Wasze dziecko uczęszcza (jeśli zostaliście o tym zawiadomieni w terminie krótszym niż 7 dni przed ich zamknięciem),
+
+— konieczność izolacji dziecka z powodu podejrzenia o nosicielstwo choroby zakaźnej,
+
+— choroba niani (z którą macie zawartą umowę uaktywniającą) lub dziennego opiekuna Waszego dziecka,
+
+— poród lub choroba małżonka lub drugiego z rodziców dziecka, jeśli ta osoba stale się nim opiekuje, a poród lub choroba uniemożliwia tę opiekę,
+
+— pobyt w szpitalu albo innej placówce leczniczej małżonka lub drugiego z rodziców
+
+▪ dziecka, jeśli ta osoba stale opiekuje się dzieckiem; dzieckiem z niepełnosprawnością (tj. dzieckiem legitymującym się orzeczeniem o znacznym stopniu niepełnosprawności albo orzeczeniem o niepełnosprawności łącznie ze wskazaniami: konieczności stałej lub długotrwałej opieki lub pomocy innej osoby w związku ze znacznie ograniczoną możliwością samodzielnej egzystencji oraz konieczności stałego współudziału na co dzień opiekuna dziecka w procesie jego leczenia, rehabilitacji i edukacji), które nie ukończyło 18 lat, jeśli wystąpiła jedna z następujących sytuacji:
+
+— poród lub choroba małżonka lub drugiego z rodziców dziecka, jeśli ta osoba stale opiekuje się dzieckiem, a poród lub choroba uniemożliwia tę opiekę,
+
+— pobyt w szpitalu albo innej placówce leczniczej małżonka lub drugiego z rodziców dziecka, jeśli ta osoba stale opiekuje się dzieckiem;
+
+▪ chorym dzieckiem z niepełnosprawnością, które nie ukończyło 18 lat;
+
+▪ chorym dzieckiem, które nie ukończyło 14 lat;
+
+▪ innym niż dziecko chorym członkiem rodziny (może to być: małżonek, rodzic, drugi rodzic dziecka, ojczym, macocha, teściowie, dziadkowie, wnuki, rodzeństwo oraz dzieci w wieku ponad 14 lat – pod warunkiem że w czasie, kiedy jedno z Was się nim opiekuje, jest z tym członkiem rodziny we wspólnym gospodarstwie domowym).
+
+▶ WAŻNE! ▶ Zasiłek opiekuńczy możecie otrzymać na swoje dzieci lub dzieci swoich małżonków, dzieci przysposobione, dzieci przyjęte na wychowanie i utrzymanie (np. w ramach rodziny zastępczej). ▶ Członkiem rodziny, który może zapewnić opiekę, nie jest osoba, która: դ jest całkowicie niezdolna do pracy, դ jest chora (korzysta ze zwolnienia lekarskiego), դ jest niesprawna fizycznie lub psychicznie ze względu na swój wiek, դ prowadzi gospodarstwo rolne, դ jest pracownikiem, który odpoczywa po pracy na nocnej zmianie, դ prowadzi działalność, nie jest zobowiązana do opieki na podstawie przepisów Kodeksu rodzinnego i opiekuńczego
+
+– jeśli odmawia sprawowania opieki.
+
+<!-- s. 38 -->
+
+#### Zwolnienie lekarskie (e-ZLA)
+
+Jeżeli lekarz stwierdzi, że jedno z Was musi osobiście sprawować opiekę nad chorym dzieckiem lub członkiem rodziny, może wystawić odpowiednie zaświadczenie lekarskie (e-ZLA – potocznie zwane „L4”). Takie zwolnienie lekarskie nie zaświadcza o niezdolności do pracy jednego z Was z powodu choroby.
+
+#### Okres wypłaty zasiłku opiekuńczego
+
+Zasiłek opiekuńczy przysługuje w roku kalendarzowym i wynosi odpowiednio:
+
+▪ 60 dni opieki nad dziećmi do lat 14,
+
+▪ 30 dni opieki nad chorym dzieckiem z niepełnosprawnością (w wieku 14–18 lat),
+
+▪ 14 dni opieki nad dziećmi powyżej 14 lat lub dorosłym członkiem rodziny.
+
+▶ WAŻNE! ▶ Łączny okres wypłaty zasiłku opiekuńczego nie może przekroczyć 60 dni w roku kalendarzowym. Nie zależy on od liczby osób uprawnionych do zasiłku, liczby dzieci lub członków rodziny, którzy wymagają opieki.
+
+Zasiłek przysługuje od pierwszego dnia ubezpieczenia chorobowego – nie obowiązuje okres wyczekiwania.
+
+▶ WAŻNE! ▶ Okres pobierania zasiłku opiekuńczego nie wlicza się do okresu zasiłkowego pracownicy lub pracownika z tytułu własnej choroby.
+
+#### Wysokość zasiłku opiekuńczego
+
+Zasiłek opiekuńczy wynosi 80% podstawy wymiaru. Podstawę wymiaru ustala się w taki sam sposób jak podstawę wymiaru zasiłku chorobowego.
+
+#### Jak otrzymać zasiłek
+
+▶ WAŻNE! ▶ Zasiłek opiekuńczy nie jest wypłacany automatycznie po wystawieniu zwolnienia.
+
+Aby go otrzymać, osoba sprawująca opiekę musi złożyć wniosek.
+
+### Pracownicy
+
+Wniosek o zasiłek opiekuńczy, który należy złożyć u pracodawcy, to:
+
+▪ formularz Z-15A – z powodu opieki nad dzieckiem,
+
+▪ formularz Z-15B – z powodu opieki nad innym chorym członkiem rodziny.
+
+Zwolnienie lekarskie (e-ZLA) lekarz zazwyczaj przesyła elektronicznie do ZUS i pracodawcy, więc nie trzeba go przynosić w formie papierowej.
+
+Jeśli osoba sprawująca opiekę pracuje u dużego płatnika składek, to on ustala wysokość zasiłków i wypłaca je na wniosek tej osoby w terminach przyjętych dla wypłaty wynagrodzeń.
+
+<!-- s. 39 -->
+
+Jeśli osoba sprawująca opiekę pracuje u małego płatnika składek, to on przesyła wniosek złożony przez tę osobę do ZUS, który następnie ustala wysokość zasiłków i je wypłaca. ZUS wypłaca zasiłki na bieżąco po stwierdzeniu uprawnień – nie później jednak niż w ciągu 30 dni od dnia, w którym wyjaśniła się ostatnia okoliczność niezbędna do ustalenia prawa do zasiłku.
+
+#### Ubezpieczeni, którzy nie są pracownikami
+
+Jeśli osoba sprawująca opiekę wykonuje pracę na podstawie umowy cywilnoprawnej u dużego płatnika składek, to płatnik ustala wysokość zasiłków i wypłaca je na wniosek tej osoby. Wypłaca je w terminach przyjętych dla wypłaty wynagrodzeń.
+
+Jeśli osoba sprawująca opiekę wykonuje pracę na podstawie umowy cywilnoprawnej u małego płatnika składek, to płatnik przesyła złożony przez tę osobę wniosek do ZUS, który ustala wysokość zasiłków i je wypłaca.
+
+Jeśli osoba sprawująca opiekę prowadzi pozarolniczą działalność gospodarczą lub współpracuje z taką osobą, to ZUS ustala wysokość zasiłków i wypłaca je na wniosek tej osoby złożony w ZUS.
+
+#### Pozostańmy w kontakcie
+
+Okres oczekiwania na dziecko oraz pierwsze miesiące po porodzie to czas pełen radości, ale i nowych wyzwań – także tych formalnych. Chcemy, aby każda mama i każdy tata wiedzieli, że Zakład Ubezpieczeń Społecznych jest instytucją, której misją jest wspieranie Was w rodzicielstwie.
+
+Zależy nam, aby młodzi rodzice byli z nami w kontakcie, kiedy tylko zajdzie taka potrzeba.
+
+W razie wątpliwości dotyczących dokumentacji i procedur czy terminu płatności świadczeń – jesteśmy dla Was.
+
+Zachęcamy, abyście korzystali z informacji zawartych w tym poradniku oraz artykułach na www.zus.pl, a w przypadku konkretnych pytań zapraszamy do kontaktu. Jesteśmy dla Was dostępni:
+
+▪ przez aplikację mobilną mZUS,
+
+▪ na infolinii 22 560 16 00,
+
+▪ przez portal eZUS,
+
+▪ za pośrednictwem e-maila mama@zus.pl,
+
+▪ w placówkach ZUS.
+
+Zespół naszych ekspertów jest po to, aby rozwiać Wasze wątpliwości i zapewnić, że skorzystacie z przysługujących Wam uprawnień.
+
+Jesteśmy, aby pomagać.
+
+Zakład Ubezpieczeń Społecznych
+
+<!-- s. 40 -->
+
+#### Podstawa prawna
+
+▪ Ustawa z dnia 25 czerwca 1999 r. o świadczeniach pieniężnych z ubezpieczenia
+
+▪ społecznego w razie choroby i macierzyństwa (Dz.U. z 2025 r. poz. 501, z późn. zm.).
+
+Ustawa z dnia 13 października 1998 r. o systemie ubezpieczeń społecznych (Dz.U. z 2026 r.
+
+▪ poz. 199, z późn. zm.). Ustawa z dnia 17 grudnia 1998 r. o emeryturach i rentach z Funduszu Ubezpieczeń
+
+▪ Społecznych (Dz.U. z 2025 r. poz. 1749, z późn. zm.). Rozporządzenie z dnia 8 grudnia 2015 r. Ministra Rodziny, Pracy i Polityki Społecznej w sprawie zakresu informacji o okolicznościach mających wpływ na prawo do zasiłków z ubezpieczenia społecznego w razie choroby i macierzyństwa lub ich wysokość oraz dokumentów niezbędnych do przyznania i wypłaty zasiłków (Dz.U. z 2025 r. poz. 616,
+
+▪ z późn. zm.). Rozporządzenie z dnia 11 października 2011 r. Ministra Pracy i Polityki Społecznej w sprawie postępowania o świadczenia emerytalno-rentowe (Dz.U. 2011 nr 237,
+
+▪ poz. 1412, z późn. zm.). Rozporządzenie z dnia 27 lipca 1999 r. Ministra Pracy i Polityki Socjalnej w sprawie szczegółowych zasad i trybu kontroli prawidłowości wykorzystywania zwolnień lekarskich
+
+▪ od pracy oraz formalnej kontroli zaświadczeń lekarskich (Dz.U. z 1999 r. nr 65, poz. 743). Rozporządzenie z dnia 10 listopada 2015 r. Ministra Pracy i Polityki Społecznej w sprawie trybu i sposobu orzekania o czasowej niezdolności do pracy, wystawiania zaświadczenia lekarskiego oraz trybu i sposobu sprostowania błędu w zaświadczeniu lekarskim (Dz.U. z 2015 r. poz. 2013).
+
+<!-- pdf p. 42 -->
+
+Załatwiaj sprawy w ZUS wygodnie Witaj w Zakładzie Ubezpieczeń Społecznych Jesteś zarejestrowany w ZUS i masz konto na PUE?
+
+Aktywuj aplikację Nie masz jeszcze konta na PUE? Możesz utworzyć je teraz.
+
+Zarejestruj się na PUE www.zus.pl elektroniczna obsługa spraw elektroniczna obsługa spraw Centrum Kontaktu Klientów 22 560 16 00 aplikacja mobilna cot@zus.pl dla klientów indywidualnych Umów się na rozmowę online: aplikacja mobilna www.zus.pl/e-wizyta dla płatników składek Więcej informacji: www.zus.pl aplikacja mobilna dla lekarzy
+
+<!-- pdf p. 43 -->
