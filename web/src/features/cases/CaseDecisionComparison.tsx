@@ -34,7 +34,7 @@ export function CaseDecisionComparison({ expected, benefits, className }: CaseDe
     expected === 'do_odczytania'
       ? 'Decyzję ZUS w tej sprawie trzeba odczytać z dokumentów sprawy — nie mamy jej zapisanej w systemie.'
       : outcome === 'brak'
-        ? 'Wynik BabyRadnik nie rozstrzyga sprawy, więc nie ma z czym porównać decyzji.'
+        ? 'Wynik Kompasu Rodzica nie rozstrzyga sprawy, więc nie ma z czym porównać decyzji.'
         : null
 
   return (
@@ -48,7 +48,7 @@ export function CaseDecisionComparison({ expected, benefits, className }: CaseDe
           <dd className="inline">{decisionLabel[expected]}</dd>
         </div>
         <div>
-          <dt className="inline font-semibold">Wynik BabyRadnik: </dt>
+          <dt className="inline font-semibold">Wynik Kompasu Rodzica: </dt>
           <dd className="inline">{outcomeLabel[outcome]}</dd>
         </div>
         <div>
