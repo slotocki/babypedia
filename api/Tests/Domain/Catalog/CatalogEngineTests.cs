@@ -72,6 +72,16 @@ public sealed class CatalogEngineTests
     }
 
     [Fact]
+    public void Benefits_keep_catalog_order_per_person()
+    {
+        var result = Assess(Pregnancy(Mother(), Father()));
+
+        var expected = BenefitCatalog.Entries.Select(e => e.Id).ToList();
+        Assert.Equal(expected, result.Benefits.Where(b => b.Person == PersonRef.Wnioskodawca).Select(b => b.Id));
+        Assert.Equal(expected, result.Benefits.Where(b => b.Person == PersonRef.DrugiRodzic).Select(b => b.Id));
+    }
+
+    [Fact]
     public void Single_person_request_yields_ten_benefits_and_keeps_not_applicable_ones()
     {
         var result = Assess(Pregnancy(Mother()));

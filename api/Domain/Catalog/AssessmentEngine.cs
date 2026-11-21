@@ -47,13 +47,13 @@ public sealed class AssessmentEngine(
 
         foreach (var person in persons)
         {
-            var cards = new List<BenefitResult>();
+            var cards = new List<(BenefitResult Card, bool Priced)>();
             foreach (var entry in BenefitCatalog.Entries.Where(e => catalogSettings.IsEnabled(e.Id)))
             {
                 if (entry.Id == BenefitId.Pogrzebowy)
                 {
                     var funeral = Funeral.Assess(facts, person, asOf, parameters, deadlines);
-                    benefits.Add(funeral.Result);
+                    cards.Add((funeral.Result, false));
                     otherMissing.AddRange(funeral.Missing);
                     continue;
                 }
@@ -67,12 +67,19 @@ public sealed class AssessmentEngine(
                     rightsMissing.AddRange(rights.MissingFacts);
                 }
 
-                cards.Add(composed);
+                cards.Add((composed, true));
             }
 
-            foreach (var card in cards)
+            var siblings = cards.Select(c => c.Card).ToList();
+            foreach (var (card, priced) in cards)
             {
-                var piped = pipeline.Run(card, cards, facts, asOf, parameters);
+                if (!priced)
+                {
+                    benefits.Add(card);
+                    continue;
+                }
+
+                var piped = pipeline.Run(card, siblings, facts, asOf, parameters);
                 benefits.Add(WithDeadlines(piped.Benefit, facts, asOf));
                 otherMissing.AddRange(piped.Missing);
             }
