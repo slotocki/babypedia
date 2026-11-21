@@ -19,6 +19,7 @@ import {
   ToneScope,
   buttonVariants,
 } from '@/ui'
+import { CaseDecisionComparison } from '@/features/cases'
 import { BenefitCard } from './BenefitCard'
 import { DeadlineItemCard } from './DeadlineItemCard'
 import { DeadlinesSection, type DeadlineEntry } from './DeadlinesSection'
@@ -100,7 +101,7 @@ function LoadingState() {
 }
 
 export function ResultPage() {
-  const { facts, setPersonFact, sessionId } = useCaseState()
+  const { facts, setPersonFact, sessionId, caseId } = useCaseState()
   const [params] = useSearchParams()
   const exampleIndex = import.meta.env.DEV ? parseExample(params.get('przyklad')) : null
   const pageRef = useFocusHeading<HTMLDivElement>()
@@ -125,6 +126,14 @@ export function ResultPage() {
     enabled: exampleIndex !== null || hasEvent,
     placeholderData: keepPreviousData,
   })
+
+  const cases = useQuery({
+    queryKey: ['cases'],
+    queryFn: () => api.cases.list(),
+    enabled: caseId !== null && exampleIndex === null,
+    staleTime: 5 * 60 * 1000,
+  })
+  const caseSummary = caseId ? cases.data?.find((c) => c.id === caseId) : undefined
 
   const data = assessment.data
   const difficult = isDifficult(facts, data)
@@ -213,6 +222,10 @@ export function ResultPage() {
             renderCards(visible)
           )}
         </Section>
+
+        {caseSummary ? (
+          <CaseDecisionComparison expected={caseSummary.oczekiwanaDecyzja} benefits={visible} />
+        ) : null}
 
         <DeadlinesSection
           entries={entries}
