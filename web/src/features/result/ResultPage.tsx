@@ -174,7 +174,7 @@ export function ResultPage() {
               benefit={benefit}
               headingLevel={grouped ? 4 : 3}
               missing={result.missingFacts.filter(
-                (m) => (m.person ?? benefit.person) === benefit.person && (m.benefitIds ?? []).includes(benefit.id),
+                (m) => (m.person ?? benefit.person) === benefit.person && (m.benefitIds == null || m.benefitIds.includes(benefit.id)),
               )}
               onSaveBasis={saveBasis}
               busy={busy}
