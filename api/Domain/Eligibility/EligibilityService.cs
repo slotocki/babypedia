@@ -566,7 +566,9 @@ internal static class RiskCatalog
 
             if (titles is not null && date is { } d)
             {
-                if (titles.Any(t => Insurance.IsSickness(t) && t.Do is { } end && end < d))
+                var ended = titles.Any(t => Insurance.IsSickness(t) && t.Do is { } end && end < d);
+                var insuredOnDate = titles.Any(t => Insurance.IsSickness(t) && Insurance.ActiveOn(t, d));
+                if (ended && !insuredOnDate)
                 {
                     risks.TryAdd("koniec_ubezpieczenia_przed_porodem", new Risk(
                         "koniec_ubezpieczenia_przed_porodem",
