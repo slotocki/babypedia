@@ -63,7 +63,6 @@ public static partial class SimulationModule
         sim.MapGet("/personas", ListPersonas);
         sim.MapGet("/me/facts", GetFactsAsync);
         sim.MapGet("/me/zus", GetZusAsync);
-        sim.MapGet("/me/debt-certificate", () => EndpointStubs.NotImplemented("be/submissions"));
 
         app.MapGet("/api/cases", (CaseCatalog cases) => Json(cases.List())).WithTags("sprawy");
         app.MapGet("/api/cases/by-hash/{sha256}", FindCaseByHash).WithTags("sprawy");

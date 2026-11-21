@@ -135,7 +135,9 @@ components:
         type: { $ref: '#/components/schemas/SubmissionType' }
         recipient: { enum: [pracodawca, zus, ezus, urzad_stanu_cywilnego] }
         submittedAt: { type: string, format: date-time }
-        pdfUrl: { type: [string, 'null'] }
+        pdfUrl: { type: [string, 'null'], description: 'Pobranie wymaga nagłówka X-Sim-Session; null, gdy plik wygasł.' }
+        status: { type: string }
+        summary: { type: string, description: Streszczenie bez danych osobowych. }
         simulated: { const: true }
     Organization:
       type: object
