@@ -1,11 +1,7 @@
 @import "tailwindcss";
+@import "./ui/tokens.css";
 
 :root {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   line-height: 1.5;
-}
-
-:focus-visible {
-  outline: 3px solid #0f766e;
-  outline-offset: 2px;
 }

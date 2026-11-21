@@ -11,6 +11,7 @@ import { CasesPage } from '@/features/cases'
 import { SupportPage } from '@/features/support'
 import { AdminPage } from '@/features/admin'
 import { NotFoundPage } from './NotFoundPage'
+import { UiGallery } from '@/ui/gallery/UiGallery'
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
       { path: paths.cases, element: <CasesPage /> },
       { path: paths.support, element: <SupportPage /> },
       { path: paths.admin, element: <AdminPage /> },
+      { path: '/ui', element: <UiGallery /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

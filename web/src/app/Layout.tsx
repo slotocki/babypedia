@@ -13,8 +13,8 @@ const nav = [
 
 export function Layout() {
   return (
-    <div className="flex min-h-dvh flex-col bg-white text-slate-900">
-      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:bg-white focus:p-2">
+    <div className="flex min-h-dvh flex-col bg-canvas text-ink">
+      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:bg-canvas focus:p-2">
         Przejdź do treści
       </a>
       <header className="border-b border-slate-200">
