@@ -27,6 +27,9 @@ const eventQuestions: MissingFact[] = [
   { fact: 'zdarzenie.dlaKogo', question: 'Dla kogo liczymy: tylko dla Ciebie czy dla Ciebie i drugiego rodzica?', type: 'enum', person: null, options: ['ja', 'ja_i_drugi_rodzic'] },
 ]
 
+/** Fakty z kroku „Praca i ubezpieczenie” (/wprowadz-dane), których nie da się wpisać na tym ekranie. */
+const workFacts = ['ubezpieczenie.tytuly', 'ubezpieczenie.podstawySkladek', 'skladki.zadluzenie']
+
 function missingEventQuestions(facts: FactSet, fromEngine: MissingFact[]): MissingFact[] {
   return eventQuestions.filter(
     (q) => facts.sprawa[q.fact as keyof FactSet['sprawa']] === undefined && !fromEngine.some((m) => m.fact === q.fact && !m.person),
@@ -59,7 +62,11 @@ export function ReviewPage() {
   const engineMissing = hasEvent ? (assessment.data?.missingFacts ?? []) : []
   const resolved = [...missingEventQuestions(facts, engineMissing), ...engineMissing].map(resolveQuestion)
   const answerable = resolved.filter((r) => r.kind !== 'readonly')
-  const unsupported = resolved.filter((r) => r.kind === 'readonly')
+  const readonlyQuestions = resolved.filter((r) => r.kind === 'readonly')
+  // Przy ręcznym wprowadzaniu (bez danych z logowania) braki o pracy uzupełnia krok „Praca i ubezpieczenie”.
+  const fillableWork = hasImportedFacts ? [] : readonlyQuestions.filter((r) => workFacts.includes(r.question.fact))
+  const unsupported = readonlyQuestions.filter((r) => !fillableWork.includes(r))
+  const workSteps = [...new Set(fillableWork.map((r) => (r.bucket === 'drugiRodzic' ? 'drugi' : 'praca')))]
 
   const sprawa = facts.sprawa
   const difficult =
@@ -212,6 +219,21 @@ export function ReviewPage() {
                           </Button>
                         </div>
                       </>
+                    ) : null}
+
+                    {workSteps.length > 0 ? (
+                      <Alert variant="warning" title="Brakuje danych o pracy i wynagrodzeniu">
+                        <p>Bez nich nie sprawdzimy prawa do zasiłków ani nie policzymy kwot.</p>
+                        <ul className="mt-2 space-y-1">
+                          {workSteps.map((krok) => (
+                            <li key={krok}>
+                              <Link to={`${paths.manual}?krok=${krok}`} className="font-semibold text-brand-strong underline underline-offset-4">
+                                {krok === 'drugi' ? 'Uzupełnij pracę i wynagrodzenie drugiego rodzica' : 'Uzupełnij pracę i wynagrodzenie'}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </Alert>
                     ) : null}
 
                     {unsupported.length > 0 ? (
