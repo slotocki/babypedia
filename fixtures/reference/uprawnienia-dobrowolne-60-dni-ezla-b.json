@@ -1,0 +1,63 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "uprawnienia-dobrowolne-60-dni-ezla-b",
+  "opis": "Dobrowolne ubezpieczenie od 60 dni, e-ZLA z kodem B → chorobowy: odmowa (90 dni); macierzyński przy porodzie w okresie ubezpieczenia: przysługuje",
+  "status": "gotowe",
+  "modul": "uprawnienia",
+  "test": 18,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-03-20",
+        "source": "user"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "zleceniobiorca",
+            "od": "2026-09-22",
+            "do": null,
+            "chorobowe": "dobrowolne"
+          }
+        ],
+        "source": "zus"
+      },
+      "ezla.zwolnienia": {
+        "value": [
+          {
+            "od": "2026-11-21",
+            "do": "2026-12-04",
+            "kod": "B",
+            "szpital": false,
+            "dataWystawienia": "2026-11-21"
+          }
+        ],
+        "source": "ezla"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "chorobowy_w_ciazy",
+        "status": "nie_przysługuje"
+      },
+      {
+        "id": "macierzynski",
+        "status": "przysługuje"
+      }
+    ]
+  },
+  "uwagi": "Ubezpieczenie od 2026-09-22 do dnia przed zwolnieniem = 60 dni."
+}

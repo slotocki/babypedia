@@ -1,0 +1,79 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-wymiar-przyjecie-za-zyciem",
+  "opis": "Przyjęcie dziecka (przysposobienie, 13 lat 11 mies.) z „Za życiem”: 9 tyg. + rodzicielski 62 tyg.",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 1,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "przyjecie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-05-04",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "user"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2012-06-04",
+        "source": "user"
+      },
+      "przyjecie.sciezka": {
+        "value": "przysposobienie",
+        "source": "user"
+      },
+      "przyjecie.wniosekDoSadu": {
+        "value": true,
+        "source": "user"
+      },
+      "dziecko.zaZyciem": {
+        "value": true,
+        "source": "user"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "przyjecie_dziecka",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 9,
+          "days": 63
+        }
+      },
+      {
+        "id": "rodzicielski",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 62
+        }
+      }
+    ]
+  },
+  "uwagi": "Wiersz przyjecie_rodzicielski_przy_minimum_tyg (z „Za życiem” 62). Założenie: dziecko.zaZyciem jest dopuszczalne także przy przyjęciu."
+}

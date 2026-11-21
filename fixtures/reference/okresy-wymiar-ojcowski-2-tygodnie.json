@@ -1,0 +1,68 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-wymiar-ojcowski-2-tygodnie",
+  "opis": "Wymiar ojcowskiego: 2 tygodnie (jedna część)",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 1,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-09-01",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-09-01",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "ojciec",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "plan.ojcowskiCzesci": {
+        "value": [
+          {
+            "tygodnie": 2,
+            "od": "2026-10-05"
+          }
+        ],
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "ojcowski",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 2,
+          "days": 14
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-ojcowski-dziecko-13-miesiecy",
+  "opis": "Ojcowski: dziecko ma 13 miesięcy → odmowa",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 7,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2025-10-10",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2025-10-10",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "ojciec",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "plan.ojcowskiCzesci": {
+        "value": [
+          {
+            "tygodnie": 2,
+            "od": "2026-12-01"
+          }
+        ],
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "ojcowski",
+        "status": "nie_przysługuje"
+      }
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-pol-etatu-20-tyg",
+  "opis": "Pół etatu przez 20 tygodni rodzicielskiego → zasiłek 50% za te tygodnie, urlop dłuższy o 10 tyg.",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 11,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "plan.pracaNaCzescEtatu": {
+        "value": [
+          {
+            "wymiar": 0.5,
+            "tygodnie": 20
+          }
+        ],
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "rodzicielski",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 51
+        }
+      }
+    ]
+  },
+  "uwagi": "Wymiar 41 tyg. + 20 × 0,5 = 10 tyg. = 51 tyg. Czynnika 50% dla tygodni łączenia nie da się wyrazić w „oczekiwane” (brak pola na wydłużenie urlopu i na czynnik dla części)."
+}

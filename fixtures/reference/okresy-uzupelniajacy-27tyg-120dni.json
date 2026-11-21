@@ -1,0 +1,76 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-uzupelniajacy-27tyg-120dni",
+  "opis": "Poród w 27. tygodniu, 120 dni w szpitalu → uzupełniający 15 tyg. (limit)",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 4,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      },
+      "dziecko.tydzienCiazyPrzyPorodzie": {
+        "value": 27,
+        "source": "usc"
+      },
+      "dziecko.masaUrodzeniowaG": {
+        "value": 1100,
+        "source": "usc"
+      },
+      "dziecko.pobytyWSzpitalu": {
+        "value": [
+          {
+            "od": "2026-03-02",
+            "do": "2026-06-29"
+          }
+        ],
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski_uzupelniajacy",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 15,
+          "days": 105
+        }
+      }
+    ]
+  }
+}
