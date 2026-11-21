@@ -8,16 +8,23 @@ interface Stored {
   facts: FactSet
   sessionId: string | null
   caseId: string | null
+  completedDeadlines: string[]
 }
+
+const initial = (): Stored => ({ facts: emptyFacts(), sessionId: null, caseId: null, completedDeadlines: [] })
 
 function load(): Stored {
   try {
     const raw = sessionStorage.getItem(STORAGE_KEY)
-    if (raw) return JSON.parse(raw) as Stored
+    if (raw) {
+      const stored = JSON.parse(raw) as Partial<Stored>
+      const completed = Array.isArray(stored.completedDeadlines) ? stored.completedDeadlines.filter((x): x is string => typeof x === 'string') : []
+      return { ...initial(), ...stored, completedDeadlines: completed }
+    }
   } catch {
     // brak dostępu do sessionStorage
   }
-  return { facts: emptyFacts(), sessionId: null, caseId: null }
+  return initial()
 }
 
 export function CaseStateProvider({ children }: { children: ReactNode }) {
@@ -49,7 +56,13 @@ export function CaseStateProvider({ children }: { children: ReactNode }) {
       setSessionId: (sessionId) => setState((s) => ({ ...s, sessionId })),
       caseId: state.caseId,
       setCaseId: (caseId) => setState((s) => ({ ...s, caseId })),
-      reset: () => setState({ facts: emptyFacts(), sessionId: null, caseId: null }),
+      completedDeadlines: state.completedDeadlines,
+      setDeadlineDone: (id, done) =>
+        setState((s) => ({
+          ...s,
+          completedDeadlines: done ? [...new Set([...s.completedDeadlines, id])] : s.completedDeadlines.filter((x) => x !== id),
+        })),
+      reset: () => setState(initial()),
     }),
     [state, setCaseFact, setPersonFact],
   )

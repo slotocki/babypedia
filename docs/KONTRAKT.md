@@ -193,7 +193,7 @@ Plik `fixtures/reference/<id>.json`, `id` = nazwa pliku:
 | `docs/prawo/**` | ludzie |
 
 Każdy moduł rejestruje się metodą z własnego pliku (`AddPeriods()`, `MapSimulationEndpoints()`, …), już wywołaną w `Program.cs`. Endpoint-zaślepka zwraca `501` ProblemDetails — gałąź podmienia go w swoim pliku.
-Frontend: router (`web/src/app/router.tsx`) ma już trasy 10 ekranów; ekran eksportuje komponent z `web/src/features/<nazwa>/index.tsx`. Stan przebiegu (fakty, id sesji, id sprawy) — `useCaseState()` z `web/src/app/case-context.ts`. Klient API — `api` z `web/src/app/api/client.ts`.
+Frontend: router (`web/src/app/router.tsx`) ma już trasy 10 ekranów; ekran eksportuje komponent z `web/src/features/<nazwa>/index.tsx`. Stan przebiegu (fakty, id sesji, id sprawy, terminy „Zrobione” — `completedDeadlines`) — `useCaseState()` z `web/src/app/case-context.ts`. Klient API — `api` z `web/src/app/api/client.ts`.
 
 ## 8. Zasady przypominające (sekcja 2)
 

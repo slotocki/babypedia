@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { api } from '@/app/api/client'
 import { useCaseState, userFact } from '@/app/case-context'
@@ -29,18 +29,7 @@ import { useFocusHeading } from './useFocusHeading'
 import { VariantSection } from './VariantSection'
 
 const steps = ['Pytania', 'Logowanie', 'Sprawdź dane', 'Wynik']
-const COMPLETED_KEY = 'babyradnik.result.completed'
 const EXAMPLE_COUNT = 5
-
-function loadCompleted(): string[] {
-  try {
-    const raw = sessionStorage.getItem(COMPLETED_KEY)
-    const parsed: unknown = raw ? JSON.parse(raw) : []
-    return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === 'string') : []
-  } catch {
-    return []
-  }
-}
 
 function parseExample(value: string | null): number | null {
   const n = Number(value)
@@ -101,20 +90,12 @@ function LoadingState() {
 }
 
 export function ResultPage() {
-  const { facts, setPersonFact, sessionId, caseId } = useCaseState()
+  const { facts, setPersonFact, sessionId, caseId, completedDeadlines, setDeadlineDone } = useCaseState()
   const [params] = useSearchParams()
   const exampleIndex = import.meta.env.DEV ? parseExample(params.get('przyklad')) : null
   const pageRef = useFocusHeading<HTMLDivElement>()
-  const [completed, setCompleted] = useState<string[]>(() => (exampleIndex ? [] : loadCompleted()))
-
-  useEffect(() => {
-    if (exampleIndex) return
-    try {
-      sessionStorage.setItem(COMPLETED_KEY, JSON.stringify(completed))
-    } catch {
-      // brak dostępu do sessionStorage
-    }
-  }, [completed, exampleIndex])
+  const [exampleCompleted, setExampleCompleted] = useState<string[]>([])
+  const completed = exampleIndex ? exampleCompleted : completedDeadlines
 
   const hasEvent = Boolean(facts.sprawa['zdarzenie.rodzaj'])
   const assessment = useQuery({
@@ -156,7 +137,10 @@ export function ResultPage() {
     setPersonFact('wnioskodawca', 'plan.dataWnioskuUsrednionego', userFact(date))
   }
 
-  const toggleDone = (id: string, done: boolean) => setCompleted((list) => (done ? [...new Set([...list, id])] : list.filter((x) => x !== id)))
+  const toggleDone = (id: string, done: boolean) => {
+    if (exampleIndex) setExampleCompleted((list) => (done ? [...new Set([...list, id])] : list.filter((x) => x !== id)))
+    else setDeadlineDone(id, done)
+  }
 
   const showBanner = sessionId !== null || hasIntegrationFacts(facts)
   const variant = facts.wnioskodawca['plan.wariantWyplaty']?.value ?? 'standardowy'
