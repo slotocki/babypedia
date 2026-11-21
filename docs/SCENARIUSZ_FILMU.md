@@ -1,6 +1,6 @@
 # Kompas Rodzica: scenariusz filmu (do 3 minut)
 
-Cel: pokazać w 3 minuty pełny przebieg, odmowę z powodem, porównanie wariantów, wniosek PDF, panel parametrów i telefon. Nagrywaj na adresie demo https://20-215-34-39.sslip.io. Zalecane: panel `/admin` nagraj na lokalnej kopii (`docker compose up -d --build`, osobna baza), żeby zmiana parametru nie została na publicznym demo. Hasło administratora nie może być widoczne w kadrze (pole hasła jest maskowane; nie pokazuj pliku `.env`).
+Cel: pokazać w 3 minuty pełny przebieg, odmowę z powodem, porównanie wariantów, wniosek PDF, panel parametrów i telefon. Nagrywaj na adresie demo https://kompasrodzica.polandcentral.cloudapp.azure.com. Zalecane: panel `/admin` nagraj na lokalnej kopii (`docker compose up -d --build`, osobna baza), żeby zmiana parametru nie została na publicznym demo. Hasło administratora nie może być widoczne w kadrze (pole hasła jest maskowane; nie pokazuj pliku `.env`).
 
 Przed nagraniem sprawdź na demo każdy krok: wyniki poniżej są oczekiwane na podstawie reguł i przypadków referencyjnych, a konkretne kwoty i daty odczytaj z ekranu i wstaw do tekstu lektora (oznaczone `[z ekranu]`).
 

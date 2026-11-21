@@ -2,7 +2,7 @@
 
 Responsywna aplikacja WWW, która dla konkretnej osoby ustala, jakie zasiłki z ubezpieczenia chorobowego przysługują w związku z rodzicielstwem (a jakie nie i dlaczego), wylicza okres i wysokość, pokazuje terminy, dokumenty i miejsce złożenia wniosku oraz pozwala sprawdzić skutki zmian („co jeśli"). Projekt na HackNation 2026, zadanie ZUS „Zasiłkowy Przewodnik Przyszłego Rodzica". Zespół: 2Stosy (Sylwester Łotocki, Andrzej Laskowski).
 
-- Demo: https://20-215-34-39.sslip.io
+- Demo: https://kompasrodzica.polandcentral.cloudapp.azure.com
 - Panel `/admin`: hasło jest ustawiane zmienną środowiskową `ADMIN_PASSWORD` i przekazywane jury osobno.
 - Repozytorium: https://github.com/slotocki/babypedia
 
