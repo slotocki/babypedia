@@ -34,7 +34,7 @@ export function RadioGroup({ name, options, value, defaultValue, onChange, onBlu
           key={option.value}
           className={cn(
             'flex min-h-14 cursor-pointer items-start gap-3 rounded-card border-2 border-line bg-surface p-4 transition-colors hover:border-brand',
-            'has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand',
+            'has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:focus]:outline-3 has-[:focus]:outline-offset-2 has-[:focus]:outline-brand',
             (disabled || option.disabled) && 'cursor-not-allowed opacity-60 hover:border-line',
             field['aria-invalid'] && 'border-bad',
           )}
