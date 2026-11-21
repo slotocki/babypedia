@@ -245,9 +245,74 @@ public sealed class SwiadczeniaPoZgonieDzieckaRule : PeriodRule<bool>
         "więc za ich okres zasiłek macierzyński nie przysługuje. Po urodzeniu martwego dziecka matce przysługuje zasiłek macierzyński " +
         "za 8 tygodni po porodzie (KP art. 180¹ § 1).";
 
-    protected override RuleStep<bool> Compute(PeriodsInputs i) =>
-        i.StillbornWithNoChildAlive
-            ? Step.NotMet<bool>(this, StillbornText, "dziecko urodzone martwe, żadne dziecko z porodu nie żyje")
-            : Step.Undecided<bool>(this,
-                "Przepisy użyte w tym module regulują po zgonie dziecka tylko urlop macierzyński. Co do tego świadczenia nie rozstrzygam — skontaktuj się z ZUS.");
+    protected override RuleStep<bool> Compute(PeriodsInputs i)
+    {
+        if (i.StillbornWithNoChildAlive)
+        {
+            return Step.NotMet<bool>(this, StillbornText, "dziecko urodzone martwe, żadne dziecko z porodu nie żyje");
+        }
+
+        if (i.DeadCountUnknown)
+        {
+            return Step.Missing<bool>(this, new MissingFact(FactKeys.DzieckoLiczbaZmarlych,
+                "Ile dzieci urodzonych przy jednym porodzie zmarło lub urodziło się martwych?", MissingFactType.Integer));
+        }
+
+        return Step.Undecided<bool>(this,
+            "Przepisy o urlopie ojcowskim (KP art. 182³) nie odsyłają do art. 180¹ i nie mówią, co dzieje się z urlopem po zgonie dziecka. " +
+            "Co do urlopu ojcowskiego nie rozstrzygam — skontaktuj się z ZUS.");
+    }
+}
+
+/// <summary>
+/// Zgon dziecka w trakcie urlopu rodzicielskiego albo uzupełniającego: prawo do urlopu zachowuje się przez 7 dni od dnia zgonu
+/// (KP art. 180¹ § 2, stosowany odpowiednio przez art. 182¹g i art. 180² § 7). Zgon przed rozpoczęciem urlopu — urlop nie przysługuje.
+/// </summary>
+public sealed class ZgonWTrakcieUrlopuRule(BenefitId leave) : PeriodRule<Period>
+{
+    private bool Parental => leave == BenefitId.Rodzicielski;
+
+    private string LeaveName => Parental ? "urlopu rodzicielskiego" : "uzupełniającego urlopu macierzyńskiego";
+
+    public override string Id => Parental ? "zgon_dziecka_w_trakcie_rodzicielskiego" : "zgon_dziecka_w_trakcie_uzupelniajacego";
+
+    public override string PodstawaPrawna => Parental ? "KP art. 180¹ § 2 w zw. z art. 182¹g" : "KP art. 180¹ § 2 w zw. z art. 180² § 7";
+
+    protected override RuleStep<Period> Compute(PeriodsInputs i)
+    {
+        var period = Parental ? i.RodzicielskiOkres.Value?.Period : i.UzupelniajacyOkres.Value;
+        if (period is null || i.DeathDate is not { } death)
+        {
+            return Step.Undecided<Period>(this, $"Nie ustalono okresu {LeaveName}, więc nie da się ocenić skutków zgonu dziecka — nie rozstrzygam.");
+        }
+
+        var days = i.ParamInt(PeriodsParameterKeys.ZgonPo8TygDni);
+        if (death < period.From)
+        {
+            return Step.NotMet<Period>(this,
+                $"Dziecko zmarło {PeriodMath.Format(death)}, przed rozpoczęciem {LeaveName} ({PeriodMath.Format(period.From)}). " +
+                $"Urlop służy opiece nad dzieckiem, więc zasiłek za jego okres nie przysługuje. Prawo do urlopu zachowuje się przez {days} dni od zgonu " +
+                "tylko wtedy, gdy dziecko zmarło w trakcie urlopu.",
+                "zgon dziecka przed rozpoczęciem urlopu");
+        }
+
+        var keepEnd = death.AddDays(days - 1);
+        if (keepEnd >= period.To)
+        {
+            return Step.Met(this, period,
+                $"Dziecko zmarło {PeriodMath.Format(death)}; prawo do urlopu zachowuje się przez {days} dni od zgonu, a urlop kończy się wcześniej — okres się nie zmienia: {PeriodMath.Describe(period)}.",
+                "zgon dziecka pod koniec urlopu albo po nim");
+        }
+
+        var cut = PeriodMath.Span(period.From, keepEnd);
+        return Step.Met(this, cut,
+            $"Dziecko zmarło {PeriodMath.Format(death)} w trakcie {LeaveName}. Prawo do urlopu, a więc i do zasiłku, zachowuje się przez {days} dni od dnia zgonu: {PeriodMath.Describe(cut)}.",
+            $"zgon dziecka w trakcie urlopu — {days} dni od zgonu");
+    }
+
+    /// <summary>Przycina części urlopu do ostatniego dnia okresu po zgonie.</summary>
+    public static IReadOnlyList<BenefitPart> Trim(IReadOnlyList<BenefitPart> parts, DateOnly lastDay) =>
+        [.. parts
+            .Where(p => p.Period.From <= lastDay)
+            .Select(p => p.Period.To <= lastDay ? p : p with { Period = PeriodMath.Span(p.Period.From, lastDay) })];
 }

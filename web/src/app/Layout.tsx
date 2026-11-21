@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from 'react-router'
+import { NavLink, Outlet, useLocation } from 'react-router'
 import { UserIcon, cn } from '@/ui'
 import { paths } from './paths'
 import { useCaseState } from './case-context'
@@ -25,6 +25,8 @@ const linkClass = (isActive: boolean) =>
 
 export function Layout() {
   const { sessionId } = useCaseState()
+  // Strona główna ma tylko trzy kafelki wejścia — bez nawigacji i linków do instytucji (są na pozostałych ekranach).
+  const isHome = useLocation().pathname === paths.start
 
   return (
     <div className="flex min-h-dvh flex-col bg-canvas text-ink">
@@ -38,15 +40,17 @@ export function Layout() {
             <span className="text-[#0d477d]">Kompas <span className="text-[#007a67]">Rodzica</span></span>
           </NavLink>
 
-          <nav aria-label="Główna nawigacja" className="order-3 w-full sm:order-0 sm:w-auto">
-            <ul className="grid grid-cols-4 gap-1 sm:flex">
-              {primaryNav.map(({ to, label }) => (
-                <li key={to}>
-                  <NavLink to={to} end className={({ isActive }) => cn(linkClass(isActive), 'justify-center bg-canvas/60 px-1 text-center text-xs sm:px-3 sm:text-sm', isActive && 'bg-brand-soft')}>{label}</NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {isHome ? null : (
+            <nav aria-label="Główna nawigacja" className="order-3 w-full sm:order-0 sm:w-auto">
+              <ul className="grid grid-cols-4 gap-1 sm:flex">
+                {primaryNav.map(({ to, label }) => (
+                  <li key={to}>
+                    <NavLink to={to} end className={({ isActive }) => cn(linkClass(isActive), 'justify-center bg-canvas/60 px-1 text-center text-xs sm:px-3 sm:text-sm', isActive && 'bg-brand-soft')}>{label}</NavLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
 
           {sessionId ? (
             <NavLink to={paths.account} className={({ isActive }) => cn(linkClass(isActive), 'ml-auto gap-1.5 bg-canvas/60 whitespace-nowrap', isActive && 'bg-brand-soft')}>
@@ -60,18 +64,20 @@ export function Layout() {
       </main>
       <footer className="border-t border-line bg-surface text-sm text-ink-soft">
         <div className="mx-auto max-w-5xl space-y-3 px-4 py-4">
-          <nav aria-label="Przydatne strony">
-            <ul className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
-              {externalLinks.map((link) => (
-                <li key={link.href}>
-                  <a href={link.href} target="_blank" rel="noreferrer" className="font-semibold text-brand-strong underline underline-offset-4 hover:text-brand">
-                    {link.label}
-                    <span className="sr-only"> (otwiera się w nowej karcie)</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {isHome ? null : (
+            <nav aria-label="Przydatne strony">
+              <ul className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
+                {externalLinks.map((link) => (
+                  <li key={link.href}>
+                    <a href={link.href} target="_blank" rel="noreferrer" className="font-semibold text-brand-strong underline underline-offset-4 hover:text-brand">
+                      {link.label}
+                      <span className="sr-only"> (otwiera się w nowej karcie)</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
           <p>Decyzję podejmuje ZUS lub płatnik składek. Integracje działają w trybie symulacji na fikcyjnych danych.</p>
         </div>
       </footer>

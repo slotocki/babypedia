@@ -136,9 +136,9 @@ Wynik `dotnet test --solution api/BabyRadnik.slnx` na gałęzi `main` (22.11.202
 
 ```
 Podsumowanie przebiegu testu: Powodzenie!
-  suma: 868
+  suma: 875
   zakończone niepowodzeniem: 0
-  zakończone powodzeniem: 867
+  zakończone powodzeniem: 874
   pominięto: 1
 ```
 
@@ -211,6 +211,7 @@ Przypadki, w których silnik świadomie odpowiada „nie rozstrzygam" (zamiast z
 - wcześniejsza przerwa w ubezpieczeniu dłuższa niż 30 dni, z możliwym wliczeniem (urlop wychowawczy, wojsko) — okresu wyczekiwania;
 - świadczenie rehabilitacyjne po wyczerpaniu zasiłku (orzeka lekarz orzecznik ZUS);
 - pobyt matki nieubezpieczonej w szpitalu (nie wymieniony w art. 29 ust. 9);
+- urlop ojcowski po zgonie dziecka (art. 182³ KP nie odsyła do art. 180¹). Urlop rodzicielski i uzupełniający po zgonie dziecka silnik liczy: 7 dni od zgonu, gdy dziecko zmarło w trakcie urlopu (art. 180¹ § 2 w zw. z art. 182¹g i 180² § 7), a „nie przysługuje”, gdy zmarło przed jego rozpoczęciem lub urodziło się martwe. Przy porodzie mnogim, gdy jedno dziecko żyje, wymiar rodzicielskiego to 41 tyg. z notą, że ZUS może przyznać 43 (przepis nie rozstrzyga);
 - stawka przejęcia zasiłku przez ojca, gdy matka złożyła wniosek o wariant uśredniony;
 - urlop na przyjęcie dziecka skrócony do granicy wieku, ale dłuższy niż minimum (wymiar urlopu rodzicielskiego niewskazany w przepisie);
 - podstawa wymiaru poza poziomem 1: zatrudnienie krótsze niż pełny miesiąc, zleceniobiorca krócej niż miesiąc, zmiana wymiaru czasu pracy w okresie obliczeniowym, przerwa do 30 dni lub zmiana tytułu;

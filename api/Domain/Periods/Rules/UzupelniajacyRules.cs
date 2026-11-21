@@ -24,11 +24,14 @@ public sealed class UzupelniajacyPrzypadekRule : PeriodRule<UzupelniajacyCase>
                 "dziecko urodzone martwe, żadne dziecko z porodu nie żyje");
         }
 
-        if (i.ChildDeceased)
+        if (i.DeadCountUnknown)
         {
-            return Step.Undecided<UzupelniajacyCase>(this,
-                "Przy zgonie dziecka nie rozstrzygam uzupełniającego urlopu macierzyńskiego — skontaktuj się z ZUS.");
+            return Step.Missing<UzupelniajacyCase>(this, new MissingFact(FactKeys.DzieckoLiczbaZmarlych,
+                "Ile dzieci urodzonych przy jednym porodzie zmarło lub urodziło się martwych?", MissingFactType.Integer));
         }
+
+        // Zgon dziecka po porodzie: okres liczy się normalnie, a skraca go reguła ZgonWTrakcieUrlopuRule (7 dni od zgonu).
+        // Przy porodzie mnogim z dzieckiem przy życiu urlop dotyczy dzieci żyjących.
 
         if (i.HospitalDays is not { Count: > 0 })
         {

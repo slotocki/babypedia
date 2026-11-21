@@ -4,13 +4,12 @@ import { Link } from 'react-router'
 import { api } from '@/app/api/client'
 import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
-import { Button, Card, Field, PageHeader, Section, Select, Stack, ToneScope } from '@/ui'
+import { Button, Card, Field, PageHeader, Section, Select, ToneScope } from '@/ui'
 import { FuneralBlock } from './FuneralBlock'
 import { LegalAssistant } from './LegalAssistant'
 import { OrganizationsSection } from './OrganizationsSection'
-import { ExtLink } from './ExtLink'
 import { linkClass } from './link-class'
-import { contactChannels, institutions } from './links'
+import { contactChannels } from './links'
 import { ALL, detectSituation, isDifficultSituation, isSituationId, situations, type Filter } from './situations'
 
 
@@ -82,7 +81,7 @@ export function SupportPage() {
           description={
             difficult
               ? 'Zebraliśmy miejsca, w których możesz uzyskać pomoc i informacje. Nie musisz robić wszystkiego naraz.'
-              : 'Organizacje wsparcia, informacja o zasiłku pogrzebowym i instytucje, które pomagają w sprawach formalnych.'
+              : 'Organizacje wsparcia i informacja o zasiłku pogrzebowym.'
           }
         />
 
@@ -159,17 +158,6 @@ export function SupportPage() {
         {orgs}
 
         {funeralOnTop ? funeral : null}
-
-        <Section title="Instytucje" description="Strony, na których znajdziesz oficjalne informacje.">
-          <Stack as="ul" gap="sm">
-            {institutions.map((item) => (
-              <li key={item.id}>
-                <ExtLink url={item.url}>{item.name}</ExtLink>
-                <span className="block text-ink-soft">{item.why}</span>
-              </li>
-            ))}
-          </Stack>
-        </Section>
 
         {funeralOnTop ? null : funeral}
         <LegalAssistant calculatorPath={hasEvent ? paths.result : paths.start} />

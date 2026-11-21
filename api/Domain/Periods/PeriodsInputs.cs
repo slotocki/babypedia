@@ -29,6 +29,8 @@ public static class PeriodRules
     public static readonly MacierzynskiRezygnacjaRule MacierzynskiRezygnacja = new();
     public static readonly MartweUrodzenieZgonDzieckaRule MartweUrodzenieZgon = new();
     public static readonly SwiadczeniaPoZgonieDzieckaRule PoZgonieDziecka = new();
+    public static readonly ZgonWTrakcieUrlopuRule ZgonWTrakcieRodzicielskiego = new(BenefitId.Rodzicielski);
+    public static readonly ZgonWTrakcieUrlopuRule ZgonWTrakcieUzupelniajacego = new(BenefitId.MacierzynskiUzupelniajacy);
 
     public static readonly UzupelniajacyPrzypadekRule UzupelniajacyPrzypadek = new();
     public static readonly UzupelniajacyWymiarRule UzupelniajacyWymiar = new();
@@ -106,9 +108,24 @@ public sealed class PeriodsInputs(EvaluationContext context)
 
     public bool ChildDeceased => Stillborn || DeathDate is not null;
 
+    public int? DeadCount => Case.DzieckoLiczbaZmarlych?.Value;
+
+    /// <summary>Przy porodzie mnogim z martwym urodzeniem lub zgonem nie wiadomo, ile dzieci żyje.</summary>
+    public bool DeadCountUnknown => ChildDeceased && ChildCount > 1 && DeadCount is null;
+
+    /// <summary>Zmarło lub urodziło się martwe część dzieci z jednego porodu; co najmniej jedno żyje.</summary>
+    public bool SomeChildAlive => ChildDeceased && !DeadCountUnknown && (ChildCount ?? 1) > (DeadCount ?? 1);
+
+    public int AliveCount => (ChildCount ?? 1) - (DeadCount ?? 1);
+
+    /// <summary>Liczba dzieci do wymiaru urlopu rodzicielskiego: przy porodzie mnogim z dzieckiem przy życiu — dzieci żyjące.</summary>
+    public int? ParentalChildCount => SomeChildAlive ? AliveCount : ChildCount;
+
     /// <summary>Martwe urodzenie, a przy porodzie mnogim żadne dziecko nie pozostało przy życiu.</summary>
-    public bool StillbornWithNoChildAlive =>
-        Stillborn && (ChildCount ?? 1) <= (Case.DzieckoLiczbaZmarlych?.Value ?? 1);
+    public bool StillbornWithNoChildAlive => Stillborn && !DeadCountUnknown && !SomeChildAlive;
+
+    /// <summary>Dziecko żyło i zmarło po porodzie (przy porodzie mnogim — żadne nie żyje).</summary>
+    public bool ChildDiedAfterBirth => !Stillborn && DeathDate is not null && !DeadCountUnknown && !SomeChildAlive;
 
     public MissingFact? NeedEventDate() => EventDate is null ? PeriodMissing.EventDate() : null;
 

@@ -158,6 +158,17 @@ public sealed class PeriodsService(IParameterProvider parameters) : IPeriodsServ
         }
 
         draft.Period = i.UzupelniajacyOkres.Value;
+        if (i.ChildDiedAfterBirth)
+        {
+            var afterDeath = PeriodRules.ZgonWTrakcieUzupelniajacego.Calculate(i);
+            if (!draft.Run(afterDeath))
+            {
+                return draft;
+            }
+
+            draft.Period = afterDeath.Value;
+        }
+
         return draft;
     }
 
@@ -169,7 +180,7 @@ public sealed class PeriodsService(IParameterProvider parameters) : IPeriodsServ
             return RoleMissing(i, BenefitId.Rodzicielski);
         }
 
-        if (i.ChildDeceased)
+        if (i.ChildDeceased && !i.SomeChildAlive && !i.ChildDiedAfterBirth)
         {
             draft.Run(PeriodRules.PoZgonieDziecka.Calculate(i));
             return draft;
@@ -191,6 +202,26 @@ public sealed class PeriodsService(IParameterProvider parameters) : IPeriodsServ
         draft.Period = outcome.Period;
         draft.Parts = outcome.Parts;
         draft.Notes.AddRange(outcome.Notes);
+        if (i.SomeChildAlive && i.AliveCount == 1)
+        {
+            draft.Notes.Add(
+                "Przy porodzie mnogim, gdy jedno dziecko pozostało przy życiu, przyjęto wymiar urlopu rodzicielskiego jak dla jednego dziecka. " +
+                "Przepisy (KP art. 182¹a § 1) mówią o liczbie dzieci urodzonych przy jednym porodzie i nie rozstrzygają wprost tej sytuacji — " +
+                "ZUS może przyznać wymiar jak dla dwojga dzieci; zapytaj w ZUS.");
+        }
+
+        if (i.ChildDiedAfterBirth)
+        {
+            var afterDeath = PeriodRules.ZgonWTrakcieRodzicielskiego.Calculate(i);
+            if (!draft.Run(afterDeath))
+            {
+                return draft;
+            }
+
+            draft.Period = afterDeath.Value;
+            draft.Parts = ZgonWTrakcieUrlopuRule.Trim(draft.Parts, afterDeath.Value!.To);
+            return draft;
+        }
         if (i.RodzicielskiTermin.Value is { } deadline)
         {
             draft.Deadlines.Add(new Deadline(
@@ -210,7 +241,7 @@ public sealed class PeriodsService(IParameterProvider parameters) : IPeriodsServ
             return RoleMissing(i, BenefitId.Ojcowski);
         }
 
-        if (i.ChildDeceased)
+        if (i.ChildDeceased && !i.SomeChildAlive)
         {
             draft.Run(PeriodRules.PoZgonieDziecka.Calculate(i));
             return draft;

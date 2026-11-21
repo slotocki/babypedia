@@ -21,37 +21,37 @@ export function CasesPage() {
     <div ref={pageRef} className="mx-auto max-w-6xl space-y-6">
       <PageHeader
         title="Sprawy ZUS"
-        description="Wybierz sprawę testową albo dodaj plik PDF sprawy. Wczytamy dane fikcyjnej osoby z tej sprawy, a Ty je sprawdzisz."
+        description="Wybierz sprawę. Wczytamy dane osoby odczytane z dokumentów ZUS, a wynik kalkulatora porównamy z decyzją ZUS."
       />
 
-      <div className={hasPreview ? 'grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start' : 'grid max-w-3xl grid-cols-1 gap-6'}>
-        <div className={hasPreview ? 'min-w-0 lg:col-start-1 lg:row-start-1' : 'min-w-0'}>
-          <AddCasePdf pdf={pdf} loader={loader} />
-        </div>
+      {cases.isPending ? <SkeletonText lines={4} label="Wczytuję listę spraw…" /> : null}
+      {cases.isError ? <ErrorState error={cases.error} title="Nie udało się wczytać listy spraw" onRetry={() => void cases.refetch()} retrying={cases.isFetching} /> : null}
+      {cases.isSuccess ? <CaseList cases={cases.data} loader={loader} /> : null}
 
-        {pdf.doc && pdf.file ? (
-          <Card className="min-w-0 space-y-3 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1">
-            <h2 className="text-xl font-semibold text-ink">Podgląd dokumentu</h2>
-            <Suspense
-              fallback={
-                <p role="status" className="flex items-center gap-2 text-ink-soft">
-                  <Spinner label={null} /> Wczytuję podgląd…
-                </p>
-              }
-            >
-              <PdfPreview key={pdf.file.sha256} doc={pdf.doc} fileName={pdf.file.name} />
-            </Suspense>
-          </Card>
-        ) : null}
-
-        <div className={hasPreview ? 'min-w-0 lg:col-start-1 lg:row-start-2' : 'min-w-0'}>
-          {cases.isPending ? (
-            <SkeletonText lines={4} label="Wczytuję listę spraw…" />
+      <details className="group rounded-card border border-line bg-surface" open={hasPreview || undefined}>
+        <summary className="flex min-h-11 cursor-pointer items-center px-4 py-3 font-semibold text-brand-strong sm:px-5">
+          Masz plik PDF sprawy ZUS? Rozpoznaj go
+        </summary>
+        <div className={hasPreview ? 'grid grid-cols-1 gap-6 px-4 pb-4 sm:px-5 lg:grid-cols-2 lg:items-start' : 'max-w-3xl px-4 pb-4 sm:px-5'}>
+          <div className="min-w-0">
+            <AddCasePdf pdf={pdf} loader={loader} />
+          </div>
+          {pdf.doc && pdf.file ? (
+            <Card className="min-w-0 space-y-3 lg:sticky lg:top-4">
+              <h2 className="text-xl font-semibold text-ink">Podgląd dokumentu</h2>
+              <Suspense
+                fallback={
+                  <p role="status" className="flex items-center gap-2 text-ink-soft">
+                    <Spinner label={null} /> Wczytuję podgląd…
+                  </p>
+                }
+              >
+                <PdfPreview key={pdf.file.sha256} doc={pdf.doc} fileName={pdf.file.name} />
+              </Suspense>
+            </Card>
           ) : null}
-          {cases.isError ? <ErrorState error={cases.error} title="Nie udało się wczytać listy spraw" onRetry={() => void cases.refetch()} retrying={cases.isFetching} /> : null}
-          {cases.isSuccess ? <CaseList cases={cases.data} loader={loader} /> : null}
         </div>
-      </div>
+      </details>
     </div>
   )
 }

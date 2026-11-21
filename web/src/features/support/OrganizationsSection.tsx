@@ -46,7 +46,7 @@ export function OrganizationsSection({
   return (
     <Section
       title="Organizacje wsparcia"
-      description="To organizacje charytatywne. Nie są związane z ZUS i nie decydują o świadczeniach. Listę sprawdza administrator serwisu, ale zanim się skontaktujesz, możesz sama lub sam potwierdzić dane na stronie organizacji."
+      description="To organizacje charytatywne. Nie są związane z ZUS i nie decydują o świadczeniach."
     >
       <div aria-live="polite">
         {query.isPending ? (

@@ -15,16 +15,17 @@ public sealed class RodzicielskiWymiarRule : PeriodRule<int>
             return missing;
         }
 
-        var count = i.ChildCount!.Value;
-        if (count < 1)
+        if (i.ChildCount!.Value < 1)
         {
             return Step.Undecided<int>(this, "Liczba dzieci przy jednym porodzie musi wynosić co najmniej 1.");
         }
 
+        var count = i.ParentalChildCount!.Value;
         var weeks = i.ParamInt(PeriodsParameterKeys.RodzicielskiTyg(count, i.ZaZyciem));
         var certificate = i.ZaZyciem ? "dziecko z zaświadczeniem „Za życiem”" : "dziecko bez zaświadczenia „Za życiem”";
+        var countText = i.SomeChildAlive ? $"liczba dzieci pozostałych przy życiu: {count}" : $"liczba dzieci: {count}";
         return Step.Met(this, weeks,
-            $"Łączny wymiar urlopu rodzicielskiego obojga rodziców: {weeks} tyg. (liczba dzieci: {count}, {certificate}).",
+            $"Łączny wymiar urlopu rodzicielskiego obojga rodziców: {weeks} tyg. ({countText}, {certificate}).",
             "wymiar zależy od liczby dzieci i zaświadczenia „Za życiem”");
     }
 }
@@ -167,7 +168,7 @@ public sealed class RodzicielskiPracaRule : PeriodRule<WorkExtension>
                 $"praca w wymiarze nie wyższym niż {maxShare} etatu");
         }
 
-        var children = i.ChildCount ?? 1;
+        var children = i.ParentalChildCount ?? 1;
         if (i.IsAdoption && i.PrzyjecieOkres.Value?.Case == AdoptionLeaveCase.Minimum)
         {
             return Step.Undecided<WorkExtension>(this,

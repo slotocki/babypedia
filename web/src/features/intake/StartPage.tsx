@@ -7,7 +7,7 @@ import { useFocusHeading } from './useFocusHeading'
 const card = 'group flex min-h-48 flex-col items-start gap-3 rounded-card border p-5 transition-colors focus-visible:outline-offset-4 sm:p-6'
 
 export function StartPage() {
-  const { facts, startManual } = useCaseState()
+  const { startManual } = useCaseState()
   const ref = useFocusHeading<HTMLDivElement>()
 
   return (
@@ -42,10 +42,6 @@ export function StartPage() {
           <span className="mt-auto text-sm font-bold">Zobacz sprawy ZUS <span aria-hidden="true">→</span></span>
         </Link>
       </div>
-
-      {facts.sprawa['zdarzenie.rodzaj'] ? (
-        <Link to={paths.result} className="inline-flex min-h-11 items-center font-semibold text-brand-strong underline underline-offset-4">Wróć do swojego wyniku</Link>
-      ) : null}
     </div>
   )
 }
