@@ -64,7 +64,7 @@ Każda sprawa na liście ma oznaczenie, co w niej sprawdzono z dokumentami ZUS:
 | Oznaczenie | Znaczenie | Sprawy na demo (22.11.2026) |
 |---|---|---|
 | Okres i kwota zgodne z wydrukiem ZUS | podstawa wymiaru, stawka dzienna i okres zgadzają się z wydrukiem ZUS w aktach | 1 |
-| Okres zgodny z ZUS co do dnia | okresy z silnika równe okresom z dokumentów; kwoty ZUS w aktach nie ma | 9 |
+| Okres zgodny z ZUS co do dnia | okresy z silnika równe okresom z dokumentów; kwoty ZUS w aktach nie ma | 8 |
 | Odmowa zgodna z decyzją ZUS | silnik odmawia tak jak ZUS | 2 |
 
 Skąd są dane i czego nie ma:
@@ -87,7 +87,7 @@ Oznaczenia z zadania ZUS (pkt 3) i instrukcji projektu (sekcja 4). Status wg kod
 | d | Symulacja korzystania przez oboje rodziców | Porównaj warianty (scenariusz „Drugi rodzic bierze część") | `POST /api/assessment/compare` | `api/Domain/Scenarios` | Działa (walidacja 9 tygodni nieprzenoszalnych i 5 części) |
 | e, j | Rodzice adopcyjni i rodziny zastępcze | Start (zdarzenie „przyjmuję dziecko"), Wynik | `POST /api/assessment` | `api/Domain/Periods/Rules/PrzyjecieRules.cs` | Działa (przysposobienie, rodzina zastępcza niezawodowa; zawodowa: odmowa) |
 | f | Indywidualna podstawa wymiaru | Wynik (pole „Znasz podstawę ustaloną przez płatnika?"), Sprawdź dane | `POST /api/assessment` | `api/Domain/Basis`, `api/Domain/Amounts` | Działa na poziomie 1 (średnia z 12 miesięcy dla pracownika i niepracownika, art. 48a/49) lub przez wpisanie podstawy. Poza poziomem 1 (np. zmiana wymiaru etatu, zbieg tytułów) silnik odsyła do podstawy ustalonej przez płatnika |
-| g | Dokumenty, terminy, sposób i miejsce złożenia wniosku | Wynik („Co zrobić i do kiedy", „Gdzie złożyć wniosek", „Dokumenty") | `POST /api/assessment` | `api/Domain/Deadlines`, `api/Domain/Eligibility` (`platnik_zasilku_i_miejsce_zlozenia`) | Działa. Nazwy druków (Z-3, Z-3a, ZAS-53, ZAM) są zgodne z treścią zadania ZUS; druku ZAS-12 aplikacja nie obsługuje |
+| g | Dokumenty, terminy, sposób i miejsce złożenia wniosku | Wynik („Co zrobić i do kiedy", „Gdzie złożyć wniosek", „Dokumenty") | `POST /api/assessment` | `api/Domain/Deadlines`, `api/Domain/Eligibility` (`platnik_zasilku_i_miejsce_zlozenia`) | Działa. Nazwy druków (ZAM, Z-3, Z-3a, ZAS-53, ZAS-12) są zgodne z treścią zadania ZUS. ZAS-12 (zaświadczenie płatnika za dalszy okres niezdolności do pracy) pojawia się przy zasiłku chorobowym wypłacanym przez ZUS |
 | h | Zagrożenia: utrata uprawnień, zmiana wymiaru lub wysokości | Wynik („Na co uważać"), Porównaj warianty | `POST /api/assessment`, `/compare` | `api/Domain/Catalog/Risks.cs`, `api/Domain/Scenarios` | Działa (ryzyka z listy w instrukcji 8.10, pokazywane tylko gdy pasują do faktów; informacja, nie ocena) |
 | i | Podmioty wyłącznie charytatywne w sytuacjach szczególnych | Wsparcie (`/wsparcie`) | `GET /api/organizations?situation=` | `api/Infrastructure/Parameters/AdminSettingsService.cs`, `web/src/features/support` | Działa. Katalog startowy zawiera zweryfikowane organizacje oferujące bezpłatną pomoc z `fixtures/organizations.json`. Po zapisaniu listy w zakładce „Organizacje” panelu `/admin` obowiązuje zapisana lista. Publiczne API pokazuje wpisy oznaczone jako zweryfikowane. |
 | S1 | Logowanie przez mObywatel (symulacja) | Logowanie | `POST /api/sim/login`, `GET /api/sim/personas` | `api/Infrastructure/Simulation`, `web/src/features/intake` | Działa |
@@ -101,7 +101,7 @@ Oznaczenia z zadania ZUS (pkt 3) i instrukcji projektu (sekcja 4). Status wg kod
 | S9 | Przekierowania do zus.pl, MRPiPS, PIP | Wsparcie, Wnioski, Wynik | brak (linki) | `web/src/features/support/links.tsx` | Działa |
 | S10 | Panel administracyjny do zmiany parametrów | `/admin` | `GET/PUT /api/admin/parameters`, `GET /api/admin/parameters/history`, `/api/admin/catalog` | `api/Infrastructure/Parameters`, `web/src/features/admin` | Działa dla parametrów (z datą obowiązywania i historią zmian) i włączania świadczeń w katalogu. Zakładki „Integracje" i „Organizacje" także działają (patrz S2 i `i`) |
 | T1 | Pełna responsywność | cały interfejs | brak | `web/src/ui`, `web/src/app/Layout.tsx` | Układ projektowany od 360 px (Tailwind, nawigacja przewijana poziomo). Do potwierdzenia testem na telefonach |
-| T2 | Demo: upload lub wybór przykładowych spraw; weryfikacja ubezpieczenia i kalkulator | Start (lista spraw), Sprawy ZUS (dodanie PDF) | `GET /api/cases`, `GET /api/cases/by-hash/{sha256}` | `web/src/features/cases`, `api/Infrastructure/Simulation/Catalogs.cs`, `tools/cases` | Działa dla 12 spraw z zestawu ZUS (patrz „Sprawy testowe ZUS”). Pozostałe pliki z zestawu dają podgląd i komunikat „nie znam tej sprawy” |
+| T2 | Demo: upload lub wybór przykładowych spraw; weryfikacja ubezpieczenia i kalkulator | Start (lista spraw), Sprawy ZUS (dodanie PDF) | `GET /api/cases`, `GET /api/cases/by-hash/{sha256}` | `web/src/features/cases`, `api/Infrastructure/Simulation/Catalogs.cs`, `tools/cases` | Działa dla 11 spraw z zestawu ZUS (patrz „Sprawy testowe ZUS”). Pozostałe pliki z zestawu dają podgląd i komunikat „nie znam tej sprawy” |
 
 Dodatkowo: tryb trudnej sytuacji (martwe urodzenie, zgon dziecka, wcześniactwo z hospitalizacją, ciężka choroba) zmienia ton interfejsu i stawia organizacje wsparcia na górze (`web/src/ui/ToneScope.tsx`, `web/src/features/support`).
 
@@ -132,13 +132,13 @@ Zasady:
 
 ## Testy
 
-Wynik `dotnet test --solution api/BabyRadnik.slnx` na gałęzi `main` (21.11.2026, .NET 10):
+Wynik `dotnet test --solution api/BabyRadnik.slnx` na gałęzi `main` (22.11.2026, .NET 10):
 
 ```
 Podsumowanie przebiegu testu: Powodzenie!
-  suma: 826
+  suma: 868
   zakończone niepowodzeniem: 0
-  zakończone powodzeniem: 825
+  zakończone powodzeniem: 867
   pominięto: 1
 ```
 
@@ -194,10 +194,10 @@ Co jest symulacją: logowanie mObywatel, konto ubezpieczonego i płatnika w ZUS,
 
 Otwarte kwestie do potwierdzenia z ZUS (źródło: `docs/prawo/ROZBIEZNOSCI.md`, instrukcja sekcja 14). Do czasu odpowiedzi działają ustawienia domyślne:
 
-- **Zaokrąglanie.** Przepisy w wyciągach nie podają reguły zaokrąglania stawki dziennej ani kwoty zasiłku. Domyślnie: stawka dzienna do 0,01 zł, kwota za okres = stawka dzienna × liczba dni (parametry `zaokraglanie.*`, status `do_weryfikacji`).
+- **Zaokrąglanie.** Przepisy w wyciągach nie podają reguły zaokrąglania stawki dziennej ani kwoty zasiłku. Domyślnie tak jak w wyliczeniach ZUS w sprawach testowych: stawka dzienna = podstawa × stopa ÷ 30, zaokrąglona raz do 0,01 zł; kwota za okres = stawka dzienna × liczba dni (parametry `zaokraglanie.*`, status `do_weryfikacji`).
 - **Brutto czy netto.** Kwoty są brutto, z dopiskiem o zaliczce na podatek (parametr `kwoty`). Poradnik ZUS odejmuje od podstawy także zaliczkę na PIT, ustawa i Załącznik tego nie robią; stosujemy akt (tylko 13,71%).
 - **Minimalna podstawa przy niepełnym etacie.** Art. 45 ust. 1 mówi o pełnym wymiarze czasu pracy; proporcjonalnego przeliczania w materiałach nie ma. Wartość 4 147,10 zł (4 806 × 0,8629) jest wyliczeniem ze wzoru z ustawy, tabela w Załączniku jest pusta.
-- **Druki.** Z-3, Z-3a, ZAS-53 i połączenie wniosków w ZAM od 24.10.2026 potwierdza treść zadania ZUS; Poradnik opisuje jeszcze Z-3b. Druku ZAS-12 (zasiłek chorobowy na dalszy okres) aplikacja nie obsługuje.
+- **Druki.** Z-3, Z-3a, ZAS-53 i połączenie wniosków w ZAM od 24.10.2026 potwierdza treść zadania ZUS; Poradnik opisuje jeszcze Z-3b. ZAS-12 (zaświadczenie płatnika za dalszy okres zasiłku chorobowego) opisano wg treści zadania i druku w aktach spraw; wyciągi przepisów go nie wymieniają.
 - **Zasiłek do dnia porodu przy naruszeniu prawa.** Treść zadania wymienia też rozwiązanie umowy z naruszeniem prawa stwierdzone wyrokiem; wyciąg ustawy (art. 30 ust. 3) wymienia śmierć, upadłość i likwidację pracodawcy. Silnik stosuje ustawę.
 - **Kwota świadczenia rodzicielskiego (art. 31 ust. 3a).** Parametr jest pusty, więc aplikacja nie stosuje podwyższenia i pokazuje informację. W `docs/prawo/pobrane/` jest odnaleziony przepis (1000,00 zł miesięcznie), a pisma ZUS w sprawach testowych potwierdzają tę kwotę; samo wyliczenie wymaga kwoty po zaliczce na podatek, której aplikacja nie liczy.
 - **Parametry kwotowe od 2026 r.** Płaca minimalna i pochodne (podstawa minimalna, limit podstawy dobrowolnej) mają datę obowiązywania 1.01.2026; próg zadłużenia ma też wartości za 2024 i 2025 r. (1% płacy minimalnej, status „do weryfikacji”, kwoty spoza materiałów konkursowych), żeby dało się rozstrzygać sprawy testowe ZUS z tych lat; wymiary i stawki mają datę techniczną „od zawsze" (2000-01-01), bo instrukcja nie podaje dat. Dla dni sprzed 2026 r. silnik podaje kwotę tylko przy podstawie ustalonej przez płatnika albo policzonej z wynagrodzeń pracownika; tam, gdzie potrzebny jest brakujący parametr (np. podstawa przy działalności), odpowiada „nie rozstrzygam".

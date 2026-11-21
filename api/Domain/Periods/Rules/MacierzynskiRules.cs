@@ -238,9 +238,16 @@ public sealed class SwiadczeniaPoZgonieDzieckaRule : PeriodRule<bool>
 {
     public override string Id => "swiadczenia_po_zgonie_dziecka";
 
-    public override string PodstawaPrawna => "KP art. 180¹ (dotyczy wyłącznie urlopu macierzyńskiego)";
+    public override string PodstawaPrawna => "KP art. 180¹ § 1, art. 182¹a § 1, art. 182³ § 1";
+
+    public const string StillbornText =
+        "Dziecko urodziło się martwe. Urlop rodzicielski i urlop ojcowski przysługują w celu sprawowania opieki nad dzieckiem, " +
+        "więc za ich okres zasiłek macierzyński nie przysługuje. Po urodzeniu martwego dziecka matce przysługuje zasiłek macierzyński " +
+        "za 8 tygodni po porodzie (KP art. 180¹ § 1).";
 
     protected override RuleStep<bool> Compute(PeriodsInputs i) =>
-        Step.Undecided<bool>(this,
-            "Przepisy użyte w tym module regulują po martwym urodzeniu lub zgonie dziecka tylko urlop macierzyński. Co do tego świadczenia nie rozstrzygam — skontaktuj się z ZUS.");
+        i.StillbornWithNoChildAlive
+            ? Step.NotMet<bool>(this, StillbornText, "dziecko urodzone martwe, żadne dziecko z porodu nie żyje")
+            : Step.Undecided<bool>(this,
+                "Przepisy użyte w tym module regulują po zgonie dziecka tylko urlop macierzyński. Co do tego świadczenia nie rozstrzygam — skontaktuj się z ZUS.");
 }

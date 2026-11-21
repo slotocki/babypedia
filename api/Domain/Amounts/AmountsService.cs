@@ -239,7 +239,7 @@ internal sealed class CardProcessor(AmountsContext ctx)
     }
 
     private static string DailyText(AmountCalculator amounts, BasisInput basis, Piece piece) =>
-        $"Stawka dzienna podstawy: {Money(basis.Amount)} ÷ {amounts.Divisor} = {Money(amounts.DailyBase(basis.Amount))} (zaokrąglenie do {amounts.Places} miejsc po przecinku, ustawienie do weryfikacji).";
+        $"Stawka dzienna = podstawa × stopa ÷ {amounts.Divisor}: {Money(basis.Amount)} × {Percent(piece.Rate)} ÷ {amounts.Divisor} = {Money(amounts.DailyAt(basis.Amount, piece.Rate))} (zaokrąglenie do {amounts.Places} miejsc po przecinku, ustawienie do weryfikacji).";
 
     private static string TotalText(IReadOnlyList<(Piece Piece, Amount Amount)> priced, decimal total) =>
         string.Join("; ", priced.Select(x =>
@@ -367,7 +367,7 @@ internal sealed class AmountCalculator
 
     public BasisInput Basis { get; }
 
-    public decimal DailyBase(decimal basis) => Round(basis / Divisor, Places);
+    public decimal DailyAt(decimal basis, decimal rate) => Round(basis * rate / Divisor, Places);
 
     public Amount For(Piece piece)
     {
@@ -377,7 +377,8 @@ internal sealed class AmountCalculator
             return new Amount(Round(exactDaily, Places), Round(exactDaily * piece.Days, 2), Basis.Amount, Basis.Source);
         }
 
-        var daily = Round(Round(DailyBase(Basis.Amount) * piece.Rate, Places) * piece.Factor, Places);
+        // Jak ZUS: stawka dzienna = podstawa × stopa ÷ 30, zaokrąglana raz (a nie stopa × zaokrąglona podstawa ÷ 30).
+        var daily = Round(DailyAt(Basis.Amount, piece.Rate) * piece.Factor, Places);
         return new Amount(daily, Round(daily * piece.Days, 2), Basis.Amount, Basis.Source);
     }
 }

@@ -106,6 +106,10 @@ public sealed class PeriodsInputs(EvaluationContext context)
 
     public bool ChildDeceased => Stillborn || DeathDate is not null;
 
+    /// <summary>Martwe urodzenie, a przy porodzie mnogim żadne dziecko nie pozostało przy życiu.</summary>
+    public bool StillbornWithNoChildAlive =>
+        Stillborn && (ChildCount ?? 1) <= (Case.DzieckoLiczbaZmarlych?.Value ?? 1);
+
     public MissingFact? NeedEventDate() => EventDate is null ? PeriodMissing.EventDate() : null;
 
     public MissingFact? NeedChildCount() => ChildCount is null ? PeriodMissing.ChildCount() : null;

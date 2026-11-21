@@ -485,11 +485,49 @@ public sealed class Section11EligibilityTests
 
         Assert.Equal(BenefitStatus.Przysluguje, result.Status);
         Assert.Equal(Payer.Zus, result.Payer);
-        Assert.Contains(result.Documents, d => d.StartsWith("ZAS-53", StringComparison.Ordinal));
+        Assert.Contains(result.Documents, d => d.StartsWith("ZAS-53 — wniosek o zasiłek chorobowy", StringComparison.Ordinal));
+        Assert.Contains(result.Documents, d => d.StartsWith("ZAS-12", StringComparison.Ordinal));
         Assert.DoesNotContain(result.Documents, d => d.Contains("Z-3b", StringComparison.Ordinal));
         Assert.True(ZusForms.Recognize("Z-3b").Recognized);
         Assert.False(ZusForms.Recognize("Z-3b").ProposedToUser);
         Assert.True(ZusForms.Recognize("Z-3").ProposedToUser);
+        Assert.True(ZusForms.Recognize("ZAS-12").ProposedToUser);
+    }
+
+    [Theory]
+    [InlineData(TitleKind.Pracownik, SicknessInsurance.Obowiazkowe, "Z-3 ", "zamiast kolejnego Z-3")]
+    [InlineData(TitleKind.Zleceniobiorca, SicknessInsurance.Dobrowolne, "Z-3a", "zamiast kolejnego Z-3a")]
+    public void T23_sickness_paid_by_zus_lists_zas12_for_a_further_period(TitleKind kind, SicknessInsurance sickness, string firstForm, string zas12Text)
+    {
+        var firstDay = D(2026, 10, 1);
+        var person = Person(ParentRole.Matka, Title(kind, D(2024, 1, 1), null, sickness)) with
+        {
+            EzlaZwolnienia = F<IReadOnlyList<SickLeave>>([Leave(firstDay, D(2026, 11, 20))]),
+            PlatnikLiczbaUbezpieczonych = F(5),
+            OsobaDataUrodzenia = F(D(1990, 1, 1)),
+        };
+        var result = Get(Service().Assess(Facts(Case(EventKind.Ciaza, D(2027, 3, 1)), person), AsOf), BenefitId.ChorobowyWCiazy);
+
+        Assert.Equal(Payer.Zus, result.Payer);
+        Assert.Contains(result.Documents, d => d.StartsWith(firstForm, StringComparison.Ordinal));
+        Assert.Contains(result.Documents, d => d.StartsWith("ZAS-12", StringComparison.Ordinal) && d.Contains(zas12Text, StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void T23_zas12_is_not_listed_when_payer_pays_or_for_maternity()
+    {
+        Assert.DoesNotContain(Get(Service().Assess(EmployeeFacts(15), AsOf), BenefitId.Macierzynski).Documents, d => d.Contains("ZAS-12", StringComparison.Ordinal));
+
+        var firstDay = D(2026, 10, 1);
+        var person = Person(ParentRole.Matka, Title(TitleKind.Pracownik, D(2024, 1, 1))) with
+        {
+            EzlaZwolnienia = F<IReadOnlyList<SickLeave>>([Leave(firstDay, D(2026, 11, 20))]),
+            PlatnikLiczbaUbezpieczonych = F(40),
+            OsobaDataUrodzenia = F(D(1990, 1, 1)),
+        };
+        var sickness = Get(Service().Assess(Facts(Case(EventKind.Ciaza, D(2027, 3, 1)), person), AsOf), BenefitId.ChorobowyWCiazy);
+        Assert.Equal(Payer.PlatnikSkladek, sickness.Payer);
+        Assert.DoesNotContain(sickness.Documents, d => d.Contains("ZAS-12", StringComparison.Ordinal));
     }
 
     private static FactSet BusinessFacts(decimal debt, DateOnly? repaid = null)

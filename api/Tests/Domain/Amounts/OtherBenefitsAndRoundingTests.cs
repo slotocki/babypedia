@@ -55,15 +55,27 @@ public sealed class OtherBenefitsAndRoundingTests
     }
 
     [Fact]
-    public void Zaokraglenie_stawka_dzienna_do_grosza_potem_stawka_procentowa_potem_grosz_i_mnozenie_przez_dni()
+    public void Stawka_dzienna_to_podstawa_razy_stopa_przez_30_zaokraglona_raz_potem_mnozenie_przez_dni()
     {
+        // 5000 × 81,5% = 4075,00 zł miesięcznie; 4075,00 ÷ 30 = 135,8333 → 135,83 (a nie 166,67 × 81,5% = 135,84).
         var me = WithVariant(WithBasis(Mother(), 5000m), "2026-03-10");
 
         var amount = Get(Run(Birth(me)), BenefitId.Macierzynski).Amount!;
 
-        Assert.Equal(135.84m, amount.Daily);
-        Assert.Equal(135.84m * 140, amount.Total);
-        Assert.Equal(19017.60m, amount.Total);
+        Assert.Equal(135.83m, amount.Daily);
+        Assert.Equal(135.83m * 140, amount.Total);
+        Assert.Equal(19016.20m, amount.Total);
+    }
+
+    [Fact]
+    public void Stawka_dzienna_70_procent_jak_w_ZUS()
+    {
+        // 6903,20 × 70% ÷ 30 = 161,0747 → 161,07 (dwustopniowe zaokrąglenie dawało 230,11 × 70% = 161,08).
+        var me = WithBasis(Mother(), 6903.20m);
+
+        var amount = Get(Run(Birth(me)), BenefitId.Rodzicielski).Amount!;
+
+        Assert.Equal(161.07m, amount.Daily);
     }
 
     [Fact]

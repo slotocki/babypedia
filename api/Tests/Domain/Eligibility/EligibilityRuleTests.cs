@@ -228,6 +228,43 @@ public sealed class EligibilityRuleTests
     }
 
     [Fact]
+    public void Father_insured_only_after_birth_keeps_parental_and_paternity_right_without_plan()
+    {
+        // Art. 29 ust. 1 wymaga ubezpieczenia w dniu porodu od matki; ojciec ma być ubezpieczony, gdy korzysta z urlopu.
+        var father = Person(ParentRole.Ojciec, Title(TitleKind.Pracownik, D(2026, 6, 1))) with { PlatnikLiczbaUbezpieczonych = F(5) };
+        var assessment = Service().Assess(Facts(Case(EventKind.Urodzenie, Birth), father), AsOf);
+
+        foreach (var id in new[] { BenefitId.Rodzicielski, BenefitId.Ojcowski })
+        {
+            var result = Get(assessment, id);
+            Assert.Equal(BenefitStatus.Przysluguje, result.Status);
+            Assert.Contains(result.Notes, n => n.Contains("w dniu oceny", StringComparison.Ordinal));
+        }
+    }
+
+    [Fact]
+    public void Father_without_insurance_on_assessment_day_is_denied_with_that_day_not_birth_day()
+    {
+        var father = Person(ParentRole.Ojciec, Title(TitleKind.Pracownik, D(2020, 1, 1), D(2026, 9, 30))) with { PlatnikLiczbaUbezpieczonych = F(5) };
+        var result = Get(Service().Assess(Facts(Case(EventKind.Urodzenie, Birth), father), AsOf), BenefitId.Rodzicielski);
+
+        Assert.Equal(BenefitStatus.NiePrzysluguje, result.Status);
+        Assert.Contains("w dniu oceny", result.Reason);
+        Assert.DoesNotContain("porodu", result.Reason);
+    }
+
+    [Fact]
+    public void Father_before_birth_without_plan_is_checked_on_birth_day()
+    {
+        var birth = D(2027, 2, 1);
+        var father = Person(ParentRole.Ojciec, Title(TitleKind.Pracownik, D(2020, 1, 1), D(2026, 12, 31))) with { PlatnikLiczbaUbezpieczonych = F(5) };
+        var result = Get(Service().Assess(Facts(Case(EventKind.Ciaza, birth), father), AsOf), BenefitId.Rodzicielski);
+
+        Assert.Equal(BenefitStatus.NiePrzysluguje, result.Status);
+        Assert.Contains(result.Notes, n => n.Contains("najwcześniejszym możliwym początku urlopu", StringComparison.Ordinal));
+    }
+
+    [Fact]
     public void Sickness_period_of_270_days_is_exhausted_and_rehabilitation_is_not_decided()
     {
         var firstDay = D(2026, 1, 1);

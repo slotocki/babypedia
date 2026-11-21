@@ -165,9 +165,16 @@ public sealed class PaymentRouteRule(DateOnly? onDate = null, BenefitKindForDocu
         {
             case TitleKind.Dzialalnosc or TitleKind.OsobaWspolpracujaca:
                 var businessDocs = BaseDocuments(documents);
-                if (documents == BenefitKindForDocuments.Sickness && title.RodzajTytulu == TitleKind.Dzialalnosc)
+                if (documents == BenefitKindForDocuments.Sickness)
                 {
-                    businessDocs.Add("ZAS-53 — zaświadczenie dla osoby prowadzącej działalność (zasiłek chorobowy), składane do ZUS");
+                    if (title.RodzajTytulu == TitleKind.Dzialalnosc)
+                    {
+                        businessDocs.Add("ZAS-53 — wniosek o zasiłek chorobowy (osoba prowadząca działalność), składany do ZUS");
+                    }
+
+                    businessDocs.Add(title.RodzajTytulu == TitleKind.Dzialalnosc
+                        ? $"{ZusForms.Zas12} — przy przedłużeniu zwolnienia bez przerwy (dalszy okres niezdolności do pracy) jako płatnik składek za siebie składasz do ZUS zaświadczenie płatnika składek ZAS-12"
+                        : $"{ZusForms.Zas12} — przy przedłużeniu zwolnienia bez przerwy (dalszy okres niezdolności do pracy) płatnik składek przekazuje do ZUS zaświadczenie ZAS-12");
                 }
 
                 return Route(Payer.Zus, ApplicationPlace.Zus, "Prowadzący działalność i osoby współpracujące — zasiłek zawsze wypłaca ZUS (art. 61 ust. 1 pkt 2 lit. b); wniosek do ZUS.", condition, businessDocs, info);
@@ -194,6 +201,12 @@ public sealed class PaymentRouteRule(DateOnly? onDate = null, BenefitKindForDocu
                 docs.Add(employee
                     ? "Z-3 — zaświadczenie płatnika składek (pracodawca przekazuje do ZUS)"
                     : "Z-3a — zaświadczenie płatnika składek (zleceniodawca przekazuje do ZUS)");
+                if (documents == BenefitKindForDocuments.Sickness)
+                {
+                    docs.Add(employee
+                        ? $"{ZusForms.Zas12} — przy przedłużeniu zwolnienia bez przerwy (dalszy okres niezdolności do pracy) pracodawca przekazuje do ZUS zaświadczenie ZAS-12 zamiast kolejnego Z-3"
+                        : $"{ZusForms.Zas12} — przy przedłużeniu zwolnienia bez przerwy (dalszy okres niezdolności do pracy) zleceniodawca przekazuje do ZUS zaświadczenie ZAS-12 zamiast kolejnego Z-3a");
+                }
                 return Route(
                     Payer.Zus,
                     employee ? ApplicationPlace.Pracodawca : ApplicationPlace.PlatnikSkladek,
@@ -224,18 +237,21 @@ public sealed class PaymentRouteRule(DateOnly? onDate = null, BenefitKindForDocu
         var term = days is { } d
             ? $"w ciągu {Text.Number(d)} dni od dnia wyjaśnienia ostatniej okoliczności niezbędnej do ustalenia prawa"
             : "w terminie z art. 64 ust. 1 ustawy";
-        return $"Zasiłek wypłaca się najpóźniej {term} (art. 64 ust. 1). Nazwy druków (ZAM, Z-3, Z-3a, ZAS-53) podano wg instrukcji projektu — Z-3, Z-3a i ZAS-53 nie występują w wyciągach przepisów; sprawdź aktualny druk w ZUS.";
+        return $"Zasiłek wypłaca się najpóźniej {term} (art. 64 ust. 1). Nazwy druków (ZAM, Z-3, Z-3a, ZAS-53, ZAS-12) podano wg treści zadania ZUS — nie występują w wyciągach przepisów; sprawdź aktualny druk w ZUS.";
     }
 }
 
 public static class ZusForms
 {
+    public const string Zas12 = "ZAS-12";
+
     private static readonly Dictionary<string, (string Name, bool Proposed)> Known = new(StringComparer.OrdinalIgnoreCase)
     {
         ["ZAM"] = ("Wniosek o zasiłek macierzyński", true),
         ["Z-3"] = ("Zaświadczenie płatnika składek (pracownik)", true),
         ["Z-3a"] = ("Zaświadczenie płatnika składek (zleceniobiorca)", true),
-        ["ZAS-53"] = ("Zaświadczenie dla osoby prowadzącej działalność (zasiłek chorobowy)", true),
+        ["ZAS-53"] = ("Wniosek o zasiłek chorobowy (osoba prowadząca działalność)", true),
+        [Zas12] = ("Zaświadczenie płatnika składek — ustalenie prawa do zasiłku chorobowego lub opiekuńczego za dalszy okres", true),
         ["Z-12"] = ("Wniosek o zasiłek pogrzebowy", true),
         ["Z-3b"] = ("Dawne zaświadczenie płatnika składek (zlikwidowane; występuje w starszych sprawach)", false),
     };

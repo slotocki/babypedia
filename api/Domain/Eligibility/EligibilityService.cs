@@ -235,8 +235,13 @@ public sealed class EligibilityService(IParameterProvider parameters) : IEligibi
                     return Missing(benefit, person, Ask.Role(person));
                 }
 
-                return role == ParentRole.Matka && !isAdoption
-                    ? MotherRight(benefit, context, allowEndExceptions: true)
+                if (role == ParentRole.Matka && !isAdoption)
+                {
+                    return MotherRight(benefit, context, allowEndExceptions: true);
+                }
+
+                return role == ParentRole.Ojciec && !isAdoption
+                    ? FatherLeaveRight(benefit, context, FactKeys.PlanRodzicielskiCzesci)
                     : OwnInsuranceRight(benefit, context, LeaveStart(context, FactKeys.PlanRodzicielskiCzesci));
 
             case BenefitId.Ojcowski:
@@ -246,7 +251,7 @@ public sealed class EligibilityService(IParameterProvider parameters) : IEligibi
                 }
 
                 return role == ParentRole.Ojciec
-                    ? OwnInsuranceRight(benefit, context, LeaveStart(context, FactKeys.PlanOjcowskiCzesci))
+                    ? FatherLeaveRight(benefit, context, FactKeys.PlanOjcowskiCzesci)
                     : NotApplicable(benefit, person, "Urlop ojcowski dotyczy ojca dziecka.");
 
             case BenefitId.PrzejeciePrzezOjca:
@@ -373,11 +378,42 @@ public sealed class EligibilityService(IParameterProvider parameters) : IEligibi
         return run.Finish(id, context.Person, route);
     }
 
-    private static BenefitEligibility OwnInsuranceRight(BenefitId id, EvaluationContext context, DateOnly? leaveStart)
+    /// <summary>
+    /// Urlop rodzicielski i ojcowski ojca po porodzie: art. 29 ust. 1 wymaga ubezpieczenia w dniu porodu tylko od matki.
+    /// Ojciec musi podlegać ubezpieczeniu, gdy korzysta z urlopu. Bez planu urlopu sprawdzamy najwcześniejszy możliwy
+    /// początek: dzień porodu (jeśli jeszcze nie nastąpił) albo dzień oceny.
+    /// </summary>
+    private static BenefitEligibility FatherLeaveRight(BenefitId id, EvaluationContext context, string planKey)
+    {
+        if (LeaveStart(context, planKey) is { } start)
+        {
+            return OwnInsuranceRight(id, context, start);
+        }
+
+        var birth = context.EventDate();
+        if (birth is null || birth.Value >= context.AsOf)
+        {
+            return OwnInsuranceRight(id, context, birth, null,
+                "Nie podano daty rozpoczęcia urlopu — ubezpieczenie ojca sprawdzono w dniu porodu, najwcześniejszym możliwym początku urlopu. Liczy się ubezpieczenie w dniu rozpoczęcia urlopu.");
+        }
+
+        return OwnInsuranceRight(id, context, context.AsOf, "w dniu oceny",
+            "Nie podano daty rozpoczęcia urlopu — ubezpieczenie ojca sprawdzono w dniu oceny. Ojciec nie musiał być ubezpieczony w dniu porodu; liczy się ubezpieczenie w dniu rozpoczęcia urlopu.");
+    }
+
+    private static BenefitEligibility OwnInsuranceRight(BenefitId id, EvaluationContext context, DateOnly? leaveStart) =>
+        leaveStart is null
+            ? OwnInsuranceRight(id, context, context.EventDate(), null, null)
+            : OwnInsuranceRight(id, context, leaveStart, "w dniu rozpoczęcia urlopu", null);
+
+    private static BenefitEligibility OwnInsuranceRight(BenefitId id, EvaluationContext context, DateOnly? date, string? subject, string? note)
     {
         var run = new Run(context);
-        var date = leaveStart ?? context.EventDate();
-        var subject = leaveStart is null ? null : "w dniu rozpoczęcia urlopu";
+        if (note is not null)
+        {
+            run.Notes.Add(note);
+        }
+
         run.Do(new InsuranceOnDateRule(date, subject));
         if (run.Denied)
         {

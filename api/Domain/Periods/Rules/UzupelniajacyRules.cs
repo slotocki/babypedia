@@ -6,7 +6,7 @@ public sealed class UzupelniajacyPrzypadekRule : PeriodRule<UzupelniajacyCase>
 {
     public override string Id => "uzupelniajacy_przypadek";
 
-    public override string PodstawaPrawna => "KP art. 180² § 1–2, 5";
+    public override string PodstawaPrawna => "KP art. 180¹ § 1, art. 180² § 1–2, 5";
 
     protected override RuleStep<UzupelniajacyCase> Compute(PeriodsInputs i)
     {
@@ -15,10 +15,19 @@ public sealed class UzupelniajacyPrzypadekRule : PeriodRule<UzupelniajacyCase>
             return Step.Inapplicable<UzupelniajacyCase>(this, "Uzupełniający urlop macierzyński ustala się po porodzie, gdy dziecko przebywa w szpitalu.");
         }
 
+        if (i.StillbornWithNoChildAlive)
+        {
+            return Step.NotMet<UzupelniajacyCase>(this,
+                "Dziecko urodziło się martwe. Uzupełniający urlop macierzyński przysługuje za okres pobytu dziecka w szpitalu po porodzie, " +
+                "więc za jego okres zasiłek macierzyński nie przysługuje. Po urodzeniu martwego dziecka matce przysługuje zasiłek macierzyński " +
+                "za 8 tygodni po porodzie (KP art. 180¹ § 1).",
+                "dziecko urodzone martwe, żadne dziecko z porodu nie żyje");
+        }
+
         if (i.ChildDeceased)
         {
             return Step.Undecided<UzupelniajacyCase>(this,
-                "Przy martwym urodzeniu lub zgonie dziecka nie rozstrzygam uzupełniającego urlopu macierzyńskiego — skontaktuj się z ZUS.");
+                "Przy zgonie dziecka nie rozstrzygam uzupełniającego urlopu macierzyńskiego — skontaktuj się z ZUS.");
         }
 
         if (i.HospitalDays is not { Count: > 0 })

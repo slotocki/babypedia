@@ -85,14 +85,32 @@ public sealed class ZgonDzieckaTests
     }
 
     [Fact]
-    public void Po_martwym_urodzeniu_pozostale_swiadczenia_to_nie_rozstrzygam()
+    public void Po_martwym_urodzeniu_rodzicielski_uzupelniajacy_i_ojcowski_nie_przysluguja()
     {
         var assessment = Assess(Stillbirth());
 
-        Assert.Equal(BenefitStatus.NieRozstrzygam, Get(assessment, BenefitId.Rodzicielski).Status);
-        Assert.Equal(BenefitStatus.NieRozstrzygam, Get(assessment, BenefitId.MacierzynskiUzupelniajacy).Status);
+        var parental = Get(assessment, BenefitId.Rodzicielski);
+        Assert.Equal(BenefitStatus.NiePrzysluguje, parental.Status);
+        Assert.Contains("opieki nad dzieckiem", parental.Reason);
+        Assert.Contains("8 tygodni po porodzie", parental.Reason);
+        Assert.Contains("182¹a", parental.LegalBasis);
+        Assert.Equal(BenefitStatus.NiePrzysluguje, Get(assessment, BenefitId.MacierzynskiUzupelniajacy).Status);
         var father = Assess(Facts(BirthCase(Birth) with { DzieckoMartweUrodzenie = F(true) }, Father()));
-        Assert.Equal(BenefitStatus.NieRozstrzygam, Get(father, BenefitId.Ojcowski).Status);
+        Assert.Equal(BenefitStatus.NiePrzysluguje, Get(father, BenefitId.Ojcowski).Status);
+    }
+
+    [Fact]
+    public void Wieloraczki_wszystkie_martwe_urodzone_to_tez_nie_przysluguje()
+    {
+        Assert.Equal(BenefitStatus.NiePrzysluguje, Get(Assess(Stillbirth(2, 2)), BenefitId.Rodzicielski).Status);
+    }
+
+    [Fact]
+    public void Wieloraczki_z_dzieckiem_przy_zyciu_i_zgon_po_porodzie_zostaja_nie_rozstrzygam()
+    {
+        Assert.Equal(BenefitStatus.NieRozstrzygam, Get(Assess(Stillbirth(2, 1)), BenefitId.Rodzicielski).Status);
+        Assert.Equal(BenefitStatus.NieRozstrzygam, Get(Assess(Death("2026-05-05")), BenefitId.Rodzicielski).Status);
+        Assert.Equal(BenefitStatus.NieRozstrzygam, Get(Assess(Death("2026-05-05")), BenefitId.MacierzynskiUzupelniajacy).Status);
     }
 
     [Fact]
