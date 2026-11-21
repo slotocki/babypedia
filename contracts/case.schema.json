@@ -22,11 +22,17 @@
         "persona": { "type": "string", "description": "Id osoby w symulatorze (z CASES_PRIVATE_DIR)." },
         "plik": {
           "type": "object",
+          "description": "Rozpoznanie dodanego PDF (GET /api/cases/by-hash/{sha256}; backend: CaseFile). Najpierw sha256; zapas: nazwa + liczbaStron (oba wymagane do dopasowania). Sam plik nie trafia do repo.",
           "additionalProperties": false,
           "properties": {
-            "nazwa": { "type": "string" },
-            "liczbaStron": { "type": "integer", "minimum": 1 },
-            "sha256": { "type": "array", "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" } }
+            "nazwa": { "type": "string", "maxLength": 260, "description": "Nazwa pliku PDF sprawy (porównanie bez rozróżniania wielkości liter)." },
+            "liczbaStron": { "type": "integer", "minimum": 1, "description": "Liczba stron PDF (z pdf.js w przeglądarce)." },
+            "sha256": {
+              "type": "array",
+              "uniqueItems": true,
+              "description": "Sumy SHA-256 znanych wersji pliku (małe litery szesnastkowe).",
+              "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+            }
           }
         },
         "potwierdzoneOkresy": {
