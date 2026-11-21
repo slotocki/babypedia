@@ -38,7 +38,7 @@ public sealed class OtherBenefitsAndRoundingTests
     [Fact]
     public void Podstawa_ustalona_przez_platnika_ma_pierwszenstwo_przed_przekazana_przez_wywolujacego()
     {
-        var result = Run(Birth(WithBasis(Mother(), 3000m)), Basis(9999m));
+        var result = Run(Birth(WithBasis(Mother(), 3000m)), BasisOf(9999m));
 
         var amount = Get(result, BenefitId.Macierzynski).Amount!;
         Assert.Equal(3000m, amount.Basis);
@@ -48,7 +48,7 @@ public sealed class OtherBenefitsAndRoundingTests
     [Fact]
     public void Podstawa_przekazana_przez_wywolujacego_zachowuje_zrodlo()
     {
-        var amount = Get(Run(Birth(), Basis(3000m, BasisSource.Minimalna)), BenefitId.Macierzynski).Amount!;
+        var amount = Get(Run(Birth(), BasisOf(3000m, BasisSource.Minimalna)), BenefitId.Macierzynski).Amount!;
 
         Assert.Equal(BasisSource.Minimalna, amount.BasisSource);
         Assert.Equal(3000m, amount.Basis);
@@ -101,7 +101,7 @@ public sealed class OtherBenefitsAndRoundingTests
     [Fact]
     public void Brak_parametru_spoza_seed_to_nie_rozstrzygam_kwoty_ale_stawka_zostaje()
     {
-        var parameters = SeedParameterProvider.Load(PeriodsTestSupport.Supplemental);
+        var parameters = new WithoutKey(SeedParameterProvider.Load(PeriodsTestSupport.Supplemental), AmountsParameterKeys.PodstawaDzielnikDzienny);
         var facts = Birth(WithBasis(Mother(), 3000m));
         var cards = new[] { Card(BenefitId.Macierzynski, "2026-03-02", 140) };
 
@@ -268,5 +268,11 @@ public sealed class OtherBenefitsAndRoundingTests
         Assert.True(step.Met);
         Assert.Contains("art. 45", step.Basis);
         Assert.Contains(basis.Notes, n => n.Contains("niepełnego etatu"));
+    }
+
+    private sealed class WithoutKey(IParameterProvider inner, string hidden) : IParameterProvider
+    {
+        public Parameter Get(string key, DateOnly date) =>
+            key == hidden ? throw new ParameterNotFoundException(key, date) : inner.Get(key, date);
     }
 }

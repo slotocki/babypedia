@@ -27,7 +27,7 @@ public static class AmountsKit
 
     public static IParameterProvider Params(IEnumerable<SeedRow> extra) => Params(extra.ToArray());
 
-    public static BasisInput Basis(decimal amount, BasisSource source = BasisSource.SzacunekZus) => new(amount, source);
+    public static BasisInput BasisOf(decimal amount, BasisSource source = BasisSource.SzacunekZus) => new(amount, source);
 
     public static AmountsResult Run(FactSet facts, BasisInput? basis = null, DateOnly? asOf = null, params SeedRow[] extra)
     {
