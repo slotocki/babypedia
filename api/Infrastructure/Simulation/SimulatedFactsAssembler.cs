@@ -27,7 +27,7 @@ public sealed class SimulatedFactsAssembler(
         var login = await identity.LoginAsync(personaId, ct);
         var account = await insurance.GetAccountAsync(personaId, ct);
         var leaves = await certificates.GetSickLeavesAsync(personaId, ct);
-        var debt = await contributions.GetBalanceAsync(personaId, onDate, ct);
+        var debt = await contributions.GetBalanceAsync(personaId, onDate < today ? onDate : today, ct);
         var child = await civil.GetChildRegistrationAsync(personaId, ct);
 
         int? headcount = null;

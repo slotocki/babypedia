@@ -60,6 +60,10 @@
       "ubezpieczenie.podstawySkladek": {
         "value": [
           {
+            "miesiac": "2025-10",
+            "kwota": 6100
+          },
+          {
             "miesiac": "2025-11",
             "kwota": 6100
           },
@@ -101,10 +105,6 @@
           },
           {
             "miesiac": "2026-09",
-            "kwota": 6100
-          },
-          {
-            "miesiac": "2026-10",
             "kwota": 6100
           }
         ],
