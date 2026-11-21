@@ -1,0 +1,119 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "kwoty-limit-podstawy-dobrowolne",
+  "opis": "Limit podstawy zasiłku dla dobrowolnie ubezpieczonych: 20 321,30 zł (przychód powyżej limitu)",
+  "status": "gotowe",
+  "modul": "kwoty",
+  "test": 14,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "dzialalnosc",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "dobrowolne"
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.podstawySkladek": {
+        "value": [
+          {
+            "miesiac": "2025-03",
+            "kwota": 25000
+          },
+          {
+            "miesiac": "2025-04",
+            "kwota": 25000
+          },
+          {
+            "miesiac": "2025-05",
+            "kwota": 25000
+          },
+          {
+            "miesiac": "2025-06",
+            "kwota": 25000
+          },
+          {
+            "miesiac": "2025-07",
+            "kwota": 25000
+          },
+          {
+            "miesiac": "2025-08",
+            "kwota": 25000
+          },
+          {
+            "miesiac": "2025-09",
+            "kwota": 25000
+          },
+          {
+            "miesiac": "2025-10",
+            "kwota": 25000
+          },
+          {
+            "miesiac": "2025-11",
+            "kwota": 25000
+          },
+          {
+            "miesiac": "2025-12",
+            "kwota": 25000
+          },
+          {
+            "miesiac": "2026-01",
+            "kwota": 25000
+          },
+          {
+            "miesiac": "2026-02",
+            "kwota": 25000
+          }
+        ],
+        "source": "zus"
+      },
+      "skladki.zadluzenie": {
+        "value": {
+          "naDzien": "2026-03-02",
+          "kwota": 0
+        },
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "przysługuje",
+        "amount": {
+          "basis": 20321.3,
+          "basisSource": "szacunek_zus"
+        }
+      }
+    ]
+  },
+  "uwagi": "Przychód 25 000 zł przekracza maksymalną podstawę składki 23 550 zł; oczekiwana podstawa = limit."
+}

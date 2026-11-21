@@ -1,0 +1,74 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-przysposobienie-8-lat",
+  "opis": "Przysposobienie dziecka 8-letniego → 20 + 41 tyg.",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 8,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "przyjecie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-05-04",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "user"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2018-02-10",
+        "source": "user"
+      },
+      "przyjecie.sciezka": {
+        "value": "przysposobienie",
+        "source": "user"
+      },
+      "przyjecie.wniosekDoSadu": {
+        "value": true,
+        "source": "user"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "przyjecie_dziecka",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 20,
+          "days": 140
+        }
+      },
+      {
+        "id": "rodzicielski",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 41
+        }
+      }
+    ]
+  }
+}

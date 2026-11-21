@@ -1,0 +1,122 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-karolina-potwierdzone",
+  "opis": "Potwierdzone okresy (sekcja 10): działalność, poród 1.12.2025, pełny wymiar (wariant uśredniony)",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 2,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2025-12-01",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2025-12-01",
+        "source": "usc"
+      },
+      "dziecko.tydzienCiazyPrzyPorodzie": {
+        "value": 33,
+        "source": "usc"
+      },
+      "dziecko.masaUrodzeniowaG": {
+        "value": 1900,
+        "source": "usc"
+      },
+      "dziecko.pobytyWSzpitalu": {
+        "value": [
+          {
+            "od": "2025-12-01",
+            "do": "2026-02-01"
+          }
+        ],
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "dzialalnosc",
+            "od": "2024-01-01",
+            "do": null,
+            "chorobowe": "dobrowolne"
+          }
+        ],
+        "source": "zus"
+      },
+      "plan.rodzicielskiCzesci": {
+        "value": [
+          {
+            "tygodnie": 32,
+            "od": "2026-06-15"
+          }
+        ],
+        "source": "user"
+      },
+      "skladki.zadluzenie": {
+        "value": {
+          "naDzien": "2025-12-01",
+          "kwota": 0
+        },
+        "source": "zus"
+      },
+      "plan.wariantWyplaty": {
+        "value": "usredniony",
+        "source": "user"
+      },
+      "plan.dataWnioskuUsrednionego": {
+        "value": "2025-12-10",
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "przysługuje",
+        "period": {
+          "from": "2025-12-01",
+          "to": "2026-04-19",
+          "days": 140,
+          "weeks": 20
+        }
+      },
+      {
+        "id": "macierzynski_uzupelniajacy",
+        "status": "przysługuje",
+        "period": {
+          "from": "2026-04-20",
+          "to": "2026-06-14",
+          "days": 56,
+          "weeks": 8
+        }
+      },
+      {
+        "id": "rodzicielski",
+        "status": "przysługuje",
+        "period": {
+          "from": "2026-06-15",
+          "to": "2027-01-24",
+          "days": 224,
+          "weeks": 32
+        }
+      }
+    ]
+  },
+  "uwagi": "Okresy z tabeli w sekcji 10. Dane wcześniactwa (tydzień ciąży, masa, pobyt w szpitalu) i plan rodzicielskiego (jedna część 32 tyg.) dobrane tak, by dawały podane okresy; nie pochodzą z dokumentów sprawy."
+}

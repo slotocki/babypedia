@@ -1,0 +1,63 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-rodzicielski-33-z-41-tyg",
+  "opis": "Jeden rodzic 33 tyg. z 41 → błąd walidacji (9 tyg. nieprzenoszalne)",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 10,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "plan.rodzicielskiCzesci": {
+        "value": [
+          {
+            "tygodnie": 33
+          }
+        ],
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "validationErrors": [
+      {
+        "fact": "plan.rodzicielskiCzesci"
+      }
+    ]
+  },
+  "uwagi": "Kod błędu nie jest określony w instrukcji; sprawdzany tylko fakt, którego dotyczy błąd."
+}
