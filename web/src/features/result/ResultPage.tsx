@@ -9,6 +9,7 @@ import {
   Alert,
   Button,
   Card,
+  Disclosure,
   EmptyState,
   ErrorState,
   PageHeader,
@@ -21,6 +22,7 @@ import {
 } from '@/ui'
 import { CaseDecisionComparison } from '@/features/cases'
 import { flowSteps } from '@/features/intake/steps'
+import { applicationFor } from '@/features/submissions/kinds'
 import { LegalAssistant } from '@/features/support/LegalAssistant'
 import { BenefitCard } from './BenefitCard'
 import { DeadlineItemCard } from './DeadlineItemCard'
@@ -173,6 +175,7 @@ export function ResultPage() {
           <li key={benefitKey(benefit)}>
             <BenefitCard
               benefit={benefit}
+              application={exampleIndex ? null : applicationFor(benefit, facts)}
               headingLevel={grouped ? 4 : 3}
               missing={result.missingFacts.filter(
                 (m) => (m.person ?? benefit.person) === benefit.person && (m.benefitIds == null || m.benefitIds.includes(benefit.id)),
@@ -187,76 +190,79 @@ export function ResultPage() {
 
     return (
       <>
-        {nextOpen ? <DeadlineItemCard entry={nextOpen} showPerson={grouped} /> : null}
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+          <div className="min-w-0 space-y-4">
+            <Section title="Twoje świadczenia" description={summary || undefined}>
+              {visible.length === 0 ? (
+                <EmptyState title="Nie ma jeszcze świadczeń do pokazania" description="Wróć do kroku „Sprawdź dane” i uzupełnij informacje o swojej sytuacji." />
+              ) : grouped ? (
+                <div className="space-y-8">
+                  {(['wnioskodawca', 'drugiRodzic'] as const).map((person) => {
+                    const list = visible.filter((b) => b.person === person)
+                    if (list.length === 0) return null
+                    return (
+                      <section key={person} aria-label={personLabels[person]} className="space-y-4">
+                        <h3 className="text-lg font-bold text-brand-strong">{personLabels[person]}</h3>
+                        {renderCards(list)}
+                      </section>
+                    )
+                  })}
+                </div>
+              ) : (
+                renderCards(visible)
+              )}
+            </Section>
+            {caseSummary ? (
+              <CaseDecisionComparison expected={caseSummary.oczekiwanaDecyzja} benefits={visible} />
+            ) : null}
+          </div>
 
-        <nav aria-label="Przejdź do części wyniku" className="flex flex-wrap gap-x-4 gap-y-1">
-          <a href="#swiadczenia" className={buttonVariants({ variant: 'link' })}>Świadczenia</a>
-          <a href="#terminy" className={buttonVariants({ variant: 'link' })}>Terminy</a>
-          <Link to={paths.scenarios} className={buttonVariants({ variant: 'link' })}>Porównaj warianty</Link>
-          <Link to={paths.review} className={buttonVariants({ variant: 'link' })}>Sprawdź dane</Link>
-        </nav>
-
-        <div id="swiadczenia" className="scroll-mt-4">
-          <Section title="Świadczenia w Twojej sprawie" description={summary || undefined}>
-            {visible.length === 0 ? (
-              <EmptyState title="Nie ma jeszcze świadczeń do pokazania" description="Wróć do kroku „Sprawdź dane” i uzupełnij informacje o swojej sytuacji." />
-            ) : grouped ? (
-              <div className="space-y-8">
-                {(['wnioskodawca', 'drugiRodzic'] as const).map((person) => {
-                  const list = visible.filter((b) => b.person === person)
-                  if (list.length === 0) return null
-                  return (
-                    <section key={person} aria-label={personLabels[person]} className="space-y-4">
-                      <h3 className="text-lg font-bold text-brand-strong">{personLabels[person]}</h3>
-                      {renderCards(list)}
-                    </section>
-                  )
-                })}
-              </div>
-            ) : (
-              renderCards(visible)
-            )}
-          </Section>
+          <aside aria-label="Dalsze kroki" className="min-w-0 space-y-4">
+            <h2 className="text-xl font-bold tracking-tight">Co dalej?</h2>
+            {nextOpen ? (
+              <DeadlineItemCard entry={nextOpen} showPerson={grouped} application={applicationFor(nextOpen.benefit, facts)} />
+            ) : null}
+            <Card className="flex flex-col items-start gap-2">
+              <Button asChild variant="link"><Link to={paths.submissions}>Wszystkie wnioski i dokumenty</Link></Button>
+              <Button asChild variant="link"><Link to={paths.scenarios}>Porównaj warianty</Link></Button>
+              <Button asChild variant="link"><Link to={paths.review}>Zmień dane</Link></Button>
+              {sessionId ? <Button asChild variant="link"><Link to={paths.login}>Zmień profil lub sprawę</Link></Button> : null}
+            </Card>
+          </aside>
         </div>
 
-        {caseSummary ? (
-          <CaseDecisionComparison expected={caseSummary.oczekiwanaDecyzja} benefits={visible} />
-        ) : null}
-
-        <DeadlinesSection
-          entries={entries}
-          completed={completed}
-          nextDeadlineId={nextOpen?.deadline.id}
-          showPerson={grouped}
-          today={today}
-          onToggle={toggleDone}
-        />
-
-        <RisksSection risks={result.risks} />
-
-        <VariantSection
-          variant={variant}
-          onChange={changeVariant}
-          disabled={busy}
-          applicationDateQuestion={result.missingFacts.find(
-            (m) => m.fact === 'plan.dataWnioskuUsrednionego' && (m.person ?? 'wnioskodawca') === 'wnioskodawca',
-          )}
-          onApplicationDate={saveApplicationDate}
-        />
-
-        {nextOpen ? null : (
-          <Button asChild fullWidth className="sm:w-auto">
-            <Link to={paths.submissions}>Przejdź do wniosków i zgłoszeń</Link>
-          </Button>
-        )}
+        <div className="space-y-4">
+          <DeadlinesSection
+            entries={entries}
+            completed={completed}
+            nextDeadlineId={nextOpen?.deadline.id}
+            showPerson={grouped}
+            today={today}
+            onToggle={toggleDone}
+          />
+          <Disclosure title="Ryzyka i wariant wypłaty">
+            <div className="space-y-5">
+              <RisksSection risks={result.risks} />
+              <VariantSection
+                variant={variant}
+                onChange={changeVariant}
+                disabled={busy}
+                applicationDateQuestion={result.missingFacts.find(
+                  (m) => m.fact === 'plan.dataWnioskuUsrednionego' && (m.person ?? 'wnioskodawca') === 'wnioskodawca',
+                )}
+                onApplicationDate={saveApplicationDate}
+              />
+            </div>
+          </Disclosure>
+        </div>
       </>
     )
   }
 
   return (
     <ToneScope tone={difficult ? 'difficult' : 'default'} className="-mx-4 -my-6 px-4 py-6">
-      <div ref={pageRef} className="mx-auto max-w-3xl space-y-8">
-        <Stepper steps={flowSteps} current={3} />
+      <div ref={pageRef} className="mx-auto max-w-5xl space-y-6">
+        <Stepper steps={flowSteps} current={2} />
         <PageHeader
           title="Twój plan"
           description={

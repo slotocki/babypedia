@@ -1,1 +1,1 @@
-export const flowSteps = ['Pytania', 'Uzupełnij dane', 'Sprawdź dane', 'Wynik']
+export const flowSteps = ['Dane', 'Pytania', 'Wynik']

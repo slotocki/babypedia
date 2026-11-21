@@ -2,7 +2,7 @@ import { useId, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import type { BenefitPart, BenefitResult, MissingFact } from '@/app/api/types'
 import { paths } from '@/app/paths'
-import { Alert, Amount, Button, Card, Disclosure, Period, StatusBadge, formatMoney, formatPercent, formatWeeks } from '@/ui'
+import { Alert, Amount, Button, Card, Disclosure, Period, StatusBadge, formatDate, formatMoney, formatPercent, formatWeeks } from '@/ui'
 import { BasisForm } from './BasisForm'
 import { ExtLink } from './ExtLink'
 import { basisSourceLabels, benefitName, payerLabels, placeLabels } from './labels'
@@ -14,6 +14,7 @@ const SHARED_TOTAL_NOTE = 'Pokazany jest łączny wymiar'
 export interface BenefitCardProps {
   benefit: BenefitResult
   missing: MissingFact[]
+  application?: { href: string; label: string } | null
   headingLevel?: 3 | 4
   onSaveBasis: (benefit: BenefitResult, value: number) => void
   busy?: boolean
@@ -79,7 +80,7 @@ function Parts({ parts }: { parts: BenefitPart[] }) {
   )
 }
 
-function Entitled({ benefit, onSaveBasis, busy }: Pick<BenefitCardProps, 'benefit' | 'onSaveBasis' | 'busy'>) {
+function Entitled({ benefit, application, onSaveBasis, busy }: Pick<BenefitCardProps, 'benefit' | 'application' | 'onSaveBasis' | 'busy'>) {
   const { amount, period, rate, payer, whereToApply, documents, links, notes, parts, trace, lumpSum } = benefit
   const save = (value: number) => onSaveBasis(benefit, value)
   // Bez planu urlopu rodzicielskiego silnik pokazuje wymiar łączny obojga rodziców (uwaga z modułu okresów).
@@ -90,7 +91,7 @@ function Entitled({ benefit, onSaveBasis, busy }: Pick<BenefitCardProps, 'benefi
   return (
     <div className="space-y-3">
       {lumpSum != null || amount || period ? (
-        <div className="flex flex-wrap items-start gap-x-5 gap-y-3">
+        <div className="flex flex-wrap items-start gap-x-7 gap-y-3 rounded-card bg-canvas p-4">
           {lumpSum != null ? (
             <div>
               <p className="text-sm text-ink-soft">Kwota jednorazowa</p>
@@ -110,6 +111,10 @@ function Entitled({ benefit, onSaveBasis, busy }: Pick<BenefitCardProps, 'benefi
             <div>
               <p className="text-sm text-ink-soft">{sharedNote ? 'Okres — łącznie dla obojga rodziców' : 'Okres'}</p>
               <p className="text-xl font-bold text-ink">{formatWeeks(period.weeks)}</p>
+              <p className="text-sm text-ink-soft">
+                <time dateTime={period.from}>{formatDate(period.from)}</time>{' – '}
+                <time dateTime={period.to}>{formatDate(period.to)}</time>
+              </p>
             </div>
           ) : null}
         </div>
@@ -128,7 +133,6 @@ function Entitled({ benefit, onSaveBasis, busy }: Pick<BenefitCardProps, 'benefi
         <Disclosure title="Szczegóły świadczenia">
           <div className="space-y-4">
             <dl className="grid gap-x-5 gap-y-3 sm:grid-cols-2">
-              {period ? <Row label="Daty świadczenia"><Period period={period} /></Row> : null}
               {period && rate != null ? <Row label="Stawka">{formatPercent(rate)} podstawy</Row> : null}
               {period && amount ? <Row label="Za jeden dzień">{formatMoney(amount.daily)}</Row> : null}
               {period && amount ? <Row label="Podstawa">{formatMoney(amount.basis)} brutto, {basisSourceLabels[amount.basisSource]}</Row> : null}
@@ -156,9 +160,11 @@ function Entitled({ benefit, onSaveBasis, busy }: Pick<BenefitCardProps, 'benefi
         </Disclosure>
       ) : null}
 
-      <Button asChild variant="link" className="w-full sm:w-auto">
-        <Link to={paths.submissions}>Przygotuj wniosek</Link>
-      </Button>
+      {application ? (
+        <Button asChild variant="secondary" className="w-full sm:w-auto">
+          <Link to={application.href}>{application.label}</Link>
+        </Button>
+      ) : null}
     </div>
   )
 }
@@ -229,11 +235,11 @@ function Undecided({ benefit }: { benefit: BenefitResult }) {
   )
 }
 
-export function BenefitCard({ benefit, missing, headingLevel = 3, onSaveBasis, busy }: BenefitCardProps) {
+export function BenefitCard({ benefit, missing, application, headingLevel = 3, onSaveBasis, busy }: BenefitCardProps) {
   const headingId = useId()
   const Heading = headingLevel === 3 ? 'h3' : 'h4'
   return (
-    <Card as="article" aria-labelledby={headingId} className="space-y-3">
+    <Card as="article" aria-labelledby={headingId} className="space-y-4 p-4 sm:p-5">
       <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
         <Heading id={headingId} className="break-words text-lg font-semibold leading-snug text-ink">
           {benefitName(benefit.id)}
@@ -241,7 +247,7 @@ export function BenefitCard({ benefit, missing, headingLevel = 3, onSaveBasis, b
         <StatusBadge status={benefit.status} />
       </header>
 
-      {benefit.status === 'przysługuje' ? <Entitled benefit={benefit} onSaveBasis={onSaveBasis} busy={busy} /> : null}
+      {benefit.status === 'przysługuje' ? <Entitled benefit={benefit} application={application} onSaveBasis={onSaveBasis} busy={busy} /> : null}
       {benefit.status === 'nie_przysługuje' ? <Refused benefit={benefit} /> : null}
       {benefit.status === 'brakuje_danych' ? <MissingData missing={missing} /> : null}
       {benefit.status === 'nie_rozstrzygam' ? <Undecided benefit={benefit} /> : null}

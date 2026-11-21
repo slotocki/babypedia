@@ -7,7 +7,7 @@ import { api } from '@/app/api/client'
 import { paths } from '@/app/paths'
 import { Button, Card, ErrorState, PageHeader, Section, SimulationBadge, SimulationBanner, SkeletonText } from '@/ui'
 import { Certificate } from './Certificate'
-import { findKind, leaveKinds, otherKinds, type SubmissionKind } from './kinds'
+import { findKind, leaveKinds, otherKinds, submissionFormPath, type SubmissionKind } from './kinds'
 import { MySubmissions } from './MySubmissions'
 import { NeedsLogin } from './NeedsLogin'
 import { Receipt } from './Receipt'
@@ -41,7 +41,10 @@ export function SubmissionsPage() {
     lista: { title: 'Wnioski i zgłoszenia', description: 'Wybierz, co chcesz przygotować. Wypełnisz formularz, a my wygenerujemy plik PDF i numer zgłoszenia.' },
     moje: { title: 'Moje zgłoszenia', description: 'Zgłoszenia złożone w tej sesji (symulacja).' },
     zaswiadczenie: { title: 'Zaświadczenie o stanie składek (symulacja)' },
-    potwierdzenie: { title: 'Zgłoszenie przyjęte (symulacja)', description: 'Zapisz numer zgłoszenia. Poniżej pobierzesz wniosek w PDF.' },
+    potwierdzenie: {
+      title: receipt?.type === 'wniosek_urlop' || receipt?.type === 'dane_zam' ? 'PDF jest gotowy' : 'Zgłoszenie przyjęte (symulacja)',
+      description: 'Możesz otworzyć lub pobrać dokument.',
+    },
     login: { title: 'Wnioski i zgłoszenia' },
   }
   const header = kind ? { title: kind.title, description: `Adresat: ${kind.recipient}.` } : headers[view]
@@ -50,7 +53,7 @@ export function SubmissionsPage() {
     <div ref={ref} className="mx-auto max-w-2xl space-y-6">
       <PageHeader title={header.title} description={header.description} eyebrow={view === 'lista' || view === 'login' ? 'Symulacja' : undefined} />
 
-      {view === 'login' ? <NeedsLogin /> : null}
+      {view === 'login' ? <NeedsLogin templateId={kind?.id} /> : null}
 
       {sessionId && view === 'lista' ? <KindList /> : null}
 
@@ -167,7 +170,7 @@ function KindCard({ kind }: { kind: SubmissionKind }) {
       <p className="text-sm font-semibold text-ink-soft">Adresat: {kind.recipient}</p>
       <p className="text-sm text-ink-soft">Symulacja — nic nie zostanie wysłane.</p>
       <Button asChild>
-        <Link to={`${paths.submissions}?widok=formularz&szablon=${kind.id}`}>
+        <Link to={submissionFormPath(kind.id)}>
           Wypełnij<span className="sr-only">: {kind.title}</span>
         </Link>
       </Button>

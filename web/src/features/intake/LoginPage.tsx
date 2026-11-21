@@ -1,146 +1,119 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useSearchParams } from 'react-router'
 import { api } from '@/app/api/client'
-import type { Identity, PersonaListItem } from '@/app/api/types'
-import { useCaseState } from '@/app/case-context'
+import { emptyFacts, useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
-import { countFacts, mergeIntegrationFacts, withoutIntegrationFacts } from '@/features/review/facts'
-import { Alert, Button, Card, EmptyState, ErrorState, PageHeader, Section, Spinner, Stepper, UserIcon } from '@/ui'
-import { flowSteps } from './steps'
+import { mergeIntegrationFacts, userFactOf, withFact } from '@/features/review/facts'
+import { eventKindLabels } from '@/features/review/fact-labels'
+import { findKind, submissionFormPath } from '@/features/submissions/kinds'
+import { Alert, Button, Card, ErrorState, Field, PageHeader, Select, ShieldIcon, SimulationBadge, Spinner } from '@/ui'
 import { useFocusHeading } from './useFocusHeading'
 
-const maskPesel = (pesel: string) => `${'•'.repeat(Math.max(pesel.length - 3, 0))}${pesel.slice(-3)}`
-
-type Progress =
-  | { state: 'idle' }
-  | { state: 'loading'; persona: string }
-  | { state: 'error'; error: unknown; persona: PersonaListItem }
-  | { state: 'done'; identity: Identity; factCount: number }
-
 export function LoginPage() {
-  const { facts, setFacts, setSessionId } = useCaseState()
+  const { caseId, replaceCase, setSessionId } = useCaseState()
   const navigate = useNavigate()
   const pageRef = useFocusHeading<HTMLDivElement>()
-  const [progress, setProgress] = useState<Progress>({ state: 'idle' })
+  const [params] = useSearchParams()
+  const [selected, setSelected] = useState<string | null>(null)
+  const requestedKind = findKind(params.get('szablon'))
+  const forSubmission = params.get('powrot') === 'wnioski'
 
-  // Osoby ze spraw testowych ZUS wybiera się na ekranie początkowym; tutaj zostają tylko osoby wymyślone.
-  const personas = useQuery({ queryKey: ['sim', 'personas'], queryFn: api.sim.personas, select: (list) => list.filter((p) => !p.caseId) })
-  const busy = progress.state === 'loading'
+  const personas = useQuery({ queryKey: ['sim', 'personas'], queryFn: api.sim.personas })
+  const cases = useQuery({ queryKey: ['cases'], queryFn: api.cases.list, enabled: !forSubmission })
+  const profiles = (personas.data ?? []).filter((person) => !person.caseId)
+  const examples = forSubmission ? [] : (cases.data ?? []).filter((item) => item.dostepna && item.persona)
+  const picked = selected ?? examples.find((item) => item.id === caseId)?.persona ??
+    profiles.find((person) => person.id === 'anna-przyklad')?.id ?? profiles[0]?.id ?? examples[0]?.persona ?? ''
+  const profile = profiles.find((person) => person.id === picked)
+  const example = examples.find((item) => item.persona === picked)
+  const selectionReady = selected !== null || (personas.isFetched && (forSubmission || cases.isFetched))
 
-  const login = async (persona: PersonaListItem) => {
-    setProgress({ state: 'loading', persona: persona.imie ?? persona.id })
-    try {
-      const session = await api.sim.login(persona.id)
-      const integration = await api.sim.myFacts(session.sessionId)
-      const merged = mergeIntegrationFacts(facts, integration)
-      setSessionId(session.sessionId)
-      setFacts(merged)
-      setProgress({ state: 'done', identity: session.identity, factCount: countFacts(merged) })
-    } catch (error) {
-      setProgress({ state: 'error', error, persona })
+  const connection = useQuery({
+    queryKey: ['sim', 'connection', picked, forSubmission],
+    enabled: Boolean(picked) && selectionReady,
+    staleTime: Infinity,
+    gcTime: 0,
+    retry: false,
+    queryFn: async () => {
+      const session = await api.sim.login(picked)
+      const loaded = forSubmission ? emptyFacts() : mergeIntegrationFacts(emptyFacts(), await api.sim.myFacts(session.sessionId))
+      const facts = example && !loaded.sprawa['zdarzenie.dlaKogo']
+        ? withFact(loaded, 'sprawa', 'zdarzenie.dlaKogo', userFactOf('ja'))
+        : loaded
+      return { sessionId: session.sessionId, facts }
+    },
+  })
+
+  const proceed = () => {
+    if (!connection.data) return
+    if (forSubmission) {
+      setSessionId(connection.data.sessionId)
+      navigate(requestedKind ? submissionFormPath(requestedKind.id) : paths.submissions, { replace: true })
+      return
     }
-  }
-
-  const enterManually = () => {
-    setSessionId(null)
-    setFacts(withoutIntegrationFacts(facts))
+    replaceCase(connection.data.facts, connection.data.sessionId, example?.id ?? null)
     navigate(paths.review)
   }
 
-  const missingEvent = !facts.sprawa['zdarzenie.rodzaj']
+  const event = connection.data?.facts.sprawa['zdarzenie.rodzaj']?.value
+  const date = connection.data?.facts.sprawa['zdarzenie.data']?.value
 
   return (
-    <div ref={pageRef} className="mx-auto max-w-2xl space-y-6">
-      <Stepper steps={flowSteps} current={1} />
-      <PageHeader title="Jak chcesz uzupełnić dane?" />
+    <div ref={pageRef} className="mx-auto max-w-2xl space-y-5 py-3 sm:py-7">
+      <PageHeader
+        title={forSubmission ? 'Wybierz profil do wniosku' : 'Połącz z mObywatelem'}
+        description={forSubmission ? 'Profil testowy służy do zapisania i pobrania dokumentu. Użyjemy danych z Twojego wyniku.' : 'Wybierz profil lub zapisaną sprawę, a wczytamy dane z symulowanych systemów.'}
+      />
+      <Card className="space-y-5 p-5 sm:p-8">
+        <SimulationBadge />
+        {personas.isError ? <ErrorState error={personas.error} title="Nie udało się wczytać profili" onRetry={() => void personas.refetch()} /> : null}
+        {cases.isError ? <ErrorState error={cases.error} title="Nie udało się wczytać spraw ZUS" onRetry={() => void cases.refetch()} /> : null}
 
-      {missingEvent ? (
-        <Alert variant="warning" title="Brakuje odpowiedzi na trzy pytania">
-          <Link to={paths.start} className="font-semibold text-brand-strong underline underline-offset-4">
-            Wróć do trzech pytań
-          </Link>
-          , żeby wynik był trafny. Możesz też wybrać osobę — jej dane uzupełnią odpowiedzi.
-        </Alert>
-      ) : null}
+        {picked ? (
+          <Field label={forSubmission ? 'Profil testowy' : 'Profil lub sprawa testowa'}>
+            <Select value={picked} onChange={(event) => setSelected(event.target.value)}>
+              {profiles.length > 0 ? (
+                <optgroup label="Profile testowe">
+                  {profiles.map((person) => <option key={person.id} value={person.id}>{person.imie ?? person.id}</option>)}
+                </optgroup>
+              ) : null}
+              {examples.length > 0 ? (
+                <optgroup label="Sprawy testowe ZUS">
+                  {examples.map((item) => <option key={item.id} value={item.persona ?? ''}>{item.tytul}</option>)}
+                </optgroup>
+              ) : null}
+            </Select>
+          </Field>
+        ) : null}
 
-      {progress.state === 'done' ? (
-        <div className="space-y-4" role="status">
-          <Alert variant="info" title="Zalogowano (symulacja)">
-            <p>
-              {progress.identity.imie} {progress.identity.nazwisko}
-              {progress.identity.nazwiskoRodowe ? `, nazwisko rodowe: ${progress.identity.nazwiskoRodowe}` : ''}
-            </p>
-            <p>PESEL (zamaskowany, fikcyjny): {maskPesel(progress.identity.pesel)}</p>
-            <p className="mt-2">Pobrano dane z symulowanych systemów. Liczba danych do sprawdzenia: {progress.factCount}.</p>
-          </Alert>
-          <Button autoFocus fullWidth className="sm:w-auto" onClick={() => navigate(paths.review)}>
-            Dalej: sprawdź dane
-          </Button>
-        </div>
-      ) : (
-        <>
-          <Card>
-            <Section title="Pobierz dane osoby testowej" description="Symulacja logowania przez mObywatel i pobierania danych z ZUS.">
-              {personas.isPending ? (
-                <p role="status" className="flex items-center gap-2 text-ink-soft">
-                  <Spinner label={null} /> Wczytuję listę osób…
-                </p>
-              ) : null}
-              {personas.isError ? (
-                <ErrorState error={personas.error} onRetry={() => void personas.refetch()} retrying={personas.isFetching} title="Nie udało się wczytać listy osób" />
-              ) : null}
-              {personas.isSuccess && personas.data.length === 0 ? (
-                <EmptyState title="Brak osób do wyboru" description="Lista osób jest pusta. Możesz wprowadzić dane samodzielnie." />
-              ) : null}
+        {!selectionReady || (picked && connection.isPending) ? (
+          <p role="status" className="flex items-center gap-2 text-ink-soft"><Spinner label={null} /> Wczytuję dane testowe…</p>
+        ) : null}
+        {selectionReady && !picked && !personas.isError && !cases.isError ? (
+          <Alert variant="info" title="Brak dostępnych przykładów">Możesz skorzystać z ręcznego wprowadzania danych.</Alert>
+        ) : null}
+        {connection.isError ? <ErrorState error={connection.error} title="Nie udało się pobrać danych" onRetry={() => void connection.refetch()} /> : null}
 
-              {personas.isSuccess && personas.data.length > 0 ? (
-                <ul className="divide-y divide-line" aria-busy={busy}>
-                  {personas.data.map((persona) => (
-                    <li key={persona.id} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 py-3">
-                      <div className="flex min-w-0 flex-[1_1_12rem] items-start gap-3">
-                        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-soft text-brand-strong">
-                          <UserIcon className="size-5" />
-                        </span>
-                        <div className="min-w-0">
-                          <p className="font-semibold text-ink">{persona.imie ?? persona.id}</p>
-                          <p className="text-sm text-ink-soft">{persona.opis}</p>
-                        </div>
-                      </div>
-                      <Button
-                        variant="link"
-                        disabled={busy}
-                        aria-label={`Pobierz dane: ${persona.imie ?? persona.id} (symulacja)`}
-                        onClick={() => void login(persona)}
-                        className="shrink-0"
-                      >
-                        Pobierz dane
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-
-              {progress.state === 'loading' ? (
-                <p role="status" className="flex items-center gap-2 text-ink-soft">
-                  <Spinner label={null} /> Loguję (symulacja) i pobieram dane: {progress.persona}…
-                </p>
-              ) : null}
-              {progress.state === 'error' ? (
-                <ErrorState
-                  error={progress.error}
-                  title="Nie udało się zalogować"
-                  onRetry={() => void login(progress.persona)}
-                  description="Spróbuj ponownie albo wprowadź dane samodzielnie. Twoje odpowiedzi są zachowane."
-                />
-              ) : null}
-            </Section>
-          </Card>
-          <Button variant="secondary" fullWidth className="sm:w-auto" onClick={enterManually} disabled={busy}>
-            Wprowadzę dane samodzielnie
-          </Button>
-        </>
-      )}
+        {connection.data ? (
+          <>
+            <div className="flex items-start gap-3 rounded-card bg-canvas p-4">
+              <ShieldIcon className="mt-0.5 size-5 shrink-0 text-brand-strong" />
+              <div className="min-w-0 space-y-1">
+                <p className="font-semibold text-ink">{example?.tytul ?? profile?.imie ?? 'Profil testowy'}</p>
+                {profile?.opis ? <p className="text-sm text-ink-soft">{profile.opis}</p> : null}
+                {event ? <p className="text-sm text-ink-soft">{eventKindLabels[event]}{date ? ` · ${new Intl.DateTimeFormat('pl-PL', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(date))}` : ''}</p> : null}
+              </div>
+            </div>
+            <Button fullWidth className="sm:w-auto" onClick={proceed}>
+              {forSubmission ? 'Przejdź do wniosku' : 'Sprawdź pobrane dane'}
+            </Button>
+          </>
+        ) : null}
+      </Card>
+      <Button asChild variant="link">
+        <Link to={forSubmission ? paths.result : paths.start}>{forSubmission ? 'Wróć do wyniku' : 'Wróć do wyboru sposobu'}</Link>
+      </Button>
     </div>
   )
 }

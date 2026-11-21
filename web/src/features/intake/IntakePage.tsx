@@ -1,12 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState, type FormEvent } from 'react'
 import { useForm, type FieldPath } from 'react-hook-form'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { z } from 'zod'
 import type { EventKind, FactSet } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
-import { QuickStart } from '@/features/cases/QuickStart'
 import { addDaysIso, isValidIsoDate, todayIso } from '@/features/review/dates'
 import { calculationScopeLabels, eventKindLabels } from '@/features/review/fact-labels'
 import { getFact, userFactOf, withFact } from '@/features/review/facts'
@@ -150,7 +149,7 @@ export function IntakePage() {
     await handleSubmit(
       (values) => {
         setFacts(applyAnswers(facts, values))
-        navigate(paths.login)
+        navigate(paths.review)
       },
       (invalid) => {
         const firstInvalid = questions.findIndex(({ fields }) => fields.some((field) => invalid[field]))
@@ -212,12 +211,13 @@ export function IntakePage() {
             </Button>
             {step > 0 ? (
               <Button variant="link" className="justify-self-center" onClick={() => setStep(step - 1)} disabled={isSubmitting || isValidating}>Wróć</Button>
-            ) : null}
+            ) : (
+              <Button asChild variant="link" className="justify-self-center"><Link to={paths.start}>Zmień sposób rozpoczęcia</Link></Button>
+            )}
           </div>
         </form>
       </Card>
       <p className="text-sm text-ink-soft">Twoje odpowiedzi nie są wysyłane do urzędu.</p>
-      <QuickStart />
     </div>
   )
 }

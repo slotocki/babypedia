@@ -1,4 +1,5 @@
-import type { LeaveTemplate, SubmissionReceipt, SubmissionType } from '@/app/api/types'
+import type { BenefitId, BenefitResult, FactSet, LeaveTemplate, SubmissionReceipt, SubmissionType } from '@/app/api/types'
+import { paths } from '@/app/paths'
 
 export interface SubmissionKind {
   id: string
@@ -82,6 +83,31 @@ export const otherKinds: SubmissionKind[] = [
 export const allKinds = [...leaveKinds, ...otherKinds]
 
 export const findKind = (id: string | null) => allKinds.find((kind) => kind.id === id)
+
+export const submissionFormPath = (id: string) =>
+  paths.submissions + '?' + new URLSearchParams({ widok: 'formularz', szablon: id }).toString()
+
+const leaveByBenefit: Partial<Record<BenefitId, LeaveTemplate>> = {
+  rodzicielski: 'rodzicielski',
+  ojcowski: 'ojcowski',
+  macierzynski_uzupelniajacy: 'uzupelniajacy',
+}
+
+const maternityBenefits: BenefitId[] = ['macierzynski', 'macierzynski_uzupelniajacy', 'rodzicielski', 'ojcowski', 'przyjecie_dziecka', 'przejecie_przez_ojca']
+
+export function applicationFor(benefit: BenefitResult, facts: FactSet) {
+  if (benefit.person !== 'wnioskodawca' || benefit.status !== 'przysługuje' || !maternityBenefits.includes(benefit.id)) return null
+
+  const date = benefit.period?.from ?? facts.sprawa['zdarzenie.data']?.value
+  const employee = date && facts.wnioskodawca['ubezpieczenie.tytuly']?.value.some(
+    (title) => title.rodzajTytulu === 'pracownik' && title.od <= date && (!title.do || title.do >= date),
+  )
+  const leave = employee ? leaveByBenefit[benefit.id] : undefined
+  return {
+    href: submissionFormPath(leave ?? 'dane_zam'),
+    label: leave ? 'Przygotuj wniosek o urlop' : 'Przygotuj dane do wniosku ZAM',
+  }
+}
 
 export const typeLabels: Record<SubmissionType, string> = {
   wniosek_urlop: 'Wniosek o urlop',

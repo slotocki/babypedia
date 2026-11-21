@@ -33,10 +33,10 @@ npm ci --prefix contracts && npm --prefix contracts run validate   # walidacja f
 
 ## Jak przetestować w 3 minuty
 
-1. **Start** (`/`): najszybciej — rozwiń „Sprawy testowe ZUS” i wybierz sprawę; aplikacja wczyta jej dane i pokaże wynik do porównania z decyzją ZUS. Albo odpowiedz na trzy pytania: co się dzieje (planuję dziecko, jestem w ciąży, dziecko się urodziło, przyjmuję dziecko na wychowanie), kiedy i dla kogo liczymy (dla mnie albo dla mnie i drugiego rodzica).
-2. **Logowanie (symulacja)** (`/logowanie`): wybierz wymyśloną osobę z listy albo „Wprowadzę dane sam".
-3. **Sprawdź dane** (`/sprawdz-dane`): fakty z symulowanych systemów, każdy ze źródłem i przyciskiem „Popraw". Niżej tylko te pytania, które silnik zgłosił jako brakujące.
-4. **Wynik** (`/wynik`): „Co Ci przysługuje" (karta świadczenia ze statusem, okresem, kwotą i rozwijaną ścieżką decyzji), „Co zrobić i do kiedy" (z jednym najbliższym krokiem), „Na co uważać", „Sprawdź inny wariant". Przy odmowie: powód, podstawa prawna i „Co musiałoby się zmienić".
+1. **Start** (`/`): „Wprowadź dane ręcznie” prowadzi do pytań o sytuację, datę i rodziców. „Połącz z mObywatelem” otwiera symulację.
+2. **Połączenie (symulacja)** (`/logowanie`): dane domyślnego profilu ładują się automatycznie. Wybierz inny profil lub sprawę ZUS, jeśli chcesz zobaczyć inny przebieg.
+3. **Sprawdź dane** (`/sprawdz-dane`): sprawdź źródła, popraw informacje w razie potrzeby i potwierdź pobrane dane. Potem zobaczysz pytania o brakujące informacje.
+4. **Wynik** (`/wynik`): karta pokazuje świadczenie, status, okres, kwotę i szczegóły. Sekcja „Co dalej?” prowadzi do terminów i wniosków. Przy odmowie aplikacja podaje powód, podstawę prawną i okoliczności, które mogłyby zmienić wynik.
 5. **Porównaj warianty** (`/porownaj-warianty`): plan bazowy kontra wariant, różnica w tygodniach i złotych oraz zmiana statusów.
 6. **Wnioski** (`/wnioski`), **Moje dane w ZUS** (`/moje-dane-zus`), **Wsparcie** (`/wsparcie`), **Sprawy ZUS** (`/sprawy`), **panel** (`/admin`).
 
@@ -57,7 +57,7 @@ Pliki w `fixtures/personas/`. Opisy w kolumnie „Co pokazuje" wynikają z danyc
 
 ### Sprawy testowe ZUS
 
-Sprawę można wybrać z listy na ekranie startowym albo dodać jej plik PDF na ekranie `/sprawy`. Dodany PDF jest rozpoznawany po sumie SHA-256 liczonej w przeglądarce (zapas: nazwa pliku i liczba stron), pokazuje się jego podgląd (pdf.js), a plik nie opuszcza przeglądarki: do API trafia tylko suma. Nieznany plik daje podgląd i komunikat „nie znam tej sprawy". Aplikacja nie czyta treści PDF (bez OCR). Po wybraniu sprawy wczytują się dane odczytane z jej dokumentów, a na wyniku jest porównanie z decyzją ZUS.
+Sprawę można wybrać po kliknięciu „Połącz z mObywatelem” albo na ekranie `/sprawy`, który umożliwia też dodanie pliku PDF. Dodany PDF jest rozpoznawany po sumie SHA-256 liczonej w przeglądarce (zapas: nazwa pliku i liczba stron), pokazuje się jego podgląd (pdf.js), a plik nie opuszcza przeglądarki: do API trafia tylko suma. Nieznany plik daje podgląd i komunikat „nie znam tej sprawy". Aplikacja nie czyta treści PDF (bez OCR). Po wybraniu sprawy wczytują się dane odczytane z jej dokumentów, a na wyniku jest porównanie z decyzją ZUS.
 
 Każda sprawa na liście ma oznaczenie, co w niej sprawdzono z dokumentami ZUS:
 

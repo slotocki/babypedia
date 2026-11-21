@@ -2,17 +2,19 @@ import { Link } from 'react-router'
 import { paths } from '@/app/paths'
 import { Alert, Button } from '@/ui'
 
-export function NeedsLogin({ expired = false }: { expired?: boolean }) {
+export function NeedsLogin({ expired = false, templateId }: { expired?: boolean; templateId?: string }) {
+  const params = new URLSearchParams({ powrot: 'wnioski' })
+  if (templateId) params.set('szablon', templateId)
   return (
-    <Alert variant="info" title={expired ? 'Sesja symulacji wygasła' : 'Wnioski wymagają zalogowania (symulacja)'}>
+    <Alert variant="info" title={expired ? 'Sesja symulacji wygasła' : 'Wybierz profil testowy do wniosku'}>
       <div className="space-y-3">
         <p>
           {expired
             ? 'Zaloguj się ponownie, żeby dalej korzystać z wniosków. Zgłoszenia z poprzedniej sesji nie są już dostępne.'
-            : 'Zgłoszenia zapisujemy przy zalogowanej osobie. Wybrano wpisywanie danych samodzielnie, więc nie wiemy, do kogo przypisać zgłoszenie. Zaloguj się przez symulowany mObywatel i wybierz fikcyjną osobę.'}
+            : 'Przypiszemy dokument do wybranego profilu testowego. Zachowamy dane wprowadzone podczas sprawdzania świadczeń.'}
         </p>
         <Button asChild>
-          <Link to={paths.login}>Przejdź do logowania (symulacja)</Link>
+          <Link to={paths.login + '?' + params.toString()}>Wybierz profil testowy</Link>
         </Button>
       </div>
     </Alert>

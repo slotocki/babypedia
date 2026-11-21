@@ -12,7 +12,7 @@ export interface CaseState {
   sessionId: string | null
   setSessionId: (id: string | null) => void
   caseId: string | null
-  setCaseId: (id: string | null) => void
+  replaceCase: (facts: FactSet, sessionId: string, caseId: string | null) => void
   /** Id terminów oznaczonych jako „Zrobione” (wysyłane jako completedDeadlines). Czyści je reset(). */
   completedDeadlines: string[]
   setDeadlineDone: (id: string, done: boolean) => void

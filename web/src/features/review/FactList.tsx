@@ -15,9 +15,15 @@ const groups: { bucket: Bucket; title: string; empty: string }[] = [
 interface FactListProps {
   facts: FactSet
   onChange: (bucket: Bucket, key: string, value: unknown) => void
+  subset?: 'essential' | 'other'
 }
 
-export function FactList({ facts, onChange }: FactListProps) {
+const essentialKeys = new Set([
+  'zdarzenie.rodzaj', 'zdarzenie.data', 'zdarzenie.dlaKogo', 'dziecko.liczba',
+  'osoba.rola', 'ubezpieczenie.tytuly', 'skladki.zadluzenie', 'podstawa.ustalonaPrzezPlatnika',
+])
+
+export function FactList({ facts, onChange, subset }: FactListProps) {
   const [editing, setEditing] = useState<string | null>(null)
   const showSecond = Boolean(facts.drugiRodzic) || facts.sprawa['zdarzenie.dlaKogo']?.value === 'ja_i_drugi_rodzic'
 
@@ -27,7 +33,10 @@ export function FactList({ facts, onChange }: FactListProps) {
         .filter((g) => g.bucket !== 'drugiRodzic' || showSecond)
         .map((group) => {
           const map = factsIn(facts, group.bucket)
-          const keys = factKeyOrder.filter((key) => map[key] !== undefined)
+          const keys = factKeyOrder.filter((key) => map[key] !== undefined && (
+            subset === undefined || essentialKeys.has(key) === (subset === 'essential')
+          ))
+          if (subset === 'other' && keys.length === 0) return null
           return (
             <Section key={group.bucket} level={3} title={group.title}>
               {keys.length === 0 ? (

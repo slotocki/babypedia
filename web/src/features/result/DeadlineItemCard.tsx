@@ -1,10 +1,13 @@
 import { Link } from 'react-router'
-import { paths } from '@/app/paths'
 import { Button, Card, DeadlineItem, buttonVariants } from '@/ui'
 import type { DeadlineEntry } from './DeadlinesSection'
 import { benefitName, personLabels, placeLabels } from './labels'
 
-export function DeadlineItemCard({ entry, showPerson }: { entry: DeadlineEntry; showPerson: boolean }) {
+export function DeadlineItemCard({ entry, showPerson, application }: {
+  entry: DeadlineEntry
+  showPerson: boolean
+  application?: { href: string; label: string } | null
+}) {
   const { deadline, benefit } = entry
   const hasApplication = benefit.status === 'przysługuje' && !!benefit.whereToApply
   return (
@@ -18,12 +21,12 @@ export function DeadlineItemCard({ entry, showPerson }: { entry: DeadlineEntry; 
         {hasApplication && benefit.whereToApply ? <p>Gdzie złożyć wniosek: {placeLabels[benefit.whereToApply]}</p> : null}
       </div>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        {hasApplication ? (
+        {application ? (
           <Button asChild className="w-full sm:w-auto">
-            <Link to={paths.submissions}>Przejdź do wniosków</Link>
+            <Link to={application.href}>{application.label}</Link>
           </Button>
         ) : null}
-        <a href="#terminy" className={buttonVariants({ variant: hasApplication ? 'link' : 'primary' })}>Zobacz wszystkie terminy</a>
+        <a href="#terminy" className={buttonVariants({ variant: application ? 'link' : 'secondary' })}>Zobacz terminy</a>
       </div>
     </Card>
   )

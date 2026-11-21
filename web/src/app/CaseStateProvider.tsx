@@ -55,7 +55,7 @@ export function CaseStateProvider({ children }: { children: ReactNode }) {
       sessionId: state.sessionId,
       setSessionId: (sessionId) => setState((s) => ({ ...s, sessionId })),
       caseId: state.caseId,
-      setCaseId: (caseId) => setState((s) => ({ ...s, caseId })),
+      replaceCase: (facts, sessionId, caseId) => setState({ facts, sessionId, caseId, completedDeadlines: [] }),
       completedDeadlines: state.completedDeadlines,
       setDeadlineDone: (id, done) =>
         setState((s) => ({

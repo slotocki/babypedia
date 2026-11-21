@@ -12,7 +12,7 @@ export type LoadCaseState =
   | { status: 'error'; caseId: string; error: unknown; item: CaseSummary }
 
 export function useLoadCase() {
-  const { setFacts, setSessionId, setCaseId } = useCaseState()
+  const { replaceCase } = useCaseState()
   const navigate = useNavigate()
   const [state, setState] = useState<LoadCaseState>({ status: 'idle' })
 
@@ -22,11 +22,11 @@ export function useLoadCase() {
     try {
       const session = await api.sim.login(item.persona)
       const integration = await api.sim.myFacts(session.sessionId)
-      setSessionId(session.sessionId)
       // Sprawa testowa zastępuje wcześniejsze odpowiedzi w całości — to komplet danych z dokumentów jednej osoby.
       const loaded = mergeIntegrationFacts(emptyFacts(), integration)
-      setFacts(loaded.sprawa['zdarzenie.dlaKogo'] ? loaded : withFact(loaded, 'sprawa', 'zdarzenie.dlaKogo', userFactOf('ja')))
-      setCaseId(item.id)
+      const facts = loaded.sprawa['zdarzenie.dlaKogo'] ? loaded : withFact(loaded, 'sprawa', 'zdarzenie.dlaKogo', userFactOf('ja'))
+      replaceCase(facts, session.sessionId, item.id)
+      setState({ status: 'idle' })
       navigate(paths.review)
     } catch (error) {
       setState({ status: 'error', caseId: item.id, error, item })

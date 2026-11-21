@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router'
 import { Layout } from './Layout'
 import { paths } from './paths'
 import { IntakePage, LoginPage } from '@/features/intake'
+import { StartPage } from '@/features/intake/StartPage'
 import { ReviewPage } from '@/features/review'
 import { ResultPage } from '@/features/result'
 import { ScenariosPage } from '@/features/scenarios'
@@ -17,7 +18,8 @@ export const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      { path: paths.start, element: <IntakePage /> },
+      { path: paths.start, element: <StartPage /> },
+      { path: paths.manual, element: <IntakePage /> },
       { path: paths.login, element: <LoginPage /> },
       { path: paths.review, element: <ReviewPage /> },
       { path: paths.result, element: <ResultPage /> },

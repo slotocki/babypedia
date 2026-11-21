@@ -1,5 +1,6 @@
 export const paths = {
   start: '/',
+  manual: '/wprowadz-dane',
   login: '/logowanie',
   review: '/sprawdz-dane',
   result: '/wynik',

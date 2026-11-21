@@ -1,13 +1,13 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useRef, useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate, useSearchParams } from 'react-router'
 import { api } from '@/app/api/client'
 import type { FactSet, MissingFact } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
 import { flowSteps } from '@/features/intake/steps'
 import { useFocusHeading } from '@/features/intake/useFocusHeading'
-import { Alert, Button, Disclosure, ErrorState, Section, SimulationBanner, Spinner, Stepper, ToneScope, PageHeader } from '@/ui'
+import { Alert, Button, Card, Disclosure, ErrorState, Section, SimulationBadge, Spinner, Stepper, ToneScope, PageHeader } from '@/ui'
 import { AnswerField } from './AnswerField'
 import { draftFromValue, isDraftEmpty, parseDraft, type Draft } from './answers'
 import { FactList } from './FactList'
@@ -36,17 +36,20 @@ function missingEventQuestions(facts: FactSet, fromEngine: MissingFact[]): Missi
 export function ReviewPage() {
   const { facts, setFacts, sessionId } = useCaseState()
   const navigate = useNavigate()
+  const [params, setParams] = useSearchParams()
   const formRef = useRef<HTMLFormElement>(null)
   const pageRef = useFocusHeading<HTMLDivElement>()
+  const questionsHeading = useRef<HTMLHeadingElement>(null)
   const [drafts, setDrafts] = useState<Record<string, Draft>>({})
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [saved, setSaved] = useState<string | null>(null)
 
   const hasEvent = Boolean(facts.sprawa['zdarzenie.rodzaj'])
+  const needsConfirmation = Boolean(sessionId) && params.get('potwierdzone') !== '1'
   const assessment = useQuery({
     queryKey: ['assessment', facts],
     queryFn: () => api.assess({ facts }),
-    enabled: hasEvent,
+    enabled: hasEvent && !needsConfirmation,
     placeholderData: keepPreviousData,
   })
 
@@ -131,93 +134,111 @@ export function ReviewPage() {
   return (
     <ToneScope tone={difficult ? 'difficult' : 'default'} className="-mx-4 -my-6 px-4 py-6">
       <div ref={pageRef} className="mx-auto max-w-2xl space-y-6">
-        <Stepper steps={flowSteps} current={2} />
-        <PageHeader
-          title="Sprawdź swoje dane"
-          description="Możesz poprawić zapisane informacje i odpowiedzieć na pytania potrzebne do wyliczenia wyniku."
-        />
-        {sessionId ? <SimulationBanner system="Logowanie i pobieranie danych" /> : null}
+        <Stepper steps={flowSteps} current={needsConfirmation ? 0 : 1} />
+        {needsConfirmation ? (
+          <>
+            <PageHeader title="Potwierdź pobrane dane" description="Sprawdź informacje z wybranego przykładu. Jeśli trzeba, popraw je przed przejściem dalej." />
+            <Card className="space-y-4 p-5 sm:p-7">
+              <SimulationBadge />
+              <FactList facts={facts} onChange={changeFact} subset="essential" />
+            </Card>
+            <Disclosure title="Pozostałe pobrane informacje">
+              <FactList facts={facts} onChange={changeFact} subset="other" />
+            </Disclosure>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button className="w-full sm:w-auto" onClick={() => {
+                setParams({ potwierdzone: '1' })
+                requestAnimationFrame(() => questionsHeading.current?.focus())
+              }}>Potwierdź dane</Button>
+              <Button asChild variant="link"><Link to={paths.login}>Zmień profil lub sprawę</Link></Button>
+            </div>
+          </>
+        ) : (
+          <>
+              <h1 ref={questionsHeading} tabIndex={-1} className="text-3xl font-bold tracking-tight sm:text-4xl">Uzupełnij brakujące dane</h1>
 
-        {difficult ? (
-          <Alert variant="info" title="Pytamy tylko o to, co niezbędne">
-            Rozumiemy, że to może być trudny czas. Na każde pytanie możesz nie odpowiadać — wtedy pokażemy, czego brakuje do ustalenia
-            świadczenia.
-          </Alert>
-        ) : null}
+              {difficult ? (
+                <Alert variant="info" title="Pytamy tylko o to, co niezbędne">
+                  Rozumiemy, że to może być trudny czas. Na każde pytanie możesz nie odpowiadać — wtedy pokażemy, czego brakuje do ustalenia
+                  świadczenia.
+                </Alert>
+              ) : null}
 
-        <Disclosure title="Zobacz lub popraw zapisane dane" summary={sessionId ? 'Dane z symulowanych systemów i Twoje odpowiedzi' : 'Twoje odpowiedzi'}>
-          <FactList facts={facts} onChange={changeFact} />
-        </Disclosure>
-
-        <form ref={formRef} onSubmit={submit} noValidate className="space-y-6">
-          <Section title={hasEvent ? 'Pytania uzupełniające' : 'Pytania o Twoją sytuację'} className="space-y-6">
-            {hasEvent && assessment.isPending ? (
-              <p role="status" className="flex items-center gap-2 text-ink-soft">
-                <Spinner label={null} /> Sprawdzam, czego jeszcze brakuje…
-              </p>
-            ) : null}
-            {assessment.isError ? (
-              <ErrorState
-                error={assessment.error}
-                onRetry={() => void assessment.refetch()}
-                retrying={assessment.isFetching}
-                title="Nie udało się sprawdzić, czego brakuje"
-              />
-            ) : null}
-
-            {hasEvent && assessment.isSuccess && resolved.length === 0 ? (
-              <Alert variant="info" title="Nic więcej nie trzeba">
-                Na tym etapie mamy wszystkie informacje, o które musimy zapytać.
-              </Alert>
-            ) : null}
-
-            {answerable.length > 0 ? (
-              <>
-                {hasEvent ? <p className="text-ink-soft">Jeśli pominiesz pytanie, w wyniku pokażemy, których danych brakuje do oceny świadczenia.</p> : null}
-                <ul className="space-y-6" aria-busy={assessment.isFetching}>
-                  {answerable.map((r) => (
-                    <li key={r.id}>
-                      <AnswerField
-                        id={`pytanie-${r.id}`}
-                        label={r.question.question}
-                        kind={r.kind}
-                        options={r.options}
-                        draft={draftOf(r)}
-                        onChange={(d) => setDraft(r.id, d)}
-                        error={errors[r.id]}
-                        unit={r.meta.unit}
+              <Card className="p-5 sm:p-7">
+                <form ref={formRef} onSubmit={submit} noValidate className="space-y-5">
+                  <Section title={hasEvent ? 'Pytania uzupełniające' : 'Pytania o Twoją sytuację'} className="space-y-6">
+                    {hasEvent && assessment.isPending ? (
+                      <p role="status" className="flex items-center gap-2 text-ink-soft">
+                        <Spinner label={null} /> Sprawdzam, czego jeszcze brakuje…
+                      </p>
+                    ) : null}
+                    {assessment.isError ? (
+                      <ErrorState
+                        error={assessment.error}
+                        onRetry={() => void assessment.refetch()}
+                        retrying={assessment.isFetching}
+                        title="Nie udało się sprawdzić, czego brakuje"
                       />
-                    </li>
-                  ))}
-                </ul>
-                <div>
-                  <Button variant="secondary" onClick={saveOnly} disabled={assessment.isFetching}>
-                    Zapisz odpowiedzi i sprawdź ponownie
+                    ) : null}
+
+                    {hasEvent && assessment.isSuccess && resolved.length === 0 ? (
+                      <p className="text-ink-soft">Mamy wszystkie potrzebne informacje. Możesz przejść do wyniku.</p>
+                    ) : null}
+
+                    {answerable.length > 0 ? (
+                      <>
+                        {hasEvent ? <p className="text-ink-soft">Jeśli pominiesz pytanie, w wyniku pokażemy, których danych brakuje do oceny świadczenia.</p> : null}
+                        <ul className="space-y-6" aria-busy={assessment.isFetching}>
+                          {answerable.map((r) => (
+                            <li key={r.id}>
+                              <AnswerField
+                                id={`pytanie-${r.id}`}
+                                label={r.question.question}
+                                kind={r.kind}
+                                options={r.options}
+                                draft={draftOf(r)}
+                                onChange={(d) => setDraft(r.id, d)}
+                                error={errors[r.id]}
+                                unit={r.meta.unit}
+                              />
+                            </li>
+                          ))}
+                        </ul>
+                        <div>
+                          <Button variant="secondary" onClick={saveOnly} disabled={assessment.isFetching}>
+                            Zapisz odpowiedzi i sprawdź ponownie
+                          </Button>
+                        </div>
+                      </>
+                    ) : null}
+
+                    {unsupported.length > 0 ? (
+                      <Alert variant="warning" title="Pytania, na które nie da się tu odpowiedzieć">
+                        <ul className="list-disc pl-5">
+                          {unsupported.map((r) => (
+                            <li key={r.id}>{r.question.question}</li>
+                          ))}
+                        </ul>
+                        <p className="mt-1">W wyniku oznaczymy to jako brak danych.</p>
+                      </Alert>
+                    ) : null}
+                  </Section>
+
+                  <p role="status" className="text-sm text-ink-soft empty:hidden">
+                    {saved ?? (assessment.isFetching && assessment.isSuccess ? 'Aktualizuję pytania…' : '')}
+                  </p>
+
+                  <Button type="submit" fullWidth className="sm:w-auto" disabled={hasEvent && (assessment.isPending || assessment.isFetching)}>
+                    Pokaż wynik
                   </Button>
-                </div>
-              </>
-            ) : null}
-
-            {unsupported.length > 0 ? (
-              <Alert variant="warning" title="Pytania, na które nie da się tu odpowiedzieć">
-                <ul className="list-disc pl-5">
-                  {unsupported.map((r) => (
-                    <li key={r.id}>{r.question.question}</li>
-                  ))}
-                </ul>
-                <p className="mt-1">W wyniku oznaczymy to jako brak danych.</p>
-              </Alert>
-            ) : null}
-          </Section>
-
-          <p role="status" className="min-h-6 text-ink-soft">
-            {saved ?? (assessment.isFetching && assessment.isSuccess ? 'Aktualizuję pytania…' : '')}
-          </p>
-
-          <Button type="submit" fullWidth className="sm:w-auto">
-            Pokaż, co mi przysługuje
-          </Button>
-        </form>
+                </form>
+              </Card>
+              <Disclosure title="Zobacz lub popraw zapisane dane">
+                <FactList facts={facts} onChange={changeFact} />
+              </Disclosure>
+              {sessionId ? <Button asChild variant="link"><Link to={paths.login}>Zmień profil lub sprawę</Link></Button> : null}
+          </>
+        )}
       </div>
     </ToneScope>
   )

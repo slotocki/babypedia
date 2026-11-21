@@ -88,7 +88,9 @@ export function TemplateForm({ template, sessionId, onDone }: TemplateFormProps)
   const unauthorized = mutation.error instanceof ApiError && mutation.error.status === 401
   const serverProblem = mutation.error && !(mutation.error instanceof ApiError && mutation.error.status === 400) && !unauthorized
 
-  if (unauthorized) return <NeedsLogin expired />
+  if (unauthorized) return <NeedsLogin expired templateId={template.id} />
+
+  const preparesPdf = template.type === 'wniosek_urlop' || template.type === 'dane_zam'
 
   return (
     <form ref={formRef} onSubmit={submit} noValidate className="space-y-6">
@@ -116,8 +118,8 @@ export function TemplateForm({ template, sessionId, onDone }: TemplateFormProps)
 
       {serverProblem ? <ErrorState error={mutation.error} /> : null}
 
-      <Button type="submit" fullWidth loading={mutation.isPending} loadingLabel="Wysyłam wniosek (symulacja)…" className="sm:w-auto">
-        Wyślij (symulacja)
+      <Button type="submit" fullWidth loading={mutation.isPending} loadingLabel={preparesPdf ? 'Przygotowuję PDF…' : 'Wysyłam (symulacja)…'} className="sm:w-auto">
+        {preparesPdf ? 'Przygotuj PDF' : 'Wyślij (symulacja)'}
       </Button>
       <p className="text-sm text-ink-soft">Symulacja: nic nie zostanie wysłane do pracodawcy, ZUS ani urzędu.</p>
     </form>
