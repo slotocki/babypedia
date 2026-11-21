@@ -2,8 +2,8 @@
 
 Responsywna aplikacja WWW, która dla konkretnej osoby ustala, jakie zasiłki z ubezpieczenia chorobowego przysługują w związku z rodzicielstwem (a jakie nie i dlaczego), wylicza okres i wysokość, pokazuje terminy, dokumenty i miejsce złożenia wniosku oraz pozwala sprawdzić skutki zmian („co jeśli"). Projekt na HackNation 2026, zadanie ZUS „Zasiłkowy Przewodnik Przyszłego Rodzica". Zespół: 2Stosy (Sylwester Łotocki, Andrzej Laskowski).
 
-- Demo: {{DEMO_URL}}
-- Panel `/admin`: hasło jest ustawiane zmienną środowiskową `ADMIN_PASSWORD` i przekazywane jury osobno. {{ADMIN_PASSWORD_INFO}}
+- Demo: https://20-215-34-39.sslip.io
+- Panel `/admin`: hasło jest ustawiane zmienną środowiskową `ADMIN_PASSWORD` i przekazywane jury osobno.
 - Repozytorium: https://github.com/slotocki/babypedia
 
 Uwaga o nazwach: produkt nazywa się Kompas Rodzica. Wcześniejsza nazwa robocza BabyRadnik została w nazwach technicznych (przestrzenie nazw `BabyRadnik.*`, plik `BABYRADNIK_INSTRUKCJA.md`, nazwa projektu compose i bazy, katalog serwera).
@@ -66,7 +66,7 @@ Stan faktyczny (gałąź `main`, na dzień pisania): dane osób dla spraw przepi
 - w `fixtures/personas/` nie ma żadnej osoby dla tych spraw, więc bez katalogu prywatnego ekran pokazuje listę spraw z informacją, że ich dane nie zostały dostarczone;
 - rozpoznawanie pliku po sumie działa tylko dla spraw, które w prywatnym `cases.json` mają pole `plik.sha256`.
 
-Czy w publicznym demo dane spraw są załadowane: {{do potwierdzenia przy wdrożeniu}}. Do przejścia przez cały przebieg służą osoby demo z tabeli wyżej.
+W publicznym demo dane spraw nie są obecnie załadowane (stan na 21.11.2026). Do przejścia przez cały przebieg służą osoby demo z tabeli wyżej.
 
 ## Mapa wymagań
 

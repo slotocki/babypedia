@@ -1,6 +1,6 @@
 # Kompas Rodzica: treść prezentacji
 
-Najwyżej 10 slajdów. Układ pod kryteria oceny: związek z wyzwaniem 25%, kompletność i UX 25%, pomysł 20%, oryginalność 15%, potencjał wdrożeniowy 15%. Liczby pochodzą z repozytorium (gałąź `main`, 21.11.2026). Adres demo: {{DEMO_URL}}.
+Najwyżej 10 slajdów. Układ pod kryteria oceny: związek z wyzwaniem 25%, kompletność i UX 25%, pomysł 20%, oryginalność 15%, potencjał wdrożeniowy 15%. Liczby pochodzą z repozytorium (gałąź `main`, 21.11.2026). Adres demo: https://20-215-34-39.sslip.io.
 
 ---
 
@@ -110,6 +110,6 @@ Kryterium: potencjał wdrożeniowy, kompletność.
 - Do potwierdzenia z ZUS: zaokrąglanie, brutto/netto, minimalna podstawa przy niepełnym etacie, druki Z-3 i Z-3a, kwota świadczenia rodzicielskiego
 - Wszystkie integracje symulowane, dane osób fikcyjne, kwoty brutto
 - Dalej: prawdziwe integracje, zweryfikowana lista organizacji, dane spraw ZUS w testach
-- Demo: {{DEMO_URL}}, kod: github.com/slotocki/babypedia
+- Demo: https://20-215-34-39.sslip.io, kod: github.com/slotocki/babypedia
 
 Notatka: Kończymy listą rzeczy, których nie rozstrzygnęliśmy, bo to z nimi trzeba iść do ZUS. Zapraszamy do przetestowania demo na osobach z README.

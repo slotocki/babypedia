@@ -1,6 +1,6 @@
 # Zrzuty ekranu do wykonania
 
-Zrzutów nie robi automat. Wykonują je ludzie na działającym demo ({{DEMO_URL}}) i zapisują w tym katalogu pod podanymi nazwami (PNG). Szerokość 1280 px to widok komputera, 390 px to widok telefonu (okno przeglądarki w trybie urządzenia albo prawdziwy telefon). Przed zrzutem sprawdź, że na ekranie nie ma haseł, tokenów ani danych spoza fikcyjnych osób. Panel `/admin` rób na lokalnej kopii.
+Zrzutów nie robi automat. Wykonują je ludzie na działającym demo (https://20-215-34-39.sslip.io) i zapisują w tym katalogu pod podanymi nazwami (PNG). Szerokość 1280 px to widok komputera, 390 px to widok telefonu (okno przeglądarki w trybie urządzenia albo prawdziwy telefon). Przed zrzutem sprawdź, że na ekranie nie ma haseł, tokenów ani danych spoza fikcyjnych osób. Panel `/admin` rób na lokalnej kopii.
 
 | Plik | Ekran (adres) | Osoba | Szerokość | Co ma być widać |
 |---|---|---|---|---|

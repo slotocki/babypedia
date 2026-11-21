@@ -25,4 +25,4 @@ Tytuł do formularza: **Kompas Rodzica — przewodnik po zasiłkach z ubezpiecze
 
 **Ograniczenia.** Wszystkie integracje są symulowane, a dane osób fikcyjne. Kwoty są brutto. Kilka kwestii (zaokrąglanie, kwota świadczenia rodzicielskiego, minimalna podstawa przy niepełnym etacie) czeka na potwierdzenie z ZUS i jest opisanych w README.
 
-Demo: {{DEMO_URL}} · Repozytorium: https://github.com/slotocki/babypedia · Zespół: 2Stosy (Sylwester Łotocki, Andrzej Laskowski)
+Demo: https://20-215-34-39.sslip.io · Repozytorium: https://github.com/slotocki/babypedia · Zespół: 2Stosy (Sylwester Łotocki, Andrzej Laskowski)
