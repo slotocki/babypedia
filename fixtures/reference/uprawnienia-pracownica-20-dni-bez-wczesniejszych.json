@@ -1,0 +1,67 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "uprawnienia-pracownica-20-dni-bez-wczesniejszych",
+  "opis": "Pracownica po 20 dniach zatrudnienia bez wcześniejszych okresów → chorobowy: odmowa (30 dni)",
+  "status": "gotowe",
+  "modul": "uprawnienia",
+  "test": 19,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-03-20",
+        "source": "user"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2026-10-27",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "osoba.dataUrodzenia": {
+        "value": "1995-05-05",
+        "source": "mobywatel"
+      },
+      "ubezpieczenie.latWczesniejszegoObowiazkowego": {
+        "value": 0,
+        "source": "zus"
+      },
+      "ezla.zwolnienia": {
+        "value": [
+          {
+            "od": "2026-11-16",
+            "do": "2026-11-29",
+            "kod": "B",
+            "szpital": false,
+            "dataWystawienia": "2026-11-16"
+          }
+        ],
+        "source": "ezla"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "chorobowy_w_ciazy",
+        "status": "nie_przysługuje"
+      }
+    ]
+  }
+}

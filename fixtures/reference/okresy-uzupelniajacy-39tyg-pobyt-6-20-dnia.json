@@ -1,0 +1,77 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-uzupelniajacy-39tyg-pobyt-6-20-dnia",
+  "opis": "Poród w 39. tygodniu, pobyt od 6. do 20. dnia → uzupełniający 3 tyg. (15 dni ÷ 7 w górę)",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 5,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      },
+      "dziecko.tydzienCiazyPrzyPorodzie": {
+        "value": 39,
+        "source": "usc"
+      },
+      "dziecko.masaUrodzeniowaG": {
+        "value": 3200,
+        "source": "usc"
+      },
+      "dziecko.pobytyWSzpitalu": {
+        "value": [
+          {
+            "od": "2026-03-07",
+            "do": "2026-03-21"
+          }
+        ],
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski_uzupelniajacy",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 3,
+          "days": 21
+        }
+      }
+    ]
+  },
+  "uwagi": "Dzień porodu = 1. dzień; 6. dzień = data porodu + 5 dni, 20. dzień = + 19 dni (15 dni włącznie)."
+}

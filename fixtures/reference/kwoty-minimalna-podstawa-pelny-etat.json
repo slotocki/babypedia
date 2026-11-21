@@ -1,0 +1,113 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "kwoty-minimalna-podstawa-pelny-etat",
+  "opis": "Minimalna podstawa dla pełnego etatu: 4 147,10 zł (przychód 1 000 zł poniżej minimum) — do potwierdzenia z ZUS",
+  "status": "gotowe",
+  "modul": "kwoty",
+  "test": 13,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "ubezpieczenie.podstawySkladek": {
+        "value": [
+          {
+            "miesiac": "2025-03",
+            "kwota": 1000
+          },
+          {
+            "miesiac": "2025-04",
+            "kwota": 1000
+          },
+          {
+            "miesiac": "2025-05",
+            "kwota": 1000
+          },
+          {
+            "miesiac": "2025-06",
+            "kwota": 1000
+          },
+          {
+            "miesiac": "2025-07",
+            "kwota": 1000
+          },
+          {
+            "miesiac": "2025-08",
+            "kwota": 1000
+          },
+          {
+            "miesiac": "2025-09",
+            "kwota": 1000
+          },
+          {
+            "miesiac": "2025-10",
+            "kwota": 1000
+          },
+          {
+            "miesiac": "2025-11",
+            "kwota": 1000
+          },
+          {
+            "miesiac": "2025-12",
+            "kwota": 1000
+          },
+          {
+            "miesiac": "2026-01",
+            "kwota": 1000
+          },
+          {
+            "miesiac": "2026-02",
+            "kwota": 1000
+          }
+        ],
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "przysługuje",
+        "amount": {
+          "basis": 4147.1,
+          "basisSource": "minimalna"
+        }
+      }
+    ]
+  },
+  "uwagi": "Zapisane zgodnie z instrukcją (4 806 × 0,8629); zatwierdzający prosi o potwierdzenie z ZUS."
+}

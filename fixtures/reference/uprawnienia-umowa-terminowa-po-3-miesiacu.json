@@ -1,0 +1,60 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "uprawnienia-umowa-terminowa-po-3-miesiacu",
+  "opis": "Umowa na czas określony kończąca się po 3. miesiącu ciąży → przedłużenie do dnia porodu, macierzyński przysługuje",
+  "status": "gotowe",
+  "modul": "uprawnienia",
+  "test": 21,
+  "asOf": "2026-09-01",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-03-20",
+        "source": "user"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2025-10-01",
+            "do": "2026-09-30",
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "umowa.naCzasOkreslony": {
+        "value": true,
+        "source": "user"
+      },
+      "umowa.dataKonca": {
+        "value": "2026-09-30",
+        "source": "user"
+      },
+      "ubezpieczenie.ustaniePrzyczyna": {
+        "value": "koniec_umowy_na_czas_okreslony",
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "przysługuje"
+      }
+    ]
+  },
+  "uwagi": "Przewidywany poród 2027-03-20: koniec umowy 2026-09-30 przypada w 14. tygodniu ciąży (po 3. miesiącu)."
+}

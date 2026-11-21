@@ -1,0 +1,72 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-ojcowski-dwie-czesci",
+  "opis": "Ojcowski w dwóch częściach po tygodniu → przysługuje (2 tyg.)",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 7,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-09-01",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-09-01",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "ojciec",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      },
+      "plan.ojcowskiCzesci": {
+        "value": [
+          {
+            "tygodnie": 1,
+            "od": "2026-10-05"
+          },
+          {
+            "tygodnie": 1,
+            "od": "2026-11-02"
+          }
+        ],
+        "source": "user"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "ojcowski",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 2,
+          "days": 14
+        }
+      }
+    ]
+  }
+}

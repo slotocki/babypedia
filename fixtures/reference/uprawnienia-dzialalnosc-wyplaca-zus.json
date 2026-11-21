@@ -1,0 +1,66 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "uprawnienia-dzialalnosc-wyplaca-zus",
+  "opis": "Działalność → zawsze ZUS (wniosek ZAM do ZUS)",
+  "status": "gotowe",
+  "modul": "uprawnienia",
+  "test": 23,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "dzialalnosc",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "dobrowolne"
+          }
+        ],
+        "source": "zus"
+      },
+      "skladki.zadluzenie": {
+        "value": {
+          "naDzien": "2026-03-02",
+          "kwota": 0
+        },
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "przysługuje",
+        "payer": "zus",
+        "whereToApply": "zus",
+        "documentsContain": [
+          "ZAM"
+        ]
+      }
+    ]
+  }
+}

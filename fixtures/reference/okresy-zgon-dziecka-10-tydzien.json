@@ -1,0 +1,64 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-zgon-dziecka-10-tydzien",
+  "opis": "Zgon dziecka w 10. tygodniu życia → 7 dni od zgonu",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 6,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      },
+      "dziecko.dataZgonu": {
+        "value": "2026-05-06",
+        "source": "usc"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "przysługuje",
+        "period": {
+          "days": 7,
+          "weeks": 1
+        }
+      }
+    ]
+  },
+  "uwagi": "Zgon w 10. tygodniu życia = 65. dzień po porodzie (zakres 63-69). Kontekst: sekcja 8.5, zgon po 8 tygodniach życia."
+}

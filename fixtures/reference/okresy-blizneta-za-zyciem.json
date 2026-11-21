@@ -1,0 +1,70 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "okresy-blizneta-za-zyciem",
+  "opis": "Bliźnięta + „Za życiem”: macierzyński 31 tyg., rodzicielski 67 tyg.",
+  "status": "gotowe",
+  "modul": "okresy",
+  "test": 3,
+  "asOf": "2026-11-21",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "urodzenie",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2026-03-02",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 2,
+        "source": "usc"
+      },
+      "dziecko.dataUrodzenia": {
+        "value": "2026-03-02",
+        "source": "usc"
+      },
+      "dziecko.zaZyciem": {
+        "value": true,
+        "source": "user"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "pracownik",
+            "od": "2020-01-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ],
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 31,
+          "days": 217
+        }
+      },
+      {
+        "id": "rodzicielski",
+        "status": "przysługuje",
+        "period": {
+          "weeks": 67
+        }
+      }
+    ]
+  }
+}
