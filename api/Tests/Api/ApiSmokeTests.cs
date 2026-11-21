@@ -44,6 +44,16 @@ public sealed class ApiSmokeTests(WebApplicationFactory<Program> factory) : ICla
     [InlineData("/api/sim/personas")]
     [InlineData("/api/cases")]
     [InlineData("/api/organizations")]
+    public async Task Simulation_endpoints_respond(string path)
+    {
+        using var client = factory.CreateClient();
+        var response = await client.GetAsync(path, TestContext.Current.CancellationToken);
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    [Theory]
+    [InlineData("/api/submissions")]
     public async Task Stub_endpoints_return_501_problem(string path)
     {
         using var client = factory.CreateClient();
