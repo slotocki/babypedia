@@ -1,0 +1,157 @@
+{
+  "rulesetVersion": "2026-11-21",
+  "benefits": [
+    {
+      "id": "macierzynski",
+      "person": "wnioskodawca",
+      "status": "przysługuje",
+      "period": { "from": "2027-03-15", "to": "2027-08-01", "days": 140, "weeks": 20 },
+      "rate": 0.815,
+      "amount": { "daily": 187.54, "total": 26255.60, "basis": 6903.20, "basisSource": "szacunek_zus" },
+      "parts": [],
+      "payer": "płatnik_składek",
+      "whereToApply": "pracodawca",
+      "documents": ["wniosek o urlop", "odpis aktu urodzenia pozyskuje ZUS"],
+      "deadlines": [
+        {
+          "id": "wniosek_usredniona",
+          "type": "najpóźniej_do",
+          "date": "2027-04-05",
+          "text": "Złóż wniosek o 81,5% do 5 kwietnia 2027",
+          "consequence": "70% za urlop rodzicielski",
+          "basis": "ustawa art. 30a"
+        }
+      ],
+      "reason": null,
+      "legalBasis": null,
+      "whatWouldChange": null,
+      "notes": ["ATRAPA — liczby ilustrują kształt odpowiedzi, nie są wynikiem silnika.", "Kwoty brutto, przed zaliczką na podatek."],
+      "links": [{ "label": "ZUS", "url": "https://www.zus.pl" }],
+      "trace": [
+        {
+          "rule": "ubezpieczenie_w_dniu_porodu",
+          "basis": "ustawa art. 29 ust. 1",
+          "met": true,
+          "text": "W dniu porodu podlegasz ubezpieczeniu chorobowemu jako pracownik.",
+          "condition": null
+        }
+      ]
+    },
+    {
+      "id": "rodzicielski",
+      "person": "wnioskodawca",
+      "status": "przysługuje",
+      "period": { "from": "2027-08-02", "to": "2028-03-12", "days": 224, "weeks": 32 },
+      "rate": 0.815,
+      "amount": null,
+      "parts": [
+        { "label": "część 1", "period": { "from": "2027-08-02", "to": "2028-03-12", "days": 224, "weeks": 32 }, "rate": 0.815, "amount": null }
+      ],
+      "payer": "płatnik_składek",
+      "whereToApply": "pracodawca",
+      "documents": ["wniosek o urlop rodzicielski"],
+      "deadlines": [
+        {
+          "id": "wniosek_rodzicielski",
+          "type": "najpóźniej_przed",
+          "date": "2027-07-12",
+          "text": "Złóż wniosek o urlop rodzicielski najpóźniej 21 dni przed jego początkiem",
+          "consequence": null,
+          "basis": "KP art. 182¹d"
+        }
+      ],
+      "reason": null,
+      "legalBasis": null,
+      "whatWouldChange": null,
+      "notes": ["ATRAPA — podaj podstawę, żeby zobaczyć kwotę."],
+      "links": [],
+      "trace": []
+    },
+    {
+      "id": "ojcowski",
+      "person": "drugiRodzic",
+      "status": "brakuje_danych",
+      "period": null,
+      "rate": null,
+      "amount": null,
+      "parts": [],
+      "payer": null,
+      "whereToApply": null,
+      "documents": [],
+      "deadlines": [],
+      "reason": null,
+      "legalBasis": null,
+      "whatWouldChange": null,
+      "notes": [],
+      "links": [],
+      "trace": []
+    },
+    {
+      "id": "chorobowy_w_ciazy",
+      "person": "wnioskodawca",
+      "status": "nie_przysługuje",
+      "period": null,
+      "rate": null,
+      "amount": null,
+      "parts": [],
+      "payer": null,
+      "whereToApply": null,
+      "documents": [],
+      "deadlines": [],
+      "reason": "ATRAPA — przykład odmowy: brak zwolnienia lekarskiego w okresie ciąży.",
+      "legalBasis": "ATRAPA — podstawa prawna z silnika",
+      "whatWouldChange": "Zwolnienie lekarskie (e-ZLA) w okresie ciąży.",
+      "notes": [],
+      "links": [],
+      "trace": []
+    },
+    {
+      "id": "przejecie_przez_ojca",
+      "person": "drugiRodzic",
+      "status": "nie_rozstrzygam",
+      "period": null,
+      "rate": null,
+      "amount": null,
+      "parts": [],
+      "payer": null,
+      "whereToApply": null,
+      "documents": [],
+      "deadlines": [],
+      "reason": "ATRAPA — przykład: sytuacja nierozpoznana, skontaktuj się z ZUS.",
+      "legalBasis": null,
+      "whatWouldChange": null,
+      "notes": [],
+      "links": [{ "label": "ZUS — kontakt", "url": "https://www.zus.pl" }],
+      "trace": []
+    },
+    {
+      "id": "pogrzebowy",
+      "person": "wnioskodawca",
+      "status": "nie_dotyczy",
+      "period": null,
+      "rate": null,
+      "amount": null,
+      "parts": [],
+      "payer": null,
+      "whereToApply": null,
+      "documents": [],
+      "deadlines": [],
+      "reason": null,
+      "legalBasis": null,
+      "whatWouldChange": null,
+      "notes": [],
+      "links": [],
+      "trace": []
+    }
+  ],
+  "missingFacts": [
+    { "fact": "umowa.dataKonca", "question": "Do kiedy trwa Twoja umowa?", "type": "date", "person": "wnioskodawca", "options": null },
+    { "fact": "ubezpieczenie.podlegaChorobowemu", "question": "Czy drugi rodzic podlega ubezpieczeniu chorobowemu?", "type": "boolean", "person": "drugiRodzic", "options": null }
+  ],
+  "validationErrors": [],
+  "nextStep": { "deadlineId": "wniosek_usredniona", "benefitId": "macierzynski", "person": "wnioskodawca" },
+  "risks": [
+    { "id": "termin_21_dni", "text": "ATRAPA — jeśli nie złożysz wniosku o 81,5% w ciągu 21 dni od porodu, za urlop rodzicielski dostaniesz 70%.", "basis": "ustawa art. 30a", "link": null }
+  ],
+  "difficultSituation": false
+}

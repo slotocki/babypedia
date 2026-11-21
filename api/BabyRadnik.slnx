@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Api/">
+    <Project Path="Api/BabyRadnik.Api.csproj" />
+  </Folder>
+  <Folder Name="/Domain/">
+    <Project Path="Domain/BabyRadnik.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="Infrastructure/BabyRadnik.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/BabyRadnik.Tests.csproj" />
+  </Folder>
+</Solution>

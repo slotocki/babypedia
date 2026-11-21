@@ -1,0 +1,12 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "case-dariusz",
+  "opis": "Sprawa ZUS: ojciec; zasiłek za okres rodzicielskiego; matka nieubezpieczona",
+  "status": "do_uzupelnienia",
+  "modul": "katalog",
+  "sprawa": "dariusz",
+  "oczekiwane": {
+    "decyzjaZus": "przyznanie"
+  },
+  "uwagi": "Dane osoby przepisują ludzie z dokumentów sprawy (sekcja 10). Do tego czasu test jest pomijany."
+}

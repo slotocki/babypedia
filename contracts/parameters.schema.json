@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://babyradnik.local/contracts/parameters.schema.json",
+  "title": "BabyRadnik — parametry prawne z datą obowiązywania (fixtures/parameters.seed.json)",
+  "description": "Sekcja 8.1. Wiersz obowiązuje od validFrom do dnia przed validFrom następnego wiersza z tym samym kluczem. Liczby jako ułamki (100% = 1.0).",
+  "type": "object",
+  "required": ["parametry"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "parametry": { "type": "array", "items": { "$ref": "#/$defs/parametr" } }
+  },
+  "$defs": {
+    "parametr": {
+      "type": "object",
+      "required": ["key", "value", "validFrom", "legalBasis", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "key": { "type": "string", "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)*$" },
+        "wiersz": { "type": "string", "description": "Klucz wiersza tabeli 8.1, z którego pochodzi parametr." },
+        "value": { "type": ["number", "string", "null"], "description": "null = puste (nie stosuj)." },
+        "unit": { "enum": ["tygodnie", "dni", "miesiace", "lata", "ulamek", "zl", "liczba", "ustawienie"] },
+        "validFrom": { "type": "string", "format": "date" },
+        "legalBasis": { "type": "string" },
+        "status": { "enum": ["ok", "do_weryfikacji"] },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}

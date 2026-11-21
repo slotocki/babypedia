@@ -1,0 +1,428 @@
+openapi: 3.1.0
+info:
+  title: BabyRadnik API
+  version: 0.1.0
+  description: |
+    Kontrakt API (instrukcja, sekcja 12.1). Zmienia wyłącznie koordynator po zgodzie zatwierdzającego.
+    Wszystkie integracje są symulowane. Błędy jako application/problem+json (RFC 9457).
+    Schematy danych są w plikach JSON Schema obok (facts, assessment, case, persona, parameters).
+servers:
+  - url: http://localhost:5080
+tags:
+  - name: stan
+  - name: symulacja
+  - name: ocena
+  - name: zgłoszenia
+  - name: sprawy
+  - name: wsparcie
+  - name: admin
+  - name: pomocnik
+
+components:
+  securitySchemes:
+    simSession:
+      type: apiKey
+      in: header
+      name: X-Sim-Session
+      description: Identyfikator sesji z POST /api/sim/login. Sesja przechowuje tylko id osoby — nigdy PESEL.
+    adminPassword:
+      type: apiKey
+      in: header
+      name: X-Admin-Password
+      description: Hasło z zmiennej środowiskowej ADMIN_PASSWORD.
+  responses:
+    Problem:
+      description: Błąd (ProblemDetails)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetails' }
+    NotImplemented:
+      description: Endpoint jeszcze nie zaimplementowany (atrapa szkieletu)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetails' }
+  schemas:
+    ProblemDetails:
+      type: object
+      properties:
+        type: { type: string }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        instance: { type: string }
+        errors:
+          type: object
+          additionalProperties: { type: array, items: { type: string } }
+    Health:
+      type: object
+      required: [status, api, database]
+      properties:
+        status: { enum: [ok, degraded] }
+        api: { enum: [ok] }
+        database: { enum: [ok, unavailable] }
+    FactSet: { $ref: 'facts.schema.json' }
+    AssessmentRequest: { $ref: 'assessment.schema.json#/$defs/AssessmentRequest' }
+    AssessmentResult: { $ref: 'assessment.schema.json#/$defs/AssessmentResult' }
+    CompareRequest: { $ref: 'assessment.schema.json#/$defs/CompareRequest' }
+    CompareResult: { $ref: 'assessment.schema.json#/$defs/CompareResult' }
+    CaseSummary: { $ref: 'case.schema.json#/$defs/CaseSummary' }
+    Parameter: { $ref: 'parameters.schema.json#/$defs/parametr' }
+    Identity:
+      type: object
+      required: [imie, nazwisko, pesel, dataUrodzenia]
+      properties:
+        imie: { type: string }
+        nazwisko: { type: string }
+        nazwiskoRodowe: { type: [string, 'null'] }
+        pesel: { type: string, description: 'Fikcyjny. Tylko do wyświetlenia przy logowaniu; frontend nie przechowuje go i nie wysyła dalej.' }
+        dataUrodzenia: { type: string, format: date }
+    LoginRequest:
+      type: object
+      required: [personaId]
+      properties:
+        personaId: { type: string }
+    LoginResponse:
+      type: object
+      required: [sessionId, identity, simulated]
+      properties:
+        sessionId: { type: string }
+        identity: { $ref: '#/components/schemas/Identity' }
+        simulated: { const: true }
+    PersonaListItem:
+      type: object
+      required: [id, opis]
+      properties:
+        id: { type: string }
+        opis: { type: string }
+        imie: { type: string }
+        caseId: { type: [string, 'null'] }
+    ZusAccount:
+      type: object
+      description: Ekran „Moje dane w ZUS (symulacja)”.
+      required: [simulated, tytuly, podstawySkladek, przerwy, pobraneSwiadczenia, zwolnienia]
+      properties:
+        simulated: { const: true }
+        tytuly: { type: array, items: { $ref: 'facts.schema.json#/$defs/tytulUbezpieczenia' } }
+        podstawySkladek: { type: array, items: { $ref: 'facts.schema.json#/$defs/podstawaSkladki' } }
+        przerwy: { type: array, items: { $ref: 'facts.schema.json#/$defs/przerwa' } }
+        pobraneSwiadczenia: { type: array, items: { $ref: 'facts.schema.json#/$defs/pobraneSwiadczenie' } }
+        zwolnienia: { type: array, items: { $ref: 'facts.schema.json#/$defs/zwolnienieEzla' } }
+        saldo:
+          type: [object, 'null']
+          properties:
+            naDzien: { type: string, format: date }
+            kwota: { type: number }
+    SubmissionType:
+      enum: [wniosek_urlop, dane_zam, zapytanie_ezus, odpis_aktu]
+    LeaveTemplate:
+      enum: [macierzynski_i_rodzicielski, rodzicielski, ojcowski, uzupelniajacy]
+    SubmissionRequest:
+      type: object
+      required: [type, fields]
+      properties:
+        type: { $ref: '#/components/schemas/SubmissionType' }
+        template: { $ref: '#/components/schemas/LeaveTemplate', description: 'Tylko dla wniosek_urlop.' }
+        fields:
+          type: object
+          additionalProperties: { type: string }
+          description: Pola formularza wg szablonu (rozporządzenie z 11.03.2025). Bez PESEL.
+    SubmissionReceipt:
+      type: object
+      required: [id, number, type, recipient, submittedAt, simulated]
+      properties:
+        id: { type: string }
+        number: { type: string, description: Numer potwierdzenia (symulacja). }
+        type: { $ref: '#/components/schemas/SubmissionType' }
+        recipient: { enum: [pracodawca, zus, ezus, urzad_stanu_cywilnego] }
+        submittedAt: { type: string, format: date-time }
+        pdfUrl: { type: [string, 'null'] }
+        simulated: { const: true }
+    Organization:
+      type: object
+      required: [id, nazwa, opis, sytuacje, zweryfikowano]
+      properties:
+        id: { type: string }
+        nazwa: { type: string }
+        opis: { type: string }
+        sytuacje: { type: array, items: { type: string } }
+        url: { type: [string, 'null'] }
+        telefon: { type: [string, 'null'] }
+        zweryfikowano: { type: boolean, description: 'Niezweryfikowanych nie pokazujemy (sekcja 14).' }
+    ParameterChange:
+      type: object
+      required: [key, value, validFrom]
+      properties:
+        key: { type: string }
+        value: { type: [number, string, 'null'] }
+        validFrom: { type: string, format: date }
+        legalBasis: { type: string }
+        reason: { type: string }
+    ParameterHistoryEntry:
+      type: object
+      required: [key, value, validFrom, changedAt]
+      properties:
+        key: { type: string }
+        value: { type: [number, string, 'null'] }
+        previousValue: { type: [number, string, 'null'] }
+        validFrom: { type: string, format: date }
+        changedAt: { type: string, format: date-time }
+        reason: { type: [string, 'null'] }
+    CatalogEntry:
+      type: object
+      required: [id, nazwa, wlaczone]
+      properties:
+        id: { $ref: 'assessment.schema.json#/$defs/benefitId' }
+        nazwa: { type: string }
+        wlaczone: { type: boolean }
+    IntegrationField:
+      type: object
+      required: [source, fact, wlaczone]
+      description: Wyłączenie pola integracji zamienia je w pytanie do użytkownika (sekcja 6.2).
+      properties:
+        source: { $ref: 'facts.schema.json#/$defs/zrodlo' }
+        fact: { type: string }
+        wlaczone: { type: boolean }
+    AssistantQuestion:
+      type: object
+      required: [question]
+      properties:
+        question: { type: string, maxLength: 1000, description: 'Pytanie opisowe. Bez danych osoby.' }
+    AssistantAnswer:
+      type: object
+      required: [answer, citations, disclaimer]
+      properties:
+        answer: { type: string }
+        citations:
+          type: array
+          items:
+            type: object
+            required: [document, fragment]
+            properties:
+              document: { type: string, description: 'Plik z docs/prawo/.' }
+              fragment: { type: string }
+              article: { type: [string, 'null'] }
+        disclaimer: { type: string }
+
+paths:
+  /health:
+    get:
+      tags: [stan]
+      summary: Stan API i bazy
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Health' } } } }
+        '503': { description: Baza niedostępna, content: { application/json: { schema: { $ref: '#/components/schemas/Health' } } } }
+
+  /api/sim/login:
+    post:
+      tags: [symulacja]
+      summary: Symulowane logowanie mObywatel → sesja + tożsamość
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/LoginRequest' } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/LoginResponse' } } } }
+        '404': { $ref: '#/components/responses/Problem' }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+  /api/sim/personas:
+    get:
+      tags: [symulacja]
+      summary: Lista fikcyjnych osób i spraw
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/PersonaListItem' } } } } }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+  /api/sim/me/facts:
+    get:
+      tags: [symulacja]
+      summary: Fakty z integracji dla zalogowanej osoby (z oznaczeniem źródła)
+      security: [{ simSession: [] }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/FactSet' } } } }
+        '401': { $ref: '#/components/responses/Problem' }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+  /api/sim/me/zus:
+    get:
+      tags: [symulacja]
+      summary: Ubezpieczenia, podstawy, e-ZLA, saldo
+      security: [{ simSession: [] }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/ZusAccount' } } } }
+        '401': { $ref: '#/components/responses/Problem' }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+  /api/sim/me/debt-certificate:
+    get:
+      tags: [symulacja]
+      summary: Symulowane zaświadczenie o stanie składek (PDF)
+      security: [{ simSession: [] }]
+      parameters:
+        - { name: date, in: query, required: false, schema: { type: string, format: date } }
+      responses:
+        '200': { description: PDF, content: { application/pdf: { schema: { type: string, format: binary } } } }
+        '401': { $ref: '#/components/responses/Problem' }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /api/assessment:
+    post:
+      tags: [ocena]
+      summary: Fakty → wynik katalogu świadczeń
+      description: Do czasu scalenia silnika zwraca atrapę contracts/examples/assessment.example.json.
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/AssessmentRequest' } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/AssessmentResult' } } } }
+        '400': { $ref: '#/components/responses/Problem' }
+  /api/assessment/compare:
+    post:
+      tags: [ocena]
+      summary: Fakty + scenariusz → wynik bazowy, wariant, różnica
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/CompareRequest' } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/CompareResult' } } } }
+        '400': { $ref: '#/components/responses/Problem' }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /api/submissions:
+    post:
+      tags: [zgłoszenia]
+      summary: Symulowane zgłoszenie → numer + PDF, jeśli dotyczy
+      security: [{ simSession: [] }]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/SubmissionRequest' } } }
+      responses:
+        '201': { description: Utworzono, content: { application/json: { schema: { $ref: '#/components/schemas/SubmissionReceipt' } } } }
+        '400': { $ref: '#/components/responses/Problem' }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+    get:
+      tags: [zgłoszenia]
+      summary: „Moje zgłoszenia”
+      security: [{ simSession: [] }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/SubmissionReceipt' } } } } }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /api/cases:
+    get:
+      tags: [sprawy]
+      summary: Lista spraw testowych ZUS
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/CaseSummary' } } } } }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+  /api/cases/by-hash/{sha256}:
+    get:
+      tags: [sprawy]
+      summary: Rozpoznanie pliku sprawy po SHA-256 (liczonym w przeglądarce)
+      parameters:
+        - { name: sha256, in: path, required: true, schema: { type: string, pattern: '^[0-9a-f]{64}$' } }
+        - { name: fileName, in: query, required: false, schema: { type: string }, description: 'Zapas: nazwa pliku.' }
+        - { name: pages, in: query, required: false, schema: { type: integer }, description: 'Zapas: liczba stron.' }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/CaseSummary' } } } }
+        '404': { $ref: '#/components/responses/Problem' }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /api/organizations:
+    get:
+      tags: [wsparcie]
+      summary: Katalog wsparcia (tylko zweryfikowane)
+      parameters:
+        - { name: situation, in: query, required: false, schema: { type: string } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Organization' } } } } }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /api/admin/parameters:
+    get:
+      tags: [admin]
+      security: [{ adminPassword: [] }]
+      summary: Parametry z datami obowiązywania
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Parameter' } } } } }
+        '401': { $ref: '#/components/responses/Problem' }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+    put:
+      tags: [admin]
+      security: [{ adminPassword: [] }]
+      summary: Dodanie wartości parametru obowiązującej od daty
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/ParameterChange' } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Parameter' } } } }
+        '400': { $ref: '#/components/responses/Problem' }
+        '401': { $ref: '#/components/responses/Problem' }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+  /api/admin/parameters/history:
+    get:
+      tags: [admin]
+      security: [{ adminPassword: [] }]
+      summary: Historia zmian parametrów
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/ParameterHistoryEntry' } } } } }
+        '401': { $ref: '#/components/responses/Problem' }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+  /api/admin/catalog:
+    get:
+      tags: [admin]
+      security: [{ adminPassword: [] }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/CatalogEntry' } } } } }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+    put:
+      tags: [admin]
+      security: [{ adminPassword: [] }]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/CatalogEntry' } } } }
+      responses:
+        '200': { description: OK }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+  /api/admin/integrations:
+    get:
+      tags: [admin]
+      security: [{ adminPassword: [] }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/IntegrationField' } } } } }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+    put:
+      tags: [admin]
+      security: [{ adminPassword: [] }]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/IntegrationField' } } } }
+      responses:
+        '200': { description: OK }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+  /api/admin/organizations:
+    get:
+      tags: [admin]
+      security: [{ adminPassword: [] }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Organization' } } } } }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+    put:
+      tags: [admin]
+      security: [{ adminPassword: [] }]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Organization' } } } }
+      responses:
+        '200': { description: OK }
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /api/assistant/ask:
+    post:
+      tags: [pomocnik]
+      summary: Opcjonalny pomocnik tekstowy (P2)
+      description: |
+        Pytanie opisowe → odpowiedź + cytowane fragmenty przepisów. Nie dostaje danych osoby ani faktów sprawy,
+        nie podaje kwot ani decyzji (zasada 2.1, sekcja 3). Domyślnie wyłączony (ASSISTANT_ENABLED=false) → 503.
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/AssistantQuestion' } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/AssistantAnswer' } } } }
+        '400': { $ref: '#/components/responses/Problem' }
+        '503': { $ref: '#/components/responses/Problem' }

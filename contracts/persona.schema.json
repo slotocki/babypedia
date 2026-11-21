@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://babyradnik.local/contracts/persona.schema.json",
+  "title": "BabyRadnik — fikcyjna osoba w symulatorze (fixtures/personas/*.json)",
+  "description": "Sekcje 6.1 i 10. W repo tylko osoby wymyślone; osoby dla spraw ZUS ładowane z CASES_PRIVATE_DIR (sekcja 14). Symulator buduje z 'fakty' odpowiedzi integracji; 'page' przy fakcie = strona dokumentu sprawy.",
+  "type": "object",
+  "required": ["id", "opis", "status", "tozsamosc", "fakty"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "opis": { "type": "string" },
+    "status": { "enum": ["gotowe", "do_uzupelnienia"] },
+    "sprawa": { "type": "string", "description": "Id sprawy ZUS (fixtures/cases.json), jeśli osoba odpowiada sprawie." },
+    "tozsamosc": {
+      "description": "Odpowiedź symulowanego logowania mObywatel. PESEL fikcyjny (nie przechodzi sumy kontrolnej), nie trafia do sprawy, sesji, logów ani silnika.",
+      "type": "object",
+      "required": ["imie", "nazwisko", "pesel", "dataUrodzenia"],
+      "additionalProperties": false,
+      "properties": {
+        "imie": { "type": "string" },
+        "nazwisko": { "type": "string" },
+        "nazwiskoRodowe": { "type": "string" },
+        "pesel": { "type": "string", "pattern": "^\\d{11}$" },
+        "dataUrodzenia": { "$ref": "assessment.schema.json#/$defs/data" }
+      }
+    },
+    "drugiRodzic": {
+      "type": "string",
+      "description": "Id persony drugiego rodzica (opcjonalnie)."
+    },
+    "fakty": { "$ref": "facts.schema.json" },
+    "uwagi": { "type": "string" }
+  }
+}

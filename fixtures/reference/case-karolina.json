@@ -1,0 +1,12 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "case-karolina",
+  "opis": "Sprawa ZUS: działalność; poród 1.12.2025; zaznaczony pełny wymiar",
+  "status": "do_uzupelnienia",
+  "modul": "katalog",
+  "sprawa": "karolina",
+  "oczekiwane": {
+    "decyzjaZus": "przyznanie"
+  },
+  "uwagi": "Dane osoby przepisują ludzie z dokumentów sprawy (sekcja 10). Do tego czasu test jest pomijany."
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "case-joanna",
+  "opis": "Sprawa ZUS: zasiłek w wysokości macierzyńskiego i macierzyński; likwidacja pracodawcy",
+  "status": "do_uzupelnienia",
+  "modul": "katalog",
+  "sprawa": "joanna",
+  "oczekiwane": {
+    "decyzjaZus": "przyznanie"
+  },
+  "uwagi": "Dane osoby przepisują ludzie z dokumentów sprawy (sekcja 10). Do tego czasu test jest pomijany."
+}

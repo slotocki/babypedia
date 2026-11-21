@@ -1,0 +1,63 @@
+{
+  "$schema": "../../contracts/persona.schema.json",
+  "id": "anna-przyklad",
+  "opis": "Wymyślona osoba (przykład formatu): pracownica na umowie o pracę, w ciąży, przewidywany poród 15.03.2027.",
+  "status": "gotowe",
+  "tozsamosc": {
+    "imie": "Anna",
+    "nazwisko": "Przykładowa",
+    "nazwiskoRodowe": "Testowa",
+    "pesel": "94051200000",
+    "dataUrodzenia": "1994-05-12"
+  },
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": { "value": "ciaza", "source": "user" },
+      "zdarzenie.data": { "value": "2027-03-15", "source": "user" },
+      "zdarzenie.dlaKogo": { "value": "ja", "source": "user" },
+      "dziecko.liczba": { "value": 1, "source": "assumption" }
+    },
+    "wnioskodawca": {
+      "osoba.rola": { "value": "matka", "source": "assumption" },
+      "osoba.dataUrodzenia": { "value": "1994-05-12", "source": "mobywatel" },
+      "ubezpieczenie.tytuly": {
+        "source": "zus",
+        "value": [
+          {
+            "kodTytulu": "0110",
+            "opis": "pracownik",
+            "rodzajTytulu": "pracownik",
+            "platnikId": "platnik-przyklad-1",
+            "platnikNazwa": "Przykładowa Firma Sp. z o.o.",
+            "od": "2021-02-01",
+            "do": null,
+            "chorobowe": "obowiazkowe",
+            "wymiarEtatu": 1
+          }
+        ]
+      },
+      "ubezpieczenie.podstawySkladek": {
+        "source": "zus",
+        "value": [
+          { "miesiac": "2025-11", "kwota": 8000.00 },
+          { "miesiac": "2025-12", "kwota": 8000.00 },
+          { "miesiac": "2026-01", "kwota": 8000.00 },
+          { "miesiac": "2026-02", "kwota": 8000.00 },
+          { "miesiac": "2026-03", "kwota": 8000.00 },
+          { "miesiac": "2026-04", "kwota": 8000.00 },
+          { "miesiac": "2026-05", "kwota": 8000.00 },
+          { "miesiac": "2026-06", "kwota": 8000.00 },
+          { "miesiac": "2026-07", "kwota": 8000.00 },
+          { "miesiac": "2026-08", "kwota": 8000.00 },
+          { "miesiac": "2026-09", "kwota": 8000.00 },
+          { "miesiac": "2026-10", "kwota": 8000.00 }
+        ]
+      },
+      "ubezpieczenie.przerwy": { "source": "zus", "value": [] },
+      "ubezpieczenie.pobraneSwiadczenia": { "source": "zus", "value": [] },
+      "platnik.liczbaUbezpieczonych": { "value": 150, "source": "zus" },
+      "ezla.zwolnienia": { "source": "ezla", "value": [] }
+    }
+  },
+  "uwagi": "Dane wymyślone na potrzeby demonstracji formatu. PESEL fikcyjny — nie przechodzi sumy kontrolnej."
+}

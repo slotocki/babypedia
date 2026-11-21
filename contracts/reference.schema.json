@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://babyradnik.local/contracts/reference.schema.json",
+  "title": "BabyRadnik — przypadek referencyjny (fixtures/reference/*.json)",
+  "description": "Sekcje 10–11. {id, opis, fakty, oczekiwane}. 'oczekiwane' to częściowy wynik oceny: porównywane są tylko podane pola. Plik ze status 'do_uzupelnienia' jest pomijany (nie zielony).",
+  "type": "object",
+  "required": ["id", "opis", "modul", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$", "description": "Równe nazwie pliku bez .json." },
+    "opis": { "type": "string" },
+    "status": { "enum": ["gotowe", "do_uzupelnienia"] },
+    "modul": {
+      "description": "Moduł silnika, który ten przypadek sprawdza (wybiera ewaluator w ReferenceTests).",
+      "enum": ["okresy", "kwoty", "uprawnienia", "podstawa", "katalog", "terminy", "scenariusze", "parametry"]
+    },
+    "test": { "type": "integer", "minimum": 1, "maximum": 99, "description": "Numer punktu z sekcji 11 (jeśli dotyczy)." },
+    "sprawa": { "type": "string", "description": "Id sprawy ZUS z fixtures/cases.json (pliki case-<id>.json)." },
+    "persona": { "type": "string", "description": "Id osoby z fixtures/personas — gdy fakty pochodzą z symulatora." },
+    "asOf": { "$ref": "assessment.schema.json#/$defs/data", "description": "„Dzisiaj” dla terminów; wymagane, gdy oczekiwane zawiera terminy." },
+    "parametry": {
+      "type": "array",
+      "description": "Dodatkowe wiersze parametrów dokładane do seed na czas testu (np. test 24).",
+      "items": { "$ref": "parameters.schema.json#/$defs/parametr" }
+    },
+    "fakty": { "$ref": "facts.schema.json" },
+    "scenariusze": { "type": "array", "items": { "$ref": "assessment.schema.json#/$defs/ScenarioChange" } },
+    "oczekiwane": { "$ref": "#/$defs/oczekiwane" },
+    "uwagi": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "gotowe" } } },
+      "then": { "required": ["fakty", "oczekiwane"] }
+    }
+  ],
+  "$defs": {
+    "oczekiwaneSwiadczenie": {
+      "type": "object",
+      "required": ["id", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "assessment.schema.json#/$defs/benefitId" },
+        "person": { "$ref": "assessment.schema.json#/$defs/person" },
+        "status": { "$ref": "assessment.schema.json#/$defs/status" },
+        "period": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "from": { "$ref": "assessment.schema.json#/$defs/data" },
+            "to": { "$ref": "assessment.schema.json#/$defs/data" },
+            "days": { "type": "integer" },
+            "weeks": { "type": "number" }
+          }
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "label": { "type": "string" },
+              "from": { "$ref": "assessment.schema.json#/$defs/data" },
+              "to": { "$ref": "assessment.schema.json#/$defs/data" },
+              "days": { "type": "integer" },
+              "weeks": { "type": "number" },
+              "rate": { "type": "number" },
+              "total": { "type": "number" }
+            }
+          }
+        },
+        "rate": { "type": "number" },
+        "amount": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "daily": { "type": "number" },
+            "total": { "type": "number" },
+            "basis": { "type": "number" },
+            "monthly": { "type": "number", "description": "Kwota miesięczna = podstawa × stawka (test 12)." },
+            "basisSource": { "$ref": "assessment.schema.json#/$defs/basisSource" }
+          }
+        },
+        "payer": { "$ref": "assessment.schema.json#/$defs/payer" },
+        "whereToApply": { "$ref": "assessment.schema.json#/$defs/whereToApply" },
+        "documentsContain": { "type": "array", "items": { "type": "string" } },
+        "deadlineIds": { "type": "array", "items": { "type": "string" } },
+        "deadlines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id"],
+            "additionalProperties": false,
+            "properties": { "id": { "type": "string" }, "date": { "$ref": "assessment.schema.json#/$defs/data" } }
+          }
+        },
+        "reasonContains": { "type": "string" },
+        "legalBasisContains": { "type": "string" },
+        "whatWouldChangeContains": { "type": "string" },
+        "traceRules": { "type": "array", "items": { "type": "string" }, "description": "Id reguł, które muszą wystąpić w ścieżce decyzji." }
+      }
+    },
+    "oczekiwane": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "benefits": { "type": "array", "items": { "$ref": "#/$defs/oczekiwaneSwiadczenie" } },
+        "missingFacts": { "type": "array", "items": { "type": "string" }, "description": "Klucze faktów, o które silnik musi zapytać." },
+        "validationErrors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": { "code": { "type": "string" }, "fact": { "type": "string" } }
+          }
+        },
+        "risks": { "type": "array", "items": { "type": "string" }, "description": "Id ryzyk, które muszą się pojawić." },
+        "nextStepDeadlineId": { "type": "string" },
+        "decyzjaZus": { "enum": ["odmowa", "przyznanie", "do_odczytania"], "description": "Dla case-<id>.json — decyzja Zakładu z sekcji 10." }
+      }
+    }
+  }
+}

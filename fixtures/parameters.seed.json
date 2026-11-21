@@ -1,0 +1,621 @@
+{
+  "$schema": "../contracts/parameters.schema.json",
+  "parametry": [
+    {
+      "key": "macierzynski_tyg.dzieci_1",
+      "wiersz": "macierzynski_tyg",
+      "value": 20,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180 § 1",
+      "status": "ok"
+    },
+    {
+      "key": "macierzynski_tyg.dzieci_2",
+      "wiersz": "macierzynski_tyg",
+      "value": 31,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180 § 1",
+      "status": "ok"
+    },
+    {
+      "key": "macierzynski_tyg.dzieci_3",
+      "wiersz": "macierzynski_tyg",
+      "value": 33,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180 § 1",
+      "status": "ok"
+    },
+    {
+      "key": "macierzynski_tyg.dzieci_4",
+      "wiersz": "macierzynski_tyg",
+      "value": 35,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180 § 1",
+      "status": "ok"
+    },
+    {
+      "key": "macierzynski_tyg.dzieci_5_i_wiecej",
+      "wiersz": "macierzynski_tyg",
+      "value": 37,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180 § 1",
+      "status": "ok"
+    },
+    {
+      "key": "macierzynski_przed_porodem_max_tyg",
+      "wiersz": "macierzynski_przed_porodem_max_tyg",
+      "value": 6,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180 § 2",
+      "status": "ok"
+    },
+    {
+      "key": "matka_min_po_porodzie_tyg",
+      "wiersz": "matka_min_po_porodzie_tyg",
+      "value": 14,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180 § 4; ustawa art. 29 ust. 3",
+      "status": "ok"
+    },
+    {
+      "key": "matka_min_po_porodzie_szczegolne_tyg",
+      "wiersz": "matka_min_po_porodzie_szczegolne_tyg",
+      "value": 8,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 29 ust. 5–7",
+      "status": "ok"
+    },
+    {
+      "key": "rodzicielski_tyg.jedno_dziecko",
+      "wiersz": "rodzicielski_tyg",
+      "value": 41,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹a § 1",
+      "status": "ok"
+    },
+    {
+      "key": "rodzicielski_tyg.wiecej_dzieci",
+      "wiersz": "rodzicielski_tyg",
+      "value": 43,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹a § 1",
+      "status": "ok"
+    },
+    {
+      "key": "rodzicielski_za_zyciem_tyg.jedno_dziecko",
+      "wiersz": "rodzicielski_za_zyciem_tyg",
+      "value": 65,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹a § 2",
+      "status": "ok"
+    },
+    {
+      "key": "rodzicielski_za_zyciem_tyg.wiecej_dzieci",
+      "wiersz": "rodzicielski_za_zyciem_tyg",
+      "value": 67,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹a § 2",
+      "status": "ok"
+    },
+    {
+      "key": "rodzicielski_nieprzenoszalne_tyg",
+      "wiersz": "rodzicielski_nieprzenoszalne_tyg",
+      "value": 9,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹a § 4",
+      "status": "ok"
+    },
+    {
+      "key": "rodzicielski_max_czesci",
+      "wiersz": "rodzicielski_max_czesci",
+      "value": 5,
+      "unit": "liczba",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹c",
+      "status": "ok"
+    },
+    {
+      "key": "rodzicielski_do_konca_roku_wieku",
+      "wiersz": "rodzicielski_do_konca_roku_wieku",
+      "value": 6,
+      "unit": "lata",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹c",
+      "status": "ok"
+    },
+    {
+      "key": "praca_na_rodzicielskim_max_etat",
+      "wiersz": "praca_na_rodzicielskim_max_etat",
+      "value": 0.5,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹e",
+      "status": "ok"
+    },
+    {
+      "key": "rodzicielski_z_praca_max_tyg.jedno_dziecko",
+      "wiersz": "rodzicielski_z_praca_max_tyg",
+      "value": 82,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹f",
+      "status": "ok"
+    },
+    {
+      "key": "rodzicielski_z_praca_max_tyg.wiecej_dzieci",
+      "wiersz": "rodzicielski_z_praca_max_tyg",
+      "value": 86,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹f",
+      "status": "ok"
+    },
+    {
+      "key": "rodzicielski_z_praca_max_tyg.za_zyciem_jedno_dziecko",
+      "wiersz": "rodzicielski_z_praca_max_tyg",
+      "value": 130,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹f",
+      "status": "ok"
+    },
+    {
+      "key": "rodzicielski_z_praca_max_tyg.za_zyciem_wiecej_dzieci",
+      "wiersz": "rodzicielski_z_praca_max_tyg",
+      "value": 134,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182¹f",
+      "status": "ok"
+    },
+    {
+      "key": "ojcowski_tyg",
+      "wiersz": "ojcowski_tyg",
+      "value": 2,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182³",
+      "status": "ok"
+    },
+    {
+      "key": "ojcowski_tyg.max_czesci",
+      "wiersz": "ojcowski_tyg",
+      "value": 2,
+      "unit": "liczba",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182³",
+      "status": "ok"
+    },
+    {
+      "key": "ojcowski_tyg.min_czesc_tyg",
+      "wiersz": "ojcowski_tyg",
+      "value": 1,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182³",
+      "status": "ok"
+    },
+    {
+      "key": "ojcowski_do_miesiaca_zycia",
+      "wiersz": "ojcowski_do_miesiaca_zycia",
+      "value": 12,
+      "unit": "miesiace",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 182³ § 1",
+      "status": "ok"
+    },
+    {
+      "key": "przyjecie_min_tyg",
+      "wiersz": "przyjecie_min_tyg",
+      "value": 9,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 183 § 3",
+      "status": "ok"
+    },
+    {
+      "key": "przyjecie_rodzicielski_przy_minimum_tyg",
+      "wiersz": "przyjecie_rodzicielski_przy_minimum_tyg",
+      "value": 38,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 183 § 4, 4², 4³",
+      "status": "ok"
+    },
+    {
+      "key": "przyjecie_rodzicielski_przy_minimum_tyg.za_zyciem",
+      "wiersz": "przyjecie_rodzicielski_przy_minimum_tyg",
+      "value": 62,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 183 § 4, 4², 4³",
+      "status": "ok"
+    },
+    {
+      "key": "wiek_przysposobienie_max",
+      "wiersz": "wiek_przysposobienie_max",
+      "value": 14,
+      "unit": "lata",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 183 § 1¹; ustawa art. 29 ust. 1 pkt 2",
+      "status": "ok"
+    },
+    {
+      "key": "wiek_rodzina_zastepcza_max",
+      "wiersz": "wiek_rodzina_zastepcza_max",
+      "value": 7,
+      "unit": "lata",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 183 § 1; ustawa art. 29 ust. 1 pkt 3",
+      "status": "ok"
+    },
+    {
+      "key": "wiek_rodzina_zastepcza_max.przy_odroczeniu_obowiazku_szkolnego",
+      "wiersz": "wiek_rodzina_zastepcza_max",
+      "value": 10,
+      "unit": "lata",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 183 § 1; ustawa art. 29 ust. 1 pkt 3",
+      "status": "ok"
+    },
+    {
+      "key": "martwe_urodzenie_tyg_po_porodzie",
+      "wiersz": "martwe_urodzenie_tyg_po_porodzie",
+      "value": 8,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180¹ § 1",
+      "status": "ok"
+    },
+    {
+      "key": "martwe_urodzenie_tyg_po_porodzie.min_dni_od_zgonu",
+      "wiersz": "martwe_urodzenie_tyg_po_porodzie",
+      "value": 7,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180¹ § 1",
+      "status": "ok"
+    },
+    {
+      "key": "zgon_po_8_tyg_dni",
+      "wiersz": "zgon_po_8_tyg_dni",
+      "value": 7,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180¹ § 2",
+      "status": "ok",
+      "note": "7 dni od zgonu"
+    },
+    {
+      "key": "stawka_macierzynski",
+      "wiersz": "stawka_macierzynski / uzupelniajacy / ojcowski",
+      "value": 1,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 31",
+      "status": "ok"
+    },
+    {
+      "key": "stawka_uzupelniajacy",
+      "wiersz": "stawka_macierzynski / uzupelniajacy / ojcowski",
+      "value": 1,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 31",
+      "status": "ok"
+    },
+    {
+      "key": "stawka_ojcowski",
+      "wiersz": "stawka_macierzynski / uzupelniajacy / ojcowski",
+      "value": 1,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 31",
+      "status": "ok"
+    },
+    {
+      "key": "stawka_rodzicielski",
+      "wiersz": "stawka_rodzicielski",
+      "value": 0.7,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 31",
+      "status": "ok"
+    },
+    {
+      "key": "stawka_usredniona",
+      "wiersz": "stawka_usredniona",
+      "value": 0.815,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 31 ust. 3",
+      "status": "ok"
+    },
+    {
+      "key": "stawka_9_tyg_drugiego_rodzica",
+      "wiersz": "stawka_9_tyg_drugiego_rodzica",
+      "value": 0.7,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 31 ust. 3f",
+      "status": "ok"
+    },
+    {
+      "key": "termin_wniosku_usredniona_dni",
+      "wiersz": "termin_wniosku_usredniona_dni",
+      "value": 21,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 30a",
+      "status": "ok",
+      "note": "21 dni po porodzie / przyjęciu"
+    },
+    {
+      "key": "chorobowy_ciaza_stawka",
+      "wiersz": "chorobowy_ciaza_stawka",
+      "value": 1,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 11 ust. 2",
+      "status": "ok"
+    },
+    {
+      "key": "chorobowy_ciaza_max_dni",
+      "wiersz": "chorobowy_ciaza_max_dni",
+      "value": 270,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 8 ust. 1",
+      "status": "ok"
+    },
+    {
+      "key": "wyczekiwanie_obowiazkowe_dni",
+      "wiersz": "wyczekiwanie_obowiazkowe_dni / dobrowolne_dni",
+      "value": 30,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 4 ust. 1",
+      "status": "ok"
+    },
+    {
+      "key": "wyczekiwanie_dobrowolne_dni",
+      "wiersz": "wyczekiwanie_obowiazkowe_dni / dobrowolne_dni",
+      "value": 90,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 4 ust. 1",
+      "status": "ok"
+    },
+    {
+      "key": "wyczekiwanie_max_przerwa_dni",
+      "wiersz": "wyczekiwanie_max_przerwa_dni",
+      "value": 30,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 4 ust. 2",
+      "status": "ok"
+    },
+    {
+      "key": "wynagrodzenie_chorobowe_dni.do_50_lat",
+      "wiersz": "wynagrodzenie_chorobowe_dni",
+      "value": 33,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "Załącznik",
+      "status": "ok",
+      "note": "w roku"
+    },
+    {
+      "key": "wynagrodzenie_chorobowe_dni.od_50_lat",
+      "wiersz": "wynagrodzenie_chorobowe_dni",
+      "value": 14,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "Załącznik",
+      "status": "ok",
+      "note": "w roku"
+    },
+    {
+      "key": "rehabilitacyjne_stawki.pierwsze_miesiace",
+      "wiersz": "rehabilitacyjne_stawki",
+      "value": 0.9,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 19 ust. 1",
+      "status": "ok"
+    },
+    {
+      "key": "rehabilitacyjne_stawki.pierwsze_miesiace_liczba",
+      "wiersz": "rehabilitacyjne_stawki",
+      "value": 3,
+      "unit": "miesiace",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 19 ust. 1",
+      "status": "ok"
+    },
+    {
+      "key": "rehabilitacyjne_stawki.kolejne_miesiace",
+      "wiersz": "rehabilitacyjne_stawki",
+      "value": 0.75,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 19 ust. 1",
+      "status": "ok"
+    },
+    {
+      "key": "rehabilitacyjne_stawki.w_ciazy",
+      "wiersz": "rehabilitacyjne_stawki",
+      "value": 1,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 19 ust. 1",
+      "status": "ok"
+    },
+    {
+      "key": "rehabilitacyjne_max_miesiecy",
+      "wiersz": "rehabilitacyjne_max_miesiecy",
+      "value": 12,
+      "unit": "miesiace",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 18",
+      "status": "ok"
+    },
+    {
+      "key": "odliczenie_skladek",
+      "wiersz": "odliczenie_skladek",
+      "value": 0.1371,
+      "unit": "ulamek",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 3 pkt 4; Załącznik",
+      "status": "ok"
+    },
+    {
+      "key": "placa_minimalna",
+      "wiersz": "placa_minimalna",
+      "value": 4806,
+      "unit": "zl",
+      "validFrom": "2026-01-01",
+      "legalBasis": "Załącznik",
+      "status": "ok"
+    },
+    {
+      "key": "podstawa_minimalna_pelny_etat",
+      "wiersz": "podstawa_minimalna_pelny_etat",
+      "value": 4147.1,
+      "unit": "zl",
+      "validFrom": "2026-01-01",
+      "legalBasis": "ustawa art. 45",
+      "status": "ok",
+      "note": "4 806 × 0,8629; data od przyjęta jak dla placa_minimalna (instrukcja podaje tylko „od 1.01.2026” dla płacy minimalnej)"
+    },
+    {
+      "key": "max_podstawa_dobrowolnej_skladki",
+      "wiersz": "max_podstawa_dobrowolnej_skladki",
+      "value": 23550,
+      "unit": "zl",
+      "validFrom": "2026-01-01",
+      "legalBasis": "Załącznik",
+      "status": "ok",
+      "note": "data od przyjęta jak dla placa_minimalna (instrukcja podaje tylko „od 1.01.2026” dla płacy minimalnej)"
+    },
+    {
+      "key": "max_podstawa_dobrowolnej_skladki.limit_podstawy_zasilku",
+      "wiersz": "max_podstawa_dobrowolnej_skladki",
+      "value": 20321.3,
+      "unit": "zl",
+      "validFrom": "2026-01-01",
+      "legalBasis": "Załącznik",
+      "status": "ok",
+      "note": "data od przyjęta jak dla placa_minimalna (instrukcja podaje tylko „od 1.01.2026” dla płacy minimalnej)"
+    },
+    {
+      "key": "prog_zadluzenia",
+      "wiersz": "prog_zadluzenia",
+      "value": 48.06,
+      "unit": "zl",
+      "validFrom": "2026-01-01",
+      "legalBasis": "ustawa art. 2a ust. 1",
+      "status": "ok",
+      "note": "1% płacy minimalnej; data od przyjęta jak dla placa_minimalna (instrukcja podaje tylko „od 1.01.2026” dla płacy minimalnej)"
+    },
+    {
+      "key": "termin_splaty_zadluzenia_mies",
+      "wiersz": "termin_splaty_zadluzenia_mies",
+      "value": 6,
+      "unit": "miesiace",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 2a ust. 2",
+      "status": "ok"
+    },
+    {
+      "key": "prog_platnika_ubezpieczonych",
+      "wiersz": "prog_platnika_ubezpieczonych",
+      "value": 20,
+      "unit": "liczba",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 61 ust. 1",
+      "status": "ok"
+    },
+    {
+      "key": "przedawnienie_mies",
+      "wiersz": "przedawnienie_mies",
+      "value": 6,
+      "unit": "miesiace",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 67",
+      "status": "ok"
+    },
+    {
+      "key": "zasilek_pogrzebowy",
+      "wiersz": "zasilek_pogrzebowy",
+      "value": 7000,
+      "unit": "zl",
+      "validFrom": "2000-01-01",
+      "legalBasis": "Poradnik ZUS s. 35–36",
+      "status": "ok"
+    },
+    {
+      "key": "zasilek_pogrzebowy.termin_wniosku_mies",
+      "wiersz": "zasilek_pogrzebowy",
+      "value": 12,
+      "unit": "miesiace",
+      "validFrom": "2000-01-01",
+      "legalBasis": "Poradnik ZUS s. 35–36",
+      "status": "ok",
+      "note": "wniosek Z-12 do 12 miesięcy od pochówku"
+    },
+    {
+      "key": "kwota_swiadczenia_rodzicielskiego",
+      "wiersz": "kwota_swiadczenia_rodzicielskiego",
+      "value": null,
+      "unit": "zl",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 31 ust. 3a",
+      "status": "do_weryfikacji",
+      "note": "brak w materiałach; puste = nie stosuj podwyższenia z art. 31 ust. 3a, pokaż informację"
+    },
+    {
+      "key": "zaokraglanie.stawka_dzienna_miejsca",
+      "wiersz": "zaokraglanie",
+      "value": 2,
+      "unit": "liczba",
+      "validFrom": "2000-01-01",
+      "legalBasis": "—",
+      "status": "do_weryfikacji",
+      "note": "domyślnie stawka dzienna do 0,01 zł"
+    },
+    {
+      "key": "zaokraglanie.kwota_za_okres",
+      "wiersz": "zaokraglanie",
+      "value": "stawka_dzienna_x_dni",
+      "unit": "ustawienie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "—",
+      "status": "do_weryfikacji",
+      "note": "domyślnie kwota za okres = stawka dzienna × dni"
+    },
+    {
+      "key": "kwoty",
+      "wiersz": "kwoty",
+      "value": "brutto",
+      "unit": "ustawienie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "—",
+      "status": "do_weryfikacji",
+      "note": "domyślnie brutto, z dopiskiem „przed zaliczką na podatek”"
+    }
+  ]
+}

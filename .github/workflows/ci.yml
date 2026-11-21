@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  contracts:
+    name: Kontrakt i fixtures
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: contracts/package-lock.json
+      - run: npm ci --prefix contracts
+      - run: npm --prefix contracts run validate
+
+  api:
+    name: API — build i testy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - run: dotnet restore api/BabyRadnik.slnx
+      - run: dotnet build api/BabyRadnik.slnx --no-restore -c Release
+      - run: dotnet test --solution api/BabyRadnik.slnx --no-build -c Release
+
+  web:
+    name: Web — typecheck, lint, build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build

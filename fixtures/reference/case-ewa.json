@@ -1,0 +1,12 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "case-ewa",
+  "opis": "Sprawa ZUS: zasiłek macierzyński; nie podlega ubezpieczeniu chorobowemu w dniu porodu",
+  "status": "do_uzupelnienia",
+  "modul": "katalog",
+  "sprawa": "ewa",
+  "oczekiwane": {
+    "decyzjaZus": "odmowa"
+  },
+  "uwagi": "Dane osoby przepisują ludzie z dokumentów sprawy (sekcja 10). Do tego czasu test jest pomijany."
+}

@@ -1,0 +1,77 @@
+# Uruchomienie z katalogu głównego repo: `docker compose up -d --build` (compose.yaml dołącza ten plik)
+# albo bezpośrednio: `docker compose -f ops/docker-compose.yml up -d --build`.
+# Profile opcjonalne: `--profile proxy` (HTTPS przez Caddy, wymaga DOMAIN), `--profile assistant` (lokalny model, P2).
+name: babyradnik
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: babyradnik
+      POSTGRES_USER: babyradnik
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-babyradnik}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U babyradnik -d babyradnik"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ..
+      dockerfile: api/Dockerfile
+    environment:
+      ConnectionStrings__Default: Host=postgres;Port=5432;Database=babyradnik;Username=babyradnik;Password=${POSTGRES_PASSWORD:-babyradnik}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      CASES_PRIVATE_DIR: /cases
+      ASSISTANT_ENABLED: ${ASSISTANT_ENABLED:-false}
+      ASSISTANT_BASE_URL: ${ASSISTANT_BASE_URL:-http://assistant:11434/v1}
+      ASSISTANT_MODEL: ${ASSISTANT_MODEL:-}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080,http://localhost:5173}
+    volumes:
+      - ${CASES_PRIVATE_DIR:-./cases-empty}:/cases:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${API_PORT:-5080}:8080"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ../web
+    depends_on:
+      - api
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    restart: unless-stopped
+
+  proxy:
+    profiles: ["proxy"]
+    image: caddy:2.10-alpine
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    volumes:
+      - ./proxy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - web
+    restart: unless-stopped
+
+  assistant:
+    profiles: ["assistant"]
+    image: ollama/ollama:0.9.6
+    volumes:
+      - ollama:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  caddy_data:
+  ollama:

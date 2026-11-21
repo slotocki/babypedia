@@ -1,0 +1,12 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "case-teresa",
+  "opis": "Sprawa ZUS: zasiłek chorobowy i macierzyński; umowa zlecenia",
+  "status": "do_uzupelnienia",
+  "modul": "katalog",
+  "sprawa": "teresa",
+  "oczekiwane": {
+    "decyzjaZus": "do_odczytania"
+  },
+  "uwagi": "Dane osoby przepisują ludzie z dokumentów sprawy (sekcja 10). Do tego czasu test jest pomijany."
+}

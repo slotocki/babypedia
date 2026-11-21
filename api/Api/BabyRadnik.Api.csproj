@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>BabyRadnik.Api</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\BabyRadnik.Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure\BabyRadnik.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
