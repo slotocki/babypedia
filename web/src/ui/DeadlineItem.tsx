@@ -6,7 +6,7 @@ import { CalendarIcon } from './icons'
 const typeLabels: Record<DeadlineType, string> = {
   najpóźniej_do: 'Najpóźniej do',
   najpóźniej_przed: 'Najpóźniej przed',
-  okno: 'Termin w oknie czasowym',
+  okno: 'W okresie',
   przedawnienie: 'Przedawnienie — po tej dacie tracisz roszczenie',
 }
 
