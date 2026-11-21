@@ -797,6 +797,33 @@
       "validFrom": "2000-01-01",
       "legalBasis": "ustawa art. 64 ust. 3",
       "status": "ok"
+    },
+    {
+      "key": "podstawa_dzielnik_dzienny",
+      "wiersz": "podstawa_dzielnik_dzienny",
+      "value": 30,
+      "unit": "liczba",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 36 ust. 3 w zw. z art. 47",
+      "status": "ok"
+    },
+    {
+      "key": "miesiac_dni",
+      "wiersz": "miesiac_dni",
+      "value": 30,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 11 ust. 5 w zw. z art. 22",
+      "status": "ok"
+    },
+    {
+      "key": "pierwszy_rok_zycia_miesiecy",
+      "wiersz": "pierwszy_rok_zycia_miesiecy",
+      "value": 12,
+      "unit": "miesiace",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 31 ust. 3g i 4",
+      "status": "ok"
     }
   ]
 }

@@ -283,6 +283,8 @@ export interface SubmissionReceipt {
   recipient: 'pracodawca' | 'zus' | 'ezus' | 'urzad_stanu_cywilnego'
   submittedAt: string
   pdfUrl?: string | null
+  status?: string
+  summary?: string
   simulated: true
 }
 

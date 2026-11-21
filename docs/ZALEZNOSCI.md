@@ -70,3 +70,12 @@ Przechodnie narzędzia budowania/lintowania (nie trafiają do aplikacji): ISC (n
 | postgres:17-alpine | PostgreSQL License |
 | caddy:2.10-alpine (profil `proxy`) | Apache-2.0 |
 | ollama/ollama:0.9.6 (profil `assistant`, P2) | MIT (wagi modelu mają własne licencje — wybór modelu do zatwierdzenia) |
+
+## Generowanie PDF (`api/Infrastructure/Submissions`)
+
+| Paczka / zasób | Wersja | Licencja | Uwagi |
+|---|---|---|---|
+| PDFsharp-MigraDoc (+ PDFsharp, MigraDoc.*) | 6.2.4 | MIT | Nie podnosić do 6.5.0 / 7.x bez kontroli licencji — wg nuspec 6.5.0 to AGPL-3.0 z kluczem licencyjnym. |
+| Microsoft.Extensions.Logging.Abstractions | 8.0.3 | MIT | przechodnia z PDFsharp |
+| System.Security.Cryptography.Pkcs | 10.0.14 | MIT | przypięcie nad przechodnią 8.0.1 (NU1902/NU1903) |
+| Font Roboto (Regular, Bold) | 2.138 | Apache-2.0 | osadzony w bibliotece; tekst licencji w `Submissions/Fonts/Roboto-LICENSE.txt` |

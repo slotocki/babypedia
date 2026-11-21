@@ -52,14 +52,13 @@ public sealed class ApiSmokeTests(WebApplicationFactory<Program> factory) : ICla
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 
-    [Theory]
-    [InlineData("/api/submissions")]
-    public async Task Stub_endpoints_return_501_problem(string path)
+    [Fact]
+    public async Task Submissions_require_a_session()
     {
         using var client = factory.CreateClient();
-        var response = await client.GetAsync(path, TestContext.Current.CancellationToken);
+        var response = await client.GetAsync("/api/submissions", TestContext.Current.CancellationToken);
 
-        Assert.Equal(HttpStatusCode.NotImplemented, response.StatusCode);
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         Assert.Equal("application/problem+json", response.Content.Headers.ContentType?.MediaType);
     }
 

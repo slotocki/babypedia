@@ -2,9 +2,9 @@ import type { IsoDate } from '@/app/api/types'
 
 const dateLong = new Intl.DateTimeFormat('pl-PL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
 const dateShort = new Intl.DateTimeFormat('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' })
-const money = new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' })
+const money = new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN', useGrouping: 'always' as unknown as boolean })
 const percent = new Intl.NumberFormat('pl-PL', { style: 'percent', maximumFractionDigits: 1 })
-const number = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 2 })
+const number = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 2, useGrouping: 'always' as unknown as boolean })
 
 function toUtc(iso: IsoDate): Date {
   const [y, m, d] = iso.slice(0, 10).split('-').map(Number)
