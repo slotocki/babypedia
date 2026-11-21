@@ -23,7 +23,10 @@ public static class ScenariosModule
             services.AddSingleton(scenario);
         }
 
-        services.AddScoped<IScenarioComparer, ScenarioComparer>();
+        services.AddScoped<IScenarioComparer>(sp => new ScenarioComparer(
+            sp.GetRequiredService<IAssessmentEngine>(),
+            sp.GetRequiredService<IParameterProvider>(),
+            sp.GetServices<IScenario>()));
         return services;
     }
 }
