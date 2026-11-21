@@ -62,6 +62,10 @@ public sealed class Section11EligibilityTests
         Assert.Contains("48,06 zł", result.Reason);
         Assert.Contains("art. 2a", result.LegalBasis);
         Assert.Contains(result.Trace, t => t.Rule == ContributionDebtRule.RuleId && t.Met == false);
+        var deadline = Assert.Single(result.Deadlines);
+        Assert.Equal("splata_zadluzenia", deadline.Id);
+        Assert.Equal(D(2026, 9, 10), deadline.Date);
+        Assert.Equal(DeadlineType.NajpozniejDo, deadline.Type);
     }
 
     [Theory]

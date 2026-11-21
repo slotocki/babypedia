@@ -91,12 +91,30 @@ public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityR
             whatWouldChange = $"Spłać całość zadłużenia ({Text.Money(debt.Kwota)}) do dnia {Text.Date(deadline)}; po tym terminie prawo się przedawnia.";
         }
 
-        return NotMet(
+        var outcome = NotMet(
             $"Zadłużenie {Text.Money(debt.Kwota)} jest wyższe niż próg {Text.Money(threshold)} (1% minimalnego wynagrodzenia) w dniu powstania prawa {Text.Date(debt.NaDzien)}.",
             condition,
             reason,
             whatWouldChange,
             PodstawaPrawna);
+        if (repaid is null && context.AsOf <= deadline)
+        {
+            outcome = outcome with
+            {
+                Deadlines =
+                [
+                    new Deadline(
+                        "splata_zadluzenia",
+                        DeadlineType.NajpozniejDo,
+                        deadline,
+                        $"Spłać całość zadłużenia ({Text.Money(debt.Kwota)}) do {Text.Date(deadline)}.",
+                        "Po tym terminie prawo do świadczenia się przedawnia.",
+                        PodstawaPrawna),
+                ],
+            };
+        }
+
+        return outcome;
     }
 }
 

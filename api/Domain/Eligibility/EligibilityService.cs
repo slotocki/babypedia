@@ -116,6 +116,7 @@ internal sealed class Run(EvaluationContext context)
                     Reason = outcome.Reason ?? outcome.Result.Text,
                     LegalBasis = outcome.LegalBasis ?? rule.PodstawaPrawna,
                     WhatWouldChange = outcome.WhatWouldChange,
+                    Deadlines = outcome.Deadlines ?? [],
                     Notes = allNotes,
                     Trace = Trace,
                 });

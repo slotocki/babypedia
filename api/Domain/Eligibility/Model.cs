@@ -7,7 +7,8 @@ public sealed record RuleOutcome(
     string? Reason = null,
     string? WhatWouldChange = null,
     string? LegalBasis = null,
-    IReadOnlyList<string>? Notes = null)
+    IReadOnlyList<string>? Notes = null,
+    IReadOnlyList<Deadline>? Deadlines = null)
 {
     public RuleVerdict Verdict => Result.Verdict;
 }
