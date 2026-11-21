@@ -24,7 +24,8 @@ export function LoginPage() {
   const pageRef = useFocusHeading<HTMLDivElement>()
   const [progress, setProgress] = useState<Progress>({ state: 'idle' })
 
-  const personas = useQuery({ queryKey: ['sim', 'personas'], queryFn: api.sim.personas })
+  // Osoby ze spraw testowych ZUS wybiera się na ekranie początkowym; tutaj zostają tylko osoby wymyślone.
+  const personas = useQuery({ queryKey: ['sim', 'personas'], queryFn: api.sim.personas, select: (list) => list.filter((p) => !p.caseId) })
   const busy = progress.state === 'loading'
 
   const login = async (persona: PersonaListItem) => {

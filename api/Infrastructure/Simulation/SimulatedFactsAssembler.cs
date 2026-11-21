@@ -46,7 +46,9 @@ public sealed class SimulatedFactsAssembler(
             UbezpieczeniePodstawySkladek = Emit(FactSource.Zus, FactKeys.UbezpieczeniePodstawySkladek, account.PodstawySkladek, own.UbezpieczeniePodstawySkladek?.Page),
             UbezpieczeniePrzerwy = Emit(FactSource.Zus, FactKeys.UbezpieczeniePrzerwy, account.Przerwy, own.UbezpieczeniePrzerwy?.Page),
             UbezpieczeniePobraneSwiadczenia = Emit(FactSource.Zus, FactKeys.UbezpieczeniePobraneSwiadczenia, account.PobraneSwiadczenia, own.UbezpieczeniePobraneSwiadczenia?.Page),
-            PlatnikLiczbaUbezpieczonych = EmitStruct(FactSource.Zus, FactKeys.PlatnikLiczbaUbezpieczonych, headcount, own.PlatnikLiczbaUbezpieczonych?.Page),
+            // W sprawie ZUS płatnik jest zaczerniony, więc rejestr nie zna liczby ubezpieczonych — zostaje wartość z danych sprawy.
+            PlatnikLiczbaUbezpieczonych = EmitStruct(FactSource.Zus, FactKeys.PlatnikLiczbaUbezpieczonych, headcount, own.PlatnikLiczbaUbezpieczonych?.Page)
+                ?? (persona.Sprawa is not null ? own.PlatnikLiczbaUbezpieczonych : null),
             SkladkiZadluzenie = Emit(FactSource.Zus, FactKeys.SkladkiZadluzenie, debt, own.SkladkiZadluzenie?.Page),
             EzlaZwolnienia = Emit(FactSource.Ezla, FactKeys.EzlaZwolnienia, leaves, own.EzlaZwolnienia?.Page),
         };

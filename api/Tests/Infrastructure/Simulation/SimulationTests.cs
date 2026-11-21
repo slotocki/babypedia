@@ -351,15 +351,15 @@ public sealed class SimulationTests : IDisposable
     }
 
     [Fact]
-    public async Task Cases_list_marks_unavailable_personas()
+    public async Task Cases_list_is_empty_without_private_case_data()
     {
-        using var client = CreateFactory().CreateClient();
+        // Sprawy ZUS są wyłącznie w katalogu prywatnym (poza repozytorium); samo repozytorium nie zawiera żadnej.
+        var paths = new RepoPaths { Root = TestPaths.Root, CasesPrivateDir = Path.Combine(TempDir(), "nie-istnieje") };
+        using var client = CreateFactory(WithPaths(paths)).CreateClient();
         var cases = await client.GetFromJsonAsync<List<CaseSummary>>("/api/cases", SimJson.Options, Ct);
 
         Assert.NotNull(cases);
-        Assert.Equal(14, cases.Count);
-        Assert.All(cases, c => Assert.False(c.Dostepna));
-        Assert.Contains(cases, c => c.Id == "ewa" && c.OczekiwanaDecyzja == "odmowa");
+        Assert.Empty(cases);
     }
 
     [Fact]

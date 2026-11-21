@@ -5,6 +5,7 @@ import { z } from 'zod'
 import type { EventKind, FactSet } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
+import { QuickStart } from '@/features/cases/QuickStart'
 import { addDaysIso, isValidIsoDate, todayIso } from '@/features/review/dates'
 import { calculationScopeLabels, eventKindLabels } from '@/features/review/fact-labels'
 import { getFact, userFactOf, withFact } from '@/features/review/facts'
@@ -133,6 +134,10 @@ export function IntakePage() {
         title="Powiedz nam, co się dzieje"
         description="Trzy krótkie pytania. Na ich podstawie sprawdzimy, jakie świadczenia mogą Ci przysługiwać. Nic nie jest wysyłane do żadnego urzędu."
       />
+
+      <QuickStart />
+
+      <h2 className="border-t border-line pt-6 text-xl font-semibold text-ink">Albo podaj własne dane</h2>
 
       <form onSubmit={onSubmit} noValidate className="space-y-8">
         <Field group label="1. Co się dzieje?" error={errors.rodzaj}>

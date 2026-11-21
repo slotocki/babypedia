@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { api } from '@/app/api/client'
 import type { CaseSummary } from '@/app/api/types'
-import { useCaseState } from '@/app/case-context'
+import { emptyFacts, useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
-import { mergeIntegrationFacts } from '@/features/review/facts'
+import { mergeIntegrationFacts, userFactOf, withFact } from '@/features/review/facts'
 
 export type LoadCaseState =
   | { status: 'idle' }
@@ -12,7 +12,7 @@ export type LoadCaseState =
   | { status: 'error'; caseId: string; error: unknown; item: CaseSummary }
 
 export function useLoadCase() {
-  const { facts, setFacts, setSessionId, setCaseId } = useCaseState()
+  const { setFacts, setSessionId, setCaseId } = useCaseState()
   const navigate = useNavigate()
   const [state, setState] = useState<LoadCaseState>({ status: 'idle' })
 
@@ -23,7 +23,9 @@ export function useLoadCase() {
       const session = await api.sim.login(item.persona)
       const integration = await api.sim.myFacts(session.sessionId)
       setSessionId(session.sessionId)
-      setFacts(mergeIntegrationFacts(facts, integration))
+      // Sprawa testowa zastępuje wcześniejsze odpowiedzi w całości — to komplet danych z dokumentów jednej osoby.
+      const loaded = mergeIntegrationFacts(emptyFacts(), integration)
+      setFacts(loaded.sprawa['zdarzenie.dlaKogo'] ? loaded : withFact(loaded, 'sprawa', 'zdarzenie.dlaKogo', userFactOf('ja')))
       setCaseId(item.id)
       navigate(paths.review)
     } catch (error) {
