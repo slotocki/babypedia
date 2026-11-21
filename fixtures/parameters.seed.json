@@ -524,6 +524,36 @@
     {
       "key": "prog_zadluzenia",
       "wiersz": "prog_zadluzenia",
+      "value": 42.42,
+      "unit": "zl",
+      "validFrom": "2024-01-01",
+      "legalBasis": "ustawa art. 2a ust. 1",
+      "status": "do_weryfikacji",
+      "note": "1% płacy minimalnej 4242 zł (I półrocze 2024); dodane, aby rozstrzygać sprawy testowe ZUS ze zdarzeniem w 2024 r. — kwota spoza materiałów konkursowych"
+    },
+    {
+      "key": "prog_zadluzenia",
+      "wiersz": "prog_zadluzenia",
+      "value": 43.00,
+      "unit": "zl",
+      "validFrom": "2024-07-01",
+      "legalBasis": "ustawa art. 2a ust. 1",
+      "status": "do_weryfikacji",
+      "note": "1% płacy minimalnej 4300 zł (II półrocze 2024) — kwota spoza materiałów konkursowych"
+    },
+    {
+      "key": "prog_zadluzenia",
+      "wiersz": "prog_zadluzenia",
+      "value": 46.66,
+      "unit": "zl",
+      "validFrom": "2025-01-01",
+      "legalBasis": "ustawa art. 2a ust. 1",
+      "status": "do_weryfikacji",
+      "note": "1% płacy minimalnej 4666 zł (2025) — kwota spoza materiałów konkursowych"
+    },
+    {
+      "key": "prog_zadluzenia",
+      "wiersz": "prog_zadluzenia",
       "value": 48.06,
       "unit": "zl",
       "validFrom": "2026-01-01",
