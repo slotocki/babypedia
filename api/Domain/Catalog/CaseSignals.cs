@@ -60,6 +60,14 @@ public static class DifficultSituation
 /// <summary>Pytania wynikające z tabeli 6.2 („kiedy pytać”), których nie zgłaszają moduły uprawnień i okresów.</summary>
 public static class CatalogMissingFacts
 {
+    /// <summary>Świadczenia, których dotyczy pytanie katalogu (puste = pytanie ogólne, np. „dla kogo liczymy”).</summary>
+    public static IReadOnlyList<BenefitId> BenefitsOf(MissingFact missing) => missing.Fact switch
+    {
+        FactKeys.PlanDataWnioskuUsrednionego => [BenefitId.Macierzynski, BenefitId.Rodzicielski, BenefitId.PrzyjecieDziecka],
+        FactKeys.UmowaNaCzasOkreslony or FactKeys.UmowaDataKonca => [BenefitId.Macierzynski],
+        _ => [],
+    };
+
     public static IReadOnlyList<MissingFact> For(FactSet facts, IReadOnlyList<PersonRef> persons, DateOnly asOf, IParameterProvider? parameters = null)
     {
         var missing = new List<MissingFact>();

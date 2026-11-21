@@ -18,6 +18,7 @@ import type {
   ProblemDetails,
   SubmissionReceipt,
   SubmissionRequest,
+  SubmissionTemplate,
   SupportSituation,
   ZusAccount,
 } from './types'
@@ -40,6 +41,25 @@ interface RequestOptions {
   adminPassword?: string | null
 }
 
+async function failure(response: Response): Promise<ApiError> {
+  let problem: ProblemDetails = { status: response.status, title: response.statusText }
+  try {
+    problem = (await response.json()) as ProblemDetails
+  } catch {
+    // odpowiedź bez treści JSON
+  }
+  return new ApiError(response.status, problem)
+}
+
+/** Pobranie PDF (zgłoszenie, zaświadczenie) z nagłówkiem sesji symulacji. */
+async function pdf(path: string, session: string): Promise<Blob> {
+  const response = await fetch(`${baseUrl}${path}`, { headers: { Accept: 'application/pdf', 'X-Sim-Session': session } })
+  if (!response.ok) throw await failure(response)
+  const blob = await response.blob()
+  if (!blob.type.includes('pdf')) throw new Error('Serwer nie zwrócił pliku PDF.')
+  return blob
+}
+
 async function request<T>(method: string, path: string, body?: unknown, options: RequestOptions = {}): Promise<T> {
   const headers: Record<string, string> = { Accept: 'application/json' }
   if (body !== undefined) headers['Content-Type'] = 'application/json'
@@ -52,15 +72,7 @@ async function request<T>(method: string, path: string, body?: unknown, options:
     body: body === undefined ? undefined : JSON.stringify(body),
   })
 
-  if (!response.ok) {
-    let problem: ProblemDetails = { status: response.status, title: response.statusText }
-    try {
-      problem = (await response.json()) as ProblemDetails
-    } catch {
-      // odpowiedź bez treści JSON
-    }
-    throw new ApiError(response.status, problem)
-  }
+  if (!response.ok) throw await failure(response)
 
   if (response.status === 204) return undefined as T
   return (await response.json()) as T
@@ -74,7 +86,7 @@ export const api = {
     login: (personaId: string) => request<LoginResponse>('POST', '/api/sim/login', { personaId }),
     myFacts: (session: string) => request<FactSet>('GET', '/api/sim/me/facts', undefined, { session }),
     myZus: (session: string) => request<ZusAccount>('GET', '/api/sim/me/zus', undefined, { session }),
-    debtCertificateUrl: (date?: string) => `${baseUrl}/api/sim/me/debt-certificate${date ? `?date=${date}` : ''}`,
+    debtCertificatePath: (date: string) => `/api/sim/me/debt-certificate?date=${encodeURIComponent(date)}`,
   },
 
   assess: (body: AssessmentRequest) => request<AssessmentResult>('POST', '/api/assessment', body),
@@ -84,6 +96,10 @@ export const api = {
     create: (session: string, body: SubmissionRequest) =>
       request<SubmissionReceipt>('POST', '/api/submissions', body, { session }),
     list: (session: string) => request<SubmissionReceipt[]>('GET', '/api/submissions', undefined, { session }),
+    templates: () => request<SubmissionTemplate[]>('GET', '/api/submissions/templates'),
+    pdfPath: (id: string) => `/api/submissions/${encodeURIComponent(id)}/pdf`,
+    /** Ścieżka z pdfPath, SubmissionReceipt.pdfUrl albo sim.debtCertificatePath. */
+    pdf: (session: string, path: string) => pdf(path, session),
   },
 
   cases: {

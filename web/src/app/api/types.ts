@@ -176,6 +176,8 @@ export interface BenefitResult {
   period?: Period | null
   rate?: number | null
   amount?: Amount | null
+  /** Kwota ryczałtowa (zasiłek pogrzebowy) z parametru. */
+  lumpSum?: number | null
   parts: BenefitPart[]
   payer?: Payer | null
   whereToApply?: ApplicationPlace | null
@@ -195,6 +197,8 @@ export interface MissingFact {
   type: MissingFactType
   person?: PersonRef | null
   options?: string[] | null
+  /** Świadczenia, których dotyczy pytanie (karty tej samej osoby); puste = pytanie ogólne. */
+  benefitIds?: BenefitId[] | null
 }
 
 export interface ValidationIssue { code: string; message: string; fact?: FactKey | null; person?: PersonRef | null }
@@ -280,6 +284,25 @@ export interface ZusAccount {
 export type SubmissionType = 'wniosek_urlop' | 'dane_zam' | 'zapytanie_ezus' | 'odpis_aktu'
 export type LeaveTemplate = 'macierzynski_i_rodzicielski' | 'rodzicielski' | 'ojcowski' | 'uzupelniajacy'
 export interface SubmissionRequest { type: SubmissionType; template?: LeaveTemplate; fields: Record<string, string> }
+export type TemplateFieldKind = 'text' | 'longtext' | 'date' | 'integer' | 'choice'
+export interface TemplateField {
+  key: string
+  label: string
+  kind: TemplateFieldKind
+  required: boolean
+  maxLength: number
+  basis: string
+  when: { key: string; value: string } | null
+  options: { value: string; label: string }[] | null
+}
+export interface SubmissionTemplate {
+  id: string
+  type: SubmissionType
+  template: LeaveTemplate | null
+  recipient: SubmissionReceipt['recipient']
+  title: string
+  fields: TemplateField[]
+}
 export interface SubmissionReceipt {
   id: string
   number: string

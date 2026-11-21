@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
+import { api } from '@/app/api/client'
 import { paths } from '@/app/paths'
 import { Alert, Button, DateInput, Field, SimulationBanner } from '@/ui'
-import { certificatePath } from './api'
 import { PdfActions } from './PdfActions'
 
 const todayIso = () => {
@@ -33,7 +33,7 @@ export function Certificate({ session }: { session: string }) {
       {valid ? (
         <PdfActions
           key={date}
-          path={certificatePath(date)}
+          path={api.sim.debtCertificatePath(date)}
           fileName={`zaswiadczenie-o-stanie-skladek-${date}.pdf`}
           session={session}
           withOpen

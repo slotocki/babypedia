@@ -42,8 +42,8 @@ public sealed class AssessmentEngine(
 
         var periodsResult = periods.Assess(facts, asOf);
         var benefits = new List<BenefitResult>();
-        var rightsMissing = new List<MissingFact>();
-        var otherMissing = new List<MissingFact>();
+        var rightsMissing = new List<(MissingFact Fact, BenefitId? Benefit)>();
+        var otherMissing = new List<(MissingFact Fact, BenefitId? Benefit)>();
 
         foreach (var person in persons)
         {
@@ -54,7 +54,7 @@ public sealed class AssessmentEngine(
                 {
                     var funeral = Funeral.Assess(facts, person, asOf, parameters, deadlines);
                     cards.Add((funeral.Result, false));
-                    otherMissing.AddRange(funeral.Missing);
+                    otherMissing.AddRange(funeral.Missing.Select(m => (m, (BenefitId?)BenefitId.Pogrzebowy)));
                     continue;
                 }
 
@@ -64,7 +64,7 @@ public sealed class AssessmentEngine(
                 var composed = StatusComposer.Compose(entry, person, rights.Result, period, employee);
                 if (composed.Status is BenefitStatus.BrakujeDanych or BenefitStatus.Przysluguje)
                 {
-                    rightsMissing.AddRange(rights.MissingFacts);
+                    rightsMissing.AddRange(rights.MissingFacts.Select(m => (m, (BenefitId?)entry.Id)));
                 }
 
                 cards.Add((composed, true));
@@ -81,16 +81,20 @@ public sealed class AssessmentEngine(
 
                 var piped = pipeline.Run(card, siblings, facts, asOf, parameters);
                 benefits.Add(WithDeadlines(piped.Benefit, facts, asOf));
-                otherMissing.AddRange(piped.Missing);
+                otherMissing.AddRange(piped.Missing.Select(m => (m, (BenefitId?)card.Id)));
             }
         }
 
         var missing = rightsMissing
             .Concat(PeriodsMissing(periodsResult.MissingFacts, benefits, facts))
             .Concat(otherMissing)
-            .Concat(CatalogMissingFacts.For(facts, persons, asOf, parameters))
-            .Select(FactQuestionBook.Normalize)
-            .DistinctBy(m => (m.Fact, m.Person))
+            .Concat(CatalogMissingFacts.For(facts, persons, asOf, parameters).SelectMany(Tagged))
+            .Select(x => (Fact: FactQuestionBook.Normalize(x.Item1), Benefit: x.Item2))
+            .GroupBy(x => (x.Fact.Fact, x.Fact.Person))
+            .Select(g => g.First().Fact with
+            {
+                BenefitIds = [.. g.Select(x => x.Benefit).OfType<BenefitId>().Distinct().OrderBy(id => id)],
+            })
             .ToList();
 
         var riskContext = new RiskContext(facts, asOf, parameters, benefits, completed);
@@ -116,12 +120,28 @@ public sealed class AssessmentEngine(
         };
     }
 
-    private static IEnumerable<MissingFact> PeriodsMissing(IReadOnlyList<MissingFact> missing, IReadOnlyList<BenefitResult> benefits, FactSet facts)
+    private static IEnumerable<(MissingFact, BenefitId?)> Tagged(MissingFact missing) =>
+        CatalogMissingFacts.BenefitsOf(missing) is { Count: > 0 } ids ? ids.Select(id => (missing, (BenefitId?)id)) : [(missing, null)];
+
+    private static IEnumerable<(MissingFact, BenefitId?)> PeriodsMissing(IReadOnlyList<MissingFact> missing, IReadOnlyList<BenefitResult> benefits, FactSet facts)
     {
-        var waiting = benefits.Where(b => b.Status == BenefitStatus.BrakujeDanych).Select(b => b.Person).ToHashSet();
-        return missing.Where(m =>
+        var waitingCards = benefits.Where(b => b.Status == BenefitStatus.BrakujeDanych).ToList();
+        var waiting = waitingCards.Select(b => b.Person).ToHashSet();
+        foreach (var m in missing.Where(m =>
             (m.Person is null && waiting.Count > 0)
             || (m.Person is { } person && waiting.Contains(person))
-            || (m.Person == PersonRef.DrugiRodzic && facts.DrugiRodzic is null));
+            || (m.Person == PersonRef.DrugiRodzic && facts.DrugiRodzic is null)))
+        {
+            var cards = waitingCards.Where(b => m.Person is null || b.Person == m.Person).ToList();
+            if (cards.Count == 0)
+            {
+                yield return (m, null);
+            }
+
+            foreach (var card in cards)
+            {
+                yield return (m, card.Id);
+            }
+        }
     }
 }

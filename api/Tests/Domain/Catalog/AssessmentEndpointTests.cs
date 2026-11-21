@@ -337,6 +337,8 @@ public sealed class AssessmentEndpointTests(AssessmentFixture fixture) : IClassF
         Assert.Equal("przysługuje", funeral.GetProperty("status").GetString());
         Assert.Equal("2027-10-12", funeral.GetProperty("deadlines")[0].GetProperty("date").GetString());
         Assert.Contains(funeral.GetProperty("notes").EnumerateArray(), n => n.GetString()!.Contains("7 000,00 zł"));
+        Assert.Equal(7000m, funeral.GetProperty("lumpSum").GetDecimal());
+        Assert.Equal(JsonValueKind.Null, Benefit(result, "macierzynski").GetProperty("lumpSum").ValueKind);
     }
 
     [Fact]

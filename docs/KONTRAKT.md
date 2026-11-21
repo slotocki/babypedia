@@ -35,6 +35,7 @@ Brak klucza = fakt nieznany. Silnik nigdy nie zgaduje brakującego faktu; zgłas
 - `sprawa` — fakty o zdarzeniu i dziecku (wspólne dla rodziców).
 - `wnioskodawca` — osoba zalogowana / dla której liczymy.
 - `drugiRodzic` — opcjonalnie (gdy „dla mnie i drugiego rodzica” albo gdy prawo ojca zależy od sytuacji matki).
+- `GET /api/sim/me/facts`: po urodzeniu rejestr stanu cywilnego daje też `zdarzenie.rodzaj = urodzenie` i `zdarzenie.data` (źródło `usc`, sterowane polem `usc/dziecko.dataUrodzenia` w panelu); osoba sprawy ZUS (`persona.sprawa`) niesie fakty sprawy przepisane z dokumentów (bez `zdarzenie.dlaKogo`). Gdy zdarzenia brak, ekran „Sprawdź dane” zadaje trzy pytania z ekranu 1 jako brakujące fakty.
 - Brak PESEL, imion i nazwisk w faktach — silnik ich nie dostaje (zasada 2.5). Tożsamość tylko w odpowiedzi `POST /api/sim/login`.
 
 ### 2.1. Klucze faktów sprawy (`sprawa`)
@@ -105,12 +106,13 @@ Kształt jak w 12.1, z rozszerzeniami (oznaczone ★ — wymagają zatwierdzenia
 - `period {from, to, days, weeks}` — okres włącznie z dniem początkowym i końcowym.
 - `rate` — ułamek (0.815 = 81,5%). ★ `parts[]` — części okresu z różnymi stawkami (np. 9 tygodni drugiego rodzica 70%, praca na część etatu).
 - `amount {daily, total, basis, basisSource}` albo `null`, gdy brak podstawy (wtedy w `notes`: „podaj podstawę, żeby zobaczyć kwotę”). Kwoty brutto. `basisSource`: `szacunek_zus` | `ustalona_przez_płatnika` | ★`minimalna`.
+- `lumpSum` — kwota ryczałtowa karty (zasiłek pogrzebowy, parametr `zasilek_pogrzebowy`) albo `null`; bez okresu i podstawy.
 - `payer`: `płatnik_składek` | `zus`; `whereToApply`: `pracodawca` | `płatnik_składek` | `zus`.
 - `deadlines[] {id, type, date, text, consequence, basis★}`; `type`: `najpóźniej_do` | `najpóźniej_przed` | `okno` | `przedawnienie`.
 - `reason` + ★`legalBasis` + `whatWouldChange` — dla `nie_przysługuje` / `nie_rozstrzygam`.
 - `trace[] {rule, basis, met, text, condition}` — ścieżka decyzji; `met: null` = brak danych / nie rozstrzygam.
 - ★ `notes[]`, `links[]` (S9).
-- `missingFacts[] {fact, question, type, person, options}` — `fact` to klucz z sekcji 2; ★ `person` (null = fakt sprawy).
+- `missingFacts[] {fact, question, type, person, options, benefitIds}` — `fact` to klucz z sekcji 2; ★ `person` (null = fakt sprawy); `benefitIds[]` — świadczenia, których dotyczy pytanie (karta „brakuje danych” pokazuje tylko swoje pytania; puste = pytanie ogólne).
 - ★ `validationErrors[] {code, message, fact, person}` — błędy planu (np. 33 tyg. z 41 dla jednego rodzica, szósta część) pokazywane przy polu; to nie jest błąd HTTP.
 - `nextStep {deadlineId, benefitId, person★}` — najwcześniejszy niewykonany termin typu „najpóźniej”.
 - `risks[] {id, text, basis★, link★}`; ★ `difficultSituation` — tryb trudnej sytuacji.
@@ -192,7 +194,7 @@ Plik `fixtures/reference/<id>.json`, `id` = nazwa pliku:
 | `docs/prawo/**` | ludzie |
 
 Każdy moduł rejestruje się metodą z własnego pliku (`AddPeriods()`, `MapSimulationEndpoints()`, …), już wywołaną w `Program.cs`. Endpoint-zaślepka zwraca `501` ProblemDetails — gałąź podmienia go w swoim pliku.
-Frontend: router (`web/src/app/router.tsx`) ma już trasy 10 ekranów; ekran eksportuje komponent z `web/src/features/<nazwa>/index.tsx`. Stan przebiegu (fakty, id sesji, id sprawy) — `useCaseState()` z `web/src/app/case-context.ts`. Klient API — `api` z `web/src/app/api/client.ts`.
+Frontend: router (`web/src/app/router.tsx`) ma już trasy 10 ekranów; ekran eksportuje komponent z `web/src/features/<nazwa>/index.tsx`. Stan przebiegu (fakty, id sesji, id sprawy, terminy „Zrobione” — `completedDeadlines`) — `useCaseState()` z `web/src/app/case-context.ts`. Klient API — `api` z `web/src/app/api/client.ts`.
 
 ## 8. Zasady przypominające (sekcja 2)
 

@@ -17,7 +17,7 @@ export function FuneralBlock({
   stillbirth: boolean
   highlighted: boolean
 }) {
-  const amount = benefit?.status === 'przysługuje' ? benefit.amount?.total : undefined
+  const amount = benefit?.status === 'przysługuje' ? (benefit.lumpSum ?? benefit.amount?.total ?? undefined) : undefined
   const deadline = benefit?.deadlines.find((d) => d.id === 'wniosek_z12') ?? benefit?.deadlines[0]
 
   return (

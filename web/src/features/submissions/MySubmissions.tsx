@@ -3,7 +3,6 @@ import { Link } from 'react-router'
 import { ApiError, api } from '@/app/api/client'
 import { paths } from '@/app/paths'
 import { Button, Card, EmptyState, ErrorState, SimulationBadge, SkeletonText } from '@/ui'
-import { submissionPdfPath } from './api'
 import { dateTimeLabel, recipientLabels, statusLabel, typeLabels } from './kinds'
 import { NeedsLogin } from './NeedsLogin'
 import { PdfActions } from './PdfActions'
@@ -53,7 +52,7 @@ export function MySubmissions({ session }: { session: string }) {
               <Item label="Data złożenia" value={dateTimeLabel(item.submittedAt)} />
             </dl>
             {item.summary ? <p className="text-base text-ink">{item.summary}</p> : null}
-            <PdfActions path={item.pdfUrl ?? submissionPdfPath(item.id)} fileName={`${item.number}.pdf`} session={session} withOpen />
+            <PdfActions path={item.pdfUrl ?? api.submissions.pdfPath(item.id)} fileName={`${item.number}.pdf`} session={session} withOpen />
           </Card>
         </li>
       ))}

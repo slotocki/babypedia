@@ -156,6 +156,41 @@ public sealed class SimulationTests : IDisposable
         Assert.Equal("usc", caseFacts.GetProperty("dziecko.dataUrodzenia").GetProperty("source").GetString());
         Assert.Equal("2026-10-08", caseFacts.GetProperty("dziecko.dataUrodzenia").GetProperty("value").GetString());
         Assert.Equal(1, caseFacts.GetProperty("dziecko.liczba").GetProperty("value").GetInt32());
+        Assert.Equal("urodzenie", caseFacts.GetProperty("zdarzenie.rodzaj").GetProperty("value").GetString());
+        Assert.Equal("usc", caseFacts.GetProperty("zdarzenie.rodzaj").GetProperty("source").GetString());
+        Assert.Equal("2026-10-08", caseFacts.GetProperty("zdarzenie.data").GetProperty("value").GetString());
+        Assert.False(caseFacts.TryGetProperty("zdarzenie.dlaKogo", out _));
+    }
+
+    [Fact]
+    public async Task Case_persona_carries_case_facts_from_documents_in_sim_facts()
+    {
+        var dir = TempDir();
+        Directory.CreateDirectory(Path.Combine(dir, "personas"));
+        await File.WriteAllTextAsync(Path.Combine(dir, "personas", "julia.json"), """
+            {
+              "id": "julia", "opis": "x", "status": "gotowe", "sprawa": "julia",
+              "tozsamosc": { "imie": "J", "nazwisko": "K", "pesel": "90010100000", "dataUrodzenia": "1990-01-01" },
+              "fakty": {
+                "sprawa": {
+                  "zdarzenie.rodzaj": { "value": "przyjecie", "source": "zus", "page": 2 },
+                  "zdarzenie.data": { "value": "2026-05-04", "source": "zus", "page": 2 },
+                  "zdarzenie.dlaKogo": { "value": "ja", "source": "user" },
+                  "przyjecie.sciezka": { "value": "przysposobienie", "source": "zus", "page": 3 }
+                },
+                "wnioskodawca": {}
+              }
+            }
+            """, Ct);
+        using var client = CreateFactory(WithPaths(new RepoPaths { Root = TestPaths.Root, CasesPrivateDir = dir })).CreateClient();
+        var (sessionId, _) = await LoginAsync(client, "julia");
+        using var facts = await GetJsonAsync(client, "/api/sim/me/facts", sessionId);
+        var caseFacts = facts.RootElement.GetProperty("sprawa");
+
+        Assert.Equal("przyjecie", caseFacts.GetProperty("zdarzenie.rodzaj").GetProperty("value").GetString());
+        Assert.Equal(2, caseFacts.GetProperty("zdarzenie.data").GetProperty("page").GetInt32());
+        Assert.Equal("przysposobienie", caseFacts.GetProperty("przyjecie.sciezka").GetProperty("value").GetString());
+        Assert.False(caseFacts.TryGetProperty("zdarzenie.dlaKogo", out _));
     }
 
     [Fact]
@@ -166,6 +201,7 @@ public sealed class SimulationTests : IDisposable
         using var facts = await GetJsonAsync(client, "/api/sim/me/facts", sessionId);
 
         Assert.False(facts.RootElement.GetProperty("sprawa").TryGetProperty("dziecko.dataUrodzenia", out _));
+        Assert.False(facts.RootElement.GetProperty("sprawa").TryGetProperty("zdarzenie.rodzaj", out _));
     }
 
     [Fact]

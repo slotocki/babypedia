@@ -44,7 +44,9 @@ public sealed class SimulatedContributionAccount(PersonaStore store) : IContribu
         var declared = persona.Fakty.Wnioskodawca.SkladkiZadluzenie?.Value;
         if (declared is not null)
         {
-            return Task.FromResult<ContributionDebt?>(new ContributionDebt(onDate, declared.Kwota));
+            // Saldo znane najpóźniej na dzień z konta płatnika — nie „na dzień” przyszłego zdarzenia.
+            var asOf = declared.NaDzien < onDate ? declared.NaDzien : onDate;
+            return Task.FromResult<ContributionDebt?>(new ContributionDebt(asOf, declared.Kwota));
         }
 
         var selfPaying = persona.Fakty.Wnioskodawca.UbezpieczenieTytuly?.Value

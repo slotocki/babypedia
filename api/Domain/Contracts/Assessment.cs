@@ -122,6 +122,9 @@ public sealed record BenefitResult
     [JsonPropertyName("period")] public Period? Period { get; init; }
     [JsonPropertyName("rate")] public decimal? Rate { get; init; }
     [JsonPropertyName("amount")] public Amount? Amount { get; init; }
+
+    /// <summary>Kwota ryczałtowa świadczenia (np. zasiłek pogrzebowy) — stała kwota z parametru, bez okresu i podstawy.</summary>
+    [JsonPropertyName("lumpSum")] public decimal? LumpSum { get; init; }
     [JsonPropertyName("parts")] public IReadOnlyList<BenefitPart> Parts { get; init; } = [];
     [JsonPropertyName("payer")] public Payer? Payer { get; init; }
     [JsonPropertyName("whereToApply")] public ApplicationPlace? WhereToApply { get; init; }
@@ -140,7 +143,8 @@ public sealed record MissingFact(
     [property: JsonPropertyName("question")] string Question,
     [property: JsonPropertyName("type")] MissingFactType Type,
     [property: JsonPropertyName("person")] PersonRef? Person = null,
-    [property: JsonPropertyName("options")] IReadOnlyList<string>? Options = null);
+    [property: JsonPropertyName("options")] IReadOnlyList<string>? Options = null,
+    [property: JsonPropertyName("benefitIds")] IReadOnlyList<BenefitId>? BenefitIds = null);
 
 public sealed record ValidationIssue(
     [property: JsonPropertyName("code")] string Code,
