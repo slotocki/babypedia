@@ -106,6 +106,7 @@ Kształt jak w 12.1, z rozszerzeniami (oznaczone ★ — wymagają zatwierdzenia
 - `period {from, to, days, weeks}` — okres włącznie z dniem początkowym i końcowym.
 - `rate` — ułamek (0.815 = 81,5%). ★ `parts[]` — części okresu z różnymi stawkami (np. 9 tygodni drugiego rodzica 70%, praca na część etatu).
 - `amount {daily, total, basis, basisSource}` albo `null`, gdy brak podstawy (wtedy w `notes`: „podaj podstawę, żeby zobaczyć kwotę”). Kwoty brutto. `basisSource`: `szacunek_zus` | `ustalona_przez_płatnika` | ★`minimalna`.
+- `lumpSum` — kwota ryczałtowa karty (zasiłek pogrzebowy, parametr `zasilek_pogrzebowy`) albo `null`; bez okresu i podstawy.
 - `payer`: `płatnik_składek` | `zus`; `whereToApply`: `pracodawca` | `płatnik_składek` | `zus`.
 - `deadlines[] {id, type, date, text, consequence, basis★}`; `type`: `najpóźniej_do` | `najpóźniej_przed` | `okno` | `przedawnienie`.
 - `reason` + ★`legalBasis` + `whatWouldChange` — dla `nie_przysługuje` / `nie_rozstrzygam`.

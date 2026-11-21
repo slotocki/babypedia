@@ -88,6 +88,7 @@ public sealed class FuneralRule : IRule
             Id = entry.Id,
             Person = person,
             Status = BenefitStatus.Przysluguje,
+            LumpSum = amount,
             Payer = Payer.Zus,
             WhereToApply = ApplicationPlace.Zus,
             Documents = entry.Documents,

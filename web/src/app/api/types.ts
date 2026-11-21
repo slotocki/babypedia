@@ -176,6 +176,8 @@ export interface BenefitResult {
   period?: Period | null
   rate?: number | null
   amount?: Amount | null
+  /** Kwota ryczałtowa (zasiłek pogrzebowy) z parametru. */
+  lumpSum?: number | null
   parts: BenefitPart[]
   payer?: Payer | null
   whereToApply?: ApplicationPlace | null

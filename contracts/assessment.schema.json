@@ -113,6 +113,7 @@
         "period": { "anyOf": [{ "$ref": "#/$defs/Period" }, { "type": "null" }] },
         "rate": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
         "amount": { "anyOf": [{ "$ref": "#/$defs/Amount" }, { "type": "null" }], "description": "null, gdy brak podstawy — wtedy notes zawiera „podaj podstawę, żeby zobaczyć kwotę”." },
+        "lumpSum": { "type": ["number", "null"], "minimum": 0, "description": "Kwota ryczałtowa świadczenia (zasiłek pogrzebowy) z parametru — bez okresu, stawki i podstawy." },
         "parts": { "type": "array", "items": { "$ref": "#/$defs/BenefitPart" } },
         "payer": { "anyOf": [{ "$ref": "#/$defs/payer" }, { "type": "null" }] },
         "whereToApply": { "anyOf": [{ "$ref": "#/$defs/whereToApply" }, { "type": "null" }] },

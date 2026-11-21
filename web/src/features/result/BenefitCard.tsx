@@ -90,6 +90,13 @@ function Entitled({ benefit, onSaveBasis, busy }: Pick<BenefitCardProps, 'benefi
         </dl>
       ) : null}
 
+      {benefit.lumpSum != null ? (
+        <div className="space-y-1 rounded-control bg-brand-soft p-3">
+          <p className="text-sm text-ink-soft">Kwota (stała, jednorazowa)</p>
+          <Amount value={benefit.lumpSum} size="lg" />
+        </div>
+      ) : null}
+
       {amount ? (
         <div className="space-y-3 rounded-control bg-brand-soft p-3">
           <div className="flex flex-wrap items-end gap-x-8 gap-y-3">
