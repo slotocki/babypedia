@@ -2,56 +2,54 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router'
 import { api } from '@/app/api/client'
 import { paths } from '@/app/paths'
-import { Button, Card, ErrorState, Section, SimulationBadge, SkeletonText } from '@/ui'
-import { decisionLabel } from './decision'
+import { Button, Disclosure, ErrorState, SkeletonText } from '@/ui'
+import { agreementLabel, decisionLabel } from './decision'
 import { useLoadCase } from './useLoadCase'
 
 /** Szybki start na ekranie początkowym: gotowe sprawy testowe ZUS, które wypełniają cały przebieg jednym kliknięciem. */
 export function QuickStart() {
   const cases = useQuery({ queryKey: ['cases'], queryFn: api.cases.list })
   const loader = useLoadCase()
-  const available = cases.data?.filter((item) => item.dostepna) ?? []
+  const order = { kwota: 0, okres: 1, decyzja: 2 }
+  const rank = (item: { zgodnosc?: keyof typeof order | null }) => (item.zgodnosc ? order[item.zgodnosc] : 3)
+  const available = (cases.data?.filter((item) => item.dostepna) ?? []).sort((a, b) => rank(a) - rank(b))
 
   if (cases.isSuccess && available.length === 0) return null
 
   return (
-    <Section
-      title="Szybki start: gotowy przykład"
-      description="Wybierz sprawę testową ZUS. Wczytamy jej dane, a Ty od razu zobaczysz wynik i porównanie z decyzją ZUS."
-    >
+    <Disclosure title="Sprawy testowe ZUS" summary="Zobacz przykładowy wynik na danych testowych">
+      <div className="space-y-3">
       {cases.isPending ? <SkeletonText lines={3} label="Wczytuję przykłady…" /> : null}
       {cases.isError ? (
         <ErrorState error={cases.error} title="Nie udało się wczytać przykładów" onRetry={() => void cases.refetch()} retrying={cases.isFetching} />
       ) : null}
 
       {available.length > 0 ? (
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2" aria-busy={loader.busy}>
+        <ul className="divide-y divide-line" aria-busy={loader.busy}>
           {available.map((item) => {
             const loading = loader.state.status === 'loading' && loader.state.caseId === item.id
             return (
               <li key={item.id}>
-                <Card className="flex h-full flex-col justify-between gap-3">
+                <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2">
                   <div className="min-w-0 space-y-1">
                     <h3 className="text-base font-semibold text-ink">{item.tytul}</h3>
                     <p className="text-sm text-ink-soft">Decyzja ZUS: {decisionLabel[item.oczekiwanaDecyzja]}</p>
+                    {item.zgodnosc ? <p className="text-sm font-semibold text-ink">{agreementLabel[item.zgodnosc]}</p> : null}
                   </div>
-                  <div className="flex flex-wrap items-center gap-3">
                     <Button
-                      variant="secondary"
+                      variant="link"
                       loading={loading}
                       loadingLabel="Wczytuję dane…"
                       disabled={loader.busy}
                       aria-label={`Wczytaj przykład: ${item.tytul}`}
                       onClick={() => void loader.load(item)}
                     >
-                      Wczytaj przykład
+                      Zobacz wynik
                     </Button>
-                    <SimulationBadge />
-                  </div>
+                </div>
                   {loader.state.status === 'error' && loader.state.caseId === item.id ? (
                     <ErrorState error={loader.state.error} title="Nie udało się wczytać danych" onRetry={() => void loader.load(item)} />
                   ) : null}
-                </Card>
               </li>
             )
           })}
@@ -65,6 +63,7 @@ export function QuickStart() {
         </Link>
         .
       </p>
-    </Section>
+      </div>
+    </Disclosure>
   )
 }

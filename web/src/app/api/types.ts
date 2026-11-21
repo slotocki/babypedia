@@ -316,7 +316,8 @@ export interface SubmissionReceipt {
 }
 
 export type CaseDecision = 'odmowa' | 'przyznanie' | 'do_odczytania'
-export interface CaseSummary { id: string; tytul: string; oczekiwanaDecyzja: CaseDecision; persona?: string | null; dostepna: boolean }
+export type CaseAgreement = 'kwota' | 'okres' | 'decyzja'
+export interface CaseSummary { id: string; tytul: string; oczekiwanaDecyzja: CaseDecision; persona?: string | null; dostepna: boolean; zgodnosc?: CaseAgreement | null }
 
 export type SupportSituation =
   | 'poronienie'

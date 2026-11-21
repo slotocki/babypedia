@@ -29,6 +29,8 @@ const analizaDir = resolve(args.analiza);
 const pdfDir = resolve(args.pdf);
 const outDir = resolve(args.out);
 const only = args.tylko ? new Set(args.tylko.split(',').map((s) => s.trim())) : null;
+// --zgodnosc 008:kwota,004:okres,021:decyzja — co w danej sprawie sprawdzono z dokumentami ZUS (wynik raportu silnika).
+const agreement = new Map((args.zgodnosc ?? '').split(',').filter(Boolean).map((pair) => pair.trim().split(':')));
 
 const repoRoot = resolve(import.meta.dirname, '..', '..');
 if (outDir.toLowerCase().startsWith(repoRoot.toLowerCase())) {
@@ -56,7 +58,7 @@ const BENEFIT_PERIODS = [
   ['urlop_ojcowski', 'ojcowski'],
 ];
 
-function convert(folder, dane) {
+function convert(folder, dane, basisConfirmed) {
   const missing = [];
   const notes = [];
   const k = dane.klasyfikacja ?? {};
@@ -104,8 +106,10 @@ function convert(folder, dane) {
   }
   if (!covered) person['ubezpieczenie.podlegaChorobowemu'] = fact(false, 'zus');
 
+  // Podstawę z analizy przenosimy tylko wtedy, gdy potwierdza ją wydruk ZUS (--zgodnosc NNN:kwota). W pozostałych
+  // analizach to pole bywa wynagrodzeniem brutto albo podstawą składek, czyli kwotą przed odliczeniem 13,71%.
   const basis = dane.zasilek?.podstawa_wymiaru_pln;
-  if (typeof basis === 'number' && basis > 0) {
+  if (typeof basis === 'number' && basis > 0 && basisConfirmed) {
     person['podstawa.ustalonaPrzezPlatnika'] = fact(Math.round(basis * 100) / 100, 'zus');
   } else {
     missing.push('podstawa wymiaru (kwoty nie da się porównać)');
@@ -226,7 +230,7 @@ for (const folder of readdirSync(analizaDir).sort()) {
   }
 
   const id = `zus-${folder.split('-').slice(0, 3).join('-')}`.replace(/[^a-z0-9-]/g, '');
-  const result = convert(folder, dane);
+  const result = convert(folder, dane, agreement.get(number) === 'kwota');
   const patchFile = join(outDir, 'poprawki', `${id}.json`);
   const patch = existsSync(patchFile) ? JSON.parse(readFileSync(patchFile, 'utf8')) : null;
   if (patch) {
@@ -269,6 +273,7 @@ for (const folder of readdirSync(analizaDir).sort()) {
   writeFileSync(join(outDir, 'personas', `${id}.json`), `${JSON.stringify(persona, null, 2)}\n`);
 
   const entry = { id, tytul: title, oczekiwanaDecyzja: result.decision, persona: id, plik };
+  if (agreement.has(number)) entry.zgodnosc = agreement.get(number);
   if (result.confirmed.length) entry.potwierdzoneOkresy = result.confirmed;
   cases.push(entry);
 

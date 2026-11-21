@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import type { CaseSummary } from '@/app/api/types'
 import { paths } from '@/app/paths'
 import { Button, Card, EmptyState, ErrorState, Field, Section, SimulationBadge, TextInput } from '@/ui'
-import { decisionLabel, normalize } from './decision'
+import { agreementLabel, decisionLabel, normalize } from './decision'
 import type { useLoadCase } from './useLoadCase'
 
 type LoadState = ReturnType<typeof useLoadCase>
@@ -53,6 +53,7 @@ export function CaseList({ cases, loader }: { cases: CaseSummary[]; loader: Load
                   <div className="min-w-0 space-y-1">
                     <h3 className="text-base font-semibold text-ink">{item.tytul}</h3>
                     <p className="text-sm text-ink-soft">Oczekiwana decyzja ZUS: {decisionLabel[item.oczekiwanaDecyzja]}</p>
+                    {item.zgodnosc ? <p className="text-sm text-ink-soft">{agreementLabel[item.zgodnosc]}</p> : null}
                     <p className="text-sm font-semibold text-ink">
                       Status: {item.dostepna ? 'dostępna' : 'dane sprawy nie zostały jeszcze dostarczone'}
                     </p>

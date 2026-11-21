@@ -20,6 +20,7 @@
         "tytul": { "type": "string", "description": "Opis sprawy z nazwy pliku." },
         "oczekiwanaDecyzja": { "enum": ["odmowa", "przyznanie", "do_odczytania"] },
         "persona": { "type": "string", "description": "Id osoby w symulatorze (z CASES_PRIVATE_DIR)." },
+        "zgodnosc": { "enum": ["kwota", "okres", "decyzja"], "description": "Co w wyniku silnika sprawdzono z dokumentami ZUS: kwota (podstawa i stawka z wydruku ZUS), okres (okresy co do dnia), decyzja (odmowa potwierdzona)." },
         "plik": {
           "type": "object",
           "description": "Rozpoznanie dodanego PDF (GET /api/cases/by-hash/{sha256}; backend: CaseFile). Najpierw sha256; zapas: nazwa + liczbaStron (oba wymagane do dopasowania). Sam plik nie trafia do repo.",
@@ -62,6 +63,7 @@
         "tytul": { "type": "string" },
         "oczekiwanaDecyzja": { "enum": ["odmowa", "przyznanie", "do_odczytania"] },
         "persona": { "type": ["string", "null"] },
+        "zgodnosc": { "enum": ["kwota", "okres", "decyzja", null] },
         "dostepna": { "type": "boolean", "description": "false = dane osoby jeszcze nie dostarczone (do_uzupelnienia)." }
       }
     }
