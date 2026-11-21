@@ -151,6 +151,13 @@ public sealed class AdminSettingsService(ISettingsStore store, TimeProvider time
     public async Task<IReadOnlyList<OrganizationDto>> GetOrganizationsAsync(CancellationToken ct) =>
         await ReadAsync<OrganizationDto>(OrganizationsName, ct);
 
+    /// <summary>Katalog publiczny (`GET /api/organizations`): tylko zweryfikowane, opcjonalnie dla jednej sytuacji.</summary>
+    public async Task<IReadOnlyList<OrganizationDto>> GetVerifiedOrganizationsAsync(string? situation, CancellationToken ct) =>
+        (await GetOrganizationsAsync(ct))
+            .Where(o => o.Zweryfikowano == true)
+            .Where(o => situation is null || (o.Sytuacje ?? []).Contains(situation, StringComparer.Ordinal))
+            .ToList();
+
     public async Task<SettingsOutcome<OrganizationDto>> PutOrganizationsAsync(List<OrganizationDto>? input, CancellationToken ct)
     {
         var errors = new Dictionary<string, string[]>();
@@ -184,9 +191,13 @@ public sealed class AdminSettingsService(ISettingsStore store, TimeProvider time
                 errors[$"[{i}].id"] = ["Identyfikator występuje więcej niż raz."];
             }
 
-            if (o.Sytuacje is null || o.Sytuacje.Any(string.IsNullOrWhiteSpace))
+            if (o.Sytuacje is null || o.Sytuacje.Any(s => !SupportSituations.IsKnown(s)))
             {
-                errors[$"[{i}].sytuacje"] = ["Sytuacje: tablica niepustych tekstów."];
+                errors[$"[{i}].sytuacje"] = [$"Sytuacje: wybierz z listy ({string.Join(", ", SupportSituations.All)})."];
+            }
+            else if (o.Sytuacje.Distinct(StringComparer.Ordinal).Count() != o.Sytuacje.Count)
+            {
+                errors[$"[{i}].sytuacje"] = ["Sytuacja występuje więcej niż raz."];
             }
 
             if (!string.IsNullOrWhiteSpace(o.Url)

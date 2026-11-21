@@ -40,7 +40,6 @@ public static partial class SimulationModule
         services.AddSingleton(sp => PersonaStore.Load(sp.GetRequiredService<RepoPaths>(), sp.GetRequiredService<ILoggerFactory>().CreateLogger("Simulation")));
         services.AddSingleton<SessionStore>();
         services.AddSingleton(sp => CaseCatalog.Load(sp.GetRequiredService<RepoPaths>(), sp.GetRequiredService<PersonaStore>(), sp.GetRequiredService<ILoggerFactory>().CreateLogger("Simulation")));
-        services.AddSingleton(sp => OrganizationCatalog.Load(sp.GetRequiredService<RepoPaths>(), sp.GetRequiredService<ILoggerFactory>().CreateLogger("Simulation")));
         services.AddSingleton<IIdentityProvider, SimulatedIdentityProvider>();
         services.AddSingleton<IInsuranceRegistry, SimulatedInsuranceRegistry>();
         services.AddSingleton<IContributionAccount, SimulatedContributionAccount>();
@@ -66,7 +65,6 @@ public static partial class SimulationModule
 
         app.MapGet("/api/cases", (CaseCatalog cases) => Json(cases.List())).WithTags("sprawy");
         app.MapGet("/api/cases/by-hash/{sha256}", FindCaseByHash).WithTags("sprawy");
-        app.MapGet("/api/organizations", GetOrganizations).WithTags("wsparcie");
         return app;
     }
 
@@ -148,17 +146,6 @@ public static partial class SimulationModule
             : Json(found);
     }
 
-    private static IResult GetOrganizations(string? situation, OrganizationCatalog organizations)
-    {
-        if (situation is not null && !SituationPattern().IsMatch(situation))
-        {
-            return Results.Problem(statusCode: StatusCodes.Status400BadRequest, title: "Nieprawidłowe dane wejściowe",
-                detail: "situation: litery, cyfry, '_' i '-', do 64 znaków.");
-        }
-
-        return Json(organizations.Verified(situation));
-    }
-
     private static IResult Json<T>(T value) => Results.Json(value, SimJson.Options);
 
     private static IResult Unauthorized() => Results.Problem(
@@ -168,7 +155,4 @@ public static partial class SimulationModule
 
     [GeneratedRegex("^[0-9a-f]{64}$")]
     private static partial Regex HashPattern();
-
-    [GeneratedRegex(@"^[\p{L}\p{N}_-]{1,64}$")]
-    private static partial Regex SituationPattern();
 }

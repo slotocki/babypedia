@@ -360,40 +360,6 @@ public sealed class SimulationTests : IDisposable
         Assert.Equal(HttpStatusCode.BadRequest, malformed.StatusCode);
     }
 
-    [Fact]
-    public async Task Organizations_are_empty_without_fixture_file()
-    {
-        var root = TempDir();
-        using var client = CreateFactory(WithPaths(new RepoPaths { Root = root })).CreateClient();
-        var body = await client.GetStringAsync("/api/organizations", Ct);
-
-        Assert.Equal("[]", body);
-    }
-
-    [Fact]
-    public async Task Organizations_return_only_verified_and_filter_by_situation()
-    {
-        var root = TempDir();
-        Directory.CreateDirectory(Path.Combine(root, "fixtures"));
-        await File.WriteAllTextAsync(Path.Combine(root, "fixtures", "organizations.json"), """
-            [
-              { "id": "a", "nazwa": "Testowa Fundacja A", "opis": "x", "sytuacje": ["martwe_urodzenie"], "zweryfikowano": true },
-              { "id": "b", "nazwa": "Testowa Fundacja B", "opis": "x", "sytuacje": ["martwe_urodzenie"], "zweryfikowano": false },
-              { "id": "c", "nazwa": "Testowa Fundacja C", "opis": "x", "sytuacje": ["wczesniak"], "zweryfikowano": true }
-            ]
-            """, Ct);
-        using var client = CreateFactory(WithPaths(new RepoPaths { Root = root })).CreateClient();
-
-        var all = await client.GetFromJsonAsync<List<Organization>>("/api/organizations", SimJson.Options, Ct);
-        Assert.Equal(["a", "c"], all!.Select(o => o.Id).ToArray());
-
-        var filtered = await client.GetFromJsonAsync<List<Organization>>("/api/organizations?situation=martwe_urodzenie", SimJson.Options, Ct);
-        Assert.Equal(["a"], filtered!.Select(o => o.Id).ToArray());
-
-        var invalid = await client.GetAsync("/api/organizations?situation=a%20b%3B", Ct);
-        Assert.Equal(HttpStatusCode.BadRequest, invalid.StatusCode);
-    }
-
     private static async Task<string> GetBodyAsync(HttpClient client, string path, string sessionId)
     {
         using var request = new HttpRequestMessage(HttpMethod.Get, path);

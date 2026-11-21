@@ -295,11 +295,20 @@ export interface SubmissionReceipt {
 export type CaseDecision = 'odmowa' | 'przyznanie' | 'do_odczytania'
 export interface CaseSummary { id: string; tytul: string; oczekiwanaDecyzja: CaseDecision; persona?: string | null; dostepna: boolean }
 
+export type SupportSituation =
+  | 'martwe_urodzenie'
+  | 'zgon_dziecka'
+  | 'wczesniak'
+  | 'ciezka_choroba_dziecka'
+  | 'samotny_rodzic'
+  | 'trudna_sytuacja_materialna'
+  | 'przyjecie_dziecka'
+
 export interface Organization {
   id: string
   nazwa: string
   opis: string
-  sytuacje: string[]
+  sytuacje: SupportSituation[]
   url?: string | null
   telefon?: string | null
   zweryfikowano: boolean

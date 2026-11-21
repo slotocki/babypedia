@@ -178,8 +178,8 @@ Plik `fixtures/reference/<id>.json`, `id` = nazwa pliku:
 | `api/Domain/<Moduł>/**` + `api/Tests/Domain/<Moduł>/**` | gałąź modułu (`be/engine-periods` → `Periods`, `be/engine-eligibility` → `Eligibility`, `be/engine-amounts` → `Amounts`, `be/basis` → `Basis`, `be/catalog` → `Catalog` + `Deadlines`, `be/scenarios` → `Scenarios`) |
 | `api/Api/Endpoints/AssessmentEndpoints.cs` | `be/catalog` (rejestruje `IAssessmentEngine` w `AddCatalog()`, wtedy atrapa znika sama) |
 | `api/Api/Endpoints/CompareEndpoints.cs` | `be/scenarios` (rejestruje `IScenarioComparer` w `AddScenarios()`) |
-| `api/Infrastructure/Parameters/**` (+ `/api/admin/*`) | `be/params` |
-| `api/Infrastructure/Simulation/**` (+ `/api/sim/*`, `/api/cases*`, `/api/organizations`) | `be/sim` |
+| `api/Infrastructure/Parameters/**` (+ `/api/admin/*`, `/api/organizations` — zweryfikowane organizacje z panelu, sytuacje wg enum `SupportSituation`) | `be/params` |
+| `api/Infrastructure/Simulation/**` (+ `/api/sim/*`, `/api/cases*`) | `be/sim` |
 | `api/Infrastructure/Submissions/**` (+ `/api/submissions`, `/api/sim/me/debt-certificate`) | `be/submissions` |
 | `api/Infrastructure/Persistence/**` | koordynator; moduły dodają encje przez `IEntityTypeConfiguration<T>` we **własnym** katalogu (wykrywane automatycznie) |
 | `api/Infrastructure/Assistant/**` | gałąź pomocnika (P2) |

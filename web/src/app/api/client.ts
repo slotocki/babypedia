@@ -18,6 +18,7 @@ import type {
   ProblemDetails,
   SubmissionReceipt,
   SubmissionRequest,
+  SupportSituation,
   ZusAccount,
 } from './types'
 
@@ -96,7 +97,7 @@ export const api = {
     },
   },
 
-  organizations: (situation?: string) =>
+  organizations: (situation?: SupportSituation) =>
     request<Organization[]>('GET', `/api/organizations${situation ? `?situation=${encodeURIComponent(situation)}` : ''}`),
 
   admin: {
