@@ -21,6 +21,7 @@ import {
 } from '@/ui'
 import { CaseDecisionComparison } from '@/features/cases'
 import { flowSteps } from '@/features/intake/steps'
+import { LegalAssistant } from '@/features/support/LegalAssistant'
 import { BenefitCard } from './BenefitCard'
 import { DeadlineItemCard } from './DeadlineItemCard'
 import { DeadlinesSection, type DeadlineEntry } from './DeadlinesSection'
@@ -329,6 +330,7 @@ export function ResultPage() {
               <ErrorState error={assessment.error} title="Nie udało się odświeżyć wyniku" onRetry={() => void assessment.refetch()} retrying={busy} />
             ) : null}
             {renderBody(data)}
+            <LegalAssistant calculatorPath={hasEvent ? paths.review : paths.start} />
           </div>
         )}
       </div>

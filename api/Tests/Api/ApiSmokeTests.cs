@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using System.Text;
 using BabyRadnik.Api;
 using BabyRadnik.Domain.Contracts;
+using BabyRadnik.Infrastructure.Assistant;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace BabyRadnik.Tests.Api;
@@ -51,12 +52,43 @@ public sealed class ApiSmokeTests(WebApplicationFactory<Program> factory) : ICla
     }
 
     [Fact]
-    public async Task Assistant_is_disabled_by_default()
+    public async Task Assistant_returns_sources_without_a_model()
     {
         using var client = factory.CreateClient();
         var response = await client.PostAsJsonAsync("/api/assistant/ask", new { question = "Czym jest urlop rodzicielski?" },
             TestContext.Current.CancellationToken);
 
-        Assert.Equal(HttpStatusCode.ServiceUnavailable, response.StatusCode);
+        response.EnsureSuccessStatusCode();
+        var answer = await response.Content.ReadFromJsonAsync<AssistantAnswer>(TestContext.Current.CancellationToken);
+        Assert.NotNull(answer);
+        Assert.Equal("search", answer.Mode);
+        Assert.Contains(answer.Citations.Take(3),
+            citation => citation.Document == "Kodeks pracy" && citation.Article.StartsWith("Art. 182¹"));
+    }
+
+    [Theory]
+    [InlineData("Ile dostanę przy pensji 6000?", "calculator")]
+    [InlineData("Jaka jest jutro pogoda?", "no_results")]
+    public async Task Assistant_handles_questions_outside_general_legal_search(string question, string mode)
+    {
+        using var client = factory.CreateClient();
+        var ct = TestContext.Current.CancellationToken;
+        using var response = await client.PostAsJsonAsync("/api/assistant/ask", new { question }, ct);
+        response.EnsureSuccessStatusCode();
+        var answer = await response.Content.ReadFromJsonAsync<AssistantAnswer>(ct);
+        Assert.NotNull(answer);
+        Assert.Equal(mode, answer.Mode);
+        Assert.Empty(answer.Citations);
+    }
+
+    [Theory]
+    [InlineData("Mój PESEL to 00000000000")]
+    [InlineData("Mój e-mail to demo@example.com")]
+    public async Task Assistant_rejects_identifiers(string question)
+    {
+        using var client = factory.CreateClient();
+        var ct = TestContext.Current.CancellationToken;
+        using var response = await client.PostAsJsonAsync("/api/assistant/ask", new { question }, ct);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 }

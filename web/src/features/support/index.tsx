@@ -6,6 +6,7 @@ import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
 import { Button, Card, Field, PageHeader, Section, Select, Stack, ToneScope } from '@/ui'
 import { FuneralBlock } from './FuneralBlock'
+import { LegalAssistant } from './LegalAssistant'
 import { OrganizationsSection } from './OrganizationsSection'
 import { ExtLink } from './ExtLink'
 import { linkClass } from './link-class'
@@ -171,6 +172,7 @@ export function SupportPage() {
         </Section>
 
         {funeralOnTop ? null : funeral}
+        <LegalAssistant calculatorPath={hasEvent ? paths.result : paths.start} />
       </div>
     </ToneScope>
   )

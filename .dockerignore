@@ -4,7 +4,11 @@
 **/dist
 .git
 .github
-docs
+docs/*
+!docs/prawo/
+docs/prawo/raw/
+docs/prawo/tools/
+docs/prawo/pobrane/
 web
 ops
 **/.env

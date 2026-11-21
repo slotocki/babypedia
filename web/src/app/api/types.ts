@@ -374,6 +374,7 @@ export interface IntegrationField { source: FactSource; fact: FactKey; wlaczone:
 
 export interface AssistantAnswer {
   answer: string
-  citations: { document: string; fragment: string; article?: string | null }[]
+  citations: { document: string; fragment: string; article: string; articleText: string }[]
   disclaimer: string
+  mode: 'ai' | 'search' | 'no_results' | 'calculator'
 }

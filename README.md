@@ -152,13 +152,9 @@ Zasada: testy referencyjne powstają przed regułami, a reguła jest gotowa, gdy
 
 **(a) W działającej aplikacji.** Uprawnienia, okresy, kwoty i terminy liczy wyłącznie deterministyczny silnik reguł w C# (`api/Domain`). Żaden model językowy nie bierze udziału w decyzji ani w kwocie. Aplikacja nie używa OCR ani nie czyta treści PDF.
 
-Jedyny element z modelem językowym to opcjonalny pomocnik tekstowy, endpoint `POST /api/assistant/ask` (`api/Infrastructure/Assistant`):
+„Zapytaj o przepisy” jest dostępne na ekranie Wsparcie i pod wynikiem. Wyszukuje przepisy w wyciągach z `docs/prawo` i pokazuje pasujące artykuły. Pytania o własną sprawę kieruje do kalkulatora.
 
-- jest domyślnie wyłączony (`ASSISTANT_ENABLED=false` w `.env.example`); wyłączony zwraca `503` „Pomocnik tekstowy jest wyłączony";
-- włączony, wysyła do endpointu zgodnego z OpenAI (`ASSISTANT_BASE_URL`, `ASSISTANT_MODEL`; profil Compose `assistant` uruchamia lokalnego Ollama) wyłącznie treść pytania wpisanego przez użytkownika (do 1000 znaków) i stałe polecenie systemowe zakazujące podawania kwot i oceniania uprawnień. Nie dostaje faktów sprawy, danych osoby ani kwot; odpowiedź ma zawsze dopisek, że uprawnienia i kwoty wylicza kalkulator;
-- interfejs WWW go nie wywołuje (w `web/src` istnieje tylko definicja klienta w `web/src/app/api/client.ts`), a `Domain` nie zależy od tego modułu (pilnuje tego `ContractTests`).
-
-Planowane rozszerzenie, jeszcze niezaimplementowane: pomocnik „Zapytaj o przepisy” — wyszukiwanie w wyciągach przepisów i odpowiedź modelu Claude Haiku z obowiązkowym cytatem artykułu, bez kwot i bez oceny uprawnień. Opis: [docs/PLAN_POMOCNIK.md](docs/PLAN_POMOCNIK.md).
+Opcjonalny model jest domyślnie wyłączony (`ASSISTANT_ENABLED=false`). Po włączeniu Claude Haiku lub modelu zgodnego z OpenAI dostaje ogólne pytanie oraz znalezione fragmenty aktów. Aplikacja sprawdza cytaty w przysłanym tekście i wraca do listy źródeł przy błędzie modelu, braku właściwych cytatów lub po wyczerpaniu limitu. Instrukcja konfiguracji i odbioru jest w [docs/PLAN_POMOCNIK.md](docs/PLAN_POMOCNIK.md).
 
 **(a2) Przygotowanie danych testowych.** Dokumenty spraw ZUS (skany) odczytano z pomocą modeli językowych, poza aplikacją. Odczyty są w katalogu prywatnym, a w aplikacji występują tylko jako dane wejściowe silnika; sam silnik liczy deterministycznie.
 
@@ -190,7 +186,7 @@ Pełna lista z wersjami: [docs/ZALEZNOSCI.md](docs/ZALEZNOSCI.md). Zasada projek
 
 ## Ograniczenia
 
-Czego aplikacja nie robi (zakres, instrukcja sekcja 3): nie ma OCR ani parsera PDF, wyszukiwania w przepisach, bazy wektorowej, hostowania modelu, kont z hasłami, powiadomień e-mail i SMS, kwot netto, świadczeń spoza ubezpieczenia chorobowego (800+, żłobkowe), etapów rozwoju dziecka, wersji językowych. Aplikacja informuje i nie wydaje decyzji.
+Czego aplikacja nie robi (zakres, instrukcja sekcja 3): nie ma OCR ani parsera PDF, bazy wektorowej, zarządzania kontami z hasłami, powiadomień e-mail i SMS, kwot netto, świadczeń spoza ubezpieczenia chorobowego (800+, żłobkowe), etapów rozwoju dziecka, wersji językowych. Aplikacja informuje i nie wydaje decyzji.
 
 Co jest symulacją: logowanie mObywatel, konto ubezpieczonego i płatnika w ZUS, e-ZLA, rejestr stanu cywilnego, wysyłka wniosków do pracodawcy, ZUS, PUE i urzędu stanu cywilnego, zaświadczenie o stanie składek. Dane to fikcyjne osoby, a wnioski PDF i zestawienie „dane do wniosku ZAM" nie są drukami urzędowymi.
 

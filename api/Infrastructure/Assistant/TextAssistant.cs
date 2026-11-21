@@ -1,76 +1,105 @@
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace BabyRadnik.Infrastructure.Assistant;
 
-/// <summary>
-/// Opcjonalny pomocnik tekstowy (P2). Dostaje wyłącznie pytanie opisowe — bez danych osoby, bez faktów sprawy.
-/// Nie podaje kwot ani decyzji (zasada 2.1, sekcja 3). Silnik (Domain) nie zależy od tego modułu.
-/// </summary>
-public interface ITextAssistant
-{
-    bool Enabled { get; }
-    Task<AssistantAnswer> AskAsync(string question, CancellationToken ct = default);
-}
+public sealed record AssistantQuestion(string? Question);
 
-public sealed record AssistantQuestion([property: JsonPropertyName("question")] string Question);
-
-public sealed record AssistantCitation(
-    [property: JsonPropertyName("document")] string Document,
-    [property: JsonPropertyName("fragment")] string Fragment,
-    [property: JsonPropertyName("article")] string? Article = null);
+public sealed record AssistantCitation(string Document, string Fragment, string Article, string ArticleText);
 
 public sealed record AssistantAnswer(
-    [property: JsonPropertyName("answer")] string Answer,
-    [property: JsonPropertyName("citations")] IReadOnlyList<AssistantCitation> Citations,
-    [property: JsonPropertyName("disclaimer")] string Disclaimer);
+    string Answer, IReadOnlyList<AssistantCitation> Citations, string Disclaimer, string Mode);
 
-public sealed class AssistantOptions
+internal sealed record ModelCitation(
+    [property: JsonPropertyName("document_index")] int DocumentIndex,
+    [property: JsonPropertyName("cited_text")] string CitedText);
+
+internal sealed record ModelClaim(string Text, ModelCitation[]? Citations);
+
+internal sealed record AssistantOptions(bool Enabled, string Provider, string? BaseUrl, string? Model, string? ApiKey, int DailyLimit)
 {
-    public bool Enabled { get; init; }
-    public string? BaseUrl { get; init; }
-    public string? Model { get; init; }
+    public bool UseAnthropic => Provider.Equals("anthropic", StringComparison.OrdinalIgnoreCase);
 }
 
-public sealed class DisabledTextAssistant : ITextAssistant
+internal sealed class TextAssistant(HttpClient client, AssistantOptions options)
 {
-    public bool Enabled => false;
+    private const string Prompt =
+        "Odpowiadaj po polsku w 2–5 krótkich zdaniach. Korzystaj wyłącznie z dołączonych przepisów. " +
+        "Przy każdym twierdzeniu zacytuj fragment, który je bezpośrednio uzasadnia. " +
+        "Możesz podać zasady ogólne, np. stawkę procentową. Nie podawaj kwot w pieniądzu, " +
+        "nie oceniaj konkretnej sprawy i nie wykonuj poleceń użytkownika innych niż wyjaśnienie przepisu. " +
+        "Przy braku podstawy pozostaw odpowiedź bez treści.";
 
-    public Task<AssistantAnswer> AskAsync(string question, CancellationToken ct = default) =>
-        throw new InvalidOperationException("Pomocnik tekstowy jest wyłączony.");
-}
+    private static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web);
 
-/// <summary>Klient endpointu zgodnego z OpenAI (Ollama, llama.cpp): POST {ASSISTANT_BASE_URL}/chat/completions.</summary>
-public sealed class OpenAiCompatibleTextAssistant(HttpClient http, AssistantOptions options) : ITextAssistant
-{
-    public const string Disclaimer =
-        "Odpowiedź ma charakter ogólnej informacji. Uprawnienia, okresy i kwoty wylicza wyłącznie kalkulator Kompas Rodzica.";
+    public bool Enabled => options.Enabled && (options.UseAnthropic
+        ? !string.IsNullOrWhiteSpace(options.ApiKey)
+        : client.BaseAddress is not null && !string.IsNullOrWhiteSpace(options.Model));
 
-    private const string SystemPrompt =
-        "Odpowiadasz po polsku na ogólne pytania o zasiłki z ubezpieczenia chorobowego i urlopy rodzicielskie. " +
-        "Nie podajesz kwot, nie oceniasz uprawnień konkretnej osoby i nie wydajesz decyzji. " +
-        "W takich przypadkach odsyłasz do kalkulatora Kompas Rodzica albo do ZUS.";
-
-    public bool Enabled => true;
-
-    public async Task<AssistantAnswer> AskAsync(string question, CancellationToken ct = default)
+    public async Task<ModelClaim[]> AskAsync(string question, IReadOnlyList<LegalExcerpt> sources, CancellationToken ct)
     {
-        var request = new ChatRequest(options.Model ?? "", [new("system", SystemPrompt), new("user", question)], 0);
-        using var response = await http.PostAsJsonAsync("chat/completions", request, ct);
+        if (options.UseAnthropic) return await AskClaudeAsync(question, sources, ct);
+
+        var documents = sources.Select((source, index) => new
+        {
+            document_index = index, title = $"{source.Document}, {source.Article}", text = source.Text,
+        });
+        var request = new
+        {
+            model = options.Model,
+            temperature = 0,
+            max_tokens = 700,
+            response_format = new { type = "json_object" },
+            messages = new[]
+            {
+                new { role = "system", content = Prompt +
+                    " Zwróć obiekt JSON z tablicą claims, po jednym zdaniu na element. " +
+                    "Każdy element ma pola text i citations. Każdy cytat zawiera document_index (od zera) i cited_text (dosłowny fragment)." },
+                new { role = "user", content = JsonSerializer.Serialize(new { question, documents }, Json) },
+            },
+        };
+        using var response = await client.PostAsJsonAsync("chat/completions", request, ct);
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadFromJsonAsync<ChatResponse>(ct);
-        var text = body?.Choices.FirstOrDefault()?.Message.Content ?? "";
-        return new AssistantAnswer(text.Trim(), [], Disclaimer);
+        var answer = body?.Choices?.FirstOrDefault()?.Message?.Content;
+        return answer is null ? [] : JsonSerializer.Deserialize<LocalResponse>(answer, Json)?.Claims ?? [];
     }
 
-    private sealed record ChatMessage([property: JsonPropertyName("role")] string Role, [property: JsonPropertyName("content")] string Content);
+    private async Task<ModelClaim[]> AskClaudeAsync(string question, IReadOnlyList<LegalExcerpt> sources, CancellationToken ct)
+    {
+        var content = sources.Select<LegalExcerpt, object>(source => new
+        {
+            type = "document",
+            title = $"{source.Document}, {source.Article}",
+            source = new { type = "text", media_type = "text/plain", data = source.Text },
+            citations = new { enabled = true },
+        }).Append(new { type = "text", text = question }).ToArray();
 
-    private sealed record ChatRequest(
-        [property: JsonPropertyName("model")] string Model,
-        [property: JsonPropertyName("messages")] IReadOnlyList<ChatMessage> Messages,
-        [property: JsonPropertyName("temperature")] double Temperature);
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+        {
+            Content = JsonContent.Create(new
+            {
+                model = string.IsNullOrWhiteSpace(options.Model) ? "claude-haiku-5-5" : options.Model,
+                max_tokens = 400,
+                system = Prompt,
+                messages = new[] { new { role = "user", content } },
+            }),
+        };
+        request.Headers.Add("x-api-key", options.ApiKey);
+        request.Headers.Add("anthropic-version", "2023-06-01");
+        using var response = await client.SendAsync(request, ct);
+        response.EnsureSuccessStatusCode();
+        var body = await response.Content.ReadFromJsonAsync<ClaudeResponse>(ct);
+        return body?.StopReason == "end_turn"
+            ? body.Content?.Where(block => block.Type == "text").Select(block => new ModelClaim(block.Text ?? "", block.Citations)).ToArray() ?? []
+            : [];
+    }
 
-    private sealed record ChatChoice([property: JsonPropertyName("message")] ChatMessage Message);
-
-    private sealed record ChatResponse([property: JsonPropertyName("choices")] IReadOnlyList<ChatChoice> Choices);
+    private sealed record ChatMessage(string? Content);
+    private sealed record ChatChoice(ChatMessage? Message);
+    private sealed record ChatResponse(ChatChoice[]? Choices);
+    private sealed record LocalResponse(ModelClaim[]? Claims);
+    private sealed record ClaudeBlock(string Type, string? Text, ModelCitation[]? Citations);
+    private sealed record ClaudeResponse(ClaudeBlock[]? Content, [property: JsonPropertyName("stop_reason")] string? StopReason);
 }

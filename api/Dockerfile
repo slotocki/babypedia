@@ -14,6 +14,7 @@ WORKDIR /app
 COPY --from=build /out ./
 COPY contracts/ /app/contracts/
 COPY fixtures/ /app/fixtures/
+COPY docs/prawo/ /app/docs/prawo/
 ENV Paths__Root=/app \
     ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080

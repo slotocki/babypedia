@@ -85,7 +85,7 @@ Notatka: To odpowiedź na pytanie, czy można ufać kalkulatorowi: ta sama odpow
 
 Kryterium: oryginalność, uczciwość.
 
-- W działaniu aplikacji AI nie decyduje o niczym; opcjonalny pomocnik tekstowy jest domyślnie wyłączony i nie dostaje danych osoby
+- „Zapytaj o przepisy” pokazuje artykuły z materiałów ZUS. Opcjonalny model może wyjaśnić ogólne pytanie i wskazać cytaty. Domyślnie działa wyszukiwanie bez modelu.
 - Kod, testy i dokumentację napisały modele Claude (Anthropic) w narzędziu Claude Code
 - Zespół agentów: modele pisały gałęzie, osobny model przeglądał i zatwierdzał zmiany silnika
 - Ludzie: materiały prawne, decyzje zakresu, weryfikacja; reguły z wyciągów przepisów, nie z pamięci modelu
