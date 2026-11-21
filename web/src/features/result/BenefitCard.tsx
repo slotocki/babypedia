@@ -206,7 +206,7 @@ function Undecided({ benefit }: { benefit: BenefitResult }) {
   return (
     <div className="space-y-3">
       <p className="break-words text-base text-ink">
-        {benefit.reason ?? 'Ta sytuacja wymaga indywidualnej oceny. BabyRadnik nie rozstrzyga w takich przypadkach.'}
+        {benefit.reason ?? 'Ta sytuacja wymaga indywidualnej oceny. Kompas Rodzica nie rozstrzyga w takich przypadkach.'}
       </p>
       <p className="text-base text-ink">Skontaktuj się z ZUS, żeby potwierdzić swoją sytuację:</p>
       <ul className="list-disc space-y-1 pl-5 text-base text-ink">

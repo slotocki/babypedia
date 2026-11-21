@@ -278,7 +278,7 @@ public static class TemplateCatalog
         ],
         [],
         [
-            new("Numerów PESEL (ubezpieczonego, dziecka, drugiego rodzica) i numeru rachunku bankowego (pkt 3, 5, 6 i 17) BabyRadnik nie zbiera i nie drukuje — wpisz je samodzielnie we wniosku.", $"Zał. 6 pkt 3, 5, 6, 17 {R26}"),
+            new("Numerów PESEL (ubezpieczonego, dziecka, drugiego rodzica) i numeru rachunku bankowego (pkt 3, 5, 6 i 17) Kompas Rodzica nie zbiera i nie drukuje — wpisz je samodzielnie we wniosku.", $"Zał. 6 pkt 3, 5, 6, 17 {R26}"),
             new("Miejscowość, data i podpis oraz pouczenie o zasiłku macierzyńskim (pkt 18 i 19) znajdują się we wniosku, który składasz w ZUS.", $"Zał. 6 pkt 18, 19 {R26}"),
             new("To nie jest druk ZUS ZAM ani jego odpowiednik. Zestawienie zawiera dane, które trzeba podać we wniosku o zasiłek macierzyński. Wniosek złożysz na stronie https://www.zus.pl (PUE ZUS) lub na druku udostępnionym przez ZUS."),
             new("Płatnik składek zgłaszający do ubezpieczeń ponad 20 osób wypłaca zasiłek sam; ZUS wypłaca zasiłek w pozostałych przypadkach. Sprawdź w wyniku oceny, gdzie złożyć wniosek."),

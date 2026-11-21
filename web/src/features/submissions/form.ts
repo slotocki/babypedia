@@ -64,7 +64,7 @@ export function validateLocally(fields: TemplateField[], values: Values): Record
       continue
     }
     if (ELEVEN_DIGITS.test(value.replace(/[\s-]/g, ''))) {
-      errors[field.key] = 'Nie wpisuj numeru PESEL ani innych 11-cyfrowych numerów — BabyRadnik ich nie przyjmuje.'
+      errors[field.key] = 'Nie wpisuj numeru PESEL ani innych 11-cyfrowych numerów — Kompas Rodzica ich nie przyjmuje.'
     } else if (field.kind === 'integer' && !/^\d{1,6}$/.test(value)) {
       errors[field.key] = 'Wpisz liczbę całkowitą, np. 1.'
     }

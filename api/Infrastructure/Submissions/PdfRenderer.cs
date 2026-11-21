@@ -6,7 +6,7 @@ namespace BabyRadnik.Infrastructure.Submissions;
 
 public static class PdfRenderer
 {
-    public const string FooterText = "Wygenerowano w BabyRadnik — symulacja; sprawdź dane przed złożeniem";
+    public const string FooterText = "Wygenerowano w Kompasie Rodzica — symulacja; sprawdź dane przed złożeniem";
 
     private const string FontName = "Roboto";
     private static readonly Color Ink = Color.FromRgb(0x1F, 0x29, 0x37);
@@ -22,8 +22,8 @@ public static class PdfRenderer
 
         var doc = new Document();
         doc.Info.Title = model.Title;
-        doc.Info.Subject = $"Symulacja BabyRadnik, nr {model.Number}";
-        doc.Info.Author = "BabyRadnik (symulacja)";
+        doc.Info.Subject = $"Symulacja — Kompas Rodzica, nr {model.Number}";
+        doc.Info.Author = "Kompas Rodzica (symulacja)";
         DefineStyles(doc);
 
         var section = doc.AddSection();
@@ -130,7 +130,7 @@ public static class PdfRenderer
         top.Format.Font.Size = 8.5;
         top.Format.Font.Color = Muted;
         top.Format.TabStops.AddTabStop(Unit.FromCentimeter(17), TabAlignment.Right);
-        top.AddText("BabyRadnik — SYMULACJA");
+        top.AddText("Kompas Rodzica — SYMULACJA");
         top.AddTab();
         top.AddText("Nr potwierdzenia: " + model.Number);
 

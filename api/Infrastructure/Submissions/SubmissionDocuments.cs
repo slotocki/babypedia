@@ -63,7 +63,7 @@ public static partial class SubmissionValidator
             var value = Normalize(values, field.Key);
             if (value is not null && PeselLike().IsMatch(value))
             {
-                Add(FieldKey(field.Key), "Nie wpisuj numeru PESEL ani innych 11-cyfrowych numerów — BabyRadnik ich nie przyjmuje.");
+                Add(FieldKey(field.Key), "Nie wpisuj numeru PESEL ani innych 11-cyfrowych numerów — Kompas Rodzica ich nie przyjmuje.");
                 continue;
             }
 
@@ -151,7 +151,7 @@ public static partial class SubmissionValidator
 public static class DocumentBuilder
 {
     private const string SimulationBanner =
-        "SYMULACJA — dokument wygenerowany w BabyRadnik. Nic nie zostało wysłane do żadnej instytucji ani pracodawcy.";
+        "SYMULACJA — dokument wygenerowany w Kompasie Rodzica. Nic nie zostało wysłane do żadnej instytucji ani pracodawcy.";
 
     public static DocumentModel Build(TemplateSpec spec, IReadOnlyDictionary<string, string> values, string number, DateOnly date)
     {

@@ -33,7 +33,7 @@ public static class DebtCertificate
             null,
             null,
             Banner,
-            [new DocumentSection("Dane z symulatora BabyRadnik", rows)],
+            [new DocumentSection("Dane z symulatora Kompasu Rodzica", rows)],
             [],
             [
                 new NoteSpec("Dane pochodzą z fikcyjnego symulatora. Dokument nie ma mocy zaświadczenia o niezaleganiu w opłacaniu składek ani żadnego innego dokumentu urzędowego."),

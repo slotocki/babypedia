@@ -134,7 +134,7 @@ export function UiGallery() {
     <ToneScope tone={difficult ? 'difficult' : 'default'} className="-mx-4 -my-6 space-y-10 px-4 py-6">
       <PageHeader
         eyebrow="Galeria komponentów"
-        title="Komponenty BabyRadnik"
+        title="Komponenty Kompasu Rodzica"
         description="Wspólne elementy interfejsu. Przełącznik poniżej pokazuje stonowany wariant na trudną sytuację."
         action={<Switch label="Ton: trudna sytuacja" checked={difficult} onChange={(e) => setDifficult(e.target.checked)} />}
       />

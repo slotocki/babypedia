@@ -20,7 +20,7 @@ export function Layout() {
       <header className="border-b border-slate-200">
         <div className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
           <NavLink to={paths.start} className="text-xl font-bold tracking-tight text-teal-800">
-            BabyRadnik
+            Kompas Rodzica
           </NavLink>
           <nav aria-label="Główna nawigacja" className="-mx-1 overflow-x-auto">
             <ul className="flex gap-1 whitespace-nowrap text-sm">
@@ -46,7 +46,7 @@ export function Layout() {
       </main>
       <footer className="border-t border-slate-200 text-xs text-slate-600">
         <div className="mx-auto max-w-5xl px-4 py-3">
-          BabyRadnik informuje, nie orzeka. Wszystkie integracje z systemami zewnętrznymi to symulacja. Dane osób są fikcyjne.
+          Kompas Rodzica informuje, nie orzeka. Wszystkie integracje z systemami zewnętrznymi to symulacja. Dane osób są fikcyjne.
         </div>
       </footer>
     </div>

@@ -44,12 +44,12 @@ public sealed class DisabledTextAssistant : ITextAssistant
 public sealed class OpenAiCompatibleTextAssistant(HttpClient http, AssistantOptions options) : ITextAssistant
 {
     public const string Disclaimer =
-        "Odpowiedź ma charakter ogólnej informacji. Uprawnienia, okresy i kwoty wylicza wyłącznie kalkulator BabyRadnik.";
+        "Odpowiedź ma charakter ogólnej informacji. Uprawnienia, okresy i kwoty wylicza wyłącznie kalkulator Kompas Rodzica.";
 
     private const string SystemPrompt =
         "Odpowiadasz po polsku na ogólne pytania o zasiłki z ubezpieczenia chorobowego i urlopy rodzicielskie. " +
         "Nie podajesz kwot, nie oceniasz uprawnień konkretnej osoby i nie wydajesz decyzji. " +
-        "W takich przypadkach odsyłasz do kalkulatora BabyRadnik albo do ZUS.";
+        "W takich przypadkach odsyłasz do kalkulatora Kompas Rodzica albo do ZUS.";
 
     public bool Enabled => true;
 

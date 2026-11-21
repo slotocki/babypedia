@@ -240,7 +240,7 @@ export function ResultPage() {
           description={
             difficult
               ? 'Poniżej zebraliśmy najważniejsze kroki. Możesz zajmować się nimi we własnym tempie.'
-              : 'Co Ci przysługuje, co zrobić i do kiedy. To szacunek na podstawie podanych danych. BabyRadnik informuje, a decyzję podejmuje ZUS lub płatnik składek.'
+              : 'Co Ci przysługuje, co zrobić i do kiedy. To szacunek na podstawie podanych danych. Kompas Rodzica informuje, a decyzję podejmuje ZUS lub płatnik składek.'
           }
         />
 
