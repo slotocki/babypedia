@@ -17,26 +17,40 @@ internal static partial class AssistantPolicy
 
     public static AssistantAnswer? Verify(ModelCitation[] selection, IReadOnlyList<LegalExcerpt> sources)
     {
-        if (selection.Length is 0 or > 3) return null;
+        const int maxCitations = 3;
+        const int maxQuoteLength = 600;
+        if (selection.Length == 0) return null;
 
         var citations = new List<AssistantCitation>();
         foreach (var citation in selection)
         {
+            // Cytat, którego nie ma w wysłanym przepisie, unieważnia całą odpowiedź — to znak, że model coś dopisał.
             if (citation is null || citation.DocumentIndex < 0 || citation.DocumentIndex >= sources.Count ||
-                string.IsNullOrWhiteSpace(citation.CitedText) || citation.CitedText.Length > 600)
+                string.IsNullOrWhiteSpace(citation.CitedText))
                 return null;
 
             var source = sources[citation.DocumentIndex];
             var text = CollapseSpace(source.Text);
             var quote = CollapseSpace(citation.CitedText.Trim());
             var start = text.IndexOf(quote, StringComparison.Ordinal);
-            if (start < 0 || quote.Length < 24 || HasSensitiveData(quote) || Money().IsMatch(Normalize(quote)))
-                return null;
+            if (start < 0) return null;
 
-            // Render the text from the repository, even when the model returns a matching quote.
-            var verified = source.Citation(text.Substring(start, quote.Length));
+            // Modele oddają cytaty różnej długości i czasem więcej niż trzy (Haiku tnie przepis na zdania).
+            // Za krótki albo z kwotą pomijamy, za długi skracamy, nadmiarowe odrzucamy — pokazywany tekst zawsze pochodzi z repozytorium.
+            if (quote.Length < 24 || HasSensitiveData(quote) || Money().IsMatch(Normalize(quote))) continue;
+            var length = quote.Length;
+            if (length > maxQuoteLength)
+            {
+                var cut = text.LastIndexOf(' ', start + maxQuoteLength, maxQuoteLength);
+                length = (cut > start ? cut : start + maxQuoteLength) - start;
+            }
+
+            var verified = source.Citation(text.Substring(start, length) + (length < quote.Length ? "…" : ""));
             if (!citations.Contains(verified)) citations.Add(verified);
+            if (citations.Count == maxCitations) break;
         }
+
+        if (citations.Count == 0) return null;
 
         return new AssistantAnswer(
             "Te fragmenty pasują do Twojego pytania.", citations,
