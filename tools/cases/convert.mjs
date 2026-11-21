@@ -192,6 +192,13 @@ function overlay(target, patch) {
   }
 }
 
+function fictionalPesel(number) {
+  const digits = `0000000${number}`.split('').map(Number);
+  const weights = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3];
+  const valid = (10 - (digits.reduce((sum, d, i) => sum + d * weights[i], 0) % 10)) % 10;
+  return `${digits.join('')}${(valid + 1) % 10}`;
+}
+
 function sha256(file) {
   return createHash('sha256').update(readFileSync(file)).digest('hex');
 }
@@ -250,7 +257,7 @@ for (const folder of readdirSync(analizaDir).sort()) {
     tozsamosc: {
       imie: firstName,
       nazwisko: `(sprawa ${number})`,
-      pesel: `00000000${number}`, // umowny, niezgodny z sumą kontrolną; dane osobowe w dokumentach są zaczernione
+      pesel: fictionalPesel(number), // umowny, celowo niezgodny z sumą kontrolną; dane osobowe w dokumentach są zaczernione
       dataUrodzenia: isDate(dane.beneficjent?.data_urodzenia) ? dane.beneficjent.data_urodzenia : '1990-01-01',
     },
     fakty: { sprawa: result.sprawa, wnioskodawca: result.person },

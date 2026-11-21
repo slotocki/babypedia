@@ -37,7 +37,9 @@ public sealed class SimulatedFactsAssembler(
             headcount = await contributions.GetPayerHeadcountAsync(payerId, onDate.Year - 1, ct);
         }
 
-        var applicant = new PersonFacts
+        // Osoba sprawy ZUS: fakty przepisane z dokumentów sprawy (rola, podstawa z zaświadczenia płatnika, plan urlopu,
+        // przyczyna ustania ubezpieczenia) zostają; pola z rejestrów niżej zawsze biorą wartość z integracji.
+        var applicant = (persona.Sprawa is not null ? own : new PersonFacts()) with
         {
             OsobaDataUrodzenia = EmitStruct(FactSource.MObywatel, FactKeys.OsobaDataUrodzenia, login?.DataUrodzenia, own.OsobaDataUrodzenia?.Page),
             UbezpieczenieTytuly = Emit(FactSource.Zus, FactKeys.UbezpieczenieTytuly, account.Tytuly, own.UbezpieczenieTytuly?.Page),
