@@ -616,6 +616,187 @@
       "legalBasis": "—",
       "status": "do_weryfikacji",
       "note": "domyślnie brutto, z dopiskiem „przed zaliczką na podatek”"
+    },
+    {
+      "key": "uzupelniajacy_max_tyg.wczesniak",
+      "wiersz": "uzupelniajacy_max_tyg",
+      "value": 15,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180² § 1 pkt 1",
+      "status": "ok"
+    },
+    {
+      "key": "uzupelniajacy_max_tyg.przedwczesny",
+      "wiersz": "uzupelniajacy_max_tyg",
+      "value": 8,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180² § 1 pkt 2",
+      "status": "ok"
+    },
+    {
+      "key": "uzupelniajacy_max_tyg.donoszony",
+      "wiersz": "uzupelniajacy_max_tyg",
+      "value": 8,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180² § 1 pkt 3",
+      "status": "ok"
+    },
+    {
+      "key": "uzupelniajacy_prog_tydzien_ciazy.wczesniak",
+      "wiersz": "uzupelniajacy_prog_tydzien_ciazy",
+      "value": 28,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180² § 1 pkt 1",
+      "status": "ok"
+    },
+    {
+      "key": "uzupelniajacy_prog_tydzien_ciazy.donoszony",
+      "wiersz": "uzupelniajacy_prog_tydzien_ciazy",
+      "value": 37,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180² § 1 pkt 2–3",
+      "status": "ok"
+    },
+    {
+      "key": "uzupelniajacy_prog_masa_g",
+      "wiersz": "uzupelniajacy_prog_masa_g",
+      "value": 1000,
+      "unit": "liczba",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180² § 1 pkt 1–2",
+      "status": "ok"
+    },
+    {
+      "key": "uzupelniajacy_donoszony_min_kolejne_dni",
+      "wiersz": "uzupelniajacy_donoszony_min_kolejne_dni",
+      "value": 2,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180² § 1 pkt 3",
+      "status": "ok"
+    },
+    {
+      "key": "uzupelniajacy_donoszony_pierwszy_dzien_od",
+      "wiersz": "uzupelniajacy_donoszony_pierwszy_dzien_od",
+      "value": 5,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180² § 1 pkt 3",
+      "status": "ok"
+    },
+    {
+      "key": "uzupelniajacy_donoszony_pierwszy_dzien_do",
+      "wiersz": "uzupelniajacy_donoszony_pierwszy_dzien_do",
+      "value": 28,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180² § 1 pkt 3",
+      "status": "ok"
+    },
+    {
+      "key": "uzupelniajacy_donoszony_liczenie_od_dnia",
+      "wiersz": "uzupelniajacy_donoszony_liczenie_od_dnia",
+      "value": 5,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 180² § 1 pkt 3",
+      "status": "ok"
+    },
+    {
+      "key": "wyczekiwanie_wyjatek_lat_obowiazkowego",
+      "wiersz": "wyczekiwanie_wyjatek_lat_obowiazkowego",
+      "value": 10,
+      "unit": "lata",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 4 ust. 3 pkt 3",
+      "status": "ok"
+    },
+    {
+      "key": "wyczekiwanie_absolwent_max_dni",
+      "wiersz": "wyczekiwanie_absolwent_max_dni",
+      "value": 90,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 4 ust. 3 pkt 1",
+      "status": "ok"
+    },
+    {
+      "key": "wynagrodzenie_chorobowe_wiek_lat",
+      "wiersz": "wynagrodzenie_chorobowe_wiek_lat",
+      "value": 50,
+      "unit": "lata",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 92 § 1 pkt 1; Załącznik ZUS",
+      "status": "ok"
+    },
+    {
+      "key": "ciaza_umowa_przedluzenie_miesiace",
+      "wiersz": "ciaza_umowa_przedluzenie_miesiace",
+      "value": 3,
+      "unit": "miesiace",
+      "validFrom": "2000-01-01",
+      "legalBasis": "KP art. 177 § 3",
+      "status": "ok"
+    },
+    {
+      "key": "ciaza_trwanie_tyg",
+      "wiersz": "ciaza_trwanie_tyg",
+      "value": 40,
+      "unit": "tygodnie",
+      "validFrom": "2000-01-01",
+      "legalBasis": "założenie (nie przepis)",
+      "status": "do_weryfikacji",
+      "note": "Przyjęta długość ciąży do wyliczenia początku ciąży z przewidywanej daty porodu; używane tylko, gdy brak faktu o tygodniu ciąży."
+    },
+    {
+      "key": "chorobowy_po_ustaniu_start_dni",
+      "wiersz": "chorobowy_po_ustaniu_start_dni",
+      "value": 14,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 7 pkt 1",
+      "status": "ok"
+    },
+    {
+      "key": "chorobowy_po_ustaniu_min_dni",
+      "wiersz": "chorobowy_po_ustaniu_min_dni",
+      "value": 30,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 7",
+      "status": "ok"
+    },
+    {
+      "key": "chorobowy_po_ustaniu_zakazna_miesiace",
+      "wiersz": "chorobowy_po_ustaniu_zakazna_miesiace",
+      "value": 3,
+      "unit": "miesiace",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 7 pkt 2",
+      "status": "ok"
+    },
+    {
+      "key": "termin_wyplaty_dni",
+      "wiersz": "termin_wyplaty_dni",
+      "value": 30,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 64 ust. 1",
+      "status": "ok"
+    },
+    {
+      "key": "termin_wyplaty_po_splacie_dni",
+      "wiersz": "termin_wyplaty_po_splacie_dni",
+      "value": 60,
+      "unit": "dni",
+      "validFrom": "2000-01-01",
+      "legalBasis": "ustawa art. 64 ust. 3",
+      "status": "ok"
     }
   ]
 }

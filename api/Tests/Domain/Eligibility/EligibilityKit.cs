@@ -17,7 +17,15 @@ internal static class Kit
     public static IParameterProvider Params(params SeedRow[] extra) =>
         SeedParameterProvider.Load([.. SupplementRows(), .. extra]);
 
-    public static IParameterProvider SeedOnly() => SeedParameterProvider.Load();
+    public static IParameterProvider SeedOnly() => new WithoutSupplement(SeedParameterProvider.Load());
+
+    private sealed class WithoutSupplement(IParameterProvider inner) : IParameterProvider
+    {
+        private static readonly HashSet<string> Hidden = [.. EligibilityParameterKeys.Supplement.Select(r => r.Key)];
+
+        public Parameter Get(string key, DateOnly date) =>
+            Hidden.Contains(key) ? throw new ParameterNotFoundException(key, date) : inner.Get(key, date);
+    }
 
     public static EligibilityService Service(params SeedRow[] extra) => new(Params(extra));
 
