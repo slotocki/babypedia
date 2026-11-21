@@ -1,7 +1,4 @@
-import { Button } from '@/features/intake/components/Button'
-import { cx, describedBy, inputClass } from '@/features/intake/components/cx'
-import { Field, FieldError } from '@/features/intake/components/Field'
-import { RadioCards, type RadioOption } from '@/features/intake/components/RadioCards'
+import { Button, DateInput, Field, MoneyInput, RadioGroup, Select, TextInput, type ChoiceOption } from '@/ui'
 import type { Draft } from './answers'
 import type { FactKind } from './fact-labels'
 
@@ -9,7 +6,7 @@ interface AnswerFieldProps {
   id: string
   label: string
   kind: FactKind
-  options: RadioOption[]
+  options: ChoiceOption[]
   draft: Draft
   onChange: (draft: Draft) => void
   error?: string | null
@@ -20,152 +17,127 @@ interface AnswerFieldProps {
 
 export function AnswerField({ id, label, kind, options, draft, onChange, error, hint, autoFocus, unit }: AnswerFieldProps) {
   const set = (patch: Partial<Draft>) => onChange({ ...draft, ...patch })
+  const message = error ?? undefined
 
   switch (kind) {
     case 'date':
       return (
-        <Field id={id} label={label} hint={hint} error={error}>
-          {(aria) => (
-            <input
-              {...aria}
-              type="date"
-              autoFocus={autoFocus}
-              value={draft.text}
-              onChange={(e) => set({ text: e.target.value })}
-              className={inputClass}
-            />
-          )}
+        <Field label={label} description={hint} error={message}>
+          <DateInput autoFocus={autoFocus} value={draft.text} onChange={(e) => set({ text: e.target.value })} className="sm:max-w-xs" />
         </Field>
       )
 
-    case 'integer':
-    case 'number':
     case 'money': {
-      const unitHint = kind === 'money' ? 'Kwota w złotych, np. 6500,50.' : unit ? `Podaj w jednostce: ${unit}.` : undefined
-      const fullHint = [hint, unitHint].filter(Boolean).join(' ') || undefined
+      const description = [hint, 'Kwota w złotych, np. 6500,50.'].filter(Boolean).join(' ')
       return (
-        <Field id={id} label={label} hint={fullHint} error={error}>
-          {(aria) => (
-            <input
-              {...aria}
-              type="text"
-              inputMode={kind === 'integer' ? 'numeric' : 'decimal'}
-              autoComplete="off"
-              autoFocus={autoFocus}
-              value={draft.text}
-              onChange={(e) => set({ text: e.target.value })}
-              className={cx(inputClass, 'sm:max-w-xs')}
-            />
-          )}
+        <Field label={label} description={description} error={message}>
+          <MoneyInput autoFocus={autoFocus} value={draft.text} onChange={(e) => set({ text: e.target.value })} className="sm:max-w-xs" />
+        </Field>
+      )
+    }
+
+    case 'integer':
+    case 'number': {
+      const description = [hint, unit ? `Podaj w jednostce: ${unit}.` : undefined].filter(Boolean).join(' ') || undefined
+      return (
+        <Field label={label} description={description} error={message}>
+          <TextInput
+            type="text"
+            inputMode={kind === 'integer' ? 'numeric' : 'decimal'}
+            autoComplete="off"
+            autoFocus={autoFocus}
+            suffix={unit}
+            value={draft.text}
+            onChange={(e) => set({ text: e.target.value })}
+            className="sm:max-w-xs"
+          />
         </Field>
       )
     }
 
     case 'boolean':
       return (
-        <RadioCards
-          id={id}
-          legend={label}
-          hint={hint}
-          error={error}
-          columns={2}
-          value={draft.text}
-          onChange={(text) => set({ text })}
-          options={[
-            { value: 'tak', label: 'Tak' },
-            { value: 'nie', label: 'Nie' },
-          ]}
-        />
+        <Field group label={label} description={hint} error={message}>
+          <RadioGroup
+            name={id}
+            columns={2}
+            value={draft.text}
+            onChange={(e) => set({ text: e.target.value })}
+            options={[
+              { value: 'tak', label: 'Tak' },
+              { value: 'nie', label: 'Nie' },
+            ]}
+          />
+        </Field>
       )
 
     case 'enum':
       if (options.length <= 4) {
         return (
-          <RadioCards id={id} legend={label} hint={hint} error={error} value={draft.text} onChange={(text) => set({ text })} options={options} />
+          <Field group label={label} description={hint} error={message}>
+            <RadioGroup name={id} value={draft.text} onChange={(e) => set({ text: e.target.value })} options={options} />
+          </Field>
         )
       }
       return (
-        <Field id={id} label={label} hint={hint} error={error}>
-          {(aria) => (
-            <select {...aria} autoFocus={autoFocus} value={draft.text} onChange={(e) => set({ text: e.target.value })} className={inputClass}>
-              <option value="">Wybierz odpowiedź</option>
-              {options.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
-          )}
+        <Field label={label} description={hint} error={message}>
+          <Select autoFocus={autoFocus} value={draft.text} onChange={(e) => set({ text: e.target.value })}>
+            <option value="">Wybierz odpowiedź</option>
+            {options.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </Select>
         </Field>
       )
 
-    case 'sytuacjaMatki': {
-      const dateId = `${id}-od`
-      const toId = `${id}-do`
+    case 'sytuacjaMatki':
       return (
         <div className="space-y-4">
-          <RadioCards id={id} legend={label} hint={hint} error={error} value={draft.text} onChange={(text) => set({ text })} options={options} />
-          <Field id={dateId} label="Od kiedy trwa ta sytuacja">
-            {(aria) => <input {...aria} type="date" value={draft.od} onChange={(e) => set({ od: e.target.value })} className={inputClass} />}
+          <Field group label={label} description={hint} error={message}>
+            <RadioGroup name={id} value={draft.text} onChange={(e) => set({ text: e.target.value })} options={options} />
           </Field>
-          <Field id={toId} label="Do kiedy (jeśli już się skończyła)">
-            {(aria) => <input {...aria} type="date" value={draft.to} onChange={(e) => set({ to: e.target.value })} className={inputClass} />}
+          <Field label="Od kiedy trwa ta sytuacja">
+            <DateInput value={draft.od} onChange={(e) => set({ od: e.target.value })} className="sm:max-w-xs" />
+          </Field>
+          <Field label="Do kiedy (jeśli już się skończyła)" optional>
+            <DateInput value={draft.to} onChange={(e) => set({ to: e.target.value })} className="sm:max-w-xs" />
           </Field>
         </div>
       )
-    }
 
-    case 'dateRanges':
+    case 'dateRanges': {
+      const update = (index: number, patch: Partial<{ od: string; do: string }>) =>
+        set({ rows: draft.rows.map((r, i) => (i === index ? { ...r, ...patch } : r)) })
       return (
-        <fieldset aria-describedby={describedBy(id, hint, error)}>
-          <legend className="mb-1 text-base font-semibold text-slate-900">{label}</legend>
-          {hint ? (
-            <p id={`${id}-hint`} className="text-sm text-slate-700">
-              {hint}
-            </p>
+        <Field group label={label} description={hint} error={message}>
+          {draft.rows.length > 0 ? (
+            <ul className="space-y-3">
+              {draft.rows.map((row, index) => (
+                <li key={index} className="space-y-3 rounded-card border border-line bg-surface p-3">
+                  <p className="text-sm font-semibold text-ink-soft">Pobyt {index + 1}</p>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <Field label="Od">
+                      <DateInput aria-invalid={error ? true : undefined} value={row.od} onChange={(e) => update(index, { od: e.target.value })} />
+                    </Field>
+                    <Field label="Do">
+                      <DateInput aria-invalid={error ? true : undefined} value={row.do} onChange={(e) => update(index, { do: e.target.value })} />
+                    </Field>
+                  </div>
+                  <Button variant="link" onClick={() => set({ rows: draft.rows.filter((_, i) => i !== index) })}>
+                    Usuń pobyt {index + 1}
+                  </Button>
+                </li>
+              ))}
+            </ul>
           ) : null}
-          <ul className="mt-2 space-y-3">
-            {draft.rows.map((row, index) => (
-              <li key={index} className="rounded-lg border border-slate-300 p-3">
-                <p className="text-sm font-semibold text-slate-800">Pobyt {index + 1}</p>
-                <div className="mt-2 grid gap-3 sm:grid-cols-2">
-                  <Field id={`${id}-${index}-od`} label="Od">
-                    {(aria) => (
-                      <input
-                        {...aria}
-                        aria-invalid={Boolean(error)}
-                        type="date"
-                        value={row.od}
-                        onChange={(e) => set({ rows: draft.rows.map((r, i) => (i === index ? { ...r, od: e.target.value } : r)) })}
-                        className={inputClass}
-                      />
-                    )}
-                  </Field>
-                  <Field id={`${id}-${index}-do`} label="Do">
-                    {(aria) => (
-                      <input
-                        {...aria}
-                        aria-invalid={Boolean(error)}
-                        type="date"
-                        value={row.do}
-                        onChange={(e) => set({ rows: draft.rows.map((r, i) => (i === index ? { ...r, do: e.target.value } : r)) })}
-                        className={inputClass}
-                      />
-                    )}
-                  </Field>
-                </div>
-                <Button variant="link" className="mt-2" onClick={() => set({ rows: draft.rows.filter((_, i) => i !== index) })}>
-                  Usuń pobyt {index + 1}
-                </Button>
-              </li>
-            ))}
-          </ul>
-          <Button variant="secondary" className="mt-3" onClick={() => set({ rows: [...draft.rows, { od: '', do: '' }] })}>
+          <Button variant="secondary" onClick={() => set({ rows: [...draft.rows, { od: '', do: '' }] })}>
             Dodaj pobyt
           </Button>
-          {error ? <FieldError id={id}>{error}</FieldError> : null}
-        </fieldset>
+        </Field>
       )
+    }
 
     case 'readonly':
       return null

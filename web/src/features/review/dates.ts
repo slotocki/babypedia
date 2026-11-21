@@ -18,9 +18,3 @@ export function addDaysIso(value: string, days: number): string {
   const [y, m, d] = value.split('-').map(Number)
   return new Date(Date.UTC(y, m - 1, d + days)).toISOString().slice(0, 10)
 }
-
-export function formatDatePl(value: string): string {
-  if (!isValidIsoDate(value)) return value
-  const [y, m, d] = value.split('-')
-  return `${d}.${m}.${y}`
-}
