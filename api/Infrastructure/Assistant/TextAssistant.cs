@@ -106,7 +106,10 @@ internal sealed class TextAssistant(HttpClient client, AssistantOptions options)
             Content = JsonContent.Create(new
             {
                 model = string.IsNullOrWhiteSpace(options.Model) ? "claude-haiku-5-5" : options.Model,
-                max_tokens = 400,
+                max_tokens = 600,
+                // Haiku 5.5 domyślnie „myśli” przed odpowiedzią i zużywał na to cały limit tokenów — odpowiedź urywała się
+                // przed pierwszym cytatem (stop_reason: max_tokens). Wybór cytatów nie wymaga rozumowania krok po kroku.
+                thinking = new { type = "disabled" },
                 system = Prompt,
                 messages = new[] { new { role = "user", content } },
             }),
