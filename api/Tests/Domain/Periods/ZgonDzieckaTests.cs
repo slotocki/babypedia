@@ -34,13 +34,14 @@ public sealed class ZgonDzieckaTests
     {
         var result = Get(Assess(Death("2026-05-05")), BenefitId.Macierzynski);
 
-        AssertPeriod(result, Birth, "2026-05-11", 72);
+        AssertPeriod(result, "2026-05-05", "2026-05-11", 7);
+        Assert.Equal(1, result.Period!.Weeks);
     }
 
     [Fact]
     public void Zgon_w_dniu_56_zycia_jest_juz_po_8_tygodniach()
     {
-        AssertPeriod(Get(Assess(Death("2026-04-26")), BenefitId.Macierzynski), Birth, "2026-05-02", 63);
+        AssertPeriod(Get(Assess(Death("2026-04-26")), BenefitId.Macierzynski), "2026-04-26", "2026-05-02", 7);
         AssertPeriod(Get(Assess(Death("2026-04-25")), BenefitId.Macierzynski), Birth, "2026-05-01", 62);
     }
 
@@ -53,9 +54,11 @@ public sealed class ZgonDzieckaTests
     }
 
     [Fact]
-    public void Zgon_pod_koniec_urlopu_nie_wydluza_wymiaru()
+    public void Zgon_pod_koniec_urlopu_nie_wydluza_wymiaru_a_po_koncu_nic_nie_zmienia()
     {
-        AssertPeriod(Get(Assess(Death("2026-07-17")), BenefitId.Macierzynski), Birth, "2026-07-18", 140);
+        AssertPeriod(Get(Assess(Death("2026-07-17")), BenefitId.Macierzynski), "2026-07-17", "2026-07-18", 2);
+        Assert.Equal(BenefitStatus.Przysluguje, Get(Assess(Death("2026-07-19")), BenefitId.Macierzynski).Status);
+        AssertPeriod(Get(Assess(Death("2026-07-19")), BenefitId.Macierzynski), Birth, "2026-07-18", 140);
     }
 
     [Fact]
@@ -69,7 +72,7 @@ public sealed class ZgonDzieckaTests
     [Fact]
     public void Wieloraczki_zgon_jednego_po_8_tygodniach_nie_skraca_ponizej_wymiaru_dla_pozostalych()
     {
-        AssertPeriod(Get(Assess(Death("2026-05-05", 2, 1)), BenefitId.Macierzynski), Birth, "2026-07-18", 140);
+        AssertPeriod(Get(Assess(Death("2026-05-05", 2, 1)), BenefitId.Macierzynski), "2026-05-05", "2026-07-18", 75);
     }
 
     [Fact]

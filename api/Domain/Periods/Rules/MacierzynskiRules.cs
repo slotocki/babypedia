@@ -201,37 +201,36 @@ public sealed class MartweUrodzenieZgonDzieckaRule : PeriodRule<Period>
             : (DateOnly?)null;
 
         var lifeDays = death.DayNumber - birth.DayNumber;
-        DateOnly end;
-        string text;
         if (lifeDays < weeksAfterBirth * PeriodMath.DaysPerWeek)
         {
             var afterBirthEnd = birth.AddDays(weeksAfterBirth * PeriodMath.DaysPerWeek - 1);
             var fromDeathEnd = death.AddDays(minDaysFromDeath - 1);
-            end = aliveEnd ?? (afterBirthEnd > fromDeathEnd ? afterBirthEnd : fromDeathEnd);
-            text = aliveEnd is null
+            var end = aliveEnd ?? (afterBirthEnd > fromDeathEnd ? afterBirthEnd : fromDeathEnd);
+            var early = PeriodMath.Span(start, end);
+            var earlyText = aliveEnd is null
                 ? $"Dziecko urodziło się martwe albo zmarło przed upływem {weeksAfterBirth} tyg. życia: urlop trwa {weeksAfterBirth} tyg. po porodzie, nie krócej niż {minDaysFromDeath} dni od dnia zgonu."
                 : $"Przy porodzie wielokrotnym urlop ma wymiar odpowiadający liczbie dzieci pozostałych przy życiu ({alive}).";
-        }
-        else
-        {
-            var keepEnd = death.AddDays(daysAfterLateDeath - 1);
-            if (keepEnd >= normalEnd)
-            {
-                end = normalEnd;
-                text = "Zgon nastąpił pod koniec urlopu — okres macierzyńskiego się nie zmienia.";
-            }
-            else
-            {
-                end = aliveEnd is { } ae && ae > keepEnd ? ae : keepEnd;
-                text = aliveEnd is null
-                    ? $"Dziecko zmarło po upływie {weeksAfterBirth} tyg. życia: prawo do urlopu trwa {daysAfterLateDeath} dni od dnia zgonu (nie dłużej niż wymiar urlopu)."
-                    : $"Dziecko zmarło po upływie {weeksAfterBirth} tyg. życia: wymiar jak dla dzieci pozostałych przy życiu ({alive}), nie krócej niż {daysAfterLateDeath} dni od zgonu.";
-            }
+            return Step.Met(this, early, $"{earlyText} Okres: {PeriodMath.Describe(early)}.",
+                $"zgon przed upływem {weeksAfterBirth} tyg. życia");
         }
 
-        var period = PeriodMath.Span(start, end);
-        return Step.Met(this, period, $"{text} Okres: {PeriodMath.Describe(period)}.",
-            $"zgon przed upływem {weeksAfterBirth} tyg. życia albo po nim");
+        if (death > normalEnd)
+        {
+            var whole = PeriodMath.Span(start, normalEnd);
+            return Step.Met(this, whole,
+                $"Dziecko zmarło po zakończeniu urlopu macierzyńskiego — okres się nie zmienia: {PeriodMath.Describe(whole)}.",
+                $"zgon po upływie {weeksAfterBirth} tyg. życia");
+        }
+
+        var keepEnd = death.AddDays(daysAfterLateDeath - 1);
+        var lateEnd = keepEnd >= normalEnd ? normalEnd : aliveEnd is { } ae && ae > keepEnd ? ae : keepEnd;
+        var late = PeriodMath.Span(death, lateEnd);
+        var lateText = aliveEnd is null
+            ? $"Dziecko zmarło po upływie {weeksAfterBirth} tyg. życia: prawo do urlopu trwa {daysAfterLateDeath} dni od dnia zgonu (nie dłużej niż do końca wymiaru urlopu)."
+            : $"Dziecko zmarło po upływie {weeksAfterBirth} tyg. życia: urlop ma wymiar jak dla dzieci pozostałych przy życiu ({alive}), nie krócej niż {daysAfterLateDeath} dni od zgonu.";
+        return Step.Met(this, late,
+            $"{lateText} Okres po zgonie: {PeriodMath.Describe(late)}. Urlop od porodu ({PeriodMath.Format(start)}) do dnia poprzedzającego zgon przysługuje na zasadach ogólnych.",
+            $"zgon po upływie {weeksAfterBirth} tyg. życia");
     }
 }
 
