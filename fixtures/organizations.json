@@ -1,0 +1,363 @@
+[
+  {
+    "id": "fundacja-gajusz",
+    "nazwa": "Fundacja Gajusz",
+    "forma": "fundacja",
+    "krs": "0000109866",
+    "zakres": "Zapewnia rodzinom oczekującym narodzin dziecka z chorobą zagrażającą życiu opiekę lekarską, psychologiczną i socjalną.",
+    "sytuacje": [
+      "ciezka_choroba_dziecka"
+    ],
+    "zasieg": "Łódź / łódzkie",
+    "bezplatna": true,
+    "www": "https://gajusz.org.pl/",
+    "telefon": "722 003 003",
+    "email": "biuro@gajusz.org.pl",
+    "zrodlo": "https://gajusz.org.pl/jak-pomagamy/hospicjum-perinatalne/pomoc/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": false,
+    "uwagi": "Opieka perinatalna jest bezpłatna i wymaga skierowania. Informacja finansowa za 2025 r. wykazuje też odpłatną działalność pożytku publicznego."
+  },
+  {
+    "id": "fundacja-warszawskie-hospicjum-dla-dzieci",
+    "nazwa": "Fundacja Warszawskie Hospicjum dla Dzieci",
+    "forma": "fundacja",
+    "krs": "0000097123",
+    "zakres": "Prowadzi opiekę paliatywną dla ciężko chorych dzieci oraz spotkania dla rodziców po śmierci dziecka, również w okresie okołoporodowym.",
+    "sytuacje": [
+      "poronienie",
+      "martwe_urodzenie",
+      "smierc_dziecka",
+      "ciezka_choroba_dziecka"
+    ],
+    "zasieg": "Warszawa / mazowieckie",
+    "bezplatna": true,
+    "www": "https://www.hospicjum.waw.pl/",
+    "telefon": "22 678 16 11",
+    "email": "poczta@hospicjum.waw.pl",
+    "zrodlo": "https://www.hospicjum.waw.pl/hospicjum-perinatalne/wsparcie-w-zalobie/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": false,
+    "uwagi": "Fundacja prowadzi również poradnię stomatologiczną w ramach działalności gospodarczej."
+  },
+  {
+    "id": "fundacja-krakowskie-hospicjum-dla-dzieci-tischnera",
+    "nazwa": "Fundacja Krakowskie Hospicjum dla Dzieci im. ks. Józefa Tischnera",
+    "forma": "fundacja",
+    "krs": "0000203313",
+    "zakres": "Udziela rodzicom konsultacji po stracie dziecka i obejmuje opieką paliatywną rodziny oczekujące na narodziny ciężko chorego dziecka.",
+    "sytuacje": [
+      "poronienie",
+      "martwe_urodzenie",
+      "smierc_dziecka",
+      "ciezka_choroba_dziecka"
+    ],
+    "zasieg": "Kraków / małopolskie",
+    "bezplatna": true,
+    "www": "https://www.hospicjumtischnera.org/",
+    "telefon": "+48 663 814 009",
+    "email": null,
+    "zrodlo": "https://www.hospicjumtischnera.org/dla-potrzebujacych/pomoc-po-stracie-dziecka/oferta-dla-rodzin-po-stracie-dziecka/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": true,
+    "uwagi": "Podany telefon dotyczy wsparcia po stracie. Pierwsza konsultacja psychologiczna jest bezpłatna, a przyjęcie do opieki perinatalnej wymaga skierowania."
+  },
+  {
+    "id": "fundacja-wczesniak",
+    "nazwa": "Fundacja Wcześniak Rodzice-Rodzicom",
+    "forma": "fundacja",
+    "krs": "0000191989",
+    "zakres": "Wspiera rodziców wcześniaków poprzez poradnik, kontakt z innymi rodzicami, możliwość wypożyczenia sprzętu oraz prowadzenie subkont.",
+    "sytuacje": [
+      "wczesniak"
+    ],
+    "zasieg": "ogólnopolski",
+    "bezplatna": true,
+    "www": "https://wczesniak.pl/",
+    "telefon": "+48 22 121 80 55",
+    "email": "wczesniak@wczesniak.pl",
+    "zrodlo": "https://wczesniak.pl/nasze-projekty/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": true,
+    "uwagi": null
+  },
+  {
+    "id": "fundacja-rodzic-po-ludzku",
+    "nazwa": "Fundacja Rodzić po Ludzku",
+    "forma": "fundacja",
+    "krs": "0000150773",
+    "zakres": "Wyjaśnia prawa pacjentek w opiece okołoporodowej i udostępnia materiały o postępowaniu po poronieniu oraz po urodzeniu martwego lub chorego dziecka.",
+    "sytuacje": [
+      "poronienie",
+      "martwe_urodzenie",
+      "ciezka_choroba_dziecka"
+    ],
+    "zasieg": "ogólnopolski",
+    "bezplatna": true,
+    "www": "https://rodzicpoludzku.pl/",
+    "telefon": null,
+    "email": "kontakt@rodzicpoludzku.pl",
+    "zrodlo": "https://rodzicpoludzku.pl/poznaj-swoje-prawa/standard-opieki-okoloporodowej-poznaj-swoje-prawa/infografika-o-standardzie-organizacyjnym-opieki-okoloporodowej/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": false,
+    "uwagi": "Bezpłatność potwierdzono dla publicznie dostępnych materiałów. Regulamin szkoleń przewiduje opłaty."
+  },
+  {
+    "id": "fundacja-ernesta",
+    "nazwa": "Fundacja Ernesta",
+    "forma": "fundacja",
+    "krs": "0000789473",
+    "zakres": "Udziela po stracie ciąży wsparcia psychologicznego i prawnego oraz oferuje konsultacje rodzicom wcześniaków.",
+    "sytuacje": [
+      "poronienie",
+      "martwe_urodzenie",
+      "wczesniak"
+    ],
+    "zasieg": "ogólnopolski",
+    "bezplatna": true,
+    "www": "https://fundacjaernesta.pl/",
+    "telefon": "22 350 00 50 (wew. 1)",
+    "email": "pomoc.psychologiczna@fundacjaernesta.pl",
+    "zrodlo": "https://fundacjaernesta.pl/wsparcie-psychologiczne/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": false,
+    "uwagi": "Na stronie potwierdzono bezpłatne wsparcie, lecz nie znaleziono datowanej publikacji z ostatnich 12 miesięcy. Sprawozdanie za 2020 r. wykazywało działalność gospodarczą."
+  },
+  {
+    "id": "fundacja-ronic-po-ludzku",
+    "nazwa": "Fundacja Ronić po Ludzku",
+    "forma": "fundacja",
+    "krs": "0001030580",
+    "zakres": "Udziela pomocy prawnej oraz prowadzi konsultacje psychologiczne online dla osób po poronieniu lub martwym urodzeniu i ich bliskich.",
+    "sytuacje": [
+      "poronienie",
+      "martwe_urodzenie"
+    ],
+    "zasieg": "ogólnopolski",
+    "bezplatna": true,
+    "www": "https://ronicpoludzku.com/",
+    "telefon": "+48 669 559 558",
+    "email": "kontakt@ronicpoludzku.pl",
+    "zrodlo": "https://ronicpoludzku.com/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": true,
+    "uwagi": "Program psychologiczny obejmuje trzy bezpłatne konsultacje online."
+  },
+  {
+    "id": "stowarzyszenie-formula-dobra",
+    "nazwa": "Stowarzyszenie Medyczne Hospicjum dla Dzieci Dolnego Śląska „Formuła Dobra”",
+    "forma": "stowarzyszenie",
+    "krs": "0000582875",
+    "zakres": "Obejmuje rodziny opieką perinatalną po rozpoznaniu ciężkiej choroby dziecka i organizuje spotkania dla rodziców po jego śmierci.",
+    "sytuacje": [
+      "smierc_dziecka",
+      "ciezka_choroba_dziecka"
+    ],
+    "zasieg": "Wrocław / dolnośląskie",
+    "bezplatna": true,
+    "www": "https://formuladobra.pl/",
+    "telefon": "792 510 010",
+    "email": null,
+    "zrodlo": "https://formuladobra.pl/hospicjum-perinatalne/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": true,
+    "uwagi": "Podany telefon dotyczy opieki perinatalnej. Kontakt do grupy po stracie: 723 951 555."
+  },
+  {
+    "id": "fundacja-podkarpackie-hospicjum-dla-dzieci",
+    "nazwa": "Fundacja Podkarpackie Hospicjum dla Dzieci",
+    "forma": "fundacja",
+    "krs": "0000265120",
+    "zakres": "Zapewnia opiekę perinatalną rodzinom ciężko chorych dzieci oraz prowadzi grupę wsparcia dla rodziców i rodzeństwa po śmierci dziecka.",
+    "sytuacje": [
+      "smierc_dziecka",
+      "ciezka_choroba_dziecka"
+    ],
+    "zasieg": "Rzeszów / podkarpackie",
+    "bezplatna": true,
+    "www": "https://www.hospicjum-podkarpackie.pl/",
+    "telefon": "539 144 803",
+    "email": "sekretariat@hospicjum-podkarpackie.pl",
+    "zrodlo": "https://www.hospicjum-podkarpackie.pl/uslugi/hospicjum-perinatalne/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": false,
+    "uwagi": "Opieka perinatalna i grupa wsparcia są bezpłatne. Sprawozdanie za 2025 r. wykazuje też działalność gospodarczą i odpłatną działalność pożytku publicznego."
+  },
+  {
+    "id": "fundacja-osmiorniczki-dla-wczesniakow",
+    "nazwa": "Fundacja Ośmiorniczki dla Wcześniaków",
+    "forma": "fundacja",
+    "krs": "0001245010",
+    "zakres": "Przekazuje przez oddziały neonatologiczne szydełkowe maskotki, kocyki i czapeczki dla wcześniaków oraz ich rodzin.",
+    "sytuacje": [
+      "wczesniak"
+    ],
+    "zasieg": "ogólnopolski",
+    "bezplatna": true,
+    "www": "https://osmiorniczkidlawczesniakow.pl/",
+    "telefon": "+48 72 888 0545",
+    "email": "fundacja@osmiorniczkidlawczesniakow.pl",
+    "zrodlo": "https://osmiorniczkidlawczesniakow.pl/regulamin_darowizn/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": true,
+    "uwagi": "Wsparcie ma formę rzeczową."
+  },
+  {
+    "id": "stowarzyszenie-hospicjum-maryi-krolowej-apostolow",
+    "nazwa": "Stowarzyszenie Hospicjum Maryi Królowej Apostołów w Krakowie",
+    "forma": "stowarzyszenie",
+    "krs": "0000283040",
+    "zakres": "Zapewnia domową opiekę dorosłym w terminalnej fazie choroby nowotworowej i udziela wsparcia rodzinom po śmierci bliskiej osoby na raka.",
+    "sytuacje": [
+      "smierc_dziecka",
+      "sytuacja_matki"
+    ],
+    "zasieg": "Kraków / małopolskie",
+    "bezplatna": true,
+    "www": "https://hospicjum.info.pl/",
+    "telefon": "664 961 983",
+    "email": "sekretariat@hospicjum1.info.pl",
+    "zrodlo": "https://hospicjum.info.pl/centrum-wsparcia-osieroconych/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": true,
+    "uwagi": "Wsparcie w żałobie obejmuje dzieci po śmierci rodzica lub rodzeństwa oraz dorosłych po śmierci dziecka lub współmałżonka wskutek choroby nowotworowej."
+  },
+  {
+    "id": "fundacja-hospicjum-pomorze-dzieciom",
+    "nazwa": "Fundacja Hospicjum Pomorze Dzieciom",
+    "forma": "fundacja",
+    "krs": "0000523966",
+    "zakres": "Prowadzi konsultacje indywidualne, grupy i warsztaty dla dzieci i dorosłych w żałobie po śmierci bliskiej osoby.",
+    "sytuacje": [
+      "smierc_dziecka",
+      "sytuacja_matki"
+    ],
+    "zasieg": "ogólnopolski",
+    "bezplatna": true,
+    "www": "https://centrumemocja.pl/",
+    "telefon": "+48 588 855 112",
+    "email": "kontakt@centrumemocja.pl",
+    "zrodlo": "https://centrumemocja.pl/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": false,
+    "uwagi": "Centrum eMOCja udziela bezpłatnego wsparcia stacjonarnie w Gdańsku i online. Sprawozdanie fundacji za 2025 r. wykazuje również przychody z działalności gospodarczej."
+  },
+  {
+    "id": "fundacja-hospicyjna",
+    "nazwa": "Fundacja Hospicyjna",
+    "forma": "fundacja",
+    "krs": "0000201002",
+    "zakres": "Prowadzi Tumbolinię dla dzieci i młodzieży po śmierci bliskiej osoby oraz dla dorosłych, którzy pomagają im w żałobie.",
+    "sytuacje": [
+      "sytuacja_matki"
+    ],
+    "zasieg": "ogólnopolski",
+    "bezplatna": true,
+    "www": "https://tumbopomaga.pl/",
+    "telefon": "800 111 123",
+    "email": "info@tumbopomaga.pl",
+    "zrodlo": "https://tumbopomaga.pl/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": false,
+    "uwagi": "Tumbolinia jest bezpłatna. Sprawozdanie za 2025 r. wykazuje też działalność gospodarczą, m.in. usługi marketingowe."
+  },
+  {
+    "id": "fundacja-nagle-sami",
+    "nazwa": "Fundacja Nagle Sami",
+    "forma": "fundacja",
+    "krs": "0000398530",
+    "zakres": "Prowadzi telefon wsparcia dla osób po poronieniu, śmierci dziecka lub śmierci innej bliskiej osoby.",
+    "sytuacje": [
+      "poronienie",
+      "smierc_dziecka",
+      "sytuacja_matki"
+    ],
+    "zasieg": "ogólnopolski",
+    "bezplatna": true,
+    "www": "https://naglesami.org.pl/",
+    "telefon": "800 108 108",
+    "email": "info@naglesami.org.pl",
+    "zrodlo": "https://naglesami.org.pl/telefon-wsparcia-zaloba/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": false,
+    "uwagi": "Telefon wsparcia jest bezpłatny. Fundacja publikuje także cennik usług terapeutycznych."
+  },
+  {
+    "id": "fundacja-raknroll",
+    "nazwa": "Fundacja Rak’n’Roll. Wygraj Życie!",
+    "forma": "fundacja",
+    "krs": "0000338803",
+    "zakres": "W ramach programu Boskie Matki organizuje pomoc medyczną i psychologiczną dla kobiet w ciąży chorych na raka.",
+    "sytuacje": [
+      "sytuacja_matki"
+    ],
+    "zasieg": null,
+    "bezplatna": true,
+    "www": "https://www.raknroll.pl/",
+    "telefon": null,
+    "email": "malgosia@raknroll.pl",
+    "zrodlo": "https://www.raknroll.pl/co-robimy/programy/boskie-matki/program/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": false,
+    "uwagi": "Udział w programie jest bezpłatny. Statut przewiduje prowadzenie działalności gospodarczej, której bieżącego zakresu nie potwierdzono."
+  },
+  {
+    "id": "fundacja-gonito",
+    "nazwa": "Fundacja Gonito",
+    "forma": "fundacja",
+    "krs": "0000948668",
+    "zakres": "Oferuje konsultacje prawne po poronieniu lub martwym urodzeniu.",
+    "sytuacje": [
+      "poronienie",
+      "martwe_urodzenie"
+    ],
+    "zasieg": null,
+    "bezplatna": true,
+    "www": "https://fundacjagonito.org/",
+    "telefon": "+48 501 371 016",
+    "email": "fundacjagonito@gmail.com",
+    "zrodlo": "https://fundacjagonito.org/oferta/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": false,
+    "uwagi": "Konsultacje prawne są bezpłatne. Fundacja oferuje także odpłatne konsultacje psychologiczne i psychoterapię."
+  },
+  {
+    "id": "fundacja-dom-hospicyjny-w-pruszczu-gdanskim",
+    "nazwa": "Fundacja Dom Hospicyjny w Pruszczu Gdańskim",
+    "forma": "fundacja",
+    "krs": "0000871435",
+    "zakres": "Prowadzi otwartą grupę dla osób po śmierci bliskiej osoby i zapewnia dorosłym opiekę hospicyjną w domu.",
+    "sytuacje": [
+      "sytuacja_matki"
+    ],
+    "zasieg": "Pruszcz Gdański / pomorskie",
+    "bezplatna": true,
+    "www": "https://hospicjumpruszcz.pl/",
+    "telefon": "790 433 248",
+    "email": "kontakt@hospicjumpruszcz.pl",
+    "zrodlo": "https://hospicjumpruszcz.pl/grupa-wsparcia/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": true,
+    "uwagi": "Podany telefon służy do zapisów na grupę. Opiekę dla dorosłych w ramach NFZ opisano osobno na stronie hospicjum."
+  },
+  {
+    "id": "polskie-stowarzyszenie-obroncow-zycia-czlowieka",
+    "nazwa": "Polskie Stowarzyszenie Obrońców Życia Człowieka",
+    "forma": "stowarzyszenie",
+    "krs": "0000140437",
+    "zakres": "Udziela rodzicom porad w sprawie organizacji pogrzebu dziecka zmarłego przed urodzeniem, także po poronieniu lub martwym urodzeniu.",
+    "sytuacje": [
+      "poronienie",
+      "martwe_urodzenie"
+    ],
+    "zasieg": "ogólnopolski",
+    "bezplatna": true,
+    "www": "https://pro-life.pl/",
+    "telefon": "12 421-08-43",
+    "email": "biuro@pro-life.pl",
+    "zrodlo": "https://pro-life.pl/krakowskie-obchody-dnia-dziecka-utraconego/",
+    "data_weryfikacji": "2026-11-21",
+    "zweryfikowano": true,
+    "uwagi": "Wpis dotyczy ogólnopolskiego poradnictwa socjalnego. Nabór do opisanej na tej samej stronie grupy w Krakowie zakończył się 10 października 2026 r."
+  }
+]

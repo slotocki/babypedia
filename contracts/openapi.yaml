@@ -175,7 +175,7 @@ components:
         simulated: { const: true }
     SupportSituation:
       description: 'Sytuacje katalogu wsparcia (ekran „Wsparcie”, panel /admin). Frontend: web/src/app/situations.ts; backend: SupportSituations.cs.'
-      enum: [martwe_urodzenie, zgon_dziecka, wczesniak, ciezka_choroba_dziecka, samotny_rodzic, trudna_sytuacja_materialna, przyjecie_dziecka]
+      enum: [poronienie, martwe_urodzenie, zgon_dziecka, wczesniak, ciezka_choroba_dziecka, sytuacja_matki, samotny_rodzic, trudna_sytuacja_materialna, przyjecie_dziecka]
     Organization:
       type: object
       required: [id, nazwa, opis, sytuacje, zweryfikowano]
@@ -387,7 +387,7 @@ paths:
     get:
       tags: [wsparcie]
       summary: Katalog wsparcia (tylko zweryfikowane)
-      description: Organizacje zapisane w panelu administratora (PUT /api/admin/organizations) z zweryfikowano=true.
+      description: Zweryfikowane organizacje z listy zapisanej w panelu administratora lub z katalogu startowego, jeśli nie zapisano listy.
       parameters:
         - { name: situation, in: query, required: false, schema: { $ref: '#/components/schemas/SupportSituation' } }
       responses:

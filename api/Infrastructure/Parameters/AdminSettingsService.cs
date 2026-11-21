@@ -1,5 +1,6 @@
 using System.Text.Json;
 using BabyRadnik.Domain.Contracts;
+using BabyRadnik.Infrastructure.Common;
 
 namespace BabyRadnik.Infrastructure.Parameters;
 
@@ -14,7 +15,7 @@ public sealed record SettingsOutcome<T>(IReadOnlyList<T>? Value, IReadOnlyDictio
     public bool Succeeded => Value is not null;
 }
 
-public sealed class AdminSettingsService(ISettingsStore store, TimeProvider time)
+public sealed class AdminSettingsService(ISettingsStore store, TimeProvider time, RepoPaths paths)
 {
     private const string CatalogName = "catalog";
     private const string IntegrationsName = "integrations";
@@ -148,8 +149,32 @@ public sealed class AdminSettingsService(ISettingsStore store, TimeProvider time
         return new(await GetIntegrationsAsync(ct), errors);
     }
 
-    public async Task<IReadOnlyList<OrganizationDto>> GetOrganizationsAsync(CancellationToken ct) =>
-        await ReadAsync<OrganizationDto>(OrganizationsName, ct);
+    public async Task<IReadOnlyList<OrganizationDto>> GetOrganizationsAsync(CancellationToken ct)
+    {
+        var saved = await store.GetAsync(OrganizationsName, ct);
+        if (saved is not null)
+        {
+            return JsonSerializer.Deserialize<List<OrganizationDto>>(saved, Json) ?? [];
+        }
+
+        var path = Path.Combine(paths.Fixtures, "organizations.json");
+        if (!File.Exists(path))
+        {
+            return [];
+        }
+
+        await using var file = File.OpenRead(path);
+        var entries = await JsonSerializer.DeserializeAsync<List<OrganizationFixture>>(file, Json, ct) ?? [];
+        return entries
+            .Where(entry => entry.Zweryfikowano && entry.Bezplatna)
+            .Select(entry => new OrganizationDto(entry.Id, entry.Nazwa, entry.Zakres,
+                [.. entry.Sytuacje.Select(s => s == "smierc_dziecka" ? "zgon_dziecka" : s)],
+                entry.Www, entry.Telefon, entry.Zweryfikowano))
+            .ToList();
+    }
+
+    private sealed record OrganizationFixture(string Id, string Nazwa, string Zakres, List<string> Sytuacje,
+        string Www, string? Telefon, bool Zweryfikowano, bool Bezplatna);
 
     /// <summary>Katalog publiczny (`GET /api/organizations`): tylko zweryfikowane, opcjonalnie dla jednej sytuacji.</summary>
     public async Task<IReadOnlyList<OrganizationDto>> GetVerifiedOrganizationsAsync(string? situation, CancellationToken ct) =>

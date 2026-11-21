@@ -7,10 +7,12 @@ public static class SupportSituations
 {
     public static readonly IReadOnlyList<string> All =
     [
+        "poronienie",
         "martwe_urodzenie",
         "zgon_dziecka",
         "wczesniak",
         "ciezka_choroba_dziecka",
+        "sytuacja_matki",
         "samotny_rodzic",
         "trudna_sytuacja_materialna",
         "przyjecie_dziecka",

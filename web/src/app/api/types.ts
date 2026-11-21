@@ -319,10 +319,12 @@ export type CaseDecision = 'odmowa' | 'przyznanie' | 'do_odczytania'
 export interface CaseSummary { id: string; tytul: string; oczekiwanaDecyzja: CaseDecision; persona?: string | null; dostepna: boolean }
 
 export type SupportSituation =
+  | 'poronienie'
   | 'martwe_urodzenie'
   | 'zgon_dziecka'
   | 'wczesniak'
   | 'ciezka_choroba_dziecka'
+  | 'sytuacja_matki'
   | 'samotny_rodzic'
   | 'trudna_sytuacja_materialna'
   | 'przyjecie_dziecka'

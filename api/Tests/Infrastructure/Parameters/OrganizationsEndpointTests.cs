@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using BabyRadnik.Infrastructure.Common;
 using BabyRadnik.Infrastructure.Parameters;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace BabyRadnik.Tests.Infrastructure.Parameters;
 
-/// <summary>Publiczny katalog wsparcia = zweryfikowane organizacje zapisane w panelu administratora.</summary>
+/// <summary>Sprawdza katalog startowy, filtrowanie oraz zapisy z panelu administratora.</summary>
 public sealed class OrganizationsEndpointTests : IDisposable
 {
     private const string Password = "test-haslo";
@@ -51,10 +52,36 @@ public sealed class OrganizationsEndpointTests : IDisposable
     }
 
     [Fact]
-    public async Task Empty_without_organizations_in_admin_settings()
+    public async Task Uses_verified_free_fixture_entries_until_a_catalog_is_saved()
     {
         using var client = factory.CreateClient();
 
+        var actual = await client.GetFromJsonAsync<List<OrganizationDto>>("/api/organizations", Ct);
+        Assert.NotNull(actual);
+        using var fixture = JsonDocument.Parse(await File.ReadAllTextAsync(
+            Path.Combine(TestPaths.Fixtures, "organizations.json"), Ct));
+        var expected = fixture.RootElement.EnumerateArray()
+            .Where(entry => entry.GetProperty("zweryfikowano").GetBoolean() && entry.GetProperty("bezplatna").GetBoolean())
+            .ToDictionary(entry => entry.GetProperty("id").GetString()!);
+        Assert.Equal(expected.Keys.Order(), actual.Select(entry => entry.Id!).Order());
+        foreach (var entry in actual)
+        {
+            Assert.True(entry.Zweryfikowano);
+            Assert.Equal(expected[entry.Id!].GetProperty("zakres").GetString(), entry.Opis);
+            Assert.Equal(expected[entry.Id!].GetProperty("www").GetString(), entry.Url);
+        }
+
+        foreach (var situation in new[] { "poronienie", "martwe_urodzenie", "zgon_dziecka", "wczesniak",
+                     "ciezka_choroba_dziecka", "sytuacja_matki" })
+        {
+            var filtered = await client.GetFromJsonAsync<List<OrganizationDto>>($"/api/organizations?situation={situation}", Ct);
+            Assert.NotNull(filtered);
+            Assert.True(filtered.Count >= 2, situation);
+            Assert.All(filtered, entry => Assert.Contains(situation, entry.Sytuacje!));
+        }
+
+        using var put = await PutAsync(client, "[]");
+        put.EnsureSuccessStatusCode();
         Assert.Equal("[]", await client.GetStringAsync("/api/organizations", Ct));
     }
 
