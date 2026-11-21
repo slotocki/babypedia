@@ -1,0 +1,20 @@
+# Dokumenty ZUS i dane spraw — nigdy w repozytorium (instrukcja 2.4, 14)
+/Sprawy/
+/sprawy/
+/cases-private/
+/fixtures/personas-private/
+*.sprawa.pdf
+# sekrety
+.env
+.env.*
+!.env.example
+# build
+bin/
+obj/
+node_modules/
+dist/
+.vs/
+.idea/
+*.user
+TestResults/
+coverage/
