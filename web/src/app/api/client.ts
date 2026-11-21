@@ -136,6 +136,7 @@ export const api = {
   },
 
   assistant: {
-    ask: (question: string) => request<AssistantAnswer>('POST', '/api/assistant/ask', { question }),
+    ask: (question: string, previousQuestion?: string) =>
+      request<AssistantAnswer>('POST', '/api/assistant/ask', { question, previousQuestion }),
   },
 }

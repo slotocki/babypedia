@@ -85,7 +85,7 @@ Notatka: To odpowiedź na pytanie, czy można ufać kalkulatorowi: ta sama odpow
 
 Kryterium: oryginalność, uczciwość.
 
-- „Zapytaj o przepisy” pokazuje artykuły z materiałów ZUS. Opcjonalny model może wyjaśnić ogólne pytanie i wskazać cytaty. Domyślnie działa wyszukiwanie bez modelu.
+- „Zapytaj o przepisy” pokazuje artykuły z materiałów ZUS w oknie rozmowy. Opcjonalny model wybiera cytaty, które aplikacja sprawdza przed pokazaniem.
 - Kod, testy i dokumentację napisały modele Claude (Anthropic) w narzędziu Claude Code
 - Zespół agentów: modele pisały gałęzie, osobny model przeglądał i zatwierdzał zmiany silnika
 - Ludzie: materiały prawne, decyzje zakresu, weryfikacja; reguły z wyciągów przepisów, nie z pamięci modelu

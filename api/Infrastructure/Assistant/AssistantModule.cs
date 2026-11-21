@@ -14,12 +14,19 @@ public static class AssistantModule
 
     public static IServiceCollection AddAssistant(this IServiceCollection services, IConfiguration configuration)
     {
+        var openCodeFlag = configuration["OPENCODE_ENABLED"];
+        if (string.IsNullOrWhiteSpace(openCodeFlag)) openCodeFlag = configuration["PENCODE_ENABLED"];
+        var useOpenCodeChat = bool.TryParse(openCodeFlag, out var openCodeEnabled) && openCodeEnabled;
+        var provider = useOpenCodeChat ? "opencode-chat" : configuration["ASSISTANT_PROVIDER"]?.Trim().ToLowerInvariant() ?? "openai";
+        var keyVariable = provider is "opencode" or "opencode-go" or "opencode-chat" ? "OPENCODE_API_KEY" : "ANTHROPIC_API_KEY";
+        var baseUrl = useOpenCodeChat ? configuration["OPENCODE_BASE_URL"] : configuration["ASSISTANT_BASE_URL"];
+        var model = useOpenCodeChat ? configuration["OPENCODE_MODEL"] : configuration["ASSISTANT_MODEL"];
         var options = new AssistantOptions(
-            bool.TryParse(configuration["ASSISTANT_ENABLED"], out var enabled) && enabled,
-            configuration["ASSISTANT_PROVIDER"] ?? "openai",
-            configuration["ASSISTANT_BASE_URL"],
-            configuration["ASSISTANT_MODEL"],
-            configuration["ANTHROPIC_API_KEY"],
+            useOpenCodeChat || bool.TryParse(configuration["ASSISTANT_ENABLED"], out var enabled) && enabled,
+            provider,
+            baseUrl,
+            model,
+            configuration[keyVariable],
             int.TryParse(configuration["ASSISTANT_DAILY_LIMIT"], out var dailyLimit) ? Math.Max(0, dailyLimit) : 250);
 
         services.AddSingleton(options);
@@ -27,13 +34,19 @@ public static class AssistantModule
         services.AddSingleton<AssistantBudget>();
         services.AddHttpClient<TextAssistant>(client =>
         {
-            if (Uri.TryCreate(options.BaseUrl?.TrimEnd('/') + "/", UriKind.Absolute, out var uri) &&
-                uri.Scheme is "http" or "https")
+            if (Uri.TryCreate(options.BaseUrl?.Trim().TrimEnd('/') + "/", UriKind.Absolute, out var uri) &&
+                uri.Scheme is "http" or "https" && (!options.UseOpenCodeChat || IsOpenCodeChatUrl(uri)))
                 client.BaseAddress = uri;
             client.Timeout = TimeSpan.FromSeconds(12);
+            client.MaxResponseContentBufferSize = 64 * 1024;
         });
         return services;
     }
+
+    private static bool IsOpenCodeChatUrl(Uri uri) =>
+        uri.Scheme == Uri.UriSchemeHttps && uri.Host == "opencode.ai" && uri.IsDefaultPort &&
+        string.IsNullOrEmpty(uri.UserInfo) && string.IsNullOrEmpty(uri.Query) && string.IsNullOrEmpty(uri.Fragment) &&
+        uri.AbsolutePath is "/inference/go/openai/v1/" or "/inference/openai/v1/";
 
     public static IEndpointRouteBuilder MapAssistantEndpoints(this IEndpointRouteBuilder app)
     {
@@ -56,7 +69,13 @@ public static class AssistantModule
             if (AssistantPolicy.IsPersonalCase(question))
                 return Results.Ok(new AssistantAnswer("Swoją sytuację sprawdzisz w kalkulatorze świadczeń.", [], "", "calculator"));
 
-            var hits = search.Find(question);
+            var previous = body.PreviousQuestion?.Trim();
+            if (string.IsNullOrEmpty(previous) || previous.Length > MaxQuestionLength ||
+                AssistantPolicy.HasSensitiveData(previous) || AssistantPolicy.IsPersonalCase(previous) ||
+                !AssistantPolicy.IsFollowUp(question))
+                previous = null;
+
+            var hits = search.Find(previous is null ? question : $"{previous} {question}");
             var fallback = AsSearchAnswer(hits);
             var sources = hits.Where(hit => hit.IsLegalAct).ToArray();
             if (!model.Enabled || sources.Length == 0 || !budget.TryTake(context.Connection.RemoteIpAddress?.ToString() ?? "unknown"))
@@ -64,8 +83,8 @@ public static class AssistantModule
 
             try
             {
-                var claims = await model.AskAsync(question, sources, ct);
-                return Results.Ok(AssistantPolicy.Verify(claims, sources) ?? fallback);
+                var citations = await model.AskAsync(question, previous, sources, ct);
+                return Results.Ok(AssistantPolicy.Verify(citations, sources) ?? fallback);
             }
             catch (Exception exception) when (exception is HttpRequestException or JsonException or IOException ||
                                               exception is OperationCanceledException && !ct.IsCancellationRequested)
@@ -81,7 +100,7 @@ public static class AssistantModule
         var message = string.IsNullOrWhiteSpace(question) || question.Length > MaxQuestionLength
             ? $"Wpisz pytanie (najwyżej {MaxQuestionLength} znaków)."
             : AssistantPolicy.HasSensitiveData(question)
-                ? "Usuń dane osobowe, np. PESEL, numer rachunku, telefon lub adres e-mail."
+                ? "Usuń dane osobowe i klucze dostępu, a potem wyślij pytanie ponownie."
                 : null;
         return message is null ? null : Results.ValidationProblem(
             new Dictionary<string, string[]> { ["question"] = [message] });

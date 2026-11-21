@@ -152,9 +152,9 @@ Zasada: testy referencyjne powstają przed regułami, a reguła jest gotowa, gdy
 
 **(a) W działającej aplikacji.** Uprawnienia, okresy, kwoty i terminy liczy wyłącznie deterministyczny silnik reguł w C# (`api/Domain`). Żaden model językowy nie bierze udziału w decyzji ani w kwocie. Aplikacja nie używa OCR ani nie czyta treści PDF.
 
-„Zapytaj o przepisy” jest dostępne na ekranie Wsparcie i pod wynikiem. Wyszukuje przepisy w wyciągach z `docs/prawo` i pokazuje pasujące artykuły. Pytania o własną sprawę kieruje do kalkulatora.
+„Zapytaj o przepisy” otwiera czat na ekranie Wsparcie i pod wynikiem. Wyszukuje przepisy w wyciągach z `docs/prawo`, obsługuje dopytania i pokazuje pasujące artykuły. Pytania o własną sprawę kieruje do kalkulatora.
 
-Opcjonalny model jest domyślnie wyłączony (`ASSISTANT_ENABLED=false`). Po włączeniu Claude Haiku lub modelu zgodnego z OpenAI dostaje ogólne pytanie oraz znalezione fragmenty aktów. Aplikacja sprawdza cytaty w przysłanym tekście i wraca do listy źródeł przy błędzie modelu, braku właściwych cytatów lub po wyczerpaniu limitu. Instrukcja konfiguracji i odbioru jest w [docs/PLAN_POMOCNIK.md](docs/PLAN_POMOCNIK.md).
+Opcjonalny model, np. DeepSeek przez OpenCode Go, wybiera cytaty spośród wysłanych przepisów. Aplikacja pokazuje zweryfikowane cytaty pobrane z repozytorium. Przy błędzie dostawcy, odrzuconym cytacie lub wyczerpaniu limitu czat wyświetla wyniki wyszukiwania. Instrukcja konfiguracji i odbioru jest w [docs/PLAN_POMOCNIK.md](docs/PLAN_POMOCNIK.md).
 
 **(a2) Przygotowanie danych testowych.** Dokumenty spraw ZUS (skany) odczytano z pomocą modeli językowych, poza aplikacją. Odczyty są w katalogu prywatnym, a w aplikacji występują tylko jako dane wejściowe silnika; sam silnik liczy deterministycznie.
 

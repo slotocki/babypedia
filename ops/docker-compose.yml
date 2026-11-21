@@ -33,6 +33,11 @@ services:
       ASSISTANT_MODEL: ${ASSISTANT_MODEL:-}
       ASSISTANT_DAILY_LIMIT: ${ASSISTANT_DAILY_LIMIT:-250}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENCODE_ENABLED: ${OPENCODE_ENABLED:-}
+      PENCODE_ENABLED: ${PENCODE_ENABLED:-}
+      OPENCODE_API_KEY: ${OPENCODE_API_KEY:-}
+      OPENCODE_MODEL: ${OPENCODE_MODEL:-deepseek-v4.1-flash}
+      OPENCODE_BASE_URL: ${OPENCODE_BASE_URL:-https://opencode.ai/inference/go/openai/v1}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080,http://localhost:5173}
     volumes:
       - ${CASES_PRIVATE_DIR:-./cases-empty}:/cases:ro

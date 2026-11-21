@@ -24,6 +24,12 @@ function Icon({ children, ...props }: IconProps & { children: ReactNode }) {
 
 export const CheckIcon = (p: IconProps) => <Icon {...p}><path d="m5 12.5 4.5 4.5L19 7.5" /></Icon>
 export const CrossIcon = (p: IconProps) => <Icon {...p}><path d="m6 6 12 12M18 6 6 18" /></Icon>
+export const ChatIcon = (p: IconProps) => (
+  <Icon {...p}><path d="M4 5h16v11H9l-5 4V5Z" /><path d="M8 10h8" /></Icon>
+)
+export const SendIcon = (p: IconProps) => (
+  <Icon {...p}><path d="m4 4 16 8-16 8 3-8-3-8Zm3 8h13" /></Icon>
+)
 export const QuestionIcon = (p: IconProps) => (
   <Icon {...p}><circle cx="12" cy="12" r="9" /><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01" /></Icon>
 )

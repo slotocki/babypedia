@@ -13,48 +13,40 @@ internal static partial class AssistantPolicy
 
     public static bool IsPersonalCase(string text) => PersonalCase().IsMatch(Normalize(text));
 
-    public static AssistantAnswer? Verify(ModelClaim[] claims, IReadOnlyList<LegalExcerpt> sources)
+    public static bool IsFollowUp(string text) => FollowUp().IsMatch(Normalize(text));
+
+    public static AssistantAnswer? Verify(ModelCitation[] selection, IReadOnlyList<LegalExcerpt> sources)
     {
-        var paragraphs = new List<string>();
+        if (selection.Length is 0 or > 3) return null;
+
         var citations = new List<AssistantCitation>();
-        foreach (var claim in claims)
+        foreach (var citation in selection)
         {
-            if (claim is null || string.IsNullOrWhiteSpace(claim.Text)) continue;
-            if (HasSensitiveData(claim.Text) || IsPersonalCase(claim.Text) || Money().IsMatch(Normalize(claim.Text)))
+            if (citation is null || citation.DocumentIndex < 0 || citation.DocumentIndex >= sources.Count ||
+                string.IsNullOrWhiteSpace(citation.CitedText) || citation.CitedText.Length > 600)
                 return null;
-            if (claim.Citations is not { Length: > 0 } || SentenceBreak().IsMatch(claim.Text.Trim())) return null;
 
-            var references = new List<int>();
-            foreach (var citation in claim.Citations)
-            {
-                if (citation is null || citation.DocumentIndex < 0 || citation.DocumentIndex >= sources.Count)
-                    return null;
-                var source = sources[citation.DocumentIndex];
-                var quote = citation.CitedText?.Trim();
-                if (string.IsNullOrEmpty(quote) || !CollapseSpace(source.Text).Contains(CollapseSpace(quote), StringComparison.Ordinal))
-                    return null;
+            var source = sources[citation.DocumentIndex];
+            var text = CollapseSpace(source.Text);
+            var quote = CollapseSpace(citation.CitedText.Trim());
+            var start = text.IndexOf(quote, StringComparison.Ordinal);
+            if (start < 0 || quote.Length < 24 || HasSensitiveData(quote) || Money().IsMatch(Normalize(quote)))
+                return null;
 
-                var verified = source.Citation(quote);
-                var index = citations.IndexOf(verified);
-                if (index < 0)
-                {
-                    index = citations.Count;
-                    citations.Add(verified);
-                }
-                references.Add(index + 1);
-            }
-            paragraphs.Add($"{claim.Text.Trim()} [{string.Join(", ", references.Distinct())}]");
+            // Render the text from the repository, even when the model returns a matching quote.
+            var verified = source.Citation(text.Substring(start, quote.Length));
+            if (!citations.Contains(verified)) citations.Add(verified);
         }
 
-        return paragraphs.Count == 0 ? null : new AssistantAnswer(
-            string.Join("\n", paragraphs), citations,
-            "Odpowiedź wygenerował model językowy na podstawie pokazanych przepisów. Twoją sprawę sprawdzisz w kalkulatorze.",
+        return new AssistantAnswer(
+            "Te fragmenty pasują do Twojego pytania.", citations,
+            "Cytaty wybrał model językowy. Indywidualną sprawę ocenia kalkulator.",
             "ai");
     }
 
     private static string CollapseSpace(string text) => Whitespace().Replace(text, " ");
 
-    [GeneratedRegex(@"\b\d(?:[\s.()-]*\d){8,}\b|[\p{L}\d._%+\-]+\s*@\s*[\p{L}\d.\-]+\.[\p{L}]{2,}", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"\b\d(?:[\s.()-]*\d){8,}\b|[\p{L}\d._%+\-]+\s*@\s*[\p{L}\d.\-]+\.[\p{L}]{2,}|\b(?:oc_sk_|sk-ant-|sk-proj-)[a-z\d_-]+", RegexOptions.IgnoreCase)]
     private static partial Regex SensitiveData();
 
     [GeneratedRegex(@"\b(?:moj\w*\s+(?:pesel|pracodawc\w*|dzieck\w*|syn\w*|cork\w*|maz\w*|zon\w*|spraw\w*)|urodzilam|urodzilem|zarabiam|zarabialam|pracuje od|termin mam|przysluguje (?:mi|ci|pani|panu)|czy (?:dostane|mam prawo)|ile (?:dostane|otrzymam)|czy moge|przy pensji|nazywam sie|na imie|moj adres)\b")]
@@ -66,6 +58,6 @@ internal static partial class AssistantPolicy
     [GeneratedRegex(@"\s+")]
     private static partial Regex Whitespace();
 
-    [GeneratedRegex(@"[!?]\s+\p{Lu}|(?<!\b(?:art|np|ust|pkt|poz|lit|tj))\.\s+\p{Lu}", RegexOptions.IgnorePatternWhitespace)]
-    private static partial Regex SentenceBreak();
+    [GeneratedRegex(@"^(?:a\s|(?:czy|jak|gdzie|kiedy|ile)\s+(?:to|tego|wtedy|tam)\b|ile (?:trwa|dni|tygodni)\s*\??$)")]
+    private static partial Regex FollowUp();
 }
