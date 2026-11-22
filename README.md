@@ -136,15 +136,15 @@ Wynik `dotnet test --solution api/BabyRadnik.slnx` na gałęzi `main` (22.11.202
 
 ```
 Podsumowanie przebiegu testu: Powodzenie!
-  suma: 880
+  suma: 946
   zakończone niepowodzeniem: 0
-  zakończone powodzeniem: 879
+  zakończone powodzeniem: 945
   pominięto: 1
 ```
 
 Pominięty test to raport dla spraw ZUS z katalogu prywatnego (`PrivateCasesReportTests`), uruchamiany tylko ze zmienną `CASES_REPORT_DIR`.
 
-Przypadki referencyjne (`fixtures/reference/`): 54 pliki — okresy 30, uprawnienia 14, kwoty 8, parametry 2. Pozostałe moduły (podstawa wymiaru, katalog, terminy, scenariusze, wnioski, symulacja, administracja) mają testy w `api/Tests/Domain/**` i `api/Tests/Infrastructure/**`.
+Przypadki referencyjne (`fixtures/reference/`): 55 plików — okresy 30, uprawnienia 15, kwoty 8, parametry 2. Pozostałe moduły (podstawa wymiaru, katalog, terminy, scenariusze, wnioski, symulacja, administracja) mają testy w `api/Tests/Domain/**` i `api/Tests/Infrastructure/**`.
 
 Zasada: testy referencyjne powstają przed regułami, a reguła jest gotowa, gdy jej przypadki są zielone. Przypadek to plik `{id, opis, fakty, oczekiwane}`; testy silnika czytają je z `fixtures/reference/` (ewaluator wybierany polem `modul`, porównanie częściowe). Format opisuje [docs/KONTRAKT.md](docs/KONTRAKT.md), sekcja 6. CI (`.github/workflows`) buduje API, uruchamia testy, waliduje fixtures schematami i buduje frontend.
 
