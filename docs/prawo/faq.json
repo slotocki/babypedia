@@ -551,6 +551,32 @@
     ]
   },
   {
+    "id": "co-zanies-pracodawcy",
+    "question": "Co mam zanieść pracodawcy po urodzeniu dziecka?",
+    "alternatives": [
+      "co zanieść pracodawcy",
+      "co złożyć u pracodawcy po porodzie",
+      "jakie wnioski do pracodawcy po urodzeniu dziecka",
+      "jakie dokumenty do pracodawcy urlop",
+      "co przynieść do kadr po urodzeniu dziecka",
+      "co powinnam dostarczyć pracodawcy",
+      "o co wnioskować u pracodawcy po narodzinach dziecka"
+    ],
+    "answer": "Pracodawcy składasz wniosek o urlop (papierowo lub elektronicznie) i okazujesz skrócony odpis aktu urodzenia dziecka. Terminy: urlop rodzicielski i uzupełniający najpóźniej 21 dni przed startem, ojcowski 7 dni, a urlop macierzyński przed porodem 14 dni. Przed porodem dołączasz zaświadczenie lekarskie z przewidywaną datą porodu.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹d",
+        "quote": "Urlop rodzicielski jest udzielany na wniosek w postaci papierowej lub elektronicznej składany przez pracownika - rodzica dziecka"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Jak otrzymać zasiłek › Pracownicy",
+        "quote": "wystarczy złożyć wniosek o jego udzielenie i okazać pracodawcy do wglądu skrócony odpis aktu urodzenia dziecka"
+      }
+    ]
+  },
+  {
     "id": "odpis-zus",
     "question": "Czy muszę dostarczać akt urodzenia, gdy zasiłek wypłaca ZUS?",
     "alternatives": [

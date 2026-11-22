@@ -104,7 +104,7 @@ internal sealed partial class FaqCatalog
     [
         "zasil", "urlop", "macier", "rodzic", "ojciec", "matka", "dziecko", "ciaz", "chorob", "opieku", "porod", "poro",
         "adopc", "przysp", "martw", "wczesn", "zlecen", "dzialal", "przedsi", "zaleg", "zadlu", "zwolni", "lekars",
-        "ezla", "wyczek", "wychowa", "szpita", "ulga", "bliz", "wymiar", "wnios",
+        "ezla", "wyczek", "wychowa", "szpita", "ulga", "bliz", "wymiar", "wnios", "pracodawc", "dokume", "zanie",
     ];
 
     private static HashSet<string> Terms(string text) =>

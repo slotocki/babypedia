@@ -1,6 +1,6 @@
 # Pomocnik „Zapytaj o przepisy”
 
-Pomocnik otwiera okno rozmowy na ekranie **Wsparcie** i pod wynikiem. Domyślnie wyświetla pasujące fragmenty materiałów. Po włączeniu modelu pokazuje wybrane przez niego cytaty po zweryfikowaniu ich w indeksie przepisów. Indywidualne uprawnienia, kwoty, okresy i terminy sprawdza kalkulator Kompas Rodzica.
+Najpierw sprawdza gotowe odpowiedzi na ~70 typowych pytań (`docs/prawo/faq.json`, tryb `faq`, bez modelu; cytaty sprawdza test). Pomocnik otwiera okno rozmowy na ekranie **Wsparcie** i pod wynikiem. Domyślnie wyświetla pasujące fragmenty materiałów. Po włączeniu modelu pokazuje wybrane przez niego cytaty po zweryfikowaniu ich w indeksie przepisów. Indywidualne uprawnienia, kwoty, okresy i terminy sprawdza kalkulator Kompas Rodzica.
 
 ## Działanie
 

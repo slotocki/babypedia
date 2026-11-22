@@ -85,7 +85,8 @@ public static class AssistantModule
             var followUp = !string.IsNullOrWhiteSpace(body.PreviousQuestion) && AssistantPolicy.IsFollowUp(question);
             var ready = followUp ? null : faq.Match(question);
             if (AssistantPolicy.IsPersonalCase(question) && ready is not { Score: >= FaqCatalog.StrongScore })
-                return Results.Ok(new AssistantAnswer("Swoją sytuację sprawdzisz w kalkulatorze świadczeń.", [], "", "calculator"));
+                return Results.Ok(new AssistantAnswer(
+                    "Kwoty, okresy i terminy dla Twojej sytuacji liczy kalkulator, nie czat. Jeśli masz już wynik, znajdziesz je na stronie wyniku, w „Twój plan”.", [], "", "calculator"));
             if (ready is not null) return Results.Ok(faq.ToAnswer(ready.Entry));
 
             var previous = body.PreviousQuestion?.Trim();

@@ -85,6 +85,8 @@ public sealed partial class FaqTests(WebApplicationFactory<Program> factory) : I
     [InlineData("Ile trwa urlop macierzyński?", "macierzynski-ile-trwa")]
     [InlineData("Jak długo można być na L4 w ciąży?", "chorobowe-ciaza-okres")]
     [InlineData("Co to jest okres wyczekiwania?", "wyczekiwanie")]
+    [InlineData("Co mam zanieść pracodawcy?", "co-zanies-pracodawcy")]
+    [InlineData("Jakie wnioski złożyć u pracodawcy po porodzie?", "co-zanies-pracodawcy")]
     [InlineData("Czy pracodawca może mnie zwolnić w ciąży?", "ochrona-zwolnienie")]
     public void Paraphrases_find_the_right_entry(string question, string expectedId)
     {
