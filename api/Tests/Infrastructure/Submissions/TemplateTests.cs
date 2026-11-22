@@ -192,6 +192,66 @@ public sealed partial class TemplateTests
         Assert.Contains("fields.drugiRodzicBrakZamiaru", missing.Keys);
     }
 
+    [Theory]
+    [MemberData(nameof(Samples.TemplateIds), MemberType = typeof(Samples))]
+    public void Samples_pass_leave_limits(string templateId)
+    {
+        var spec = TemplateCatalog.All.Single(t => t.Id == templateId);
+        Assert.True(SubmissionValidator.Validate(spec, Samples.Fields(templateId), Domain.Amounts.AmountsKit.Params()).IsValid);
+    }
+
+    [Theory]
+    [InlineData("2027-02-15", "2027-03-07", null)] // 3 tygodnie
+    [InlineData("2027-02-15", "2027-02-24", null)] // 10 dni — nie pełne tygodnie
+    [InlineData("2027-02-15", "2027-02-28", "tak")] // 2 tygodnie, choć 1 tydzień już wykorzystany
+    public void Paternity_leave_over_the_limit_or_not_in_whole_weeks_is_rejected(string from, string to, string? usedBefore)
+    {
+        var fields = new Dictionary<string, string>(Samples.Fields(LeaveTemplateIds.Ojcowski)) { ["ojcowskiOd"] = from, ["ojcowskiDo"] = to };
+        if (usedBefore is not null)
+        {
+            fields["korzystalZUrlopuOjcowskiego"] = usedBefore;
+            fields["urlopOjcowskiOpis"] = "1 tydzień w styczniu 2027";
+        }
+
+        var errors = SubmissionValidator.Validate(TemplateCatalog.Paternity, fields, Domain.Amounts.AmountsKit.Params()).Errors;
+        Assert.Contains("KP art. 182³", Assert.Single(errors["fields.ojcowskiDo"]));
+    }
+
+    [Fact]
+    public void Paternity_second_week_after_first_is_accepted()
+    {
+        var fields = new Dictionary<string, string>(Samples.Fields(LeaveTemplateIds.Ojcowski))
+        {
+            ["ojcowskiOd"] = "2027-02-15",
+            ["ojcowskiDo"] = "2027-02-21",
+            ["korzystalZUrlopuOjcowskiego"] = "tak",
+            ["urlopOjcowskiOpis"] = "1 tydzień w styczniu 2027",
+        };
+
+        Assert.True(SubmissionValidator.Validate(TemplateCatalog.Paternity, fields, Domain.Amounts.AmountsKit.Params()).IsValid);
+    }
+
+    [Fact]
+    public void Parental_sixth_part_and_60_weeks_for_one_parent_are_rejected()
+    {
+        var parameters = Domain.Amounts.AmountsKit.Params();
+        var sixth = new Dictionary<string, string>(Samples.Fields(LeaveTemplateIds.Rodzicielski)) { ["liczbaWykorzystanychCzesci"] = "5" };
+        Assert.Contains("6. częścią", SubmissionValidator.Validate(TemplateCatalog.Parental, sixth, parameters).Errors["fields.liczbaWykorzystanychCzesci"][0]);
+
+        var tooLong = new Dictionary<string, string>(Samples.Fields(LeaveTemplateIds.Rodzicielski))
+        {
+            ["lacznieZPraca"] = "nie",
+            ["rodzicielskiOd"] = "2027-08-02",
+            ["rodzicielskiDo"] = "2028-09-24", // 60 tygodni
+        };
+        Assert.Contains("wyłącznie drugiemu rodzicowi", SubmissionValidator.Validate(TemplateCatalog.Parental, tooLong, parameters).Errors["fields.rodzicielskiDo"][0]);
+
+        tooLong["zaZyciem"] = "tak"; // „Za życiem”: 67 − 9 = 58 tyg. dla jednego rodzica — 60 nadal za dużo
+        Assert.False(SubmissionValidator.Validate(TemplateCatalog.Parental, tooLong, parameters).IsValid);
+        tooLong["rodzicielskiDo"] = "2028-08-27"; // 56 tygodni
+        Assert.True(SubmissionValidator.Validate(TemplateCatalog.Parental, tooLong, parameters).IsValid);
+    }
+
     [Fact]
     public void Conditional_fields_are_required_only_when_their_condition_holds()
     {

@@ -224,12 +224,14 @@ public sealed class MartweUrodzenieZgonDzieckaRule : PeriodRule<Period>
 
         var keepEnd = death.AddDays(daysAfterLateDeath - 1);
         var lateEnd = keepEnd >= normalEnd ? normalEnd : aliveEnd is { } ae && ae > keepEnd ? ae : keepEnd;
-        var late = PeriodMath.Span(death, lateEnd);
+        // KP art. 180¹ § 2: pracownica „zachowuje” prawo do urlopu przez 7 dni od zgonu — urlop (i zasiłek) trwa od początku do tego dnia.
+        var afterDeath = PeriodMath.Span(death, lateEnd);
+        var late = PeriodMath.Span(start, lateEnd);
         var lateText = aliveEnd is null
-            ? $"Dziecko zmarło po upływie {weeksAfterBirth} tyg. życia: prawo do urlopu trwa {daysAfterLateDeath} dni od dnia zgonu (nie dłużej niż do końca wymiaru urlopu)."
+            ? $"Dziecko zmarło po upływie {weeksAfterBirth} tyg. życia: prawo do urlopu zachowuje się przez {daysAfterLateDeath} dni od dnia zgonu (nie dłużej niż do końca wymiaru urlopu)."
             : $"Dziecko zmarło po upływie {weeksAfterBirth} tyg. życia: urlop ma wymiar jak dla dzieci pozostałych przy życiu ({alive}), nie krócej niż {daysAfterLateDeath} dni od zgonu.";
         return Step.Met(this, late,
-            $"{lateText} Okres po zgonie: {PeriodMath.Describe(late)}. Urlop od porodu ({PeriodMath.Format(start)}) do dnia poprzedzającego zgon przysługuje na zasadach ogólnych.",
+            $"{lateText} Cały okres urlopu: {PeriodMath.Describe(late)}, w tym po zgonie: {PeriodMath.Describe(afterDeath)}.",
             $"zgon po upływie {weeksAfterBirth} tyg. życia");
     }
 }

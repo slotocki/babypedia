@@ -42,7 +42,8 @@ public sealed class SubmissionDocumentCache : IDisposable
 public sealed class SubmissionService(
     ISubmissionGateway gateway,
     ISubmissionStore store,
-    SubmissionDocumentCache documents)
+    SubmissionDocumentCache documents,
+    IParameterProvider parameters)
 {
     public const int MaxPerSession = 200;
 
@@ -70,7 +71,7 @@ public sealed class SubmissionService(
         }
 
         var fields = body.Fields ?? [];
-        var validation = SubmissionValidator.Validate(spec, fields);
+        var validation = SubmissionValidator.Validate(spec, fields, parameters);
         if (!validation.IsValid)
         {
             return new SubmissionOutcome(null, validation.Errors);

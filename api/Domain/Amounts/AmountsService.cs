@@ -139,9 +139,27 @@ internal sealed class CardProcessor(AmountsContext ctx)
             blocks = [new Block(null, day, day)];
         }
 
+        // Bez własnego planu karta pokazuje łączny wymiar urlopu rodzicielskiego obojga rodziców. Kwotę liczę tylko
+        // za część, z której ta osoba może skorzystać sama — tygodnie zastrzeżone dla drugiego rodzica nie są jej.
+        string? reservedNote = null;
+        if (!synthetic && card.Id == BenefitId.Rodzicielski && card.Parts.Count == 0 && blocks.Count == 1
+            && ctx.OwnParentalMaxDays(card.Person) is { } ownDays && ownDays > 0 && blocks[0].Days > ownDays)
+        {
+            var whole = blocks[0];
+            var own = whole with { To = whole.From.AddDays(ownDays - 1) };
+            blocks = [own];
+            reservedNote = $"Kwota obejmuje {Date(own.From)}–{Date(own.To)} ({ownDays} dni) — część urlopu rodzicielskiego, z której możesz skorzystać sam(a). " +
+                $"Pozostałe {whole.Days - ownDays} dni ({Date(own.To.AddDays(1))}–{Date(whole.To)}) przysługują wyłącznie drugiemu rodzicowi (KP art. 182¹a § 4) i nie wliczam ich do Twojej kwoty.";
+        }
+
         var plan = rule.Plan(ctx, card, blocks);
         var notes = card.Notes.Concat(plan.Notes).ToList();
         var trace = card.Trace.Concat(plan.Trace).ToList();
+        if (reservedNote is not null)
+        {
+            notes.Add(reservedNote);
+            trace.Add(AmountTrace.Of(KwotaZaOkres, true, reservedNote, "kwota tylko za część urlopu rodzicielskiego przysługującą tej osobie"));
+        }
         if (plan.Undecided is { } why)
         {
             notes.Add(why);

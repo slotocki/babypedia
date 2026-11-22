@@ -141,21 +141,12 @@ internal sealed class StawkaRodzicielskaRule : RateRule
         }
 
         var nine = DziewiecTygodni.Days(ctx);
-        var isDefaultBlock = card.Parts.Count == 0 && blocks.Count == 1;
         if (variant.Source == VariantSource.Other)
         {
             plan.Spans.AddRange(SpanOps.Carve(blocks, nine, fromStart: true,
                 AmountsParameterKeys.Stawka9TygDrugiegoRodzica, DziewiecTygodni.Label, AmountsParameterKeys.StawkaUsredniona));
             plan.Trace.Add(AmountTrace.Of(DziewiecTygodni, true,
                 $"Wniosek złożył drugi rodzic: pierwsze {nine / DaysPerWeek} tyg. Twojego urlopu rodzicielskiego (część wyłącznie dla Ciebie) to zasiłek 70% podstawy; reszta po 81,5%. Przyjmuję, że 70% dotyczy najwcześniejszych dni — przepis nie wskazuje, które to dni (suma nie zależy od kolejności, o ile stawka się nie zmienia)."));
-        }
-        else if (isDefaultBlock && blocks[0].Days > nine)
-        {
-            plan.Spans.AddRange(SpanOps.Carve(blocks, nine, fromStart: false,
-                AmountsParameterKeys.Stawka9TygDrugiegoRodzica, DziewiecTygodni.Label, AmountsParameterKeys.StawkaUsredniona));
-            plan.Trace.Add(AmountTrace.Of(DziewiecTygodni, true,
-                $"Pokazany wymiar urlopu rodzicielskiego obejmuje {nine / DaysPerWeek} tyg. przysługujących wyłącznie drugiemu rodzicowi — zasiłek za nie to zawsze 70% podstawy (art. 31 ust. 3f); Twoja część po 81,5%."));
-            plan.Notes.Add($"W pokazanym łącznym wymiarze urlopu rodzicielskiego {nine / DaysPerWeek} tyg. przysługuje wyłącznie drugiemu rodzicowi (zasiłek 70%); wpisz własny plan, żeby zobaczyć kwotę tylko za Twoją część.");
         }
         else
         {

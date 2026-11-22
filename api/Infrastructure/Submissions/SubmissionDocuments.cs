@@ -32,7 +32,8 @@ public static partial class SubmissionValidator
 {
     public const int MaxFields = 40;
 
-    public static ValidationResult Validate(TemplateSpec spec, IReadOnlyDictionary<string, string>? values)
+    /// <param name="parameters">Parametry prawne; gdy są podane, sprawdzam też twarde limity urlopów (<see cref="CheckLeaveLimits"/>).</param>
+    public static ValidationResult Validate(TemplateSpec spec, IReadOnlyDictionary<string, string>? values, IParameterProvider? parameters = null)
     {
         var errors = new Dictionary<string, List<string>>();
 
@@ -107,6 +108,11 @@ public static partial class SubmissionValidator
         CheckRange(values, errors, ("rodzicielskiOd", "rodzicielskiDo"));
         CheckRange(values, errors, ("uzupelniajacyOd", "uzupelniajacyDo"));
         CheckRange(values, errors, ("laczenieOd", "laczenieDo"));
+
+        if (parameters is not null && errors.Count == 0)
+        {
+            CheckLeaveLimits(spec, values, parameters, (key, message) => Add(FieldKey(key), message));
+        }
 
         return new ValidationResult(errors.ToDictionary(e => e.Key, e => e.Value.ToArray()));
     }

@@ -1,7 +1,7 @@
 {
   "$schema": "../../contracts/reference.schema.json",
   "id": "okresy-zgon-dziecka-10-tydzien",
-  "opis": "Zgon dziecka w 10. tygodniu życia → 7 dni od zgonu",
+  "opis": "Zgon dziecka w 10. tygodniu życia → urlop zachowany przez 7 dni od zgonu (okres od porodu do 7. dnia po zgonie)",
   "status": "gotowe",
   "modul": "okresy",
   "test": 6,
@@ -54,11 +54,12 @@
         "id": "macierzynski",
         "status": "przysługuje",
         "period": {
-          "days": 7,
-          "weeks": 1
+          "from": "2026-03-02",
+          "to": "2026-05-12",
+          "days": 72
         }
       }
     ]
   },
-  "uwagi": "Zgon w 10. tygodniu życia = 65. dzień po porodzie (zakres 63-69). Kontekst: sekcja 8.5, zgon po 8 tygodniach życia."
+  "uwagi": "Zgon w 10. tygodniu życia = 65. dzień po porodzie (zakres 63-69). KP art. 180¹ § 2: pracownica zachowuje prawo do urlopu przez 7 dni od zgonu (06.05–12.05.2026), więc zasiłek przysługuje za cały okres 02.03–12.05.2026. Kontekst: sekcja 8.5, zgon po 8 tygodniach życia."
 }

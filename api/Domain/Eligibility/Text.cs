@@ -9,7 +9,7 @@ internal static class Text
         value.ToString("0.00", CultureInfo.InvariantCulture).Replace('.', ',') + " zł";
 
     public static string Date(DateOnly date) =>
-        date.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) + " (" + date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + ")";
+        date.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
 
     public static string Number(decimal value) => value.ToString("0.##", CultureInfo.InvariantCulture).Replace('.', ',');
 

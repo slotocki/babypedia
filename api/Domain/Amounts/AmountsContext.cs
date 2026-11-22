@@ -49,6 +49,32 @@ internal sealed class AmountsContext(AmountsRequest request, IParameterProvider 
 
     public int Int(string key, DateOnly date) => (int)Value(key, date);
 
+    /// <summary>
+    /// Najdłuższy okres urlopu rodzicielskiego, z którego może skorzystać jedna osoba: wymiar minus tygodnie
+    /// przysługujące wyłącznie drugiemu rodzicowi (KP art. 182¹a § 4; ustawa art. 30a ust. 1), plus wydłużenie z pracy na część etatu.
+    /// </summary>
+    public int? OwnParentalMaxDays(PersonRef person)
+    {
+        try
+        {
+            var inputs = new Periods.PeriodsInputs(new EvaluationContext(Facts, person, AsOf, provider));
+            var total = inputs.RodzicielskiWymiar;
+            if (!total.CanProceed)
+            {
+                return null;
+            }
+
+            var work = inputs.RodzicielskiPraca;
+            var extension = work.CanProceed ? work.Value?.Days ?? 0 : 0;
+            var reserved = inputs.ParamInt(Periods.PeriodsParameterKeys.RodzicielskiNieprzenoszalneTyg);
+            return (total.Value - reserved) * Periods.PeriodMath.DaysPerWeek + extension;
+        }
+        catch (ParameterNotFoundException)
+        {
+            return null;
+        }
+    }
+
     public BasisInput? BasisFor(PersonRef person)
     {
         if (FactsOf(person)?.PodstawaUstalonaPrzezPlatnika is { } fromPayer)
