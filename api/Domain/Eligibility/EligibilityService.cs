@@ -626,12 +626,12 @@ internal static class RiskCatalog
             {
                 try
                 {
-                    var threshold = parameters.GetDecimal(EligibilityParameterKeys.ProgZadluzenia, debt.NaDzien);
+                    var threshold = parameters.GetDecimal(EligibilityParameterKeys.ProgZadluzenia, date ?? debt.NaDzien);
                     if (debt.Kwota > threshold)
                     {
                         risks.TryAdd("zadluzenie_skladkowe", new Risk(
                             "zadluzenie_skladkowe",
-                            $"Zadłużenie z tytułu składek ({Text.Money(debt.Kwota)}) przekracza próg {Text.Money(threshold)} — dla prowadzących działalność i osób współpracujących blokuje to zasiłek do czasu spłaty, a po 6 miesiącach prawo się przedawnia.",
+                            $"Zadłużenie z tytułu składek ({Text.Money(debt.Kwota)}) przekracza próg {Text.Money(threshold)} — dla prowadzących działalność i osób współpracujących blokuje to zasiłek do czasu spłaty, a jeśli nie zostanie spłacone w ciągu 6 miesięcy od dnia powstania prawa do świadczenia, prawo się przedawnia.",
                             "ustawa art. 2a"));
                     }
                 }

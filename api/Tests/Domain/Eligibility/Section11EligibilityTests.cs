@@ -107,6 +107,36 @@ public sealed class Section11EligibilityTests
         Assert.Equal(BenefitStatus.Przysluguje, Get(Service().Assess(Facts(Case(EventKind.Urodzenie, Birth), employee), D(2026, 5, 1)), BenefitId.Macierzynski).Status);
     }
 
+    // Art. 2a ust. 2: 6 miesięcy liczy się od dnia powstania prawa, nie od dnia, na który znamy saldo (persona edyta-demo).
+    [Fact]
+    public void Debt_deadline_runs_six_months_from_the_day_the_right_arises_not_from_the_balance_date()
+    {
+        var result = Get(Service().Assess(BusinessFactsWithEarlierBalance(), D(2026, 11, 22)), BenefitId.Macierzynski);
+
+        Assert.Equal(BenefitStatus.NiePrzysluguje, result.Status);
+        var deadline = Assert.Single(result.Deadlines);
+        Assert.Equal("splata_zadluzenia", deadline.Id);
+        Assert.Equal(D(2027, 11, 5), deadline.Date);
+        Assert.Contains("05.11.2027", result.WhatWouldChange);
+        Assert.DoesNotContain("20.05.2027", result.WhatWouldChange);
+        Assert.Contains("ostatniego znanego salda (stan na 20.11.2026", result.Reason);
+        Assert.Contains(result.Notes, n => n.Contains("Przyjmuję ostatnie znane saldo", StringComparison.Ordinal));
+        Assert.Contains(result.Notes, n => n.Contains("przewidywaną datę porodu", StringComparison.Ordinal));
+    }
+
+    [Theory]
+    [InlineData("2027-06-01", BenefitStatus.Przysluguje)]
+    [InlineData("2027-11-05", BenefitStatus.Przysluguje)]
+    [InlineData("2027-11-06", BenefitStatus.NiePrzysluguje)]
+    public void Debt_repayment_is_in_time_until_six_months_after_the_right_arises(string repaid, BenefitStatus expected)
+    {
+        var facts = BusinessFactsWithEarlierBalance(DateOnly.Parse(repaid, System.Globalization.CultureInfo.InvariantCulture));
+
+        var result = Get(Service().Assess(facts, D(2026, 11, 22)), BenefitId.Macierzynski);
+
+        Assert.Equal(expected, result.Status);
+    }
+
     [Fact]
     public void Debt_threshold_follows_the_parameter_valid_on_the_day_of_the_right()
     {
@@ -538,6 +568,16 @@ public sealed class Section11EligibilityTests
             SkladkiDataSplaty = repaid is { } r ? F(r) : null,
         };
         return Facts(Case(EventKind.Urodzenie, Birth), person);
+    }
+
+    private static FactSet BusinessFactsWithEarlierBalance(DateOnly? repaid = null)
+    {
+        var person = Person(ParentRole.Matka, Title(TitleKind.Dzialalnosc, D(2018, 3, 1), null, SicknessInsurance.Dobrowolne)) with
+        {
+            SkladkiZadluzenie = F(new ContributionDebt(D(2026, 11, 20), 120.00m)),
+            SkladkiDataSplaty = repaid is { } r ? F(r) : null,
+        };
+        return Facts(Case(EventKind.Ciaza, D(2027, 5, 5)), person);
     }
 
     private static FactSet EmployeeFacts(int headcount) =>

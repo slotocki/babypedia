@@ -18,7 +18,7 @@ public enum ScenarioId
 /// <summary>
 /// Scenariusz „co jeśli" (sekcja 9). Parametry wg scenariusza:
 /// odchodze_z_pracy {data}; umowa_nie_zostanie_przedluzona {}; przechodze_na_dzialalnosc {data, dobrowolneChorobowe};
-/// drugi_rodzic_bierze {tygodnie}; praca_na_czesc_etatu {wymiar, tygodnie}; wariant_wyplaty {wariant}; splacam_zadluzenie {data}.
+/// drugi_rodzic_bierze {tygodnie} (Person = osoba, która bierze podane tygodnie; druga osoba dostaje resztę wymiaru); praca_na_czesc_etatu {wymiar, tygodnie}; wariant_wyplaty {wariant}; splacam_zadluzenie {data}.
 /// </summary>
 public sealed record ScenarioChange(
     [property: JsonPropertyName("id")] ScenarioId Id,

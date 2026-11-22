@@ -34,7 +34,7 @@ export const scenarioList: ScenarioInfo[] = [
   {
     id: 'drugi_rodzic_bierze',
     title: 'Drugi rodzic bierze część urlopu rodzicielskiego',
-    description: 'Podziel urlop rodzicielski między rodziców i zobacz, jak zmieni się jego długość i kwota.',
+    description: 'Wskaż, kto bierze ile tygodni urlopu rodzicielskiego (reszta przypada drugiemu rodzicowi), i zobacz, jak zmienią się okresy i kwoty.',
   },
   {
     id: 'praca_na_czesc_etatu',

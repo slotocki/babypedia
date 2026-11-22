@@ -65,7 +65,7 @@ export function ScenarioForm({ scenario, persons, totalWeeks, initial, serverErr
       </div>
 
       {choosePerson ? (
-        <Field group label="Kogo dotyczy ten wariant?">
+        <Field group label={id === 'drugi_rodzic_bierze' ? 'Kto bierze podaną liczbę tygodni?' : 'Kogo dotyczy ten wariant?'}>
           <Controller
             control={control}
             name="person"
@@ -84,7 +84,7 @@ export function ScenarioForm({ scenario, persons, totalWeeks, initial, serverErr
           />
         </Field>
       ) : id === 'drugi_rodzic_bierze' ? (
-        <p className="text-ink-soft">Ten wariant dotyczy drugiego rodzica.</p>
+        <p className="text-ink-soft">Podaną liczbę tygodni bierze drugi rodzic, a reszta urlopu rodzicielskiego zostaje dla Ciebie.</p>
       ) : null}
 
       {id === 'odchodze_z_pracy' || id === 'przechodze_na_dzialalnosc' || id === 'splacam_zadluzenie' ? (
@@ -132,7 +132,7 @@ export function ScenarioForm({ scenario, persons, totalWeeks, initial, serverErr
           label={id === 'drugi_rodzic_bierze' ? 'Ile tygodni urlopu rodzicielskiego bierze wskazana osoba?' : 'Przez ile tygodni łączysz urlop rodzicielski z pracą?'}
           description={
             id === 'drugi_rodzic_bierze'
-              ? `Każdy rodzic ma ${EXCLUSIVE_WEEKS} tygodni urlopu rodzicielskiego tylko dla siebie, więc jedna osoba może wziąć najwyżej ${maxForOne} z ${totalWeeks} tygodni. Urlop można podzielić najwyżej na 5 części.`
+              ? `Reszta z ${totalWeeks} tygodni przypada drugiej osobie. Każdy rodzic ma ${EXCLUSIVE_WEEKS} tygodni urlopu rodzicielskiego tylko dla siebie, więc jedna osoba może wziąć najwyżej ${maxForOne} z ${totalWeeks} tygodni. Urlop można podzielić najwyżej na 5 części.`
               : `Urlop rodzicielski trwa łącznie ${totalWeeks} tygodni. Podaj, przez ile z nich pracujesz.`
           }
           error={message('tygodnie')}

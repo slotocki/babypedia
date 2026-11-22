@@ -1,0 +1,65 @@
+{
+  "$schema": "../../contracts/reference.schema.json",
+  "id": "uprawnienia-zadluzenie-saldo-sprzed-zdarzenia",
+  "opis": "Działalność, saldo zadłużenia 120,00 zł z 20.11.2026, przewidywany poród 05.05.2027 → odmowa, termin spłaty = dzień powstania prawa + 6 mies. (nie data salda + 6 mies.)",
+  "status": "gotowe",
+  "modul": "uprawnienia",
+  "test": 17,
+  "asOf": "2026-11-22",
+  "fakty": {
+    "sprawa": {
+      "zdarzenie.rodzaj": {
+        "value": "ciaza",
+        "source": "user"
+      },
+      "zdarzenie.data": {
+        "value": "2027-05-05",
+        "source": "user"
+      },
+      "dziecko.liczba": {
+        "value": 1,
+        "source": "assumption"
+      }
+    },
+    "wnioskodawca": {
+      "osoba.rola": {
+        "value": "matka",
+        "source": "user"
+      },
+      "ubezpieczenie.tytuly": {
+        "value": [
+          {
+            "rodzajTytulu": "dzialalnosc",
+            "od": "2018-03-01",
+            "do": null,
+            "chorobowe": "dobrowolne"
+          }
+        ],
+        "source": "zus"
+      },
+      "skladki.zadluzenie": {
+        "value": {
+          "naDzien": "2026-11-20",
+          "kwota": 120.0
+        },
+        "source": "zus"
+      }
+    }
+  },
+  "oczekiwane": {
+    "benefits": [
+      {
+        "id": "macierzynski",
+        "status": "nie_przysługuje",
+        "whatWouldChangeContains": "05.11.2027",
+        "deadlines": [
+          {
+            "id": "splata_zadluzenia",
+            "date": "2027-11-05"
+          }
+        ]
+      }
+    ]
+  },
+  "uwagi": "Jak persona edyta-demo. Ustawa art. 2a ust. 2: 6 miesięcy od dnia powstania prawa do świadczenia (tu przewidywany poród 2027-05-05), a nie od dnia salda (2026-11-20 → błędnie 2027-05-20). Saldo z wcześniejszego dnia silnik przyjmuje jako ostatnie znane i mówi o tym w uwagach."
+}

@@ -8,7 +8,11 @@ public sealed class DrugiRodzicBierzeScenario : IScenario
 {
     public ScenarioId Id => ScenarioId.DrugiRodzicBierze;
 
-    public string Description => "Drugi rodzic bierze część urlopu rodzicielskiego: podana liczba tygodni dla drugiego rodzica, reszta wymiaru dla mnie.";
+    /// <remarks>
+    /// <c>person</c> = osoba, która bierze podaną liczbę tygodni (zwykle <c>drugiRodzic</c>); druga osoba dostaje resztę wymiaru.
+    /// Limit „wymiar − 9 tyg. dla jednego rodzica” (KP art. 182¹a) sprawdza moduł okresów osobno dla każdego rodzica.
+    /// </remarks>
+    public string Description => "Podział urlopu rodzicielskiego: wskazana osoba (person, zwykle drugi rodzic) bierze podaną liczbę tygodni, druga osoba — resztę wymiaru.";
 
     public ScenarioOutcome Apply(ScenarioContext context)
     {
@@ -25,34 +29,91 @@ public sealed class DrugiRodzicBierzeScenario : IScenario
             return ScenarioOutcome.Fail(errors);
         }
 
-        var other = context.Person.Other();
-        if (context.Facts.For(context.Person) is null || context.Facts.For(other) is null)
+        var taker = context.Person;
+        var other = taker.Other();
+        if (context.Facts.For(taker) is null || context.Facts.For(other) is null)
         {
-            return ScenarioOutcome.Fail(NotApplicable("Podział urlopu rodzicielskiego wymaga faktów o obojgu rodzicach; dodaj drugiego rodzica.", context.Person));
+            return ScenarioOutcome.Fail(NotApplicable("Podział urlopu rodzicielskiego wymaga faktów o obojgu rodzicach; dodaj drugiego rodzica.", taker));
         }
 
-        var inputs = new PeriodsInputs(new EvaluationContext(context.Facts, context.Person, context.Today, context.Parameters));
+        var inputs = new PeriodsInputs(new EvaluationContext(context.Facts, taker, context.Today, context.Parameters));
         var total = inputs.RodzicielskiWymiar;
         if (!total.CanProceed)
         {
             var missing = total.Result.Missing?
-                .Select(m => MissingFact($"Do podziału urlopu rodzicielskiego potrzebna jest informacja: {m.Question}", context.Person, m.Fact))
+                .Select(m => MissingFact($"Do podziału urlopu rodzicielskiego potrzebna jest informacja: {m.Question}", taker, m.Fact))
                 .ToList() ?? [];
             return ScenarioOutcome.Fail(missing.Count > 0
                 ? missing
-                : [NotApplicable($"Nie da się ustalić wymiaru urlopu rodzicielskiego do podziału: {total.Result.Text}", context.Person)]);
+                : [NotApplicable($"Nie da się ustalić wymiaru urlopu rodzicielskiego do podziału: {total.Result.Text}", taker)]);
         }
 
-        var remainder = total.Value - weeks.Value;
-        IReadOnlyList<LeavePart> ownParts = remainder > 0 ? [new LeavePart(remainder)] : [];
-        IReadOnlyList<LeavePart> otherParts = weeks.Value > 0 ? [new LeavePart(weeks.Value)] : [];
-        var updated = context.Facts
-            .WithPerson(context.Person, p => p with { PlanRodzicielskiCzesci = Assume(ownParts) })
-            .WithPerson(other, p => p with { PlanRodzicielskiCzesci = Assume(otherParts) });
+        var weeksFor = new Dictionary<PersonRef, int>
+        {
+            [taker] = weeks.Value,
+            [other] = Math.Max(total.Value - weeks.Value, 0),
+        };
+        var starts = SequentialStarts(context, weeksFor);
+        var updated = context.Facts;
+        foreach (var (person, count) in weeksFor)
+        {
+            IReadOnlyList<LeavePart> parts = count > 0 ? [new LeavePart(count, starts?.StartOf(person))] : [];
+            updated = updated.WithPerson(person, p => p with { PlanRodzicielskiCzesci = Assume(parts) });
+        }
+
         return ScenarioOutcome.Ok(
             updated,
-            $"Urlop rodzicielski ({total.Value} tyg. łącznie): {PersonName(other)} — {weeks.Value} tyg. w jednej części.",
-            $"Urlop rodzicielski: {PersonName(context.Person)} — {Math.Max(remainder, 0)} tyg. w jednej części (reszta wymiaru).");
+            $"Urlop rodzicielski ({total.Value} tyg. łącznie): część {PersonName(taker)} — {weeksFor[taker]} tyg. w jednej części{StartText(starts, taker, weeksFor)}.",
+            $"Urlop rodzicielski: część {PersonName(other)} — {weeksFor[other]} tyg. w jednej części (reszta wymiaru){StartText(starts, other, weeksFor)}.");
+    }
+
+    private sealed record LeaveStarts(PersonRef Mother, DateOnly MotherStart, DateOnly? FatherStart)
+    {
+        public DateOnly? StartOf(PersonRef person) => person == Mother ? MotherStart : FatherStart;
+    }
+
+    /// <summary>
+    /// Początki części, gdy da się je ustalić bez zgadywania: część matki zaczyna się bezpośrednio po urlopie macierzyńskim
+    /// (KP art. 180² § 1 — tak liczy moduł okresów). Część ojca to jawne założenie scenariusza: bezpośrednio po części matki
+    /// (rodzice mogą też korzystać z urlopu jednocześnie — KP art. 182¹a § 6 — albo w innym terminie). Bez znanego końca
+    /// urlopu macierzyńskiego dat nie ustalamy i moduł okresów dalej pyta o plan.
+    /// </summary>
+    private static LeaveStarts? SequentialStarts(ScenarioContext context, IReadOnlyDictionary<PersonRef, int> weeksFor)
+    {
+        var mother = weeksFor.Keys.Where(p => context.Facts.For(p)?.OsobaRola?.Value == ParentRole.Matka).ToList();
+        if (mother.Count != 1)
+        {
+            return null;
+        }
+
+        var anchor = new PeriodsInputs(new EvaluationContext(context.Facts, mother[0], context.Today, context.Parameters)).RodzicielskiPoczatek;
+        if (!anchor.CanProceed || anchor.Value is not { } maternityEnd)
+        {
+            return null;
+        }
+
+        var motherStart = maternityEnd.AddDays(1);
+        DateOnly? fatherStart = context.Facts.For(mother[0].Other())?.OsobaRola?.Value == ParentRole.Ojciec
+            ? motherStart.AddDays(weeksFor[mother[0]] * PeriodMath.DaysPerWeek)
+            : null;
+        return new LeaveStarts(mother[0], motherStart, fatherStart);
+    }
+
+    private static string StartText(LeaveStarts? starts, PersonRef person, IReadOnlyDictionary<PersonRef, int> weeksFor)
+    {
+        if (starts?.StartOf(person) is not { } start || weeksFor[person] == 0)
+        {
+            return "";
+        }
+
+        if (person == starts.Mother)
+        {
+            return $", od {Date(start)} — bezpośrednio po urlopie macierzyńskim";
+        }
+
+        return weeksFor[starts.Mother] > 0
+            ? $", od {Date(start)} — założenie: bezpośrednio po części matki (rodzice mogą też korzystać z urlopu jednocześnie albo w innym terminie)"
+            : $", od {Date(start)} — założenie: bezpośrednio po urlopie macierzyńskim matki (można wybrać inny termin)";
     }
 }
 
