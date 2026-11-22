@@ -145,7 +145,7 @@ function Entitled({ benefit, application, onSaveBasis, busy, difficult }: Omit<B
           {lumpSum != null ? (
             <div>
               <p className="text-sm text-ink-soft">Kwota jednorazowa</p>
-              <Amount value={lumpSum} />
+              <Amount value={lumpSum} showNote={benefit.id !== 'zasilek_pogrzebowy'} />
             </div>
           ) : null}
           {amount ? (
@@ -154,7 +154,7 @@ function Entitled({ benefit, application, onSaveBasis, busy, difficult }: Omit<B
                 {own ? 'Twoja część — ' : ''}
                 {amount.basisSource === 'szacunek_zus' ? (own ? 'szacowana kwota' : 'Szacowana kwota') : period ? (own ? 'łącznie za okres' : 'Łącznie za okres') : 'Kwota'}
               </p>
-              <Amount value={amount.total} />
+              <Amount value={amount.total} showNote={benefit.id !== 'zasilek_pogrzebowy'} />
             </div>
           ) : null}
           {own ? (
