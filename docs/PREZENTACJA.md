@@ -35,7 +35,7 @@ Notatka: Problem to nie brak informacji, tylko jej dopasowanie do jednej osoby. 
 Kryterium: kompletność i UX (25%).
 
 - Start „Sprawdź, co Ci przysługuje”: „Wprowadź dane ręcznie”, „Połącz się przez mObywatela i ZUS”, „Sprawdź na rzeczywistych przykładach”
-- Logowanie (symulacja): wybór osoby testowej, potem „Zgoda na pobranie danych” ze wskazaniem źródeł (ZUS, e-ZLA, rejestr stanu cywilnego)
+- Logowanie (symulacja): wybór osoby testowej, potem „Zgoda na pobranie danych” ze wskazaniem źródeł (ZUS, e-ZLA, a po porodzie dane dziecka); dane pochodzą z plików osób testowych, bez połączenia z prawdziwymi systemami
 - „Potwierdź pobrane dane”: każda informacja ze źródłem i przyciskiem „Popraw”; pytania tylko o to, czego brakuje, daty w formacie DD.MM.RRRR
 - Potem „Twój plan”, „Moje konto”, „Wnioski”, „Wsparcie”, „Baza wiedzy”; ten sam układ na telefonie i komputerze
 
