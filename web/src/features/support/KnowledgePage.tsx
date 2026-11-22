@@ -53,9 +53,11 @@ export function KnowledgePage() {
               {guide.chapters.map((chapter) => (
                 <li key={chapter.page + chapter.title}>
                   <a href={`${guide.url}#page=${chapter.page}`} target="_blank" rel="noreferrer" className={`inline-flex min-h-11 items-center text-sm ${linkClass}`}>
-                    {chapter.title}
-                    <span className="ml-1 font-normal text-ink-soft no-underline">(s. {chapter.page})</span>
-                    <span className="sr-only"> (PDF, otwiera się w nowej karcie)</span>
+                    <span>
+                      {chapter.title}{' '}
+                      <span className="whitespace-nowrap font-normal text-ink-soft">(s.{' '}{chapter.page})</span>
+                      <span className="sr-only"> (PDF, otwiera się w nowej karcie)</span>
+                    </span>
                   </a>
                 </li>
               ))}
