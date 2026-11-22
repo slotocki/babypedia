@@ -1,5 +1,6 @@
 import type { ContributionBase, FactSet, InsuranceTitle, ParentRole, PersonRef } from '@/app/api/types'
 import { getFact, userFactOf, withFact } from '@/features/review/facts'
+import { applyExtraFacts, extrasAnswersFrom, formatFraction, managedExtraFacts, parseFraction, titlesWithExtras, type ExtrasAnswers } from './extrasFacts'
 
 /**
  * Odpowiedzi z kroku „Praca i ubezpieczenie” (tryb „Wprowadź dane ręcznie”) zamienione na fakty silnika.
@@ -25,6 +26,8 @@ export interface WorkInput {
   ponad20?: boolean | null
   /** Zaległe składki (zł) — tylko działalność; 0 = brak zaległości. */
   zalegleSkladki?: number
+  /** Dodatkowe sekcje (koniec tytułu, kolejne tytuły, e-ZLA, plan urlopów) — patrz extrasFacts.ts. */
+  extras?: ExtrasAnswers
 }
 
 export interface ManualInput {
@@ -33,6 +36,8 @@ export interface ManualInput {
   /** Data zdarzenia z pierwszego kroku (może jej nie być, gdy ktoś dopiero planuje). */
   eventDate?: string
   rola: ParentRole
+  /** Rodzaj zdarzenia — decyduje, które dodatkowe sekcje (e-ZLA, plan urlopów) są zapisywane. */
+  rodzaj?: string
   dataUrodzenia?: string
   ja: WorkInput
   /** Tylko gdy liczymy „dla mnie i drugiego rodzica”. Brak = dane drugiego rodzica z tego kroku są usuwane. */
@@ -47,6 +52,7 @@ export const managedWorkFacts = [
   'umowa.dataKonca',
   'platnik.liczbaUbezpieczonych',
   'skladki.zadluzenie',
+  ...managedExtraFacts,
 ] as const
 
 /** Liczba osób zgłaszanych przez płatnika, która rozstrzyga odpowiedź „więcej niż 20” / „20 lub mniej”. */
@@ -102,12 +108,31 @@ function titleOf(work: WorkInput): InsuranceTitle | null {
   }
 }
 
-function applyWork(facts: FactSet, person: PersonRef, work: WorkInput, today: string, eventDate?: string): FactSet {
+interface WorkContext {
+  today: string
+  eventDate?: string
+  rodzaj?: string
+  mother: boolean
+}
+
+function applyWork(facts: FactSet, person: PersonRef, work: WorkInput, ctx: WorkContext): FactSet {
+  const { today, eventDate } = ctx
   const title = titleOf(work)
+  const titles = title ? titlesWithExtras(title, work.extras) : []
   const set = (next: FactSet, key: string, value: unknown) => withFact(next, person, key, value === undefined ? undefined : userFactOf(value))
   // Pusta lista tytułów = silnik uznaje brak ubezpieczenia (api/Domain/Eligibility/Insurance.cs: NotInsured).
-  let next = set(facts, 'ubezpieczenie.tytuly', title ? [title] : [])
-  next = set(next, 'ubezpieczenie.podstawySkladek', title && work.kwota !== undefined ? contributionMonths(title.od, work.kwota, today, eventDate) : undefined)
+  let next = set(facts, 'ubezpieczenie.tytuly', titles)
+  // Podstawy liczymy od najwcześniejszego tytułu z ubezpieczeniem chorobowym (przy kilku tytułach to i tak szacunek).
+  const insuredFrom = titles.filter((t) => t.chorobowe !== 'brak').map((t) => t.od).sort()[0] ?? title?.od
+  // Zwolnienie w ciąży przed zdarzeniem: dokładamy miesiące przed 1. dniem zwolnienia (podstawa zasiłku chorobowego) obok miesięcy przed zdarzeniem.
+  const firstLeave = ctx.mother ? work.extras?.zwolnienia.map((l) => l.od).filter(Boolean).sort()[0] : undefined
+  const reference = firstLeave && (!eventDate || firstLeave < eventDate) ? firstLeave : eventDate
+  const months = (from: string, kwota: number) => {
+    const all = [...contributionMonths(from, kwota, today, reference), ...(reference !== eventDate ? contributionMonths(from, kwota, today, eventDate) : [])]
+    return [...new Map(all.map((m) => [m.miesiac, m])).values()].sort((x, y) => x.miesiac.localeCompare(y.miesiac))
+  }
+  next = set(next, 'ubezpieczenie.podstawySkladek', insuredFrom && work.kwota !== undefined ? months(insuredFrom, work.kwota) : undefined)
+  next = applyExtraFacts(next, person, work.extras, { rodzaj: ctx.rodzaj ?? '', mother: ctx.mother })
 
   const hasContract = work.forma === 'pracownik' || work.forma === 'zleceniobiorca'
   next = set(next, 'umowa.naCzasOkreslony', hasContract ? work.czasOkreslony : undefined)
@@ -123,11 +148,12 @@ function applyWork(facts: FactSet, person: PersonRef, work: WorkInput, today: st
 export function applyManualFacts(facts: FactSet, input: ManualInput): FactSet {
   let next = withFact(facts, 'wnioskodawca', 'osoba.rola', userFactOf(input.rola))
   next = withFact(next, 'wnioskodawca', 'osoba.dataUrodzenia', input.dataUrodzenia ? userFactOf(input.dataUrodzenia) : undefined)
-  next = applyWork(next, 'wnioskodawca', input.ja, input.today, input.eventDate)
+  const ctx = { today: input.today, eventDate: input.eventDate, rodzaj: input.rodzaj }
+  next = applyWork(next, 'wnioskodawca', input.ja, { ...ctx, mother: input.rola === 'matka' })
 
   if (input.drugi) {
     next = withFact(next, 'drugiRodzic', 'osoba.rola', userFactOf(oppositeRole(input.rola)))
-    return applyWork(next, 'drugiRodzic', input.drugi, input.today, input.eventDate)
+    return applyWork(next, 'drugiRodzic', input.drugi, { ...ctx, mother: input.rola !== 'matka' })
   }
 
   if (!next.drugiRodzic) return next
@@ -154,6 +180,7 @@ export interface WorkAnswers {
   ponad20: string
   zaleglosci: string
   zaleglosciKwota: string
+  extras: ExtrasAnswers
 }
 
 const yesNo = (value: unknown) => (value === true ? 'tak' : value === false ? 'nie' : '')
@@ -172,11 +199,12 @@ export function workAnswersFrom(facts: FactSet, person: PersonRef): WorkAnswers 
     chorobowe: known && title.rodzajTytulu !== 'pracownik' ? yesNo(title.chorobowe === 'dobrowolne') : '',
     czasOkreslony: yesNo(getFact(facts, person, 'umowa.naCzasOkreslony')?.value),
     umowaDo: String(getFact(facts, person, 'umowa.dataKonca')?.value ?? ''),
-    etat: known && title.wymiarEtatu !== undefined ? String(title.wymiarEtatu) : '1',
+    etat: known && title.wymiarEtatu !== undefined ? formatFraction(title.wymiarEtatu) : '1',
     kwota: lastBase ? String(lastBase.kwota).replace('.', ',') : '',
     ponad20: headcount === undefined ? (known ? 'nie_wiem' : '') : headcount > HEADCOUNT_UP_TO ? 'tak' : 'nie',
     zaleglosci: debt ? yesNo(debt.kwota > 0) : '',
     zaleglosciKwota: debt && debt.kwota > 0 ? String(debt.kwota).replace('.', ',') : '',
+    extras: extrasAnswersFrom(facts, person),
   }
 }
 
@@ -192,9 +220,10 @@ export function workInputFrom(a: WorkAnswers): WorkInput {
     chorobowe: forma === 'pracownik' ? undefined : a.chorobowe === 'tak',
     czasOkreslony,
     umowaDo: czasOkreslony && a.umowaDo ? a.umowaDo : undefined,
-    wymiarEtatu: forma === 'pracownik' ? Number(a.etat) || 1 : undefined,
+    wymiarEtatu: forma === 'pracownik' ? (parseFraction(a.etat) ?? 1) : undefined,
     kwota: parseAmount(a.kwota) ?? undefined,
     ponad20: contract ? (a.ponad20 === 'tak' ? true : a.ponad20 === 'nie' ? false : null) : undefined,
     zalegleSkladki: forma === 'dzialalnosc' && a.zaleglosci ? (a.zaleglosci === 'tak' ? (parseAmount(a.zaleglosciKwota) ?? undefined) : 0) : undefined,
+    extras: a.extras,
   }
 }

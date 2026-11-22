@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState, type FormEvent } from 'react'
-import { useForm, type FieldErrors, type FieldPath, type UseFormRegister } from 'react-hook-form'
+import { useForm, type Control, type FieldErrors, type FieldPath, type UseFormRegister } from 'react-hook-form'
 import { Link, useNavigate, useSearchParams } from 'react-router'
 import { z } from 'zod'
 import type { EventKind, FactSet, MotherSituationKind, ParentRole } from '@/app/api/types'
@@ -9,18 +9,21 @@ import { paths } from '@/app/paths'
 import { addDaysIso, isValidIsoDate, todayIso } from '@/features/review/dates'
 import { calculationScopeLabels, eventKindLabels } from '@/features/review/fact-labels'
 import { getFact, userFactOf, withFact } from '@/features/review/facts'
-import { Button, Card, DateInput, Field, MoneyInput, NumberInput, PageHeader, RadioGroup, Select, type ChoiceOption } from '@/ui'
+import { Button, Card, DateInput, Field, MoneyInput, NumberInput, PageHeader, RadioGroup, Select, TextInput, type ChoiceOption } from '@/ui'
 import { applyManualFacts, parseAmount, workAnswersFrom, workInputFrom, type WorkAnswers } from './manualFacts'
 import { useFocusHeading } from './useFocusHeading'
+import { WorkExtras } from './WorkExtras'
+import { checkExtras, extrasSchema, parseFraction } from './extrasFacts'
 
 const eventKinds = Object.keys(eventKindLabels) as EventKind[]
 const scopes = ['ja', 'ja_i_drugi_rodzic']
 const bothParents = 'ja_i_drugi_rodzic'
 const roles = ['matka', 'ojciec']
 const workFormValues = ['pracownik', 'zleceniobiorca', 'dzialalnosc', 'brak']
-const etatValues = ['1', '0.75', '0.5', '0.25']
 const childStates = ['zyje', 'martwe', 'zmarlo']
 const motherSituationValues = ['brak', 'pobyt_w_szpitalu', 'niezdolnosc_do_samodzielnej_egzystencji', 'zgon', 'porzucenie_dziecka']
+/** Jak daleko wstecz przyjmujemy termin porodu przy „Jestem w ciąży” (sprawy z poprzednich lat). */
+const PAST_PREGNANCY_YEARS = 5
 /** Krok „Szczególne okoliczności” ma sens tylko przy ciąży, porodzie i przyjęciu dziecka. */
 const hasCircumstances = (rodzaj: string) => rodzaj === 'ciaza' || rodzaj === 'urodzenie' || rodzaj === 'przyjecie'
 
@@ -35,11 +38,12 @@ const workSchema = z.object({
   ponad20: z.string(),
   zaleglosci: z.string(),
   zaleglosciKwota: z.string(),
+  extras: extrasSchema,
 }) satisfies z.ZodType<WorkAnswers>
 
 type Issue = (path: string, message: string) => void
 
-function checkWork(w: WorkAnswers, prefix: 'praca' | 'drugi', issue: Issue, today: string) {
+function checkWork(w: WorkAnswers, prefix: 'praca' | 'drugi', issue: Issue, today: string, scope: { rodzaj: string; mother: boolean }) {
   const at = (field: keyof WorkAnswers, message: string) => issue(`${prefix}.${field}`, message)
   if (!workFormValues.includes(w.forma)) {
     at('forma', 'Wybierz formę pracy. Jeśli nie pracujesz, wybierz „Nie pracuję”.')
@@ -60,7 +64,8 @@ function checkWork(w: WorkAnswers, prefix: 'praca' | 'drugi', issue: Issue, toda
     }
     if (!['tak', 'nie', 'nie_wiem'].includes(w.ponad20)) at('ponad20', 'Wybierz odpowiedź. Jeśli nie wiesz, wybierz „Nie wiem”.')
   }
-  if (w.forma === 'pracownik' && !etatValues.includes(w.etat)) at('etat', 'Wybierz wymiar etatu.')
+  if (w.forma === 'pracownik' && parseFraction(w.etat) === null) at('etat', 'Wpisz wymiar etatu od 0 do 1, np. 1, 0,63 albo 5/8.')
+  checkExtras(w.extras, `${prefix}.extras`, w.od, w.forma, scope, issue)
 
   const amount = parseAmount(w.kwota)
   if (amount === null || amount <= 0 || amount > 1_000_000) at('kwota', 'Wpisz kwotę w złotych, np. 6500 albo 6500,50.')
@@ -120,8 +125,9 @@ const schema = z
         break
       case 'ciaza':
         if (checkDate(v.data, 'data', true, 'przewidywaną datę porodu')) {
-          if (v.data < addDaysIso(today, -30))
-            issue('data', 'Ta data już minęła. Jeśli dziecko się urodziło, wybierz „Wróć”, a potem „Dziecko się urodziło”.')
+          // Termin z przeszłości jest dozwolony (sprawy z ubiegłych lat): silnik liczy okresy od tej daty, a zwolnienia z ciąży wpisuje się w kroku o pracy.
+          if (v.data < addDaysIso(today, -365 * PAST_PREGNANCY_YEARS))
+            issue('data', `Ta data jest sprzed ponad ${PAST_PREGNANCY_YEARS} lat. Jeśli dziecko się urodziło, wybierz „Wróć”, a potem „Dziecko się urodziło”.`)
           else if (v.data > addDaysIso(today, 330))
             issue('data', 'Ta data jest zbyt odległa jak na termin porodu. Sprawdź ją w karcie ciąży.')
         }
@@ -179,11 +185,11 @@ const schema = z
       else if (v.dataUrodzenia < '1940-01-01') issue('dataUrodzenia', 'Sprawdź tę datę — wygląda na zbyt wczesną.')
     }
 
-    checkWork(v.praca, 'praca', issue, today)
-    if (v.dlaKogo === bothParents) checkWork(v.drugi, 'drugi', issue, today)
+    checkWork(v.praca, 'praca', issue, today, { rodzaj: v.rodzaj, mother: v.rola === 'matka' })
+    if (v.dlaKogo === bothParents) checkWork(v.drugi, 'drugi', issue, today, { rodzaj: v.rodzaj, mother: v.rola === 'ojciec' })
   })
 
-type FormValues = z.infer<typeof schema>
+export type FormValues = z.infer<typeof schema>
 type StepId = 'rodzaj' | 'data' | 'okolicznosci' | 'dlaKogo' | 'praca' | 'drugi'
 
 const workFields = (prefix: 'praca' | 'drugi') =>
@@ -245,13 +251,6 @@ const motherSituationOptions: { value: MotherSituationKind | 'brak'; label: stri
 
 const headcountOptions: ChoiceOption[] = [...yesNoOptions, { value: 'nie_wiem', label: 'Nie wiem', description: 'Zapytamy o to później.' }]
 
-const etatOptions: { value: string; label: string }[] = [
-  { value: '1', label: 'Pełny etat' },
-  { value: '0.75', label: '3/4 etatu' },
-  { value: '0.5', label: '1/2 etatu' },
-  { value: '0.25', label: '1/4 etatu' },
-]
-
 const dateCopy: Record<EventKind, { label: string; hint: string; children: string }> = {
   planuje: {
     label: 'Kiedy planujesz, że dziecko się urodzi? (jeśli wiesz)',
@@ -260,7 +259,7 @@ const dateCopy: Record<EventKind, { label: string; hint: string; children: strin
   },
   ciaza: {
     label: 'Kiedy masz termin porodu?',
-    hint: 'Znajdziesz ją w karcie ciąży albo zapytaj lekarza prowadzącego.',
+    hint: 'Znajdziesz ją w karcie ciąży albo zapytaj lekarza prowadzącego. Możesz podać termin, który już minął (np. przy sprawie z poprzedniego roku) — wtedy w kroku o pracy dodaj zwolnienia lekarskie z ciąży.',
     children: 'Przy ciąży mnogiej wpisz liczbę dzieci.',
   },
   urodzenie: {
@@ -293,6 +292,7 @@ function applyAnswers(facts: FactSet, v: FormValues): FactSet {
     today: todayIso(),
     eventDate: v.data || undefined,
     rola: v.rola as ParentRole,
+    rodzaj: v.rodzaj,
     dataUrodzenia: v.dataUrodzenia,
     ja: workInputFrom(v.praca),
     drugi: v.dlaKogo === bothParents ? workInputFrom(v.drugi) : undefined,
@@ -333,16 +333,20 @@ interface WorkFieldsProps {
   values: WorkAnswers
   errors: FieldErrors<WorkAnswers> | undefined
   register: UseFormRegister<FormValues>
+  control: Control<FormValues>
+  rodzaj: string
+  rola: string
+  bothParents: boolean
 }
 
 /** Pytania o pracę — pełna wersja dla wnioskodawcy, krótsza (bez wymiaru etatu) dla drugiego rodzica. */
-function WorkFields({ prefix, values, errors, register }: WorkFieldsProps) {
+function WorkFields({ prefix, values, errors, register, control, rodzaj, rola, bothParents: both }: WorkFieldsProps) {
   const self = prefix === 'praca'
   const name = (field: keyof WorkAnswers) => `${prefix}.${field}` as const
   const { forma } = values
   const contract = forma === 'pracownik' || forma === 'zleceniobiorca'
   const working = workFormValues.includes(forma) && forma !== 'brak'
-  const radio = (field: keyof WorkAnswers) => ({ ...register(name(field)), value: values[field] })
+  const radio = (field: Exclude<keyof WorkAnswers, 'extras'>) => ({ ...register(name(field)), value: values[field] })
 
   const amountLabel =
     forma === 'dzialalnosc'
@@ -393,11 +397,9 @@ function WorkFields({ prefix, values, errors, register }: WorkFieldsProps) {
             </>
           ) : null}
 
-          {self && forma === 'pracownik' ? (
-            <Field label="Wymiar etatu" optional error={errors?.etat}>
-              <Select {...register(name('etat'))} className="sm:max-w-xs">
-                {etatOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-              </Select>
+          {forma === 'pracownik' ? (
+            <Field label="Wymiar etatu" description="Wpisz liczbę albo ułamek, np. 1 (pełny etat), 0,63 albo 5/8." error={errors?.etat}>
+              <TextInput {...register(name('etat'))} inputMode="decimal" autoComplete="off" className="sm:max-w-32" />
             </Field>
           ) : null}
 
@@ -438,6 +440,19 @@ function WorkFields({ prefix, values, errors, register }: WorkFieldsProps) {
               ) : null}
             </>
           ) : null}
+
+          <WorkExtras
+            prefix={prefix}
+            self={self}
+            forma={forma}
+            rodzaj={rodzaj}
+            mother={self ? rola === 'matka' : rola === 'ojciec'}
+            bothParents={both}
+            values={values.extras}
+            errors={errors?.extras}
+            register={register}
+            control={control}
+          />
         </>
       ) : null}
     </div>
@@ -458,7 +473,7 @@ export function IntakePage() {
   const storedValue = <T,>(key: string) => getFact(facts, 'sprawa', key)?.value as T | undefined
   const storedStay = storedValue<{ od: string; do: string }[]>('dziecko.pobytyWSzpitalu')?.[0]
   const storedMother = storedValue<{ rodzaj: string; od: string; do?: string | null }>('matka.sytuacjaSzczegolna')
-  const { register, handleSubmit, trigger, watch, formState } = useForm<FormValues>({
+  const { register, handleSubmit, trigger, watch, formState, control } = useForm<FormValues>({
     resolver: zodResolver(schema),
     shouldFocusError: false,
     defaultValues: {
@@ -670,7 +685,7 @@ export function IntakePage() {
               <Field group label="Kim jesteś dla dziecka?" error={errors.rola}>
                 <RadioGroup {...rolaField} value={rola} options={roleOptions} columns={2} />
               </Field>
-              <WorkFields prefix="praca" values={praca} errors={errors.praca} register={register} />
+              <WorkFields prefix="praca" values={praca} errors={errors.praca} register={register} control={control} rodzaj={rodzaj} rola={rola} bothParents={dlaKogo === bothParents} />
               <Field
                 label="Twoja data urodzenia"
                 help="Przy zwolnieniu lekarskim w ciąży na umowie o pracę pracodawca najpierw płaci wynagrodzenie chorobowe: przez 33 dni w roku, a od 50. roku życia przez 14 dni. Dopiero potem jest zasiłek chorobowy."
@@ -681,7 +696,9 @@ export function IntakePage() {
             </div>
           ) : null}
 
-          {current.id === 'drugi' ? <WorkFields prefix="drugi" values={drugi} errors={errors.drugi} register={register} /> : null}
+          {current.id === 'drugi' ? (
+            <WorkFields prefix="drugi" values={drugi} errors={errors.drugi} register={register} control={control} rodzaj={rodzaj} rola={rola} bothParents />
+          ) : null}
 
           <div className="grid gap-1">
             <Button type="submit" fullWidth disabled={isSubmitting || isValidating}>
