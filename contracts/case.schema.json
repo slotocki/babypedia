@@ -64,7 +64,23 @@
         "oczekiwanaDecyzja": { "enum": ["odmowa", "przyznanie", "do_odczytania"] },
         "persona": { "type": ["string", "null"] },
         "zgodnosc": { "enum": ["kwota", "okres", "decyzja", null] },
-        "dostepna": { "type": "boolean", "description": "false = dane osoby jeszcze nie dostarczone (do_uzupelnienia)." }
+        "dostepna": { "type": "boolean", "description": "false = dane osoby jeszcze nie dostarczone (do_uzupelnienia)." },
+        "potwierdzoneOkresy": {
+          "description": "Okresy świadczeń odczytane z akt sprawy ZUS; front porównuje je z okresami z silnika.",
+          "type": ["array", "null"],
+          "items": {
+            "type": "object",
+            "required": ["swiadczenie", "od", "do"],
+            "additionalProperties": false,
+            "properties": {
+              "swiadczenie": { "type": "string" },
+              "od": { "type": "string", "format": "date" },
+              "do": { "type": "string", "format": "date" },
+              "dni": { "type": ["integer", "null"] },
+              "tygodnie": { "type": ["integer", "null"] }
+            }
+          }
+        }
       }
     }
   }
