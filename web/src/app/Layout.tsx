@@ -17,15 +17,16 @@ const externalLinks = [
   { href: 'https://www.pip.gov.pl/dla-pracodawcow/porady-prawne/rodzicielstwo', label: 'Państwowa Inspekcja Pracy — rodzicielstwo' },
 ]
 
+/** Zwykłe linki tekstowe (bez tła i ramki); aktywna strona — kolor marki i podkreślenie. */
 const linkClass = (isActive: boolean) =>
   cn(
-    'flex min-h-11 items-center rounded-control px-2.5 py-2 text-sm font-semibold hover:bg-brand-soft hover:text-brand-strong sm:px-3',
-    isActive ? 'bg-brand-soft text-brand-strong' : 'text-ink-soft',
+    'inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap rounded-control px-2 text-sm font-semibold underline-offset-[6px] hover:text-brand-strong hover:underline sm:px-2.5',
+    isActive ? 'text-brand-strong underline decoration-2' : 'text-ink-soft',
   )
 
 export function Layout() {
   const { sessionId } = useCaseState()
-  // Strona główna ma tylko trzy kafelki wejścia — bez nawigacji i linków do instytucji (są na pozostałych ekranach).
+  // Na stronie głównej stopka nie pokazuje linków do instytucji (są na pozostałych ekranach).
   const isHome = useLocation().pathname === paths.start
 
   return (
@@ -40,23 +41,22 @@ export function Layout() {
             <span className="text-[#0d477d]">Kompas <span className="text-[#007a67]">Rodzica</span></span>
           </NavLink>
 
-          {isHome ? null : (
-            <nav aria-label="Główna nawigacja" className="order-3 w-full sm:order-0 sm:w-auto">
-              <ul className="grid grid-cols-4 gap-1 sm:flex">
-                {primaryNav.map(({ to, label }) => (
-                  <li key={to}>
-                    <NavLink to={to} end className={({ isActive }) => cn(linkClass(isActive), 'justify-center bg-canvas/60 px-1 text-center text-xs sm:px-3 sm:text-sm', isActive && 'bg-brand-soft')}>{label}</NavLink>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
-
-          {sessionId ? (
-            <NavLink to={paths.account} className={({ isActive }) => cn(linkClass(isActive), 'ml-auto gap-1.5 bg-canvas/60 whitespace-nowrap', isActive && 'bg-brand-soft')}>
-              <UserIcon className="size-4" /> Moje konto
-            </NavLink>
-          ) : null}
+          <nav aria-label="Główna nawigacja" className="ml-auto">
+            <ul className="flex flex-wrap items-center justify-end gap-x-0.5">
+              {primaryNav.map(({ to, label }) => (
+                <li key={to}>
+                  <NavLink to={to} end className={({ isActive }) => linkClass(isActive)}>{label}</NavLink>
+                </li>
+              ))}
+              {sessionId ? (
+                <li>
+                  <NavLink to={paths.account} className={({ isActive }) => linkClass(isActive)}>
+                    <UserIcon className="size-4" /> Moje konto
+                  </NavLink>
+                </li>
+              ) : null}
+            </ul>
+          </nav>
         </div>
       </header>
       <main id="main" className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">

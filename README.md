@@ -136,9 +136,9 @@ Wynik `dotnet test --solution api/BabyRadnik.slnx` na gałęzi `main` (22.11.202
 
 ```
 Podsumowanie przebiegu testu: Powodzenie!
-  suma: 875
+  suma: 880
   zakończone niepowodzeniem: 0
-  zakończone powodzeniem: 874
+  zakończone powodzeniem: 879
   pominięto: 1
 ```
 
@@ -154,7 +154,7 @@ Zasada: testy referencyjne powstają przed regułami, a reguła jest gotowa, gdy
 
 „Zapytaj o przepisy” otwiera czat na ekranie Wsparcie i pod wynikiem. Wyszukuje przepisy w wyciągach z `docs/prawo`, obsługuje dopytania i pokazuje pasujące artykuły. Pytania o własną sprawę kieruje do kalkulatora.
 
-Opcjonalny model, np. DeepSeek przez OpenCode Go, wybiera cytaty spośród wysłanych przepisów. Aplikacja pokazuje zweryfikowane cytaty pobrane z repozytorium. Przy błędzie dostawcy, odrzuconym cytacie lub wyczerpaniu limitu czat wyświetla wyniki wyszukiwania. Instrukcja konfiguracji i odbioru jest w [docs/PLAN_POMOCNIK.md](docs/PLAN_POMOCNIK.md).
+Opcjonalny model (na demo Claude Haiku firmy Anthropic; obsługiwany też np. DeepSeek przez OpenCode Go) pisze 2–3 zdania wyjaśnienia prostym językiem i wybiera cytaty spośród wysłanych przepisów. Aplikacja pokazuje tylko cytaty zweryfikowane z tekstem w repozytorium; wyjaśnienie pokazuje wyłącznie obok takich cytatów, z dopiskiem, że napisał je model, a wiążące są przepisy. Wyjaśnienie z kwotą, linkiem, danymi osobowymi albo zbyt długie jest zastępowane zdaniem ogólnym. Przy błędzie dostawcy, odrzuconym cytacie lub wyczerpaniu limitu czat wyświetla wyniki wyszukiwania. Instrukcja konfiguracji i odbioru jest w [docs/PLAN_POMOCNIK.md](docs/PLAN_POMOCNIK.md).
 
 **(a2) Przygotowanie danych testowych.** Dokumenty spraw ZUS (skany) odczytano z pomocą modeli językowych, poza aplikacją. Odczyty są w katalogu prywatnym, a w aplikacji występują tylko jako dane wejściowe silnika; sam silnik liczy deterministycznie.
 

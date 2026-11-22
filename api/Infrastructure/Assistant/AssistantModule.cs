@@ -83,8 +83,8 @@ public static class AssistantModule
 
             try
             {
-                var citations = await model.AskAsync(question, previous, sources, ct);
-                return Results.Ok(AssistantPolicy.Verify(citations, sources) ?? fallback);
+                var reply = await model.AskAsync(question, previous, sources, ct);
+                return Results.Ok(AssistantPolicy.Verify(reply, sources) ?? fallback);
             }
             catch (Exception exception) when (exception is HttpRequestException or JsonException or IOException ||
                                               exception is OperationCanceledException && !ct.IsCancellationRequested)

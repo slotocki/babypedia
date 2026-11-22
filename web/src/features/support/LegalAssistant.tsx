@@ -99,7 +99,7 @@ export function LegalAssistant({ calculatorPath }: { calculatorPath: string }) {
             className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain bg-canvas px-4 py-5 focus-visible:outline-offset-[-3px]"
           >
             <p className="w-fit max-w-[94%] rounded-2xl rounded-tl-sm border border-line bg-surface px-3.5 py-3 text-sm text-ink">
-              Zapytaj o świadczenia, urlopy lub dokumenty. Pokażę Ci pasujące fragmenty przepisów.
+              Zapytaj o świadczenia, urlopy lub dokumenty. Wyjaśnię to krótko i pokażę fragmenty przepisów, na których opiera się odpowiedź.
             </p>
             {turns.length === 0 && !pendingQuestion ? (
               <div className="flex flex-wrap gap-2">

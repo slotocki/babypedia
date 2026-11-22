@@ -15,7 +15,36 @@ internal static partial class AssistantPolicy
 
     public static bool IsFollowUp(string text) => FollowUp().IsMatch(Normalize(text));
 
-    public static AssistantAnswer? Verify(ModelCitation[] selection, IReadOnlyList<LegalExcerpt> sources)
+    public const string GenericAnswer = "Te fragmenty pasują do Twojego pytania.";
+    public const string QuotesOnlyDisclaimer = "Cytaty wybrał model językowy. Indywidualną sprawę ocenia kalkulator.";
+    public const string ExplanationDisclaimer =
+        "Wyjaśnienie napisał model językowy na podstawie przepisów poniżej — wiążące są przepisy. Indywidualną sprawę ocenia kalkulator.";
+
+    private const int MaxExplanationLength = 700;
+
+    public static AssistantAnswer? Verify(ModelReply reply, IReadOnlyList<LegalExcerpt> sources)
+    {
+        var citations = VerifyCitations(reply.Citations, sources);
+        if (citations is null) return null;
+
+        // Wyjaśnienie pokazujemy tylko obok zweryfikowanych cytatów i tylko, gdy przejdzie kontrole; inaczej — sam tekst ogólny.
+        var explanation = CleanExplanation(reply.Explanation);
+        return explanation is null
+            ? new AssistantAnswer(GenericAnswer, citations, QuotesOnlyDisclaimer, "ai")
+            : new AssistantAnswer(explanation, citations, ExplanationDisclaimer, "ai");
+    }
+
+    /// <summary>Wyjaśnienie modelu albo null: puste, za długie, z kwotą, linkiem lub danymi osobowymi.</summary>
+    public static string? CleanExplanation(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return null;
+        var clean = CollapseSpace(text.Trim());
+        if (clean.Length < 20 || clean.Length > MaxExplanationLength) return null;
+        if (HasSensitiveData(clean) || Money().IsMatch(Normalize(clean)) || Link().IsMatch(clean)) return null;
+        return clean;
+    }
+
+    private static List<AssistantCitation>? VerifyCitations(ModelCitation[] selection, IReadOnlyList<LegalExcerpt> sources)
     {
         const int maxCitations = 3;
         const int maxQuoteLength = 600;
@@ -50,13 +79,11 @@ internal static partial class AssistantPolicy
             if (citations.Count == maxCitations) break;
         }
 
-        if (citations.Count == 0) return null;
-
-        return new AssistantAnswer(
-            "Te fragmenty pasują do Twojego pytania.", citations,
-            "Cytaty wybrał model językowy. Indywidualną sprawę ocenia kalkulator.",
-            "ai");
+        return citations.Count == 0 ? null : citations;
     }
+
+    [GeneratedRegex(@"https?://|www\.|\b[\p{L}\d-]+\.(?:pl|com|org|eu|net|gov)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex Link();
 
     private static string CollapseSpace(string text) => Whitespace().Replace(text, " ");
 

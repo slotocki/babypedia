@@ -85,7 +85,7 @@ Notatka: To odpowiedź na pytanie, czy można ufać kalkulatorowi: ta sama odpow
 
 Kryterium: oryginalność, uczciwość.
 
-- „Zapytaj o przepisy” pokazuje artykuły z materiałów ZUS w oknie rozmowy. Opcjonalny model wybiera cytaty, które aplikacja sprawdza przed pokazaniem.
+- „Zapytaj o przepisy”: model językowy pisze krótkie wyjaśnienie i wybiera cytaty z materiałów ZUS; aplikacja pokazuje tylko cytaty sprawdzone z tekstem przepisu, a wyjaśnienie oznacza jako napisane przez AI.
 - Kod, testy i dokumentację napisały modele Claude (Anthropic) w narzędziu Claude Code
 - Zespół agentów: modele pisały gałęzie, osobny model przeglądał i zatwierdzał zmiany silnika
 - Ilustracja na ekranie startowym została wygenerowana przez model AI
