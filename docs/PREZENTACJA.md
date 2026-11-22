@@ -106,7 +106,7 @@ Notatka: Ta sama odpowiedź na te same dane i pełny ślad decyzji. Model język
 
 Kryterium: potencjał wdrożeniowy (15%).
 
-- `dotnet test`: 946 testów, 945 zielonych, 0 błędów, 1 pominięty (raport dla spraw ZUS z katalogu prywatnego)
+- `dotnet test`: 964 testy, 963 zielone, 0 błędów, 1 pominięty (raport dla spraw ZUS z katalogu prywatnego)
 - 55 przypadków referencyjnych (okresy, uprawnienia, kwoty, parametry) w `fixtures/reference/`, napisane przed regułami
 - Parametry prawne w bazie z datą obowiązywania (102 wpisy); zmiana w `/admin` zmienia wynik od wskazanego dnia, z historią zmian
 - Integracje za interfejsami: podmiana symulacji na prawdziwe usługi bez zmian w silniku; Docker Compose, CI, licencje permisywne

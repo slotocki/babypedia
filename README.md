@@ -136,9 +136,9 @@ Wynik `dotnet test --solution api/BabyRadnik.slnx` na gałęzi `main` (22.11.202
 
 ```
 Podsumowanie przebiegu testu: Powodzenie!
-  suma: 946
+  suma: 964
   zakończone niepowodzeniem: 0
-  zakończone powodzeniem: 945
+  zakończone powodzeniem: 963
   pominięto: 1
 ```
 
