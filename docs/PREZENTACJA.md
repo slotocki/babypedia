@@ -47,7 +47,7 @@ Notatka: Każdy ekran ma jedną główną akcję, a każda symulacja jest tak na
 - „Ścieżka decyzji”: najważniejsze kroki (reguła, przepis, warunek spełniony lub nie)
 - Odmowa zawsze z powodem, przepisem i następnym krokiem („Co musiałoby się zmienić”, przy zaległości „To da się naprawić”); „Co dalej?” z najbliższym krokiem i terminami
 
-Notatka: Nasza główna różnica: nie „system odmówił”, tylko „odmowa, bo taki przepis, a zmieniłoby się, gdyby…”. W trudnej sytuacji (strata dziecka) wynik zmienia ton, a wsparcie i najpilniejsze sprawy są na górze. Sprawdź w demo: Edyta (zaległość 120,00 zł) — odmowa z kwotą do spłaty i terminem.
+Notatka: Nasza główna różnica: nie „system odmówił”, tylko „odmowa, bo taki przepis, a zmieniłoby się, gdyby…”. W trudnej sytuacji (strata dziecka) wynik zmienia ton, a wsparcie i najpilniejsze sprawy są na górze. Sprawdź w demo: Edyta (zaległość 120,00 zł): odmowa z kwotą do spłaty i terminem.
 
 ## Slajd 4. „Co jeśli” i porównanie wariantów
 
@@ -75,10 +75,10 @@ Notatka: To odpowiedź na wymóg demo z pkt 4 i 6 zadania: upload lub wybór prz
 
 
 - Pozycje a–j z zadania mają ekran, endpoint i moduł kodu (mapa w README)
-- Symulacje: logowanie mObywatel, dane ZUS, saldo i zaświadczenie o stanie składek (z datą stanu salda), e-ZLA, zapytanie PUE/eZUS, wnioski o urlopy i dane do ZAM z datami z planu, odpis aktu urodzenia; puste pola w PDF zostają do uzupełnienia odręcznie
+- Symulacje: logowanie mObywatel, dane ZUS, saldo i zaświadczenie o stanie składek (z datą stanu salda), e-ZLA, zapytanie PUE/eZUS, wnioski o urlopy i dane do ZAM z datami z planu, odpis aktu urodzenia
 - „Wsparcie”: zweryfikowane organizacje charytatywne z filtrem sytuacji, kontakt do ZUS; „Baza wiedzy”: Poradnik ZUS i linki do zus.pl, MRPiPS, PIP
 
-Notatka: Mówimy wprost, co działa w pełni, a co częściowo. Pełna tabela jest w README w części „Mapa wymagań”. Responsywność sprawdziliśmy automatycznie przy 320, 390 i 768 px — bez przewijania w poziomie.
+Notatka: Mówimy wprost, co działa w pełni, a co częściowo. Pełna tabela jest w README w części „Mapa wymagań”. Responsywność sprawdziliśmy automatycznie przy 320, 390 i 768 px, bez przewijania w poziomie.
 
 ## Slajd 7. Czat „Zapytaj o przepisy”: FAQ i źródła
 
@@ -96,7 +96,7 @@ Notatka: Bez modelu czat odpowiada z FAQ i pokazuje wyniki wyszukiwania. Model n
 <!-- Zrzut: docs/zrzuty/slajd-02-odmowa.png (odmowa z przepisem i „Co musiałoby się zmienić”) -->
 
 
-- Uprawnienia, okresy, kwoty i terminy liczy deterministyczny silnik reguł w C# — ponad 80 małych reguł, każda z podstawą prawną; te same dane dają ten sam wynik
+- Uprawnienia, okresy, kwoty i terminy liczy deterministyczny silnik reguł w C#: ponad 80 małych reguł, każda z podstawą prawną; te same dane dają ten sam wynik
 - Gdy przepis nie rozstrzyga: „nie rozstrzygam” i kontakt do ZUS, bez zgadywania; brakujący fakt wraca jako pytanie
 - 102 parametry prawne w bazie z datą obowiązywania; zmiana w `/admin` (polskie nazwy w grupach) zmienia wynik od wskazanego dnia, z historią zmian
 
@@ -110,7 +110,7 @@ Notatka: Model językowy nie liczy i nie decyduje. Pełny ślad decyzji widać n
 - Frontend: React · TypeScript · Vite · Tailwind CSS · TanStack Query · React Hook Form · Zod · Radix UI · pdf.js
 - Backend: .NET 10 · ASP.NET Core · EF Core · PostgreSQL · PDFsharp-MigraDoc · xUnit
 - Infrastruktura: Docker Compose · nginx · Caddy · Microsoft Azure · Let's Encrypt; licencje permisywne (MIT, Apache-2.0, BSD), pełna lista w `docs/ZALEZNOSCI.md`
-- AI w aplikacji: Claude Haiku (Anthropic API). Tylko czat „Zapytaj o przepisy”, opcjonalnie: krótkie wyjaśnienie obok sprawdzonych cytatów. Uprawnień, okresów i kwot AI nie liczy
+- AI w aplikacji: Claude Haiku (Anthropic API). Tylko czat „Zapytaj o przepisy”, opcjonalnie: krótkie wyjaśnienie obok sprawdzonych cytatów. Haiku na potrzeby demo, docelowo model lokalny, np. Bielik. Uprawnień, okresów i kwot AI nie liczy
 
 Notatka: Wszystkie zależności mają licencje permisywne. Pełna lista z wersjami jest w `docs/ZALEZNOSCI.md`, a opis użycia AI w README, „Wykorzystanie AI”.
 
@@ -120,7 +120,7 @@ Notatka: Wszystkie zależności mają licencje permisywne. Pełna lista z wersja
 
 
 - Ograniczenia: podwyższenia do kwoty świadczenia rodzicielskiego (art. 31 ust. 3a) nie wyliczamy, tylko o nim informujemy; wszystkie integracje są symulowane, dane osób fikcyjne
-- Jak przetestować: osoby testowe na ekranie logowania (Anna — ścieżka standardowa, Edyta — odmowa za zaległość w składkach, Halina — e-ZLA i mały płatnik, Tadeusz — ojciec, gdy matka nie ma ubezpieczenia) oraz „Sprawy ZUS (dla oceniających)” w stopce
+- Jak przetestować: osoby testowe na ekranie logowania oraz „Sprawy ZUS (dla oceniających)” w stopce
 - Lokalnie bez Dockera: `dotnet run --project api/Api` i `npm run dev` w `web/` (baza w pamięci); kod: github.com/slotocki/babypedia
 
 Notatka: Każde założenie przy wdrożeniu zmienia się jedną wartością parametru z datą, bez zmiany kodu. Opis osób jest w README w części „Fikcyjne osoby demo”, a oznaczenia spraw w części „Sprawy testowe ZUS”.

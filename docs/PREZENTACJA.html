@@ -1,4 +1,4 @@
-<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Kompas Rodzica — prezentacja</title>
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Kompas Rodzica: prezentacja</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..800&display=swap">
 <style>
 *{margin:0;padding:0}
@@ -175,7 +175,7 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 </div>
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">Nasza główna różnica: nie „system odmówił”, tylko „odmowa, bo taki przepis, a zmieniłoby się, gdyby…”. W trudnej sytuacji (strata dziecka) wynik zmienia ton, a wsparcie i najpilniejsze sprawy są na górze. Sprawdź w demo: Edyta (zaległość 120,00 zł) — odmowa z kwotą do spłaty i terminem.</aside>
+<aside class="notes">Nasza główna różnica: nie „system odmówił”, tylko „odmowa, bo taki przepis, a zmieniłoby się, gdyby…”. W trudnej sytuacji (strata dziecka) wynik zmienia ton, a wsparcie i najpilniejsze sprawy są na górze. Sprawdź w demo: Edyta (zaległość 120,00 zł): odmowa z kwotą do spłaty i terminem.</aside>
 </section>
 <section id="warianty" class="alt">
 <h2>„Co jeśli” i porównanie wariantów</h2>
@@ -202,13 +202,13 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 <h2>Pokrycie wymagań zadania</h2>
 <div class="row">
 <div class="points in" style="width:880px;"><div class="pt"><div class="dot"></div><p class="t">Pozycje a–j z zadania mają ekran, endpoint i moduł kodu (mapa w README)</p></div>
-<div class="pt"><div class="dot"></div><p class="t">Symulacje: logowanie mObywatel, dane ZUS, saldo i zaświadczenie o stanie składek (z datą stanu salda), e-ZLA, zapytanie PUE/eZUS, wnioski o urlopy i dane do ZAM z datami z planu, odpis aktu urodzenia; puste pola w PDF zostają do uzupełnienia odręcznie</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Symulacje: logowanie mObywatel, dane ZUS, saldo i zaświadczenie o stanie składek (z datą stanu salda), e-ZLA, zapytanie PUE/eZUS, wnioski o urlopy i dane do ZAM z datami z planu, odpis aktu urodzenia</p></div>
 <div class="pt"><div class="dot"></div><p class="t">„Wsparcie”: zweryfikowane organizacje charytatywne z filtrem sytuacji, kontakt do ZUS; „Baza wiedzy”: Poradnik ZUS i linki do zus.pl, MRPiPS, PIP</p></div></div>
 <img class="shot in2" src="zrzuty/slajd-06-wnioski-top.png" alt="Ekran „Wnioski” z wzorami wniosków o urlop do pracodawcy" style="width:360px; height:400px;">
 <img class="phone in3" src="zrzuty/slajd-06-telefon-wynik.png" alt="Wynik na telefonie: karta zasiłku na wąskim ekranie" style="width:280px; height:606px;">
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">Mówimy wprost, co działa w pełni, a co częściowo. Pełna tabela jest w README w części „Mapa wymagań”. Responsywność sprawdziliśmy automatycznie przy 320, 390 i 768 px — bez przewijania w poziomie.</aside>
+<aside class="notes">Mówimy wprost, co działa w pełni, a co częściowo. Pełna tabela jest w README w części „Mapa wymagań”. Responsywność sprawdziliśmy automatycznie przy 320, 390 i 768 px, bez przewijania w poziomie.</aside>
 </section>
 <section id="czat">
 <h2>Czat „Zapytaj o przepisy”: FAQ i źródła</h2>
@@ -224,7 +224,7 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 <section id="silnik" class="alt">
 <h2>Silnik reguł i jakość</h2>
 <div class="row">
-<div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Uprawnienia, okresy, kwoty i terminy liczy deterministyczny silnik reguł w C# — ponad 80 małych reguł, każda z podstawą prawną; te same dane dają ten sam wynik</p></div>
+<div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Uprawnienia, okresy, kwoty i terminy liczy deterministyczny silnik reguł w C#: ponad 80 małych reguł, każda z podstawą prawną; te same dane dają ten sam wynik</p></div>
 <div class="pt"><div class="dot"></div><p class="t">Gdy przepis nie rozstrzyga: „nie rozstrzygam” i kontakt do ZUS, bez zgadywania; brakujący fakt wraca jako pytanie</p></div>
 <div class="pt"><div class="dot"></div><p class="t">102 parametry prawne w bazie z datą obowiązywania; zmiana w <code>/admin</code> (polskie nazwy w grupach) zmienia wynik od wskazanego dnia, z historią zmian</p></div></div>
 <img class="shot in2" src="zrzuty/slajd-02-odmowa.png" alt="Odmowa zasiłku z przepisem i „Co musiałoby się zmienić”" style="width:640px; height:576px;">
@@ -239,7 +239,7 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 <div class="box"><h3>Frontend</h3><div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Vite</span><span class="tag">Tailwind CSS</span><span class="tag">TanStack Query</span><span class="tag">React Hook Form</span><span class="tag">Zod</span><span class="tag">Radix UI</span><span class="tag">pdf.js</span></div></div>
 <div class="box"><h3>Backend</h3><div class="tags"><span class="tag">.NET 10</span><span class="tag">ASP.NET Core</span><span class="tag">EF Core</span><span class="tag">PostgreSQL</span><span class="tag">PDFsharp-MigraDoc</span><span class="tag">xUnit</span></div></div>
 <div class="box"><h3>Infrastruktura</h3><div class="tags"><span class="tag">Docker Compose</span><span class="tag">nginx</span><span class="tag">Caddy</span><span class="tag">Microsoft Azure</span><span class="tag">Let's Encrypt</span></div><p class="t2" style="margin-top:16px;">Licencje permisywne (MIT, Apache-2.0, BSD); pełna lista w <code>docs/ZALEZNOSCI.md</code></p></div>
-<div class="box hl"><h3>AI w aplikacji</h3><div class="tags"><span class="tag">Claude Haiku (Anthropic API)</span></div><p class="t2" style="margin-top:16px;">Tylko czat „Zapytaj o przepisy”, opcjonalnie: krótkie wyjaśnienie obok sprawdzonych cytatów. Uprawnień, okresów i kwot AI nie liczy.</p></div>
+<div class="box hl"><h3>AI w aplikacji</h3><div class="tags"><span class="tag">Claude Haiku (Anthropic API)</span></div><p class="t2" style="margin-top:16px;">Tylko czat „Zapytaj o przepisy”, opcjonalnie: krótkie wyjaśnienie obok sprawdzonych cytatów. Haiku na potrzeby demo, docelowo model lokalny, np. Bielik. Uprawnień, okresów i kwot AI nie liczy.</p></div>
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
 <aside class="notes">Wszystkie zależności mają licencje permisywne. Pełna lista z wersjami jest w docs/ZALEZNOSCI.md, a opis użycia AI w README, „Wykorzystanie AI”.</aside>
@@ -248,7 +248,7 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 <h2>Ograniczenia i jak przetestować</h2>
 <div class="row">
 <div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Ograniczenia: podwyższenia do kwoty świadczenia rodzicielskiego (art. 31 ust. 3a) nie wyliczamy, tylko o nim informujemy; wszystkie integracje są symulowane, dane osób fikcyjne</p></div>
-<div class="pt"><div class="dot"></div><p class="t">Jak przetestować: osoby testowe na ekranie logowania (Anna — ścieżka standardowa, Edyta — odmowa za zaległość w składkach, Halina — e-ZLA i mały płatnik, Tadeusz — ojciec, gdy matka nie ma ubezpieczenia) oraz „Sprawy ZUS (dla oceniających)” w stopce</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Jak przetestować: osoby testowe na ekranie logowania oraz „Sprawy ZUS (dla oceniających)” w stopce</p></div>
 <div class="pt"><div class="dot"></div><p class="t">Lokalnie bez Dockera: <code>dotnet run --project api/Api</code> i <code>npm run dev</code> w <code>web/</code> (baza w pamięci); kod: github.com/slotocki/babypedia</p></div></div>
 <img class="phone in2" src="zrzuty/slajd-10-telefon-start.png" alt="Ekran startowy Kompasu Rodzica na telefonie" style="width:280px; height:606px;">
 </div>
