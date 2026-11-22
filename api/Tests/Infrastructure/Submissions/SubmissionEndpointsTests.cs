@@ -24,6 +24,9 @@ public sealed partial class SubmissionEndpointsTests : IDisposable
         {
             services.RemoveAll<ISubmissionStore>();
             services.AddSingleton<ISubmissionStore>(_store);
+            // Limity urlopów we wnioskach czytają parametry prawne — w testach z pliku seed, bez bazy.
+            services.RemoveAll<IParameterProvider>();
+            services.AddSingleton<IParameterProvider>(Domain.Catalog.CatalogKit.Params());
         }));
     }
 

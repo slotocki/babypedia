@@ -3,7 +3,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { useForm, type FieldErrors, type FieldPath, type UseFormRegister } from 'react-hook-form'
 import { Link, useNavigate, useSearchParams } from 'react-router'
 import { z } from 'zod'
-import type { EventKind, FactSet, ParentRole } from '@/app/api/types'
+import type { EventKind, FactSet, MotherSituationKind, ParentRole } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
 import { addDaysIso, isValidIsoDate, todayIso } from '@/features/review/dates'
@@ -19,6 +19,10 @@ const bothParents = 'ja_i_drugi_rodzic'
 const roles = ['matka', 'ojciec']
 const workFormValues = ['pracownik', 'zleceniobiorca', 'dzialalnosc', 'brak']
 const etatValues = ['1', '0.75', '0.5', '0.25']
+const childStates = ['zyje', 'martwe', 'zmarlo']
+const motherSituationValues = ['brak', 'pobyt_w_szpitalu', 'niezdolnosc_do_samodzielnej_egzystencji', 'zgon', 'porzucenie_dziecka']
+/** Krok „Szczególne okoliczności” ma sens tylko przy ciąży, porodzie i przyjęciu dziecka. */
+const hasCircumstances = (rodzaj: string) => rodzaj === 'ciaza' || rodzaj === 'urodzenie' || rodzaj === 'przyjecie'
 
 const workSchema = z.object({
   forma: z.string(),
@@ -77,6 +81,17 @@ const schema = z
     dlaKogo: z.string(),
     rola: z.string(),
     dataUrodzenia: z.string(),
+    zaZyciem: z.string(),
+    stanDziecka: z.string(),
+    dataZgonu: z.string(),
+    liczbaZmarlych: z.string(),
+    szpitalDziecka: z.string(),
+    szpitalOd: z.string(),
+    szpitalDo: z.string(),
+    tydzienCiazy: z.string(),
+    sytuacjaMatki: z.string(),
+    sytuacjaMatkiOd: z.string(),
+    sytuacjaMatkiDo: z.string(),
     praca: workSchema,
     drugi: workSchema,
   })
@@ -129,6 +144,35 @@ const schema = z
     const children = Number(v.liczbaDzieci)
     if (!/^\d+$/.test(v.liczbaDzieci.trim()) || children < 1 || children > 10) issue('liczbaDzieci', 'Wpisz liczbę dzieci od 1 do 10.')
 
+    if (hasCircumstances(v.rodzaj) && v.zaZyciem !== 'tak' && v.zaZyciem !== 'nie') issue('zaZyciem', 'Wybierz „Tak” albo „Nie”.')
+    if (v.rodzaj === 'urodzenie') {
+      const born = isValidIsoDate(v.data) ? v.data : undefined
+      if (!childStates.includes(v.stanDziecka)) issue('stanDziecka', 'Wybierz jedną z odpowiedzi.')
+      if (v.stanDziecka === 'zmarlo' && checkDate(v.dataZgonu, 'dataZgonu', true, 'datę zgonu dziecka')) {
+        if (v.dataZgonu > today) issue('dataZgonu', 'Data zgonu nie może być z przyszłości.')
+        else if (born && v.dataZgonu < born) issue('dataZgonu', 'Data zgonu nie może być wcześniejsza niż data urodzenia.')
+      }
+      if (children > 1 && (v.stanDziecka === 'martwe' || v.stanDziecka === 'zmarlo')) {
+        const dead = Number(v.liczbaZmarlych)
+        if (!/^\d+$/.test(v.liczbaZmarlych.trim()) || dead < 1 || dead > children) issue('liczbaZmarlych', `Wpisz liczbę od 1 do ${children}.`)
+      }
+      if (v.szpitalDziecka !== 'tak' && v.szpitalDziecka !== 'nie') issue('szpitalDziecka', 'Wybierz „Tak” albo „Nie”.')
+      if (v.szpitalDziecka === 'tak') {
+        const from = checkDate(v.szpitalOd, 'szpitalOd', true, 'datę przyjęcia dziecka do szpitala')
+        if (from && born && v.szpitalOd < born) issue('szpitalOd', 'Pobyt w szpitalu nie może zacząć się przed urodzeniem dziecka.')
+        if (checkDate(v.szpitalDo, 'szpitalDo', true, 'datę wypisu (jeśli pobyt trwa — przewidywaną)') && from && v.szpitalDo < v.szpitalOd)
+          issue('szpitalDo', 'Data wypisu nie może być wcześniejsza niż data przyjęcia.')
+      }
+      const week = v.tydzienCiazy.trim()
+      if (week && (!/^\d+$/.test(week) || Number(week) < 20 || Number(week) > 45))
+        issue('tydzienCiazy', 'Wpisz tydzień ciąży od 20 do 45 albo zostaw pole puste.')
+      if (!motherSituationValues.includes(v.sytuacjaMatki)) issue('sytuacjaMatki', 'Wybierz jedną z odpowiedzi.')
+      if (v.sytuacjaMatki !== 'brak' && checkDate(v.sytuacjaMatkiOd, 'sytuacjaMatkiOd', true, 'datę początku tej sytuacji')) {
+        if (v.sytuacjaMatkiDo && checkDate(v.sytuacjaMatkiDo, 'sytuacjaMatkiDo', false, 'datę końca') && v.sytuacjaMatkiDo < v.sytuacjaMatkiOd)
+          issue('sytuacjaMatkiDo', 'Data końca nie może być wcześniejsza niż data początku.')
+      }
+    }
+
     if (!roles.includes(v.rola)) issue('rola', 'Wybierz, czy jesteś matką, czy ojcem dziecka.')
     if (checkDate(v.dataUrodzenia, 'dataUrodzenia', true, 'swoją datę urodzenia')) {
       if (v.dataUrodzenia > addDaysIso(today, -365 * 13)) issue('dataUrodzenia', 'Sprawdź tę datę — wygląda na zbyt późną.')
@@ -140,7 +184,7 @@ const schema = z
   })
 
 type FormValues = z.infer<typeof schema>
-type StepId = 'rodzaj' | 'data' | 'dlaKogo' | 'praca' | 'drugi'
+type StepId = 'rodzaj' | 'data' | 'okolicznosci' | 'dlaKogo' | 'praca' | 'drugi'
 
 const workFields = (prefix: 'praca' | 'drugi') =>
   (Object.keys(workSchema.shape) as (keyof WorkAnswers)[]).map((field) => `${prefix}.${field}` as FieldPath<FormValues>)
@@ -148,12 +192,18 @@ const workFields = (prefix: 'praca' | 'drugi') =>
 const allQuestions: { id: StepId; title: string; fields: FieldPath<FormValues>[] }[] = [
   { id: 'rodzaj', title: 'Co się u Ciebie dzieje?', fields: ['rodzaj'] },
   { id: 'data', title: 'Podaj datę', fields: ['data', 'dataDziecka', 'liczbaDzieci'] },
+  {
+    id: 'okolicznosci',
+    title: 'Szczególne okoliczności',
+    fields: ['zaZyciem', 'stanDziecka', 'dataZgonu', 'liczbaZmarlych', 'szpitalDziecka', 'szpitalOd', 'szpitalDo', 'tydzienCiazy', 'sytuacjaMatki', 'sytuacjaMatkiOd', 'sytuacjaMatkiDo'],
+  },
   { id: 'dlaKogo', title: 'Dla kogo sprawdzić świadczenia?', fields: ['dlaKogo'] },
   { id: 'praca', title: 'Praca i ubezpieczenie', fields: ['rola', ...workFields('praca'), 'dataUrodzenia'] },
   { id: 'drugi', title: 'Praca drugiego rodzica', fields: workFields('drugi') },
 ]
 
-const questionsFor = (dlaKogo: string) => allQuestions.filter((q) => q.id !== 'drugi' || dlaKogo === bothParents)
+const questionsFor = (dlaKogo: string, rodzaj: string) =>
+  allQuestions.filter((q) => (q.id !== 'drugi' || dlaKogo === bothParents) && (q.id !== 'okolicznosci' || hasCircumstances(rodzaj)))
 
 const eventOptions: ChoiceOption[] = eventKinds.map((value) => ({ value, label: eventKindLabels[value] }))
 
@@ -177,6 +227,20 @@ const workOptions: ChoiceOption[] = [
 const yesNoOptions: ChoiceOption[] = [
   { value: 'tak', label: 'Tak' },
   { value: 'nie', label: 'Nie' },
+]
+
+const childStateOptions: ChoiceOption[] = [
+  { value: 'zyje', label: 'Nie, dziecko żyje' },
+  { value: 'martwe', label: 'Dziecko urodziło się martwe' },
+  { value: 'zmarlo', label: 'Dziecko zmarło po porodzie' },
+]
+
+const motherSituationOptions: { value: MotherSituationKind | 'brak'; label: string }[] = [
+  { value: 'brak', label: 'Nie dotyczy' },
+  { value: 'pobyt_w_szpitalu', label: 'Matka przebywa w szpitalu' },
+  { value: 'niezdolnosc_do_samodzielnej_egzystencji', label: 'Matka ma orzeczoną niezdolność do samodzielnej egzystencji' },
+  { value: 'zgon', label: 'Matka zmarła' },
+  { value: 'porzucenie_dziecka', label: 'Matka porzuciła dziecko' },
 ]
 
 const headcountOptions: ChoiceOption[] = [...yesNoOptions, { value: 'nie_wiem', label: 'Nie wiem', description: 'Zapytamy o to później.' }]
@@ -224,6 +288,7 @@ function applyAnswers(facts: FactSet, v: FormValues): FactSet {
   } else if (getFact(next, 'sprawa', 'dziecko.dataUrodzenia')?.source === 'user') {
     next = withFact(next, 'sprawa', 'dziecko.dataUrodzenia', undefined)
   }
+  next = applyCircumstances(next, v)
   return applyManualFacts(next, {
     today: todayIso(),
     eventDate: v.data || undefined,
@@ -232,6 +297,32 @@ function applyAnswers(facts: FactSet, v: FormValues): FactSet {
     ja: workInputFrom(v.praca),
     drugi: v.dlaKogo === bothParents ? workInputFrom(v.drugi) : undefined,
   })
+}
+
+/** Zapisuje odpowiedzi z kroku „Szczególne okoliczności”; odpowiedź przecząca usuwa tylko fakty wpisane wcześniej przez użytkownika. */
+function applyCircumstances(facts: FactSet, v: FormValues): FactSet {
+  const set = (current: FactSet, key: string, value: unknown) =>
+    value !== undefined
+      ? withFact(current, 'sprawa', key, userFactOf(value))
+      : getFact(current, 'sprawa', key)?.source === 'user'
+        ? withFact(current, 'sprawa', key, undefined)
+        : current
+  const birth = v.rodzaj === 'urodzenie'
+  const lost = birth && (v.stanDziecka === 'martwe' || v.stanDziecka === 'zmarlo')
+  const children = Number(v.liczbaDzieci)
+
+  let next = set(facts, 'dziecko.zaZyciem', hasCircumstances(v.rodzaj) ? v.zaZyciem === 'tak' : undefined)
+  next = set(next, 'dziecko.martweUrodzenie', birth ? v.stanDziecka === 'martwe' : undefined)
+  next = set(next, 'dziecko.dataZgonu', birth && v.stanDziecka === 'zmarlo' ? v.dataZgonu : undefined)
+  next = set(next, 'dziecko.liczbaZmarlych', lost ? (children > 1 ? Number(v.liczbaZmarlych) : 1) : undefined)
+  next = set(next, 'dziecko.pobytyWSzpitalu', birth && v.szpitalDziecka === 'tak' ? [{ od: v.szpitalOd, do: v.szpitalDo }] : undefined)
+  next = set(next, 'dziecko.tydzienCiazyPrzyPorodzie', birth && v.tydzienCiazy.trim() ? Number(v.tydzienCiazy) : undefined)
+  next = set(
+    next,
+    'matka.sytuacjaSzczegolna',
+    birth && v.sytuacjaMatki !== 'brak' ? { rodzaj: v.sytuacjaMatki, od: v.sytuacjaMatkiOd, do: v.sytuacjaMatkiDo || null } : undefined,
+  )
+  return next
 }
 
 const errorAt = (errors: FieldErrors<FormValues>, field: string): unknown =>
@@ -361,7 +452,12 @@ export function IntakePage() {
 
   const stored = (key: string) => String(getFact(facts, 'sprawa', key)?.value ?? '')
   const storedPerson = (key: string) => String(getFact(facts, 'wnioskodawca', key)?.value ?? '')
-  const [step, setStep] = useState(() => Math.max(0, questionsFor(stored('zdarzenie.dlaKogo')).findIndex((q) => q.id === params.get('krok'))))
+  const [step, setStep] = useState(() =>
+    Math.max(0, questionsFor(stored('zdarzenie.dlaKogo'), stored('zdarzenie.rodzaj')).findIndex((q) => q.id === params.get('krok'))),
+  )
+  const storedValue = <T,>(key: string) => getFact(facts, 'sprawa', key)?.value as T | undefined
+  const storedStay = storedValue<{ od: string; do: string }[]>('dziecko.pobytyWSzpitalu')?.[0]
+  const storedMother = storedValue<{ rodzaj: string; od: string; do?: string | null }>('matka.sytuacjaSzczegolna')
   const { register, handleSubmit, trigger, watch, formState } = useForm<FormValues>({
     resolver: zodResolver(schema),
     shouldFocusError: false,
@@ -373,6 +469,17 @@ export function IntakePage() {
       dlaKogo: stored('zdarzenie.dlaKogo'),
       rola: storedPerson('osoba.rola'),
       dataUrodzenia: storedPerson('osoba.dataUrodzenia'),
+      zaZyciem: storedValue<boolean>('dziecko.zaZyciem') ? 'tak' : 'nie',
+      stanDziecka: storedValue<boolean>('dziecko.martweUrodzenie') ? 'martwe' : storedValue('dziecko.dataZgonu') ? 'zmarlo' : 'zyje',
+      dataZgonu: stored('dziecko.dataZgonu'),
+      liczbaZmarlych: stored('dziecko.liczbaZmarlych'),
+      szpitalDziecka: storedStay ? 'tak' : 'nie',
+      szpitalOd: storedStay?.od ?? '',
+      szpitalDo: storedStay?.do ?? '',
+      tydzienCiazy: stored('dziecko.tydzienCiazyPrzyPorodzie'),
+      sytuacjaMatki: storedMother?.rodzaj ?? 'brak',
+      sytuacjaMatkiOd: storedMother?.od ?? '',
+      sytuacjaMatkiDo: storedMother?.do ?? '',
       praca: workAnswersFrom(facts, 'wnioskodawca'),
       drugi: workAnswersFrom(facts, 'drugiRodzic'),
     },
@@ -383,7 +490,12 @@ export function IntakePage() {
   const rola = watch('rola')
   const praca = watch('praca')
   const drugi = watch('drugi')
-  const questions = questionsFor(dlaKogo)
+  const zaZyciem = watch('zaZyciem')
+  const stanDziecka = watch('stanDziecka')
+  const szpitalDziecka = watch('szpitalDziecka')
+  const sytuacjaMatki = watch('sytuacjaMatki')
+  const liczbaDzieci = Number(watch('liczbaDzieci'))
+  const questions = questionsFor(dlaKogo, rodzaj)
   const current = questions[Math.min(step, questions.length - 1)]
   const copy = rodzaj ? dateCopy[rodzaj] : undefined
   const { errors, isSubmitting, isValidating } = formState
@@ -424,6 +536,8 @@ export function IntakePage() {
   const description =
     current.id === 'rodzaj'
       ? 'Sprawdź, jakie świadczenia mogą Ci przysługiwać.'
+      : current.id === 'okolicznosci'
+        ? 'Te informacje zmieniają wymiar urlopów i zasiłków. Jeśli żadna z sytuacji Cię nie dotyczy, po prostu przejdź dalej.'
       : current.id === 'praca'
         ? 'Te dane zwykle pobieramy z ZUS. Wpisz je w przybliżeniu — poprawisz je później.'
         : current.id === 'drugi'
@@ -467,6 +581,81 @@ export function IntakePage() {
               <Field label="Ile dzieci?" description={copy.children} error={errors.liczbaDzieci}>
                 <NumberInput {...register('liczbaDzieci')} min={1} max={10} step={1} inputMode="numeric" className="sm:max-w-32" />
               </Field>
+            </div>
+          ) : null}
+
+          {current.id === 'okolicznosci' ? (
+            <div className="space-y-5">
+              <Field
+                group
+                label="Czy dziecko ma zaświadczenie „Za życiem”?"
+                help="Zaświadczenie lekarskie o ciężkim i nieodwracalnym upośledzeniu albo nieuleczalnej chorobie zagrażającej życiu (ustawa „Za życiem”). Wydłuża urlop rodzicielski do 65 tygodni (67 przy więcej niż jednym dziecku)."
+                error={errors.zaZyciem}
+              >
+                <RadioGroup {...register('zaZyciem')} value={zaZyciem} options={yesNoOptions} columns={2} />
+              </Field>
+
+              {rodzaj === 'urodzenie' ? (
+                <>
+                  <Field group label="Czy dziecko urodziło się martwe albo zmarło?" error={errors.stanDziecka}>
+                    <RadioGroup {...register('stanDziecka')} value={stanDziecka} options={childStateOptions} appearance="rows" />
+                  </Field>
+                  {stanDziecka === 'zmarlo' ? (
+                    <Field label="Data zgonu dziecka" error={errors.dataZgonu}>
+                      <DateInput {...register('dataZgonu')} className="sm:max-w-xs" />
+                    </Field>
+                  ) : null}
+                  {liczbaDzieci > 1 && (stanDziecka === 'martwe' || stanDziecka === 'zmarlo') ? (
+                    <Field label="Ile dzieci z tego porodu zmarło lub urodziło się martwych?" error={errors.liczbaZmarlych}>
+                      <NumberInput {...register('liczbaZmarlych')} min={1} max={liczbaDzieci} step={1} inputMode="numeric" className="sm:max-w-32" />
+                    </Field>
+                  ) : null}
+
+                  <Field
+                    group
+                    label="Czy dziecko po porodzie przebywało lub przebywa w szpitalu?"
+                    help="Pobyt dziecka w szpitalu po porodzie (zwłaszcza wcześniaka) może dać prawo do uzupełniającego urlopu macierzyńskiego."
+                    error={errors.szpitalDziecka}
+                  >
+                    <RadioGroup {...register('szpitalDziecka')} value={szpitalDziecka} options={yesNoOptions} columns={2} />
+                  </Field>
+                  {szpitalDziecka === 'tak' ? (
+                    <>
+                      <Field label="Od kiedy dziecko jest w szpitalu?" error={errors.szpitalOd}>
+                        <DateInput {...register('szpitalOd')} className="sm:max-w-xs" />
+                      </Field>
+                      <Field label="Do kiedy?" description="Jeśli pobyt nadal trwa, wpisz przewidywaną datę wypisu." error={errors.szpitalDo}>
+                        <DateInput {...register('szpitalDo')} className="sm:max-w-xs" />
+                      </Field>
+                      <Field label="W którym tygodniu ciąży urodziło się dziecko?" optional error={errors.tydzienCiazy}>
+                        <NumberInput {...register('tydzienCiazy')} min={20} max={45} step={1} inputMode="numeric" className="sm:max-w-32" />
+                      </Field>
+                    </>
+                  ) : null}
+
+                  <Field
+                    label="Czy dotyczy Cię któraś z sytuacji matki dziecka?"
+                    help="Gdy matka jest w szpitalu, ma orzeczoną niezdolność do samodzielnej egzystencji, zmarła albo porzuciła dziecko, część urlopu macierzyńskiego może przejąć ojciec dziecka."
+                    error={errors.sytuacjaMatki}
+                  >
+                    <Select {...register('sytuacjaMatki')} className="sm:max-w-md">
+                      {motherSituationOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                    </Select>
+                  </Field>
+                  {sytuacjaMatki !== 'brak' ? (
+                    <>
+                      <Field label="Od kiedy?" error={errors.sytuacjaMatkiOd}>
+                        <DateInput {...register('sytuacjaMatkiOd')} className="sm:max-w-xs" />
+                      </Field>
+                      {sytuacjaMatki === 'pobyt_w_szpitalu' || sytuacjaMatki === 'niezdolnosc_do_samodzielnej_egzystencji' ? (
+                        <Field label="Do kiedy?" optional error={errors.sytuacjaMatkiDo}>
+                          <DateInput {...register('sytuacjaMatkiDo')} className="sm:max-w-xs" />
+                        </Field>
+                      ) : null}
+                    </>
+                  ) : null}
+                </>
+              ) : null}
             </div>
           ) : null}
 

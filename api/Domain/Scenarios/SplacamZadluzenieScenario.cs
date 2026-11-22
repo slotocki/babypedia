@@ -29,6 +29,6 @@ public sealed class SplacamZadluzenieScenario : IScenario
         }
 
         var facts = context.Facts.WithPerson(context.Person, p => p with { SkladkiDataSplaty = Assume(date.Value) });
-        return ScenarioOutcome.Ok(facts, $"Całe zadłużenie ({debt.Kwota:0.00} zł na {Date(debt.NaDzien)}) zostaje spłacone {Date(date.Value)}.");
+        return ScenarioOutcome.Ok(facts, $"Całe zadłużenie ({BabyRadnik.Domain.Eligibility.Text.Money(debt.Kwota)} na {Date(debt.NaDzien)}) zostaje spłacone {Date(date.Value)}.");
     }
 }

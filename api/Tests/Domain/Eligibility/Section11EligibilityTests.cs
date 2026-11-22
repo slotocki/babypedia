@@ -57,7 +57,6 @@ public sealed class Section11EligibilityTests
 
         Assert.Equal(BenefitStatus.NiePrzysluguje, result.Status);
         Assert.Contains("120,00 zł", result.WhatWouldChange);
-        Assert.Contains("2026-09-10", result.WhatWouldChange);
         Assert.Contains("10.09.2026", result.WhatWouldChange);
         Assert.Contains("48,06 zł", result.Reason);
         Assert.Contains("art. 2a", result.LegalBasis);
@@ -88,7 +87,7 @@ public sealed class Section11EligibilityTests
         var refused = Get(Service().Assess(late, D(2026, 11, 21)), BenefitId.Macierzynski);
         Assert.Equal(BenefitStatus.NiePrzysluguje, refused.Status);
         Assert.Contains("przedawni", refused.Reason);
-        Assert.Contains("2026-09-10", refused.WhatWouldChange);
+        Assert.Contains("10.09.2026", refused.WhatWouldChange);
     }
 
     [Fact]
@@ -142,7 +141,7 @@ public sealed class Section11EligibilityTests
         Assert.Contains("60 dni", sickness.Reason);
         Assert.Contains("90 dni", sickness.Reason);
         Assert.Contains("art. 4", sickness.LegalBasis);
-        Assert.Contains("2026-11-30", sickness.WhatWouldChange);
+        Assert.Contains("30.11.2026", sickness.WhatWouldChange);
 
         var maternity = Get(assessment, BenefitId.Macierzynski);
         Assert.Equal(BenefitStatus.Przysluguje, maternity.Status);
@@ -181,7 +180,7 @@ public sealed class Section11EligibilityTests
         Assert.Equal(BenefitStatus.NiePrzysluguje, refused.Status);
         Assert.Contains("20 dni", refused.Reason);
         Assert.Contains("30 dni", refused.Reason);
-        Assert.Contains("2026-10-31", refused.WhatWouldChange);
+        Assert.Contains("31.10.2026", refused.WhatWouldChange);
 
         var withYears = Facts(Case(EventKind.Ciaza, D(2027, 4, 1)), baseline with { UbezpieczenieLatWczesniejszegoObowiazkowego = F(10m) });
         var entitled = Get(Service().Assess(withYears, AsOf), BenefitId.ChorobowyWCiazy);
@@ -323,7 +322,7 @@ public sealed class Section11EligibilityTests
         var step = maternity.Trace.Single(t => t.Rule == InsuranceEndExceptionRule.RuleId);
         Assert.True(step.Met);
         Assert.Contains("KP art. 177 § 3", step.Basis);
-        Assert.Contains("2026-07-27", step.Text);
+        Assert.Contains("27.07.2026", step.Text);
     }
 
     [Fact]

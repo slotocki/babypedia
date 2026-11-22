@@ -161,11 +161,11 @@ public sealed class RodzicielskiPracaRule : PeriodRule<WorkExtension>
         if (invalid is not null)
         {
             return Step.SoftIssue(this, new WorkExtension(0, []),
-                $"Praca w wymiarze {invalid.Wymiar} etatu przez {invalid.Tygodnie} tyg. nie spełnia warunków: pracować można w wymiarze nie wyższym niż {maxShare} etatu. Liczę urlop bez łączenia z pracą.",
+                $"Praca w wymiarze {BabyRadnik.Domain.Eligibility.Text.Number(invalid.Wymiar)} etatu przez {invalid.Tygodnie} tyg. nie spełnia warunków: pracować można w wymiarze nie wyższym niż {BabyRadnik.Domain.Eligibility.Text.Number(maxShare)} etatu. Liczę urlop bez łączenia z pracą.",
                 i.Issue("praca_na_rodzicielskim_wymiar",
-                    $"Z urlopem rodzicielskim można łączyć pracę w wymiarze najwyżej {maxShare} pełnego etatu; liczba tygodni musi być dodatnia.",
+                    $"Z urlopem rodzicielskim można łączyć pracę w wymiarze najwyżej {BabyRadnik.Domain.Eligibility.Text.Number(maxShare)} pełnego etatu; liczba tygodni musi być dodatnia.",
                     FactKeys.PlanPracaNaCzescEtatu),
-                $"praca w wymiarze nie wyższym niż {maxShare} etatu");
+                $"praca w wymiarze nie wyższym niż {BabyRadnik.Domain.Eligibility.Text.Number(maxShare)} etatu");
         }
 
         var children = i.ParentalChildCount ?? 1;

@@ -68,18 +68,24 @@ public sealed class VariantAndPartTimeTests
     }
 
     [Fact]
-    public void Dziewiec_tygodni_drugiego_rodzica_w_pokazanym_lacznym_wymiarze_to_zawsze_70_proc()
+    public void Bez_planu_kwota_obejmuje_tylko_czesc_rodzica_bez_9_tygodni_drugiego_rodzica()
     {
         var card = Get(Run(Birth(WithBasis(WithVariant(Mother(), "2026-03-10"), 3000m))), BenefitId.Rodzicielski);
 
+        Assert.Equal(287, card.Period!.Days);
         Assert.Equal(0.815m, card.Rate);
-        Assert.Equal(2, card.Parts.Count);
-        Assert.Equal((224, 0.815m, 81.5m * 224), (card.Parts[0].Period.Days, card.Parts[0].Rate, card.Parts[0].Amount!.Total));
-        Assert.Equal((63, 0.7m, 70m * 63), (card.Parts[1].Period.Days, card.Parts[1].Rate, card.Parts[1].Amount!.Total));
-        Assert.Contains("art. 31 ust. 3f", card.Parts[1].Label);
-        Assert.Equal(card.Parts[1].Period.From.AddDays(-1), card.Parts[0].Period.To);
-        Assert.Equal(81.5m * 224 + 70m * 63, card.Amount!.Total);
-        Assert.Equal(card.Period!.To, card.Parts[1].Period.To);
+        Assert.Empty(card.Parts);
+        Assert.Equal(81.5m * 224, card.Amount!.Total);
+        Assert.Contains(card.Notes, n => n.Contains("wyłącznie drugiemu rodzicowi") && n.Contains("224 dni"));
+    }
+
+    [Fact]
+    public void Bez_planu_stawka_standardowa_tez_bez_9_tygodni_drugiego_rodzica()
+    {
+        var card = Get(Run(Birth(WithBasis(Mother(), 3000m))), BenefitId.Rodzicielski);
+
+        Assert.Equal(287, card.Period!.Days);
+        Assert.Equal(70m * 224, card.Amount!.Total);
     }
 
     [Fact]
@@ -231,13 +237,14 @@ public sealed class VariantAndPartTimeTests
 
         Assert.Equal(357, card.Period!.Days);
         Assert.Equal(2, card.Parts.Count);
-        Assert.Equal((217, 0.7m, 70m * 217), (card.Parts[0].Period.Days, card.Parts[0].Rate, card.Parts[0].Amount!.Total));
+        // Część własna: (41 − 9) tyg. + 10 tyg. wydłużenia z pracy = 294 dni; 9 tyg. drugiego rodzica nie wchodzi do kwoty.
+        Assert.Equal((154, 0.7m, 70m * 154), (card.Parts[0].Period.Days, card.Parts[0].Rate, card.Parts[0].Amount!.Total));
         Assert.Equal((140, 0.7m, 35m * 140), (card.Parts[1].Period.Days, card.Parts[1].Rate, card.Parts[1].Amount!.Total));
         Assert.Contains("praca na 0,5 etatu", card.Parts[1].Label);
-        Assert.Equal(70m * 217 + 35m * 140, card.Amount!.Total);
+        Assert.Equal(70m * 154 + 35m * 140, card.Amount!.Total);
         Assert.Equal(70m, card.Amount.Daily);
         Assert.Contains(card.Trace, t => t.Rule == "praca_na_czesc_etatu" && t.Met == true && t.Basis.Contains("art. 31 ust. 4a"));
-        Assert.Equal(card.Period.To, card.Parts[1].Period.To);
+        Assert.Equal(card.Period.From.AddDays(293), card.Parts[1].Period.To);
     }
 
     [Fact]
@@ -265,7 +272,7 @@ public sealed class VariantAndPartTimeTests
 
         var card = Get(Run(Birth(me)), BenefitId.Rodzicielski);
 
-        Assert.Equal(70m * 287, card.Amount!.Total);
+        Assert.Equal(70m * 224, card.Amount!.Total);
         Assert.Contains(card.Notes, n => n.Contains("Pominięto wpis o pracy na część etatu"));
     }
 
