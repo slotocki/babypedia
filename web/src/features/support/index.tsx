@@ -46,7 +46,10 @@ export function SupportPage() {
   })
 
   const funeralSituations = ['martwe_urodzenie', 'zgon_dziecka']
-  const funeralOnTop = funeralSituations.includes(filter) || (detected !== null && funeralSituations.includes(detected))
+  // Zasiłek pogrzebowy tylko przy martwym urodzeniu lub zgonie dziecka: wybranym na ekranie
+  // albo wynikającym z danych, gdy użytkownik nie wybrał innej sytuacji (np. wcześniactwa).
+  const funeralOnTop =
+    funeralSituations.includes(filter) || (filter === ALL && detected !== null && funeralSituations.includes(detected))
   const difficult =
     assessment.data?.difficultSituation === true ||
     isDifficultSituation(filter) ||
@@ -81,7 +84,7 @@ export function SupportPage() {
           description={
             difficult
               ? 'Zebraliśmy miejsca, w których możesz uzyskać pomoc i informacje. Nie musisz robić wszystkiego naraz.'
-              : 'Organizacje wsparcia i informacja o zasiłku pogrzebowym.'
+              : 'Organizacje, które pomagają rodzicom w trudnych sytuacjach.'
           }
         />
 
@@ -159,7 +162,6 @@ export function SupportPage() {
 
         {funeralOnTop ? funeral : null}
 
-        {funeralOnTop ? null : funeral}
         <LegalAssistant calculatorPath={hasEvent ? paths.result : paths.start} />
       </div>
     </ToneScope>
