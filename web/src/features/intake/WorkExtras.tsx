@@ -45,6 +45,8 @@ export interface WorkExtrasProps {
   forma: string
   rodzaj: string
   mother: boolean
+  /** Wszystkie dzieci urodziły się martwe — bez rezygnacji z urlopu macierzyńskiego i planu urlopu rodzicielskiego. */
+  stillborn: boolean
   /** Czy liczymy też dla drugiego rodzica (wtedy ojciec może przejąć resztę urlopu macierzyńskiego). */
   bothParents: boolean
   values: ExtrasAnswers
@@ -78,13 +80,13 @@ function Item({ title, onRemove, children }: { title: string; onRemove: () => vo
 const twoColumns = 'grid min-w-0 gap-4 sm:grid-cols-2'
 
 /** Dodatkowe, domyślnie zwinięte sekcje kroku „Praca i ubezpieczenie”: kolejne tytuły, e-ZLA, plan urlopów. */
-export function WorkExtras({ prefix, self, forma, rodzaj, mother, bothParents, values, errors, register, control }: WorkExtrasProps) {
+export function WorkExtras({ prefix, self, forma, rodzaj, mother, stillborn, bothParents, values, errors, register, control }: WorkExtrasProps) {
   const base = `${prefix}.extras` as const
   const titles = useFieldArray({ control, name: `${base}.tytuly` })
   const leaves = useFieldArray({ control, name: `${base}.zwolnienia` })
   const parts = useFieldArray({ control, name: `${base}.czesci` })
   const partTime = useFieldArray({ control, name: `${base}.pracaCzesc` })
-  const scope = { rodzaj, mother }
+  const scope = { rodzaj, mother, stillborn }
   const radio = (name: Parameters<UseFormRegister<FormValues>>[0], value: string) => ({ ...register(name), value })
   const who = (mine: string, theirs: string) => (self ? mine : theirs)
 

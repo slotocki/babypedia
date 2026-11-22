@@ -11,6 +11,7 @@ import { findKind, submissionFormPath } from '@/features/submissions/kinds'
 import { dataSources } from '@/features/zus-data/labels'
 import { Button, Checkbox, ErrorState, PageHeader, SimulationBanner, Spinner, UserIcon } from '@/ui'
 import { useFocusHeading } from './useFocusHeading'
+import { clearWizardDraft } from './wizardDraft'
 
 const allSources: DataSource[] = dataSources.map((source) => source.id)
 
@@ -77,6 +78,7 @@ export function LoginPage() {
       } else {
         // Odpowiedzi zapisane w pliku osoby testowej oznaczamy na „Sprawdź dane” jako przykład do poprawienia.
         rememberExampleAnswers(sessionId, facts)
+        clearWizardDraft()
         replaceCase(facts, sessionId, null, profileName, link)
         navigate(paths.review)
       }

@@ -3,6 +3,7 @@ import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
 import { FileIcon, ShieldIcon } from '@/ui'
 import { useFocusHeading } from './useFocusHeading'
+import { clearWizardDraft } from './wizardDraft'
 
 const card = 'group flex min-h-48 flex-col items-start gap-3 rounded-card border p-5 transition-colors focus-visible:outline-offset-4 sm:p-6'
 
@@ -22,7 +23,7 @@ export function StartPage() {
 
       <div className="grid gap-3 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <div className="grid gap-3 sm:grid-cols-2">
-          <Link to={paths.manual} onClick={startManual} className={card + ' border-line bg-surface hover:border-brand hover:bg-brand-soft/40'}>
+          <Link to={paths.manual} onClick={() => { clearWizardDraft(); startManual() }} className={card + ' border-line bg-surface hover:border-brand hover:bg-brand-soft/40'}>
             <FileIcon className="size-6 text-brand-strong" />
             <h2 className="text-lg font-bold leading-tight sm:text-xl">Wprowadź dane ręcznie</h2>
             <p className="text-sm text-ink-soft">Odpowiedz na kilka pytań o swoją sytuację. Nie wymaga logowania</p>
