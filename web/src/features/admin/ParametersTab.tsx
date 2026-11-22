@@ -6,6 +6,7 @@ import { Alert, Button, Card, Checkbox, DateInput, EmptyState, Field, RadioGroup
 import { QueryView } from './QueryView'
 import { fieldErrors, generalMessage } from './problem'
 import { useAdminSession } from './session'
+import { groupOrder, otherGroup, parameterName } from './parameter-names'
 import { allowsEmptyValue, describeUnit, formatParameterValue, inputSuffix, isTextUnit, parseInput } from './values'
 
 interface KeyGroup {
@@ -45,14 +46,19 @@ function groupParameters(parameters: Parameter[], query: string): RowGroup[] {
   const groups = new Map<string, KeyGroup[]>()
   for (const [key, rows] of byKey) {
     const sorted = [...rows].sort((a, b) => a.validFrom.localeCompare(b.validFrom))
-    const haystack = [key, ...sorted.flatMap((r) => [r.wiersz ?? '', r.legalBasis, r.note ?? ''])].join(' ').toLocaleLowerCase('pl')
+    const name = parameterName(key, sorted[0].wiersz)
+    const haystack = [key, name?.title ?? '', ...sorted.flatMap((r) => [r.wiersz ?? '', r.legalBasis, r.note ?? ''])].join(' ').toLocaleLowerCase('pl')
     if (needle && !haystack.includes(needle)) continue
-    const wiersz = sorted[0].wiersz ?? 'Inne'
+    const wiersz = name?.group ?? otherGroup
     const list = groups.get(wiersz) ?? []
     list.push({ key, rows: sorted })
     groups.set(wiersz, list)
   }
-  return [...groups].map(([wiersz, keys]) => ({ wiersz, keys }))
+  const rank = (group: string) => {
+    const index = groupOrder.indexOf(group)
+    return index === -1 ? groupOrder.length : index
+  }
+  return [...groups].map(([wiersz, keys]) => ({ wiersz, keys })).sort((a, b) => rank(a.wiersz) - rank(b.wiersz))
 }
 
 export function ParametersTab() {
@@ -69,6 +75,13 @@ export function ParametersTab() {
       title="Parametry prawne"
       description="Każda wartość ma datę „obowiązuje od”. Nowa wartość dotyczy okresów od wskazanego dnia i nie zmienia wcześniejszych."
     >
+      <Alert variant="info" title="Co tu zmienić i gdzie zobaczyć efekt">
+        <ol className="list-decimal space-y-1 pl-5">
+          <li>Znajdź parametr (grupy poniżej albo wyszukiwarka) i wybierz „Dodaj wartość od dnia…”.</li>
+          <li>Wpisz nową wartość i datę, od której obowiązuje (np. nowa stawka od 1 stycznia). Wcześniejsze okresy zostają bez zmian.</li>
+          <li>Zobacz efekt: otwórz zakładkę „Historia zmian”, a potem w aplikacji przelicz wynik (strona „Twój plan”). Kwoty i terminy liczą się już z nowej wartości.</li>
+        </ol>
+      </Alert>
       <QueryView query={parameters} loadingLabel="Ładowanie parametrów…">
         {(data) => <ParameterList parameters={data} search={search} onSearch={setSearch} saved={saved} onSaved={setSaved} />}
       </QueryView>
@@ -145,12 +158,16 @@ function ParameterCard({ item, today, editing, onToggle, onSaved }: ParameterCar
   const reference = current ?? latest
   const unit = reference.unit
   const pending = reference.status === 'do_weryfikacji'
+  const name = parameterName(item.key, reference.wiersz)
 
   return (
     <Card as="article" aria-label={`Parametr ${item.key}`}>
       <Stack gap="md">
         <div className="space-y-1">
-          <h4 className="break-words font-mono text-base font-semibold text-ink">{item.key}</h4>
+          <h4 className="break-words text-base font-semibold text-ink">
+            {name ? `${name.title}${name.variant ? ` — ${name.variant}` : ''}` : item.key}
+          </h4>
+          {name ? <p className="break-words font-mono text-xs text-ink-soft">{item.key}</p> : null}
           <p className="text-ink">
             <span className="text-ink-soft">Aktualna wartość: </span>
             <strong>{current ? formatParameterValue(current.value, unit) : 'brak obowiązującej wartości'}</strong>
