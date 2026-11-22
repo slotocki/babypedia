@@ -160,7 +160,7 @@ public sealed class RodzicielskiTests
 
         var result = Get(assessment, BenefitId.Rodzicielski);
         Assert.Equal(BenefitStatus.NiePrzysluguje, result.Status);
-        Assert.Contains("2032-12-31", result.Reason);
+        Assert.Contains("31.12.2032", result.Reason);
         Assert.Equal(BenefitStatus.Przysluguje, Get(Assess(Facts(BirthCase(Birth), MotherWithParts(Part(1, "2032-12-25")))), BenefitId.Rodzicielski).Status);
     }
 

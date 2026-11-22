@@ -6,7 +6,7 @@ namespace BabyRadnik.Domain.Eligibility;
 internal static class Text
 {
     public static string Money(decimal value) =>
-        value.ToString("0.00", CultureInfo.InvariantCulture).Replace('.', ',') + " zł";
+        value.ToString("#,##0.00", CultureInfo.InvariantCulture).Replace(',', ' ').Replace('.', ',') + " zł";
 
     public static string Date(DateOnly date) =>
         date.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);

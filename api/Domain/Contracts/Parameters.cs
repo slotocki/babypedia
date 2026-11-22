@@ -15,7 +15,7 @@ public interface IParameterProvider
 }
 
 public sealed class ParameterNotFoundException(string key, DateOnly date)
-    : Exception($"Brak parametru '{key}' obowiązującego w dniu {date:yyyy-MM-dd}.")
+    : Exception($"Brak parametru '{key}' obowiązującego w dniu {date:dd.MM.yyyy}.")
 {
     public string Key { get; } = key;
     public DateOnly Date { get; } = date;

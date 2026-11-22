@@ -146,7 +146,7 @@ public sealed class OtherBenefitsAndRoundingTests
         Assert.Null(card.Period);
         Assert.Equal(0.7m, card.Rate);
         Assert.Null(card.Amount);
-        Assert.Contains(card.Notes, n => n.Contains("nie jest jeszcze ustalony"));
+        Assert.Contains(card.Notes, n => n.Contains("Kwotę policzymy, gdy będzie znany okres zasiłku"));
     }
 
     [Fact]
@@ -279,7 +279,7 @@ public sealed class OtherBenefitsAndRoundingTests
         var step = basis.Trace.Single(t => t.Rule == "minimalna_podstawa");
         Assert.True(step.Met);
         Assert.Contains("art. 45", step.Basis);
-        Assert.Contains(basis.Notes, n => n.Contains("niepełnego etatu"));
+        Assert.Contains(basis.Notes, n => n.Contains("niepełnym etacie"));
     }
 
     private sealed class WithoutKey(IParameterProvider inner, string hidden) : IParameterProvider

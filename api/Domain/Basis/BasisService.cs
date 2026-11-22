@@ -79,7 +79,7 @@ public sealed class BasisService(IParameterProvider parameters) : IBasisService
 
         var notes = new List<string>(value.Notes)
         {
-            $"Szacunek z danych ZUS: podstawa wymiaru zasiłku {Fmt.Money(value.Amount)} (kwoty brutto, przed zaliczką na podatek; odliczono tylko składki {Fmt.Percent(i.Param(BasisParameterKeys.OdliczenieSkladek, i.ReferenceDay))}).",
+            $"Szacunek z danych ZUS: podstawa wymiaru zasiłku {Fmt.Money(value.Amount)}, czyli przeciętne miesięczne wynagrodzenie po odliczeniu składek na ubezpieczenia społeczne ({Fmt.Percent(i.Param(BasisParameterKeys.OdliczenieSkladek, i.ReferenceDay))}), przed podatkiem.",
         };
 
         var months = BuildMonths(i);
@@ -103,7 +103,7 @@ public sealed class BasisService(IParameterProvider parameters) : IBasisService
         var plan = i.Absence.Value!;
         return months.Insured
             .Select(m => new BasisMonth(
-                Fmt.Months([m]),
+                m.ToString("yyyy-MM", System.Globalization.CultureInfo.InvariantCulture),
                 months.Contributions[m],
                 plan.Used.Contains(m),
                 plan.Omitted.Contains(m) ? "pominięty: w całości objęty nieobecnością"

@@ -59,21 +59,21 @@ internal sealed class BrakPodstawyRule : IAmountRule
 {
     public string Id => "brak_podstawy";
 
-    public string PodstawaPrawna => "instrukcja 8.6; ustawa art. 36 ust. 1, 3; art. 47";
+    public string PodstawaPrawna => "ustawa art. 36 ust. 1, 3; art. 47";
 }
 
 internal sealed class StawkaDziennaRule : IAmountRule
 {
     public string Id => "stawka_dzienna";
 
-    public string PodstawaPrawna => "ustawa art. 36 ust. 3 w zw. z art. 47; instrukcja 8.6 (zaokrąglanie: parametr „zaokraglanie”, do weryfikacji)";
+    public string PodstawaPrawna => "ustawa art. 36 ust. 3 w zw. z art. 47";
 }
 
 internal sealed class KwotaZaOkresRule : IAmountRule
 {
     public string Id => "kwota_za_okres";
 
-    public string PodstawaPrawna => "ustawa art. 31 ust. 1–4a; instrukcja 8.6";
+    public string PodstawaPrawna => "ustawa art. 31 ust. 1–4a";
 }
 
 internal sealed class CardProcessor(AmountsContext ctx)
@@ -185,7 +185,7 @@ internal sealed class CardProcessor(AmountsContext ctx)
 
         if (synthetic)
         {
-            notes.Add($"Okres zasiłku nie jest jeszcze ustalony — stawka {Percent(dominant.Rate)} dotyczy dnia {Date(blocks[0].From)}; kwoty nie liczę.");
+            notes.Add($"Stawka: {Percent(dominant.Rate)} podstawy wymiaru zasiłku. Kwotę policzymy, gdy będzie znany okres zasiłku (daty urlopu albo zwolnienia lekarskiego).");
             return card with { Rate = dominant.Rate, Notes = notes, Trace = trace };
         }
 
@@ -216,7 +216,7 @@ internal sealed class CardProcessor(AmountsContext ctx)
             }
 
             trace.Add(AmountTrace.Of(StawkaDzienna, true, DailyText(amounts, basis, pieces[0]),
-                "stawka dzienna = podstawa ÷ 30, zaokrąglona wg ustawienia"));
+                "stawka dzienna = podstawa ÷ 30, zaokrąglona do grosza"));
             trace.Add(AmountTrace.Of(KwotaZaOkres, true, TotalText(priced, total),
                 "zasiłek za okres = stawka dzienna × stawka procentowa × dni kalendarzowe"));
 
@@ -257,7 +257,7 @@ internal sealed class CardProcessor(AmountsContext ctx)
     }
 
     private static string DailyText(AmountCalculator amounts, BasisInput basis, Piece piece) =>
-        $"Stawka dzienna = podstawa × stopa ÷ {amounts.Divisor}: {Money(basis.Amount)} × {Percent(piece.Rate)} ÷ {amounts.Divisor} = {Money(amounts.DailyAt(basis.Amount, piece.Rate))} (zaokrąglenie do {amounts.Places} miejsc po przecinku, ustawienie do weryfikacji).";
+        $"Stawka dzienna = podstawa × stopa ÷ {amounts.Divisor}: {Money(basis.Amount)} × {Percent(piece.Rate)} ÷ {amounts.Divisor} = {Money(amounts.DailyAt(basis.Amount, piece.Rate))} ({(amounts.Places == 2 ? "zaokrąglone do pełnego grosza" : $"zaokrąglone do {amounts.Places} miejsc po przecinku")}).";
 
     private static string TotalText(IReadOnlyList<(Piece Piece, Amount Amount)> priced, decimal total) =>
         string.Join("; ", priced.Select(x =>

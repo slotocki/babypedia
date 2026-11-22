@@ -224,10 +224,16 @@ public sealed class PeriodsService(IParameterProvider parameters) : IPeriodsServ
         }
         if (i.RodzicielskiTermin.Value is { } deadline)
         {
+            // Urlop rodzicielski to instytucja Kodeksu pracy (pracownicy). Osoba niebędąca pracownikiem nie bierze urlopu —
+            // dostaje zasiłek za okres ustalony w KP jako okres urlopu rodzicielskiego (ustawa art. 31 ust. 2), więc ta sama granica dotyczy zasiłku.
+            var employee = BabyRadnik.Domain.Deadlines.InsuranceFacts.IsEmployee(i.Me, i.EventDate, i.AsOf);
             draft.Deadlines.Add(new Deadline(
                 "wykorzystanie_rodzicielskiego", DeadlineType.Okno, deadline,
-                $"Urlop rodzicielski wykorzystaj najpóźniej do {PeriodMath.Format(deadline)}.",
-                "prawo do urlopu rodzicielskiego wygasa", i.RodzicielskiTermin.Rule.PodstawaPrawna));
+                employee
+                    ? $"Urlop rodzicielski wykorzystaj najpóźniej do {BabyRadnik.Domain.Deadlines.PolishDate.Words(deadline)}."
+                    : $"Zasiłek za okres odpowiadający urlopowi rodzicielskiemu możesz pobierać najpóźniej do {BabyRadnik.Domain.Deadlines.PolishDate.Words(deadline)}.",
+                employee ? "prawo do urlopu rodzicielskiego wygasa" : "prawo do zasiłku za ten okres wygasa",
+                employee ? i.RodzicielskiTermin.Rule.PodstawaPrawna : $"{i.RodzicielskiTermin.Rule.PodstawaPrawna} w zw. z ustawą art. 31 ust. 2"));
         }
 
         return draft;
@@ -257,10 +263,13 @@ public sealed class PeriodsService(IParameterProvider parameters) : IPeriodsServ
         draft.Parts = outcome.Parts;
         draft.Notes.AddRange(outcome.Notes);
         var window = i.OjcowskiOkno.Value;
+        var employee = BabyRadnik.Domain.Deadlines.InsuranceFacts.IsEmployee(i.Me, i.EventDate, i.AsOf);
         draft.Deadlines.Add(new Deadline(
             "wykorzystanie_ojcowskiego", DeadlineType.Okno, window,
-            $"Urlop ojcowski wykorzystaj najpóźniej do {PeriodMath.Format(window)}.",
-            "prawo do urlopu ojcowskiego wygasa", i.OjcowskiOkno.Rule.PodstawaPrawna));
+            employee
+                ? $"Urlop ojcowski wykorzystaj najpóźniej do {BabyRadnik.Domain.Deadlines.PolishDate.Words(window)}."
+                : $"Zasiłek za okres odpowiadający urlopowi ojcowskiemu możesz pobierać najpóźniej do {BabyRadnik.Domain.Deadlines.PolishDate.Words(window)}.",
+            employee ? "prawo do urlopu ojcowskiego wygasa" : "prawo do zasiłku za ten okres wygasa", i.OjcowskiOkno.Rule.PodstawaPrawna));
         return draft;
     }
 

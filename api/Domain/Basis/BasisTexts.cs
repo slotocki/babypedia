@@ -52,9 +52,9 @@ public static class BasisTexts
 internal static class Fmt
 {
     public static string Money(decimal value) =>
-        value.ToString("0.00", CultureInfo.InvariantCulture).Replace('.', ',') + " zł";
+        value.ToString("#,##0.00", CultureInfo.InvariantCulture).Replace(',', ' ').Replace('.', ',') + " zł";
 
-    public static string Date(DateOnly date) => date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+    public static string Date(DateOnly date) => date.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
 
     public static string Percent(decimal fraction) =>
         (fraction * 100).ToString("0.##", CultureInfo.InvariantCulture).Replace('.', ',') + "%";
@@ -62,7 +62,7 @@ internal static class Fmt
     public static string Fraction(decimal value) => value.ToString("0.####", CultureInfo.InvariantCulture).Replace('.', ',');
 
     public static string Months(IEnumerable<DateOnly> months) =>
-        string.Join(", ", months.Select(m => m.ToString("yyyy-MM", CultureInfo.InvariantCulture)));
+        string.Join(", ", months.Select(m => m.ToString("MM.yyyy", CultureInfo.InvariantCulture)));
 
     public static decimal Round(decimal value) => Math.Round(value, 2, MidpointRounding.AwayFromZero);
 }

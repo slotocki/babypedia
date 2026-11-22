@@ -6,7 +6,7 @@ public sealed class NonEmployeeAverageRule : BasisRule<BasisValue>
 {
     public override string Id => "srednia_przychodu_niepracownika";
 
-    public override string PodstawaPrawna => "ustawa art. 48 ust. 1–2, art. 3 pkt 4, art. 50, art. 52; instrukcja 8.7 (niebędący pracownikiem) pkt 1";
+    public override string PodstawaPrawna => "ustawa art. 48 ust. 1–2, art. 3 pkt 4, art. 50, art. 52";
 
     protected override BasisStep<BasisValue> Compute(BasisInputs i)
     {
@@ -37,7 +37,7 @@ public sealed class ShortInsuranceRule : BasisRule<BasisValue>
     public override string Id => "art48a_ubezpieczenie_krotsze_niz_12_miesiecy";
 
     public override string PodstawaPrawna =>
-        "ustawa art. 48a ust. 1 i 5, art. 3 pkt 4, art. 50, art. 52; ustawa o systemie ubezpieczeń społecznych art. 18 ust. 8; instrukcja 8.7 (niebędący pracownikiem) pkt 2";
+        "ustawa art. 48a ust. 1 i 5, art. 3 pkt 4, art. 50, art. 52; ustawa o systemie ubezpieczeń społecznych art. 18 ust. 8";
 
     protected override BasisStep<BasisValue> Compute(BasisInputs i)
     {
@@ -123,7 +123,7 @@ public sealed class VoluntaryLimitRule : BasisRule<BasisValue>
 {
     public override string Id => "limit_podstawy_dobrowolnej";
 
-    public override string PodstawaPrawna => "Załącznik ZUS (Dla nie pracowników); instrukcja 8.1 i 8.7 (niebędący pracownikiem) pkt 3";
+    public override string PodstawaPrawna => "Załącznik ZUS (dla osób niebędących pracownikami)";
 
     protected override BasisStep<BasisValue> Compute(BasisInputs i)
     {

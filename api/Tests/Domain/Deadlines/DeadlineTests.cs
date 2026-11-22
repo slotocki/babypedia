@@ -350,8 +350,7 @@ public sealed class DeadlineTests
 
         var deadline = Find(result, BenefitId.Macierzynski, "wniosek_usredniona");
         Assert.Equal(D("2027-04-05"), deadline.Date);
-        Assert.StartsWith("Termin na wniosek o wypłatę zasiłku w wariancie 81,5%", deadline.Text);
-        Assert.Contains("minął 5 kwietnia 2027", deadline.Text);
+        Assert.StartsWith("Termin minął 5 kwietnia 2027: do tego dnia trzeba było złożyć wniosek o wypłatę zasiłku w wariancie 81,5%", deadline.Text);
         Assert.Contains("Skutek: zasiłek za urlop rodzicielski wyniesie 70% podstawy.", deadline.Text);
     }
 

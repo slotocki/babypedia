@@ -6,7 +6,7 @@ public sealed class PayerBasisRule : BasisRule<decimal?>
 {
     public override string Id => "podstawa_ustalona_przez_platnika";
 
-    public override string PodstawaPrawna => "instrukcja 6.1 i 8.7; kontrakt: podstawa.ustalonaPrzezPlatnika";
+    public override string PodstawaPrawna => "ustawa art. 36, art. 48 (podstawa ustalona przez płatnika składek)";
 
     protected override BasisStep<decimal?> Compute(BasisInputs i)
     {
@@ -65,7 +65,7 @@ public sealed class ReferenceDateRule : BasisRule<ReferenceDate>
                 "przerwa między zasiłkami krótsza niż miesiąc kalendarzowy");
         }
 
-        var list = string.Join(", ", chain.OrderBy(b => b.Od).Select(b => $"{b.Od:yyyy-MM-dd}–{b.Do:yyyy-MM-dd}"));
+        var list = string.Join(", ", chain.OrderBy(b => b.Od).Select(b => $"{Fmt.Date(b.Od)}–{Fmt.Date(b.Do)}"));
         return BasisSteps.Met(this, new ReferenceDate(current, chain, true),
             $"Zasiłek następuje po innym zasiłku bez przerwy albo z przerwą krótszą niż miesiąc kalendarzowy ({list}), więc podstawy nie ustala się na nowo: liczę ją tak jak dla pierwszego zasiłku w ciągu — od dnia {Fmt.Date(current)}.",
             "przerwa między zasiłkami krótsza niż miesiąc kalendarzowy");
@@ -78,7 +78,7 @@ public sealed class InsuredTitleRule : BasisRule<InsuredTitle>
 
     public override string Id => "tytul_ubezpieczenia_podstawy";
 
-    public override string PodstawaPrawna => "ustawa art. 3 pkt 1, art. 36 ust. 4, art. 40, art. 47, art. 48 ust. 2, art. 52; instrukcja 8.2";
+    public override string PodstawaPrawna => "ustawa art. 3 pkt 1, art. 36 ust. 4, art. 40, art. 47, art. 48 ust. 2, art. 52";
 
     private static bool IsBusiness(InsuranceTitle t) => t.RodzajTytulu is TitleKind.Dzialalnosc or TitleKind.OsobaWspolpracujaca;
 
@@ -164,13 +164,13 @@ public sealed class InsuredTitleRule : BasisRule<InsuredTitle>
             if (employee && !concurrent && from > windowStart && other.Do is { } otherEnd && otherEnd >= from.AddDays(-1) && other.RodzajTytulu == TitleKind.Pracownik && OtherPayer(other, current))
             {
                 return BasisSteps.Undecided<InsuredTitle>(this,
-                    $"Zmiana pracodawcy bez przerwy w ubezpieczeniu: poprzednie zatrudnienie u innego płatnika ({other.PlatnikNazwa ?? other.PlatnikId}) trwało do {otherEnd:yyyy-MM-dd}. Podstawę ustala się z wynagrodzenia u płatnika, u którego trwa ubezpieczenie (art. 36 ust. 4), więc wynagrodzeń od poprzedniego płatnika nie wliczam; przy krótkim zatrudnieniu u obecnego płatnika potrzebne są dane z umowy (art. 37), a przy przejęciu zakładu pracy (art. 23¹ KP) zasady są inne — poziom 1 tego nie liczy.");
+                    $"Zmiana pracodawcy bez przerwy w ubezpieczeniu: poprzednie zatrudnienie u innego płatnika ({other.PlatnikNazwa ?? other.PlatnikId}) trwało do {Fmt.Date(otherEnd)}. Podstawę ustala się z wynagrodzenia u płatnika, u którego trwa ubezpieczenie (art. 36 ust. 4), więc wynagrodzeń od poprzedniego płatnika nie wliczam; przy krótkim zatrudnieniu u obecnego płatnika potrzebne są dane z umowy (art. 37), a przy przejęciu zakładu pracy (art. 23¹ KP) zasady są inne — poziom 1 tego nie liczy.");
             }
 
             if (concurrent || closePredecessor)
             {
                 return BasisSteps.Undecided<InsuredTitle>(this,
-                    $"W okresie obliczeniowym występuje inny tytuł z ubezpieczeniem chorobowym ({other.Od:yyyy-MM-dd}–{(other.Do is { } d ? d.ToString("yyyy-MM-dd") : "bez końca")}): zmiana tytułu albo przerwa do 30 dni (art. 36 ust. 4, art. 48a ust. 2–4, art. 49 ust. 2–3) wymaga zasad spoza poziomu 1.");
+                    $"W okresie obliczeniowym występuje inny tytuł z ubezpieczeniem chorobowym ({Fmt.Date(other.Od)}–{(other.Do is { } d ? Fmt.Date(d) : "bez końca")}): zmiana tytułu albo przerwa do 30 dni (art. 36 ust. 4, art. 48a ust. 2–4, art. 49 ust. 2–3) wymaga zasad spoza poziomu 1.");
             }
         }
 

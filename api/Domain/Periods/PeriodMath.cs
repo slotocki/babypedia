@@ -30,7 +30,7 @@ public static class PeriodMath
 
     public static DateOnly EndOfCalendarYear(int year) => new(year, 12, 31);
 
-    public static string Format(DateOnly date) => date.ToString("yyyy-MM-dd");
+    public static string Format(DateOnly date) => date.ToString("dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
     public static string Describe(Period period) =>
         $"od {Format(period.From)} do {Format(period.To)} ({period.Days} dni, {period.Weeks:0.##} tyg.)";
