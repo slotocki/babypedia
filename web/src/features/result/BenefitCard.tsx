@@ -238,12 +238,11 @@ function Entitled({ benefit, application, onSaveBasis, busy, difficult }: Omit<B
   )
 }
 
-function Refused({ benefit, difficult }: { benefit: BenefitResult; difficult?: boolean }) {
+function Refused({ benefit }: { benefit: BenefitResult }) {
   const { reason, legalBasis, whatWouldChange } = benefit
   const condition = conditionOf(benefit)
   const hidden = shownElsewhere(benefit)
   const notes = benefit.notes.filter((n) => !hidden.has(n))
-  const links = linksFor(benefit.links, difficult === true)
   const debt = benefit.trace.some((s) => s.rule === 'zadluzenie_skladkowe' && s.met === false)
   return (
     <div className="space-y-3">
@@ -266,7 +265,6 @@ function Refused({ benefit, difficult }: { benefit: BenefitResult; difficult?: b
           <Notes notes={notes} />
         </Disclosure>
       ) : null}
-      <LinkList links={links} />
     </div>
   )
 }
@@ -345,7 +343,7 @@ export function BenefitCard({ benefit, missing, application, headingLevel = 3, o
       {benefit.status === 'przysługuje' ? (
         <Entitled benefit={benefit} application={application} onSaveBasis={onSaveBasis} busy={busy} difficult={difficult} />
       ) : null}
-      {benefit.status === 'nie_przysługuje' ? <Refused benefit={benefit} difficult={difficult} /> : null}
+      {benefit.status === 'nie_przysługuje' ? <Refused benefit={benefit} /> : null}
       {benefit.status === 'brakuje_danych' ? <MissingData missing={missing} /> : null}
       {benefit.status === 'nie_rozstrzygam' ? <Undecided benefit={benefit} difficult={difficult} /> : null}
 
