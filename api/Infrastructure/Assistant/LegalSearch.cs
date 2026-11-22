@@ -44,17 +44,23 @@ internal sealed partial class LegalSearch
 
     public LegalNumbering Numbering => numbering;
 
-    public IReadOnlyList<LegalHit> Find(string question, int limit = MaxHits)
+    /// <summary>
+    /// Najlepiej pasujące fragmenty. <paramref name="minSupporting"/> rezerwuje miejsca dla materiałów pomocniczych ZUS:
+    /// akty prawne mają w rankingu przewagę, a poradnik tłumaczy to samo prostym językiem — model dostaje jedno i drugie.
+    /// </summary>
+    public IReadOnlyList<LegalHit> Find(string question, int limit = MaxHits, int minSupporting = 0)
     {
         var referenced = Referenced(question);
-        var words = LegalTerms.Tokenize(question).Distinct().ToArray();
-        var known = words.Where(documentFrequency.ContainsKey).ToArray();
-        var informative = known.Where(word => !IsGeneric(word)).ToArray();
+        var asked = LegalTerms.Tokenize(question).Distinct().ToArray();
+        var known = asked.Where(documentFrequency.ContainsKey).ToArray();
 
         // Pytanie spoza materiałów: żadne słowo nie wskazuje tematu albo większości słów nie ma w żadnym przepisie.
-        if (informative.Length == 0 || known.Length * 2 < words.Length)
-            return referenced.Take(limit).Select(item => Hit(item, informative)).ToArray();
+        // Oceniamy samo pytanie — słowa dodane przez rozwinięcie zawsze są w przepisach i zamazałyby ten test.
+        if (!known.Any(word => !IsGeneric(word)) || known.Length * 2 < asked.Length)
+            return referenced.Take(limit).Select(item => Hit(item, known.Where(word => !IsGeneric(word)).ToArray())).ToArray();
 
+        var words = LegalTerms.Tokenize(LegalTerms.ExpandQuery(question)).Distinct().ToArray();
+        var informative = words.Where(word => documentFrequency.ContainsKey(word) && !IsGeneric(word)).ToArray();
         var found = index.Select(item =>
             {
                 var matches = informative.Count(item.Terms.ContainsKey);
@@ -66,7 +72,11 @@ internal sealed partial class LegalSearch
             .OrderByDescending(hit => hit.Score * (hit.Item.Excerpt.IsLegalAct ? 1.3 : 0.75))
             .Select(hit => hit.Item);
 
-        return referenced.Concat(found).Distinct().Take(limit).Select(item => Hit(item, informative)).ToArray();
+        var ranked = referenced.Concat(found).Distinct().ToArray();
+        var reserved = ranked.Where(item => !item.Excerpt.IsLegalAct).Take(Math.Min(minSupporting, limit)).ToHashSet();
+        var rest = ranked.Where(item => !reserved.Contains(item)).Take(limit - reserved.Count).ToHashSet();
+        return ranked.Where(item => reserved.Contains(item) || rest.Contains(item))
+            .Select(item => Hit(item, informative)).ToArray();
     }
 
     /// <summary>Artykuły wskazane w pytaniu numerem („art. 180¹”, „art. 1821a”), z uwzględnieniem wskazanego aktu.</summary>
@@ -179,6 +189,23 @@ internal sealed partial class LegalSearch
             (@"\bzus\b", "zaklad ubezpieczen spolecznych"),
             (@"\bprzej(?:ac|mie|muje|mowac|al|ela|ecie)\w*\b", "wykorzysta czesc"),
         ];
+
+        // Tylko dla pytań: rodzic pyta „jakie dokumenty”, a przepisy mówią „dokumentem niezbędnym… jest zaświadczenie / odpis”,
+        // poradnik — „jak otrzymać zasiłek… wystarczy złożyć wniosek”. Do tekstów przepisów tego nie stosujemy.
+        private static readonly (string Pattern, string Expansion)[] QueryExpansions =
+        [
+            (@"\b(?:dokument\w*|potrzebn\w*|dostarcz\w*|zalacz\w*|przynies\w*|formalnosc\w*)\b",
+                "dokumentem niezbednym zaswiadczenie odpis wniosek otrzymac"),
+        ];
+
+        public static string ExpandQuery(string question)
+        {
+            var normalized = AssistantPolicy.Normalize(question);
+            foreach (var (pattern, expansion) in QueryExpansions)
+                if (Regex.IsMatch(normalized, pattern))
+                    normalized += " " + expansion;
+            return normalized;
+        }
 
         private static readonly string[] CommonStems =
             ["urlop", "zasil", "sklad", "wnios", "ubezpiecz", "okres", "ciaz", "martw", "dwoj", "lacz"];

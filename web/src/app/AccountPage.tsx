@@ -24,7 +24,7 @@ export function AccountPage() {
           </div>
           {connection ? <ConnectionStatus connection={connection} className="bg-canvas" /> : null}
           <div className="flex flex-wrap gap-2">
-            <Button asChild><Link to={hasResult ? paths.result : paths.review}>{hasResult ? 'Zobacz mój wynik' : 'Uzupełnij dane'}</Link></Button>
+            <Button asChild><Link to={hasResult ? paths.result : paths.review}>{hasResult ? 'Przejdź do planu' : 'Uzupełnij dane'}</Link></Button>
             <Button asChild variant="secondary"><Link to={paths.zusData}>Moje dane w ZUS</Link></Button>
             <Button asChild variant="secondary"><Link to={paths.submissions + '?widok=moje'}>Moje wnioski</Link></Button>
           </div>

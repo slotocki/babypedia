@@ -79,6 +79,7 @@ internal static partial class LegalSources
         var parts = SectionHeading().Split(markdown);
         var footnotes = new List<Footnote>();
         var found = new List<(string Title, string Text)>();
+        string? parent = null;
         for (var i = 1; i < parts.Length; i += 2)
         {
             var title = parts[i].Trim();
@@ -90,7 +91,22 @@ internal static partial class LegalSources
             if (source.IsLegalAct && !ArticleHeading().IsMatch(title)) continue;
 
             var content = CleanContent(parts[i + 1]);
-            if (content.Length > 0) found.Add((title, content));
+            if (source.IsLegalAct)
+            {
+                if (content.Length > 0) found.Add((title, content));
+                continue;
+            }
+
+            // W poradniku nagłówki są spłaszczone: pusty „Jak otrzymać zasiłek” stoi nad „Pracownicy” i „Osoby ubezpieczone…”.
+            // Bez rodzica taki tytuł nic nie mówi ani wyszukiwarce, ani czytelnikowi, więc go doklejamy.
+            if (content.Length == 0)
+            {
+                parent = AssistantPolicy.Normalize(title).StartsWith("jak ", StringComparison.Ordinal) ? title : null;
+                continue;
+            }
+            var audience = parent is not null && AudienceHeading().IsMatch(AssistantPolicy.Normalize(title));
+            found.Add((audience ? $"{parent} › {title}" : title, content));
+            if (!audience) parent = null;
         }
 
         foreach (var (title, text) in found)
@@ -150,6 +166,9 @@ internal static partial class LegalSources
 
     [GeneratedRegex(@"^(?:Art\.|§)\s*\d")]
     private static partial Regex ArticleHeading();
+
+    [GeneratedRegex(@"^(?:pracownic|ubezpieczeni\b|osoby ubezpieczone|zleceniobiorc|osoby prowadzace|przedsiebiorc)")]
+    private static partial Regex AudienceHeading();
 
     [GeneratedRegex(@"^Art\.\s*(?<num>\d+[⁰¹²³⁴⁵⁶⁷⁸⁹]*[a-z]?)(?![\w⁰¹²³⁴⁵⁶⁷⁸⁹])")]
     private static partial Regex ArticleTitle();
