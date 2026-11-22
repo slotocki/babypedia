@@ -1,3 +1,4 @@
+import type { DataSource } from '@/app/case-context'
 import type { ReceivedBenefitKind, SicknessInsurance, TitleKind } from '@/app/api/types'
 
 export const titleLabels: Record<TitleKind, string> = {
@@ -37,3 +38,10 @@ export function formatMonth(value: string): string {
   const [y, m] = value.split('-').map(Number)
   return month.format(new Date(Date.UTC(y, m - 1, 1)))
 }
+
+/** Źródła danych w kroku zgody przy logowaniu (symulacja). */
+export const dataSources: { id: DataSource; label: string; description: string }[] = [
+  { id: 'zus', label: 'ZUS — konto ubezpieczonego (PUE/eZUS)', description: 'Ubezpieczenia, podstawy składek, saldo składek.' },
+  { id: 'ezla', label: 'e-ZLA — zwolnienia lekarskie', description: 'Okresy zwolnień, w tym pobyt w szpitalu.' },
+  { id: 'usc', label: 'Rejestr stanu cywilnego — dane dziecka', description: 'Data urodzenia i liczba dzieci.' },
+]

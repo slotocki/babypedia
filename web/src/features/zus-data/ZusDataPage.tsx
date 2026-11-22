@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router'
 import { ApiError, api } from '@/app/api/client'
 import type { ContributionDebt, InsuranceTitle, ZusAccount } from '@/app/api/types'
-import { useCaseState } from '@/app/case-context'
+import { useCaseState, type DataConnection } from '@/app/case-context'
 import { paths } from '@/app/paths'
 import {
   Alert,
@@ -21,6 +21,7 @@ import {
   formatMoney,
   formatPercent,
 } from '@/ui'
+import { ConnectionStatus } from './ConnectionStatus'
 import { benefitLabels, formatMonth, sickLeaveCodes, sicknessLabels, titleLabels } from './labels'
 import { useFocusHeading } from './useFocusHeading'
 
@@ -29,7 +30,7 @@ const askPath = `${paths.submissions}?widok=formularz&szablon=zapytanie_ezus`
 const certificatePath = `${paths.submissions}?widok=zaswiadczenie`
 
 export function ZusDataPage() {
-  const { sessionId } = useCaseState()
+  const { sessionId, connection } = useCaseState()
   const ref = useFocusHeading<HTMLDivElement>()
 
   return (
@@ -45,7 +46,7 @@ export function ZusDataPage() {
           ) : undefined
         }
       />
-      {sessionId ? <Account session={sessionId} /> : <NeedsLogin />}
+      {sessionId ? <Account session={sessionId} connection={connection} /> : <NeedsLogin />}
     </div>
   )
 }
@@ -67,8 +68,54 @@ function NeedsLogin({ expired = false }: { expired?: boolean }) {
   )
 }
 
-function Account({ session }: { session: string }) {
+function Account({ session, connection }: { session: string; connection: DataConnection | null }) {
+  const { markRefreshed } = useCaseState()
   const query = useQuery({ queryKey: ['sim', 'zus', session], queryFn: () => api.sim.myZus(session) })
+  const [refreshed, setRefreshed] = useState(false)
+  // Starsze sesje nie mają zapisanej zgody — wtedy pokazujemy wszystko, jak dotąd.
+  const shares = (source: DataConnection['sources'][number]) => !connection || connection.sources.includes(source)
+
+  const refresh = async () => {
+    setRefreshed(false)
+    const result = await query.refetch()
+    if (result.isSuccess) {
+      markRefreshed()
+      setRefreshed(true)
+    }
+  }
+
+  const status = connection ? (
+    <ConnectionStatus
+      connection={connection}
+      action={
+        shares('zus') ? (
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <Button variant="secondary" loading={query.isFetching && !query.isPending} loadingLabel="Odświeżam…" onClick={() => void refresh()}>
+              Odśwież dane
+            </Button>
+            <p role="status" className="text-sm text-ink-soft empty:hidden">
+              {refreshed && !query.isFetching ? 'Dane odświeżone.' : ''}
+            </p>
+          </div>
+        ) : (
+          <Button asChild variant="link">
+            <Link to={paths.login}>Połącz ponownie i zmień zgodę</Link>
+          </Button>
+        )
+      }
+    />
+  ) : null
+
+  if (connection && !shares('zus')) {
+    return (
+      <div className="space-y-6">
+        {status}
+        <Alert variant="info" title="Nie udostępniono danych z konta ZUS">
+          Przy logowaniu odznaczono konto ubezpieczonego (PUE/eZUS), więc nie pokazujemy tych danych.
+        </Alert>
+      </div>
+    )
+  }
 
   if (query.isPending) return <SkeletonText lines={6} label="Pobieram dane z konta (symulacja)…" />
   if (query.isError) {
@@ -79,11 +126,12 @@ function Account({ session }: { session: string }) {
   const zus = query.data
   return (
     <div className="space-y-10">
+      {status}
       <Titles titles={zus.tytuly} />
       <Bases bases={zus.podstawySkladek} />
       <Breaks breaks={zus.przerwy} />
       <Benefits benefits={zus.pobraneSwiadczenia} />
-      <SickLeaves leaves={zus.zwolnienia} />
+      {shares('ezla') ? <SickLeaves leaves={zus.zwolnienia} /> : null}
       <Balance debt={zus.saldo ?? null} />
     </div>
   )
