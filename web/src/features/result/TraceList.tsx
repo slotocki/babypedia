@@ -13,7 +13,9 @@ function Step({ step }: { step: TraceStep }) {
   const { label, Icon, className } = metMeta[String(step.met) as keyof typeof metMeta]
   return (
     <li className="space-y-1 break-words">
-      {step.condition ? <p className="text-base font-semibold text-ink">{step.condition}</p> : null}
+      {step.condition ? (
+        <p className="text-base font-semibold text-ink">{step.condition.charAt(0).toUpperCase() + step.condition.slice(1)}</p>
+      ) : null}
       <p className={`flex items-center gap-1.5 text-sm font-semibold ${className}`}>
         <Icon className="size-4 shrink-0" />
         {label}

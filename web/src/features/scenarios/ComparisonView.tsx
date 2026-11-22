@@ -35,7 +35,7 @@ export function ComparisonView({ result, scenarioTitle, scenarioId, onApply }: C
       <Card tone="highlight" className="space-y-4">
         <div role="status" aria-live="polite" className="space-y-4">
           <h2 ref={headingRef} tabIndex={-1} className="text-xl font-bold text-ink focus:outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand">
-            Różnica: plan bazowy a wariant „{scenarioTitle}”
+            Różnica: plan bazowy a „{scenarioTitle}”
           </h2>
           {summary ? <p className="text-lg font-semibold text-ink">{summary}</p> : null}
           {changed.length === 0 ? (
