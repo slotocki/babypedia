@@ -1,0 +1,320 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Kompas Rodzica — prezentacja</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..800&display=swap">
+<style>
+*{margin:0;padding:0}
+html{background:#1b2333}
+body{counter-reset:page}
+section{position:relative;width:1920px;height:1080px;overflow:hidden}
+aside.notes{display:none}
+:root {
+  --ink: #14233F;
+  --body: #46536A;
+  --muted: #6A768C;
+  --bg: #F4F6FA;
+  --bg2: #EAF0F8;
+  --card: #FDFDFE;
+  --line: #D5DCE8;
+  --brand: #2453A6;
+  --green: #0F7A5E;
+  --green-soft: #E3F3EC;
+  --navy: #14233F;
+  --on-navy: #EEF2F8;
+  --on-navy-soft: #B9C6DC;
+  --mint: #7FD3B5;
+}
+
+body { font-family: 'Public Sans', Arial, sans-serif; color: var(--ink); }
+
+section {
+  counter-increment: page;
+  background: var(--bg);
+  padding: 128px 128px 160px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+section.alt { background: var(--bg2); }
+section.dark { background: var(--navy); color: var(--on-navy); }
+
+.foot {
+  position: absolute; left: 128px; bottom: 64px; width: 1664px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.foot p { font-size: 24px; color: var(--muted); }
+.dark .foot p { color: var(--on-navy-soft); }
+.foot .num::after { content: counter(page); }
+
+.eyebrow { font-size: 24px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 16px; }
+.dark .eyebrow { color: var(--mint); }
+h2 { font-size: 64px; font-weight: 750; line-height: 1.08; letter-spacing: -1px; color: var(--ink); margin-bottom: 48px; }
+.dark h2 { color: var(--on-navy); }
+h3 { font-size: 32px; font-weight: 700; line-height: 1.2; color: var(--ink); margin-bottom: 8px; }
+.dark h3 { color: var(--on-navy); }
+p { font-size: 28px; line-height: 1.4; color: var(--body); }
+.dark p { color: var(--on-navy-soft); }
+
+.row { display: flex; gap: 56px; flex: 1; align-items: flex-start; }
+.col { display: flex; flex-direction: column; }
+.grow { flex: 1; }
+
+.points { display: flex; flex-direction: column; gap: 28px; }
+.pt { display: flex; gap: 20px; align-items: flex-start; }
+.pt .dot { width: 12px; height: 12px; border-radius: 6px; background: var(--green); margin-top: 15px; flex-shrink: 0; }
+.dark .pt .dot { background: var(--mint); }
+.pt p { font-size: 30px; line-height: 1.38; color: var(--ink); }
+.dark .pt p { color: var(--on-navy); }
+.pt p.small { font-size: 28px; color: var(--body); }
+
+.shot { box-sizing: border-box; border: 2px solid var(--line); border-radius: 16px; background: #FFFFFF; box-shadow: 0 12px 40px rgba(20,35,63,0.12); object-fit: contain; }
+.phone { border: 8px solid var(--ink); border-radius: 36px; background: #FFFFFF; box-shadow: 0 16px 48px rgba(20,35,63,0.18); object-fit: cover; }
+.cap { font-size: 24px; color: var(--muted); margin-top: 16px; }
+
+.pill { display: inline-block; font-size: 24px; font-weight: 600; color: var(--green); background: var(--green-soft); border-radius: 999px; padding: 8px 20px; }
+
+/* cover */
+.cover h1 { font-size: 120px; font-weight: 800; line-height: 1.0; letter-spacing: -3px; color: var(--ink); margin-bottom: 32px; }
+.cover .lead { font-size: 36px; line-height: 1.35; color: var(--body); margin-bottom: 48px; }
+.cover .team { font-size: 28px; color: var(--ink); font-weight: 600; }
+.cover .url { font-size: 26px; color: var(--brand); margin-top: 12px; }
+
+/* problem */
+.quote { background: var(--navy); border-radius: 24px; padding: 56px; }
+.quote .q { font-size: 44px; font-weight: 700; line-height: 1.25; color: var(--on-navy); }
+.quote .qs { font-size: 26px; color: var(--on-navy-soft); margin-top: 24px; }
+
+/* steps */
+.steps { display: flex; gap: 40px; }
+.step { display: flex; flex-direction: column; width: 528px; }
+.step .n { font-size: 24px; font-weight: 800; color: var(--brand); margin-bottom: 8px; }
+.step h3 { margin-bottom: 20px; }
+.chips { display: flex; gap: 16px; margin-top: 48px; }
+
+/* stats */
+.stats { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 56px; }
+.stat { border-top: 4px solid var(--mint); padding-top: 24px; }
+.stat .big { font-size: 96px; font-weight: 800; line-height: 1.0; color: var(--on-navy); }
+.stat .lbl { font-size: 26px; color: var(--on-navy-soft); margin-top: 12px; }
+
+.box { background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 36px 40px; }
+.box h3 { margin-bottom: 16px; }
+.box p { font-size: 26px; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+.in { animation: rise 600ms ease-out both; }
+.in2 { animation: rise 600ms ease-out 200ms both; }
+.in3 { animation: rise 600ms ease-out 400ms both; }
+
+@page{size:1920px 1080px;margin:0}
+@media print{html{background:none} .hint{display:none} section:last-of-type{break-after:auto} .in,.in2,.in3{animation:none} section{break-after:page}}
+@media screen{
+  body{width:1920px;transform-origin:0 0}
+  section{margin-bottom:24px}
+  .hint{position:fixed;right:16px;bottom:12px;font:14px Arial,sans-serif;color:#B9C6DC}
+  body.present section{display:none;margin:0} body.present section.on{display:flex}
+}
+</style></head><body><section id="cover" class="cover" data-transition="fade">
+<div class="row" style="align-items:center;">
+<div class="col in" style="width:640px;">
+<p class="eyebrow">HackNation 2026 · zadanie ZUS</p>
+<h1>Kompas Rodzica</h1>
+<p class="lead">Zasiłkowy Przewodnik Przyszłego Rodzica: co przysługuje, ile, do kiedy i na co uważać — dla konkretnej osoby.</p>
+<p class="team">Zespół 2Stosy: Sylwester Łotocki, Andrzej Laskowski</p>
+<p class="url">kompasrodzica.polandcentral.cloudapp.azure.com</p>
+</div>
+<img class="shot in2" src="zrzuty/slajd-01-start.png" alt="Ekran startowy Kompasu Rodzica: „Sprawdź, co Ci przysługuje” i trzy ścieżki wejścia" style="width:960px; height:600px;">
+</div>
+<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
+<aside class="notes">Przedstawiamy się jednym zdaniem: aplikacja odpowiada rodzicowi na pytanie, co mu przysługuje, zanim będzie za późno na zmianę sytuacji. Demo działa pod adresem na slajdzie.</aside>
+</section>
+
+<section id="problem" class="alt">
+<p class="eyebrow">Problem</p>
+<h2>Rodzic nie wie, co mu przysługuje — ani do kiedy</h2>
+<div class="row">
+<div class="points grow in">
+<div class="pt"><div class="dot"></div><p>Prawo do zasiłku zależy od tytułu ubezpieczenia, stażu, płatnika, liczby dzieci i daty zdarzenia.</p></div>
+<div class="pt"><div class="dot"></div><p>Nikt nie mówi, ile i do kiedy złożyć wniosek.</p></div>
+<div class="pt"><div class="dot"></div><p>O odmowie rodzic dowiaduje się, gdy zmiana sytuacji jest już niemożliwa.</p></div>
+<div class="pt"><div class="dot"></div><p>Potrzebna jest odpowiedź z podstawą prawną, nie ogólna broszura.</p></div>
+</div>
+<div class="quote in2" style="width:720px;">
+<p class="q">„Własne wypowiedzenie w ciąży odbiera prawo do zasiłku macierzyńskiego.”</p>
+<p class="qs">Informacji nie brakuje. Brakuje jej dopasowania do jednej osoby — zanim podejmie decyzję.</p>
+</div>
+</div>
+<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
+<aside class="notes">Pokaż, że problem to nie brak informacji, tylko jej dopasowanie do jednej osoby. Przykład: własne wypowiedzenie w ciąży odbiera prawo do zasiłku macierzyńskiego, a o tym łatwo nie wiedzieć.</aside>
+</section>
+
+<section id="rozwiazanie">
+<p class="eyebrow">Rozwiązanie</p>
+<h2>Od trzech pytań do wyniku</h2>
+<div class="steps">
+<div class="step in">
+<p class="n">KROK 1</p>
+<h3>Logowanie i dane z ZUS</h3>
+<img class="shot" src="zrzuty/slajd-03-logowanie.png" alt="Ekran logowania przez mObywatela w trybie symulacji z listą fikcyjnych osób" style="width:528px; height:330px;">
+<p class="cap">mObywatel i dane z ZUS (symulacja); każdy fakt ze źródłem i przyciskiem „Popraw”.</p>
+</div>
+<div class="step in2">
+<p class="n">KROK 2</p>
+<h3>Trzy pytania</h3>
+<img class="shot" src="zrzuty/slajd-03-pytania-169.png" alt="Pytania: co się dzieje, kiedy i dla kogo liczymy" style="width:528px; height:330px;">
+<p class="cap">Co się dzieje, kiedy i dla kogo liczymy.</p>
+</div>
+<div class="step in3">
+<p class="n">KROK 3</p>
+<h3>Twój plan</h3>
+<img class="shot" src="zrzuty/slajd-03-wynik.png" alt="Ekran wyniku: świadczenia z kwotą i okresem oraz najbliższy krok" style="width:528px; height:330px;">
+<p class="cap">Co przysługuje, co zrobić i do kiedy, na co uważać, inny wariant.</p>
+</div>
+</div>
+<div class="chips">
+<p class="pill">Wnioski w PDF</p>
+<p class="pill">Zaświadczenie o saldzie składek</p>
+<p class="pill">Wsparcie i linki</p>
+<p class="pill">Telefon od 360 px</p>
+</div>
+<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
+<aside class="notes">To jest główny przebieg i pierwszy, który działa od początku do końca. Każdy ekran ma jedną główną akcję, a każda symulacja jest oznaczona słowem „symulacja”.</aside>
+</section>
+
+<section id="wynik" class="alt">
+<p class="eyebrow">Pomysł</p>
+<h2>Wynik, który da się sprawdzić</h2>
+<div class="row">
+<div class="col" style="width:1000px;">
+<img class="shot in" src="zrzuty/slajd-04-karta.png" alt="Karta zasiłku macierzyńskiego: przysługuje, 32 215,40 zł, 20 tygodni" style="width:880px; height:443px;">
+<div class="points" style="margin-top:36px;">
+<div class="pt"><div class="dot"></div><p class="small">Karta świadczenia: status, okres od–do, stawka, kwota, kto wypłaca, gdzie złożyć wniosek.</p></div>
+<div class="pt"><div class="dot"></div><p class="small">Jeden „najbliższy krok” na górze listy terminów.</p></div>
+</div>
+</div>
+<div class="col in2" style="width:560px;">
+<img class="shot" src="zrzuty/slajd-04-sciezka.png" alt="Rozwinięta ścieżka decyzji: reguła, warunek spełniony, podstawa prawna" style="width:560px; height:605px;">
+</div>
+</div>
+<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
+<aside class="notes">To nasza główna różnica: nie „system odmówił”, tylko „odmowa, bo art. 29 ust. 1, a zmieniłaby się, gdyby…”. Rozwijana ścieżka decyzji pokazuje regułę, artykuł, warunek i czy jest spełniony, z wyjaśnieniem prostym językiem. Jurorzy mogą sprawdzić każdy krok w przepisie.</aside>
+</section>
+
+<section id="warianty">
+<p class="eyebrow">Pomysł · kompletność</p>
+<h2>„Co jeśli” i porównanie wariantów</h2>
+<div class="row">
+<div class="col in" style="width:600px;">
+<img class="shot" src="zrzuty/slajd-05-scenariusze.png" alt="Lista siedmiu scenariuszy: odejście z pracy, koniec umowy, działalność, drugi rodzic, część etatu, wariant wypłaty, spłata zadłużenia" style="width:600px; height:552px;">
+</div>
+<div class="col in2" style="width:960px;">
+<img class="shot" src="zrzuty/slajd-05-roznica.png" alt="Różnica między planem bazowym a wariantem wypłaty: zasiłek macierzyński −5 959,80 zł, urlop rodzicielski +5 929,28 zł" style="width:880px; height:493px;">
+<p class="cap">Siedem scenariuszy. Silnik liczy drugi raz na zmienionych faktach i pokazuje różnicę w tygodniach, złotych i statusach. Walidacja planu: 9 tygodni nieprzenoszalnych, najwyżej 5 części.</p>
+</div>
+</div>
+<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
+<aside class="notes">Siedem scenariuszy: odejście z pracy, koniec umowy, przejście na działalność, drugi rodzic bierze część urlopu rodzicielskiego, praca na część etatu, wariant wypłaty (standardowy lub 81,5%), spłata zadłużenia. Tu pokazujemy zagrożenia z zadania: utratę uprawnień, zmianę wymiaru i wysokości. Rodzic widzi skutek decyzji, zanim ją podejmie.</aside>
+</section>
+
+<section id="pokrycie" class="alt">
+<p class="eyebrow">Związek z wyzwaniem · kompletność</p>
+<h2>Pokrycie wymagań zadania</h2>
+<div class="row">
+<div class="points in" style="width:720px;">
+<div class="pt"><div class="dot"></div><p class="small">Wszystkie pozycje a–j z zadania mają ekran, endpoint i moduł kodu (mapa w README).</p></div>
+<div class="pt"><div class="dot"></div><p class="small">Symulacje S1–S7: logowanie, dane ZUS, saldo i zaświadczenie, e-ZLA, zapytanie PUE, wnioski, odpis aktu.</p></div>
+<div class="pt"><div class="dot"></div><p class="small">S8–S10: wsparcie i linki, panel /admin. T1–T2: responsywność i ekran „Sprawy ZUS”.</p></div>
+<div class="pt"><div class="dot"></div><p class="small">Uczciwy status: lista organizacji charytatywnych jest pusta, dane spraw ZUS są poza repozytorium.</p></div>
+</div>
+<img class="shot in2" src="zrzuty/slajd-06-wnioski-top.png" alt="Ekran „Wnioski i zgłoszenia” z wzorami wniosków o urlop do pracodawcy" style="width:540px; height:600px;">
+<img class="phone in3" src="zrzuty/slajd-06-telefon-wynik.png" alt="Wynik na telefonie: karta zasiłku macierzyńskiego na wąskim ekranie" style="width:280px; height:606px;">
+</div>
+<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
+<aside class="notes">Mówimy wprost, co działa w pełni, a co częściowo. Pełna tabela jest w README, wiersz po wierszu, ze statusem.</aside>
+</section>
+
+<section id="silnik">
+<p class="eyebrow">Oryginalność</p>
+<h2>Deterministyczny silnik reguł</h2>
+<div class="row">
+<div class="points grow in">
+<div class="pt"><div class="dot"></div><p>Uprawnienia, okresy, kwoty i terminy liczy wyłącznie silnik reguł w C#, bez udziału modelu językowego.</p></div>
+<div class="pt"><div class="dot"></div><p>Ponad 80 małych reguł, każda z identyfikatorem i podstawą prawną.</p></div>
+<div class="pt"><div class="dot"></div><p>Parametry prawne w bazie z datą obowiązywania; zmiana w /admin zmienia wynik we właściwym okresie.</p></div>
+<div class="pt"><div class="dot"></div><p>Gdy przepis nie rozstrzyga: „nie rozstrzygam, skontaktuj się z ZUS”. Bez zgadywania.</p></div>
+</div>
+<div class="col in2" style="width:720px;">
+<img class="shot" src="zrzuty/slajd-02-odmowa.png" alt="Odmowa zasiłku: zadłużenie 120 zł przekracza próg, podstawa prawna art. 2a, co musiałoby się zmienić" style="width:720px; height:527px;">
+<p class="cap">Odmowa zawsze z powodem, podstawą prawną i tym, co musiałoby się zmienić.</p>
+</div>
+</div>
+<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
+<aside class="notes">To odpowiedź na pytanie, czy można ufać kalkulatorowi: ta sama odpowiedź na te same dane i pełny ślad. Uczciwe „nie rozstrzygam” jest cechą, nie brakiem. Na zrzucie: osoba demo z zadłużeniem składkowym 120 zł — odmowa z powodem, artykułem i datą, do której trzeba spłacić dług.</aside>
+</section>
+
+<section id="ai" class="alt">
+<p class="eyebrow">Oryginalność · uczciwość</p>
+<h2>Jak powstał projekt i rola AI</h2>
+<div class="row">
+<div class="points grow in">
+<div class="pt"><div class="dot"></div><p class="small"><b>„Zapytaj o przepisy”:</b> model pisze krótkie wyjaśnienie i wybiera cytaty z materiałów ZUS. Aplikacja pokazuje tylko cytaty sprawdzone z tekstem przepisu i oznacza wyjaśnienie jako napisane przez AI.</p></div>
+<div class="pt"><div class="dot"></div><p class="small">Kod, testy i dokumentację napisały modele Claude (Anthropic) w narzędziu Claude Code.</p></div>
+<div class="pt"><div class="dot"></div><p class="small">Zespół agentów: modele pisały gałęzie, osobny model przeglądał i zatwierdzał zmiany silnika.</p></div>
+<div class="pt"><div class="dot"></div><p class="small">Ilustracja na ekranie startowym została wygenerowana przez model AI.</p></div>
+<div class="pt"><div class="dot"></div><p class="small"><b>Ludzie:</b> materiały prawne, decyzje zakresu, weryfikacja. Reguły z wyciągów przepisów, nie z pamięci modelu.</p></div>
+</div>
+<img class="shot in2" src="zrzuty/slajd-08-czat.png" alt="Czat „Zapytaj o przepisy” z cytatem z Kodeksu pracy art. 184 i dopiskiem, że wyjaśnienie napisał model językowy" style="width:388px; height:605px;">
+</div>
+<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
+<aside class="notes">Mówimy wprost, że kod pisały modele, i pokazujemy, jak to kontrolowaliśmy: testy referencyjne przed regułami i przegląd silnika przez osobny model. Na zrzucie: odpowiedź czatu z cytatem z Kodeksu pracy i dopiskiem, że wiążące są przepisy.</aside>
+</section>
+
+<section id="jakosc" class="dark">
+<p class="eyebrow">Potencjał wdrożeniowy</p>
+<h2>Jakość i gotowość do wdrożenia</h2>
+<div class="stats">
+<div class="stat in"><p class="big">807</p><p class="lbl">testów w dotnet test</p></div>
+<div class="stat in"><p class="big">793</p><p class="lbl">zielonych</p></div>
+<div class="stat in2"><p class="big">0</p><p class="lbl">błędów</p></div>
+<div class="stat in2"><p class="big">14</p><p class="lbl">pominiętych — sprawy ZUS czekają na dane</p></div>
+</div>
+<div class="points in3">
+<div class="pt"><div class="dot"></div><p>54 aktywne przypadki referencyjne (okresy, uprawnienia, kwoty, parametry) z fixtures/reference/.</p></div>
+<div class="pt"><div class="dot"></div><p>Integracje za interfejsami: tożsamość, rejestr ubezpieczeń, konto składkowe, e-ZLA, wysyłka. Podmiana symulacji na usługi bez zmian w silniku.</p></div>
+<div class="pt"><div class="dot"></div><p>Panel parametrów, Docker Compose, CI; zależności na licencjach permisywnych.</p></div>
+</div>
+<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
+<aside class="notes">Wdrożenie to podmiana pięciu implementacji Simulated… i uzupełnienie parametrów, nie przepisywanie silnika. Pokaż listę licencji w repozytorium.</aside>
+</section>
+
+<section id="demo">
+<p class="eyebrow">Ograniczenia · następne kroki</p>
+<h2>Co dalej — i gdzie to sprawdzić</h2>
+<div class="row">
+<div class="col grow in" style="gap:24px;">
+<div class="box">
+<h3>Do potwierdzenia z ZUS</h3>
+<p>Zaokrąglanie, brutto/netto, minimalna podstawa przy niepełnym etacie, druki Z-3 i Z-3a, kwota świadczenia rodzicielskiego.</p>
+</div>
+<div class="box">
+<h3>Dziś i dalej</h3>
+<p>Dziś: integracje symulowane, osoby fikcyjne, kwoty brutto. Dalej: prawdziwe integracje, zweryfikowana lista organizacji, dane spraw ZUS w testach.</p>
+</div>
+<div class="col">
+<p style="font-size:28px; color:var(--ink);"><b>Demo:</b> kompasrodzica.polandcentral.cloudapp.azure.com</p>
+<p style="font-size:28px; color:var(--ink);"><b>Kod:</b> github.com/slotocki/babypedia</p>
+</div>
+</div>
+<img class="phone in2" src="zrzuty/slajd-10-telefon-start.png" alt="Ekran startowy Kompasu Rodzica na telefonie" style="width:280px; height:606px;">
+</div>
+<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
+<aside class="notes">Kończymy listą rzeczy, których nie rozstrzygnęliśmy, bo to z nimi trzeba iść do ZUS. Zapraszamy do przetestowania demo na osobach z README.</aside>
+</section>
+<p class="hint">← → / spacja: kolejne slajdy · F: pełny ekran · Esc: widok wszystkich</p>
+<script>
+const S=[...document.querySelectorAll('section')];let i=0,present=false;
+function fit(){const w=innerWidth,h=innerHeight;const s=present?Math.min(w/1920,h/1080):w/1920;document.body.style.transform='scale('+s+')';document.body.style.marginLeft=present?((w-1920*s)/2)+'px':'0';document.body.style.marginTop=present?((h-1080*s)/2)+'px':'0';}
+function show(){S.forEach((x,k)=>x.classList.toggle('on',k===i));document.body.style.counterReset='page '+i;}
+function go(d){if(!present){present=true;document.body.classList.add('present');}i=Math.max(0,Math.min(S.length-1,i+d));show();fit();}
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(-1)}else if(e.key==='Escape'){present=false;document.body.classList.remove('present');document.body.style.counterReset='page 0';fit()}else if(e.key==='f'||e.key==='F'){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}});
+S.forEach((x,k)=>x.addEventListener('click',()=>{if(!present){i=k;go(0)}}));
+addEventListener('resize',fit);fit();
+</script></body></html>
