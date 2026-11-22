@@ -21,10 +21,10 @@ export function normalize(text: string) {
 export function tidyTitle(title: string): string {
   const text = title
     .replace(/_/g, ' — ')
-    .replace(/(?<=^|s)zas\. mac\./gi, 'zasiłek macierzyński')
-    .replace(/(?<=^|s)zas\. chorobowy/gi, 'zasiłek chorobowy')
-    .replace(/(?<=^|s)zas\./gi, 'zasiłek')
-    .replace(/(?<=^|s)u\. rodz\./gi, 'za urlop rodzicielski')
+    .replace(/(?<=^|\s)zas\. mac\./gi, 'zasiłek macierzyński')
+    .replace(/(?<=^|\s)zas\. chorobowy/gi, 'zasiłek chorobowy')
+    .replace(/(?<=^|\s)zas\./gi, 'zasiłek')
+    .replace(/(?<=^|\s)u\. rodz\./gi, 'za urlop rodzicielski')
     .replace(/urlopu mac\./gi, 'urlopu macierzyńskiego')
     .replace(/\s+/g, ' ')
     .trim()
