@@ -6,6 +6,7 @@ import type { AssistantAnswer } from '@/app/api/types'
 import { Button, ChatIcon, CrossIcon, SendIcon, TextInput } from '@/ui'
 import { contactChannels } from './links'
 import { linkClass } from './link-class'
+import { answerBlocks, sourceLabel, type Citation } from './answer-text'
 
 // Gdy API nie poda podpowiedzi z gotowych odpowiedzi, czat pokazuje te dwie.
 const fallbackStarters = [
@@ -17,7 +18,6 @@ const fallbackStarters = [
 const visibleResults = 2
 
 type Turn = { question: string; answer: AssistantAnswer }
-type Citation = AssistantAnswer['citations'][number]
 
 export function LegalAssistant({ calculatorPath }: { calculatorPath: string }) {
   const [open, setOpen] = useState(false)
@@ -208,22 +208,10 @@ function UserMessage({ question }: { question: string }) {
 
 /** Tekst odpowiedzi: akapity rozdzielone pustą linią, wiersze zaczynające się od „- ” jako lista. */
 function AnswerText({ text }: { text: string }) {
-  const blocks: { list: boolean; lines: string[] }[] = []
-  for (const raw of text.split('\n')) {
-    const line = raw.trim()
-    if (!line) {
-      blocks.push({ list: false, lines: [] })
-      continue
-    }
-    const list = line.startsWith('- ')
-    const last = blocks.at(-1)
-    const content = list ? line.slice(2) : line
-    if (last && last.list === list && last.lines.length > 0) last.lines.push(content)
-    else blocks.push({ list, lines: [content] })
-  }
+  const blocks = answerBlocks(text)
   return (
     <div className="space-y-2 break-words">
-      {blocks.filter((block) => block.lines.length > 0).map((block, index) =>
+      {blocks.map((block, index) =>
         block.list ? (
           <ul key={index} className="list-disc space-y-1 pl-5">
             {block.lines.map((line, item) => <li key={item}>{line}</li>)}
@@ -234,19 +222,6 @@ function AnswerText({ text }: { text: string }) {
       )}
     </div>
   )
-}
-
-const shortDocument: Record<string, string> = {
-  'Rozporządzenie w sprawie dokumentów do zasiłków': 'Rozporządzenie (dokumenty)',
-  'Rozporządzenie w sprawie wniosków pracowniczych': 'Rozporządzenie (wnioski)',
-  'Załącznik ZUS (materiał pomocniczy)': 'Załącznik ZUS',
-  'Poradnik ZUS (materiał pomocniczy)': 'Poradnik ZUS',
-}
-
-/** Krótka etykieta źródła, np. „Ustawa zasiłkowa art. 29” albo „Poradnik ZUS”. */
-function sourceLabel(citation: Citation) {
-  const name = shortDocument[citation.document] ?? citation.document
-  return /^(Art\.|§)/.test(citation.article) ? `${name} ${citation.article.replace(/^Art\.\s*/, 'art. ')}` : name
 }
 
 function Reply({ answer, calculatorPath }: { answer: AssistantAnswer; calculatorPath: string }) {
