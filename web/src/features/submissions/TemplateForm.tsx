@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ApiError, api } from '@/app/api/client'
 import type { BenefitResult, LeaveTemplate, SubmissionReceipt } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
+import { downloadBlob } from './api'
 import { Alert, Button, DateInput, ErrorState, Field, NumberInput, RadioGroup, Select, SkeletonText, TextInput } from '@/ui'
 import type { SubmissionTemplate, TemplateField } from './api'
 import { collectFields, legalBasis, prefill, splitProblem, validateLocally, visibleFields, type Values } from './form'
@@ -11,7 +12,8 @@ import { TextArea } from './TextArea'
 
 interface TemplateFormProps {
   template: SubmissionTemplate
-  sessionId: string
+  /** null = bez logowania: tylko PDF (wniosek do pracodawcy, zestawienie ZAM), bez zapisu. */
+  sessionId: string | null
   onDone: (receipt: SubmissionReceipt) => void
 }
 
@@ -42,16 +44,25 @@ function TemplateFormInner({ template, sessionId, onDone, benefits }: TemplateFo
   const [focusToken, setFocusToken] = useState(0)
   const [touched, setTouched] = useState<Set<string>>(new Set())
 
+  const [anonymousPdf, setAnonymousPdf] = useState<Blob | null>(null)
+
   const mutation = useMutation({
-    mutationFn: (fields: Values) =>
-      api.submissions.create(sessionId, {
+    mutationFn: async (fields: Values): Promise<Blob | SubmissionReceipt> => {
+      const body = {
         type: template.type,
         template: template.type === 'wniosek_urlop' ? (template.template as LeaveTemplate) : undefined,
         fields,
-      }),
-    onSuccess: (receipt) => {
+      }
+      return sessionId ? api.submissions.create(sessionId, body) : api.submissions.document(body)
+    },
+    onSuccess: (result) => {
+      if (result instanceof Blob) {
+        setAnonymousPdf(result)
+        downloadBlob(result, `${template.id}.pdf`)
+        return
+      }
       void queryClient.invalidateQueries({ queryKey: ['submissions', 'mine'] })
-      onDone(receipt)
+      onDone(result)
     },
     onError: (error) => {
       if (error instanceof ApiError && error.status === 400) {
@@ -102,6 +113,17 @@ function TemplateFormInner({ template, sessionId, onDone, benefits }: TemplateFo
   const unauthorized = mutation.error instanceof ApiError && mutation.error.status === 401
   const serverProblem = mutation.error && !(mutation.error instanceof ApiError && mutation.error.status === 400) && !unauthorized
 
+  if (anonymousPdf) {
+    return (
+      <div className="space-y-4">
+        <Alert variant="info" title="PDF jest gotowy">
+          Plik został pobrany. Nic nie zostało zapisane na serwerze ani wysłane do adresata.
+        </Alert>
+        <Button onClick={() => downloadBlob(anonymousPdf, `${template.id}.pdf`)}>Pobierz PDF ponownie</Button>
+      </div>
+    )
+  }
+
   if (unauthorized) return <NeedsLogin expired templateId={template.id} />
 
   const preparesPdf = template.type === 'wniosek_urlop' || template.type === 'dane_zam'
@@ -135,7 +157,7 @@ function TemplateFormInner({ template, sessionId, onDone, benefits }: TemplateFo
       <Button type="submit" fullWidth loading={mutation.isPending} loadingLabel={preparesPdf ? 'Przygotowuję PDF…' : 'Wysyłam (symulacja)…'} className="sm:w-auto">
         {preparesPdf ? 'Przygotuj PDF' : 'Wyślij (symulacja)'}
       </Button>
-      <p className="text-sm text-ink-soft">Symulacja: nic nie zostanie wysłane do pracodawcy, ZUS ani urzędu.</p>
+      <p className="text-sm text-ink-soft">Symulacja: nic nie zostanie wysłane do pracodawcy, ZUS ani urzędu.{sessionId ? '' : ' Bez logowania dostajesz sam plik PDF — nie zapisujemy go na serwerze.'}</p>
     </form>
   )
 }
