@@ -1,116 +1,125 @@
 # Kompas Rodzica: treść prezentacji
 
-Najwyżej 10 slajdów. Układ pod kryteria oceny: związek z wyzwaniem 25%, kompletność i UX 25%, pomysł 20%, oryginalność 15%, potencjał wdrożeniowy 15%. Liczby pochodzą z repozytorium (gałąź `main`, 21.11.2026). Adres demo: https://kompasrodzica.polandcentral.cloudapp.azure.com.
+Najwyżej 10 slajdów (wymóg formalny zadania, pkt 4). Liczby pochodzą z repozytorium (gałąź `main`, 22.11.2026). Adres demo: https://kompasrodzica.polandcentral.cloudapp.azure.com.
+
+Układ pod kryteria oceny (zadanie, pkt 8):
+
+| Kryterium | Waga | Slajdy |
+|---|---|---|
+| Związek z wyzwaniem | 25% | 1, 2, 6 |
+| Kompletność projektu i user experience | 25% | 3, 5, 7 |
+| Pomysł | 20% | 4, 5 |
+| Oryginalność | 15% | 8 |
+| Potencjał wdrożeniowy | 15% | 9, 10 |
 
 ---
 
 ## Slajd 1. Kompas Rodzica
 
-Kryterium: związek z wyzwaniem.
+Kryterium: związek z wyzwaniem (25%).
 
-- Zadanie ZUS: „Zasiłkowy Przewodnik Przyszłego Rodzica"
+- Zadanie ZUS: „Zasiłkowy Przewodnik Przyszłego Rodzica”
 - Przewodnik po zasiłkach z ubezpieczenia chorobowego dla przyszłych rodziców
-- Co przysługuje, ile, do kiedy i na co uważać, dla konkretnej osoby
+- Co przysługuje, ile, do kiedy i na co uważać — dla konkretnej osoby
 - Zespół 2Stosy: Sylwester Łotocki, Andrzej Laskowski
 
-Notatka: Przedstawiamy się jednym zdaniem: aplikacja odpowiada rodzicowi na pytanie, co mu przysługuje, zanim będzie za późno na zmianę sytuacji. Demo działa pod adresem na slajdzie.
+Notatka: Jedno zdanie: aplikacja odpowiada rodzicowi, co mu przysługuje, zanim będzie za późno na zmianę sytuacji. Demo działa pod adresem na slajdzie.
 
 ## Slajd 2. Problem
 
-Kryterium: związek z wyzwaniem.
+Kryterium: związek z wyzwaniem (25%).
 
 - Prawo do zasiłku zależy od tytułu ubezpieczenia, stażu, płatnika, liczby dzieci i daty zdarzenia
-- Rodzic nie wie, co mu przysługuje ani do kiedy złożyć wniosek
+- Rodzic nie wie, co mu przysługuje ani do kiedy złożyć wniosek i do kogo
 - O odmowie dowiaduje się, gdy zmiana sytuacji jest już niemożliwa
-- Potrzebna odpowiedź z podstawą prawną, nie ogólna broszura
+- ZUS chce mniej źle złożonych dokumentów i mniej sporów
 
-Notatka: Pokaż, że problem to nie brak informacji, tylko jej dopasowanie do jednej osoby. Przykład: własne wypowiedzenie w ciąży odbiera prawo do zasiłku macierzyńskiego, a o tym łatwo nie wiedzieć.
+Notatka: Problem to nie brak informacji, tylko jej dopasowanie do jednej osoby. Przykład: zadłużenie składkowe przy działalności odbiera prawo do zasiłku, jeśli nie zostanie spłacone na czas.
 
-## Slajd 3. Rozwiązanie: od trzech pytań do wyniku
+## Slajd 3. Jak to działa: trzy drogi na start
 
-Kryterium: kompletność i UX.
+Kryterium: kompletność i UX (25%).
 
-- Trzy pytania: co się dzieje, kiedy, dla kogo liczymy
-- Logowanie mObywatel i dane z ZUS (symulacja), każdy fakt ze źródłem i przyciskiem „Popraw"
-- Wynik: co przysługuje, co zrobić i do kiedy, na co uważać, inny wariant
-- Wnioski w PDF, zaświadczenie o saldzie, wsparcie; działa na telefonie od 360 px
+- Start „Sprawdź, co Ci przysługuje”: „Wprowadź dane ręcznie”, „Połącz się przez mObywatela i ZUS”, „Sprawdź na rzeczywistych przykładach”
+- Logowanie (symulacja): wybór osoby testowej, potem „Zgoda na pobranie danych” ze wskazaniem źródeł (ZUS, e-ZLA, rejestr stanu cywilnego)
+- „Potwierdź pobrane dane”: każda informacja ze źródłem i przyciskiem „Popraw”; potem tylko brakujące pytania
+- Wynik „Twój plan”, „Moje konto”, „Wnioski”, „Wsparcie”, „Baza wiedzy”; układ od 360 px
 
-Notatka: To jest główny przebieg i pierwszy, który działa od początku do końca. Każdy ekran ma jedną główną akcję, a każda symulacja jest oznaczona słowem „symulacja".
+Notatka: Każdy ekran ma jedną główną akcję, a każda symulacja jest tak nazwana na ekranie. Sprawdź w demo: Start → „Połącz się przez mObywatela i ZUS” → Anna → „Połącz i pobierz dane (symulacja)”.
 
 ## Slajd 4. Wynik, który da się sprawdzić
 
-Kryterium: pomysł.
+Kryterium: pomysł (20%).
 
-- Karta świadczenia: status, okres od–do, stawka, kwota, kto wypłaca, gdzie złożyć wniosek
-- Rozwijana ścieżka decyzji: reguła, artykuł, warunek, spełniony lub nie, wyjaśnienie prostym językiem
-- Odmowa zawsze z powodem, podstawą prawną i „co musiałoby się zmienić"
-- Jeden „najbliższy krok" na górze listy terminów
+- Karta świadczenia: status, okres od–do, kwota, kto wypłaca, gdzie złożyć wniosek, dokumenty (Z-3, Z-3a, ZAS-53, ZAM wg treści zadania)
+- „Ścieżka decyzji”: reguła, przepis, warunek, spełniony lub nie, wyjaśnienie prostym językiem
+- Odmowa zawsze z powodem, podstawą prawną i „Co musiałoby się zmienić”
+- „Co dalej?” z najbliższym krokiem i lista „Co zrobić i do kiedy”
 
-Notatka: To nasza główna różnica: nie „system odmówił", tylko „odmowa, bo art. 29 ust. 1, a zmieniłaby się, gdyby…". Jurorzy mogą sprawdzić każdy krok w przepisie.
+Notatka: Nasza główna różnica: nie „system odmówił”, tylko „odmowa, bo taki przepis, a zmieniłoby się, gdyby…”. Sprawdź w demo: Edyta (zadłużenie 120,00 zł) — odmowa z kwotą do spłaty i datą.
 
-## Slajd 5. „Co jeśli" i porównanie wariantów
+## Slajd 5. „Co jeśli” i porównanie wariantów
 
-Kryterium: pomysł, kompletność.
+Kryterium: pomysł (20%), kompletność i UX (25%).
 
 - Siedem scenariuszy: odejście z pracy, koniec umowy, przejście na działalność, drugi rodzic bierze część urlopu rodzicielskiego, praca na część etatu, wariant wypłaty (standardowy lub 81,5%), spłata zadłużenia
-- Silnik liczy drugi raz na zmienionych faktach
-- Wynik jako różnica w tygodniach i złotych oraz zmiana statusów
-- Walidacja planu: 9 tygodni nieprzenoszalnych, najwyżej 5 części
+- Silnik liczy drugi raz na zmienionych faktach; różnica w tygodniach i złotych oraz zmiana statusów
+- Podział urlopu: wskazana osoba bierze podaną liczbę tygodni; pilnujemy 9 tygodni nieprzenoszalnych i najwyżej 5 części
+- „Zastosuj ten wariant w moim planie” albo powrót do planu bazowego
 
-Notatka: Tu pokazujemy zagrożenia z zadania: utratę uprawnień, zmianę wymiaru i wysokości. Rodzic widzi skutek decyzji, zanim ją podejmie.
+Notatka: Tu są zagrożenia z zadania (pkt 3 h): utrata uprawnień, zmiana wymiaru i wysokości. Rodzic widzi skutek decyzji, zanim ją podejmie. Sprawdź w demo: Anna → „Porównaj warianty” → „Wariant wypłaty” → „Uśredniony”.
 
-## Slajd 6. Pokrycie wymagań zadania
+## Slajd 6. Sprawdzone na sprawach ZUS
 
-Kryterium: związek z wyzwaniem, kompletność.
+Kryterium: związek z wyzwaniem (25%).
 
-- Wszystkie pozycje a–j z zadania mają ekran, endpoint i moduł kodu (mapa w README)
-- Symulacje S1–S7: logowanie, dane ZUS, saldo i zaświadczenie, e-ZLA, zapytanie PUE, wnioski, odpis aktu
-- S8–S10: wsparcie i linki, panel `/admin`; T1–T2: responsywność i ekran „Sprawy ZUS"
-- Uczciwy status: lista organizacji charytatywnych jest pusta, dane spraw ZUS są poza repozytorium
+- Ekran „Sprawy ZUS”: 11 spraw z zestawu ZUS — wybór z listy albo dodanie pliku PDF
+- PDF rozpoznawany po sumie SHA-256 liczonej w przeglądarce; plik nie opuszcza urządzenia, aplikacja nie czyta jego treści
+- Na wyniku ramka „Porównanie z decyzją ZUS”: 1 sprawa zgodna co do okresu i kwoty z wydrukiem ZUS, 8 co do okresu (co do dnia), 2 odmowy zgodne z decyzją
+- Z 43 przeanalizowanych spraw silnik rozstrzyga inaczej niż ZUS w jednej (umowa uznana za zawartą dla pozoru — ustalenie z kontroli)
 
-Notatka: Mówimy wprost, co działa w pełni, a co częściowo. Pełna tabela jest w README, wiersz po wierszu, ze statusem.
+Notatka: To odpowiedź na wymóg demo z pkt 4 i 6 zadania: upload lub wybór przykładowych wniosków i sprawdzenie wyliczeń. W większości akt kwota jest zaczerniona, dlatego kwotę porównujemy tylko tam, gdzie jest w dokumentach. Sprawdź w demo: „Sprawy ZUS” → dodaj PDF sprawy Andrzeja (zasiłek za część urlopu rodzicielskiego, 9 tygodni) → „Załaduj dane sprawy” → wynik.
 
-## Slajd 7. Silnik reguł: deterministyczny, z datą obowiązywania
+## Slajd 7. Pokrycie wymagań zadania
 
-Kryterium: oryginalność.
+Kryterium: kompletność i UX (25%).
 
-- Uprawnienia, okresy, kwoty i terminy liczy wyłącznie silnik reguł w C#, bez udziału modelu językowego
-- Ponad 80 małych reguł, każda z identyfikatorem i podstawą prawną
-- Parametry prawne w bazie z datą obowiązywania; zmiana w `/admin` zmienia wynik we właściwym okresie
-- Gdy przepis nie rozstrzyga: „nie rozstrzygam, skontaktuj się z ZUS", bez zgadywania
+- Pozycje a–j z zadania mają ekran, endpoint i moduł kodu (mapa w README, wiersz po wierszu ze statusem)
+- Symulacje: logowanie mObywatel, dane ZUS, saldo i zaświadczenie o stanie składek, e-ZLA, zapytanie PUE/eZUS, wnioski o urlopy i ZAM, odpis aktu urodzenia
+- „Wsparcie”: zweryfikowane organizacje charytatywne dla sześciu trudnych sytuacji, kontakt do ZUS; „Baza wiedzy”: Poradnik ZUS i linki do zus.pl, MRPiPS, PIP; panel `/admin`
+- Uczciwy status: świadczenie rehabilitacyjne zawsze „nie rozstrzygam”; podwyższenia do świadczenia rodzicielskiego nie wyliczamy, tylko o nim informujemy
 
-Notatka: To odpowiedź na pytanie, czy można ufać kalkulatorowi: ta sama odpowiedź na te same dane i pełny ślad. Uczciwe „nie rozstrzygam" jest cechą, nie brakiem.
+Notatka: Mówimy wprost, co działa w pełni, a co częściowo. Pełna tabela jest w README w części „Mapa wymagań”.
 
-## Slajd 8. Jak powstał projekt i rola AI
+## Slajd 8. Silnik reguł i AI tylko przy przepisach
 
-Kryterium: oryginalność, uczciwość.
+Kryterium: oryginalność (15%).
 
-- „Zapytaj o przepisy”: model językowy pisze krótkie wyjaśnienie i wybiera cytaty z materiałów ZUS; aplikacja pokazuje tylko cytaty sprawdzone z tekstem przepisu, a wyjaśnienie oznacza jako napisane przez AI.
-- Kod, testy i dokumentację napisały modele Claude (Anthropic) w narzędziu Claude Code
-- Zespół agentów: modele pisały gałęzie, osobny model przeglądał i zatwierdzał zmiany silnika
-- Ilustracja na ekranie startowym została wygenerowana przez model AI
-- Ludzie: materiały prawne, decyzje zakresu, weryfikacja; reguły z wyciągów przepisów, nie z pamięci modelu
+- Uprawnienia, okresy, kwoty i terminy liczy deterministyczny silnik reguł w C# — ponad 80 małych reguł, każda z podstawą prawną
+- Gdy przepis nie rozstrzyga: „nie rozstrzygam” i kontakt do ZUS, bez zgadywania; brakujący fakt wraca jako pytanie
+- AI w aplikacji: tylko czat „Zapytaj o przepisy” (na demo Claude Haiku, Anthropic) — krótkie wyjaśnienie obok cytatów sprawdzonych słowo w słowo z przepisem, oznaczone jako napisane przez model; bez modelu czat pokazuje wyniki wyszukiwania
+- AI poza aplikacją: kod, testy i dokumentacja (Claude w Claude Code pod nadzorem ludzi), odczyt dokumentów spraw ZUS, ilustracja na ekranie startowym
 
-Notatka: Mówimy wprost, że kod pisały modele, i pokazujemy, jak to kontrolowaliśmy: testy referencyjne przed regułami i przegląd silnika przez osobny model.
+Notatka: Ta sama odpowiedź na te same dane i pełny ślad decyzji. Model językowy nie liczy i nie decyduje; w czacie nie może pokazać cytatu, którego nie ma w przepisie. Pełny opis: README, „Wykorzystanie AI”.
 
 ## Slajd 9. Jakość i potencjał wdrożeniowy
 
-Kryterium: potencjał wdrożeniowy.
+Kryterium: potencjał wdrożeniowy (15%).
 
-- `dotnet test`: 807 testów, 793 zielone, 0 błędów, 14 pominiętych (sprawy ZUS czekają na dane)
-- 54 aktywne przypadki referencyjne (okresy, uprawnienia, kwoty, parametry) z `fixtures/reference/`
-- Integracje za interfejsami (tożsamość, rejestr ubezpieczeń, konto składkowe, e-ZLA, wysyłka): podmiana symulacji na usługi bez zmian w silniku
-- Panel parametrów, Docker Compose, CI; zależności na licencjach permisywnych
+- `dotnet test`: 880 testów, 879 zielonych, 0 błędów, 1 pominięty (raport dla spraw ZUS z katalogu prywatnego)
+- 54 przypadki referencyjne (okresy, uprawnienia, kwoty, parametry) w `fixtures/reference/`, napisane przed regułami
+- Parametry prawne w bazie z datą obowiązywania (102 wpisy); zmiana w `/admin` zmienia wynik od wskazanego dnia, z historią zmian
+- Integracje za interfejsami: podmiana symulacji na prawdziwe usługi bez zmian w silniku; Docker Compose, CI, licencje permisywne
 
-Notatka: Wdrożenie to podmiana pięciu implementacji `Simulated…` i uzupełnienie parametrów, nie przepisywanie silnika. Pokaż listę licencji w repozytorium.
+Notatka: Wdrożenie to podmiana implementacji `Simulated…` i potwierdzenie parametrów, nie przepisywanie silnika. Lista licencji jest w `docs/ZALEZNOSCI.md`.
 
-## Slajd 10. Ograniczenia, następne kroki, demo
+## Slajd 10. Otwarte kwestie i jak przetestować
 
-Kryterium: potencjał wdrożeniowy, kompletność.
+Kryterium: potencjał wdrożeniowy (15%), kompletność i UX (25%).
 
-- Do potwierdzenia z ZUS: zaokrąglanie, brutto/netto, minimalna podstawa przy niepełnym etacie, druki Z-3 i Z-3a, kwota świadczenia rodzicielskiego
+- Do potwierdzenia z ZUS: zaokrąglanie stawki i kwoty, minimalna podstawa przy niepełnym etacie, podwyższenie do kwoty świadczenia rodzicielskiego, zasiłek do dnia porodu po rozwiązaniu umowy z naruszeniem prawa
+- Druki Z-3, Z-3a, ZAS-53 i połączenie ZUR/ZAO z ZAM od 24.10.2026 potwierdza treść zadania; Poradnik ZUS opisuje jeszcze Z-3b
 - Wszystkie integracje symulowane, dane osób fikcyjne, kwoty brutto
-- Dalej: prawdziwe integracje, zweryfikowana lista organizacji, dane spraw ZUS w testach
-- Demo: https://kompasrodzica.polandcentral.cloudapp.azure.com, kod: github.com/slotocki/babypedia
+- Jak przetestować: osoby testowe na ekranie logowania (Anna — ścieżka standardowa, Edyta — odmowa za zadłużenie, Halina — e-ZLA i mały płatnik, Tadeusz — ojciec, wynik dla obojga rodziców, gdy matka nie ma ubezpieczenia) oraz „Sprawy ZUS” (lista albo dodanie PDF, porównanie z decyzją ZUS)
 
-Notatka: Kończymy listą rzeczy, których nie rozstrzygnęliśmy, bo to z nimi trzeba iść do ZUS. Zapraszamy do przetestowania demo na osobach z README.
+Notatka: Kończymy listą rzeczy, których nie rozstrzygnęliśmy, bo z nimi trzeba iść do ZUS, i zaproszeniem do demo. Opis osób jest w README w części „Fikcyjne osoby demo”, a oznaczenia spraw w części „Sprawy testowe ZUS”. Kod: github.com/slotocki/babypedia.
