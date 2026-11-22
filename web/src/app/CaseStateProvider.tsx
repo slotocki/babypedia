@@ -78,7 +78,8 @@ export function CaseStateProvider({ children }: { children: ReactNode }) {
           ...s,
           completedDeadlines: done ? [...new Set([...s.completedDeadlines, id])] : s.completedDeadlines.filter((x) => x !== id),
         })),
-      startManual: () => setState((s) => ({ ...initial(), sessionId: s.sessionId, profileName: s.profileName, connection: s.connection })),
+      // Wpis ręczny zaczyna od zera: bez danych, profilu (imię i nazwisko) i połączenia z poprzedniego logowania.
+      startManual: () => setState(initial()),
     }),
     [state, setCaseFact, setPersonFact],
   )

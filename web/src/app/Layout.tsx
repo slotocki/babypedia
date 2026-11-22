@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation } from 'react-router'
+import { NavLink, Outlet } from 'react-router'
 import { UserIcon, cn } from '@/ui'
 import { paths } from './paths'
 import { useCaseState } from './case-context'
@@ -10,13 +10,6 @@ const primaryNav = [
   { to: paths.knowledge, label: 'Baza wiedzy' },
 ]
 
-/** Przekierowania S9 (instrukcja, sekcja 4). */
-const externalLinks = [
-  { href: 'https://www.zus.pl', label: 'ZUS — zus.pl' },
-  { href: 'https://www.gov.pl/web/rodzina/urlop-rodzicielski', label: 'Ministerstwo Rodziny, Pracy i Polityki Społecznej — urlop rodzicielski' },
-  { href: 'https://www.pip.gov.pl/dla-pracodawcow/porady-prawne/rodzicielstwo', label: 'Państwowa Inspekcja Pracy — rodzicielstwo' },
-]
-
 /** Zwykłe linki tekstowe (bez tła i ramki); aktywna strona — kolor marki i podkreślenie. */
 const linkClass = (isActive: boolean) =>
   cn(
@@ -26,8 +19,6 @@ const linkClass = (isActive: boolean) =>
 
 export function Layout() {
   const { sessionId } = useCaseState()
-  // Na stronie głównej stopka nie pokazuje linków do instytucji (są na pozostałych ekranach).
-  const isHome = useLocation().pathname === paths.start
 
   return (
     <div className="flex min-h-dvh flex-col bg-canvas text-ink">
@@ -64,20 +55,6 @@ export function Layout() {
       </main>
       <footer className="border-t border-line bg-surface text-sm text-ink-soft">
         <div className="mx-auto max-w-5xl space-y-3 px-4 py-4">
-          {isHome ? null : (
-            <nav aria-label="Przydatne strony">
-              <ul className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
-                {externalLinks.map((link) => (
-                  <li key={link.href}>
-                    <a href={link.href} target="_blank" rel="noreferrer" className="font-semibold text-brand-strong underline underline-offset-4 hover:text-brand">
-                      {link.label}
-                      <span className="sr-only"> (otwiera się w nowej karcie)</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
           <p>Decyzję podejmuje ZUS lub płatnik składek. Integracje działają w trybie symulacji na fikcyjnych danych.</p>
         </div>
       </footer>

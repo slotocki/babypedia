@@ -474,7 +474,11 @@ export function IntakePage() {
                 <RadioGroup {...rolaField} value={rola} options={roleOptions} columns={2} />
               </Field>
               <WorkFields prefix="praca" values={praca} errors={errors.praca} register={register} />
-              <Field label="Twoja data urodzenia" description="Od wieku zależą niektóre zasady." error={errors.dataUrodzenia}>
+              <Field
+                label="Twoja data urodzenia"
+                description="Potrzebna przy zwolnieniu lekarskim w ciąży na umowie o pracę: pracodawca płaci wynagrodzenie chorobowe przez pierwsze 33 dni zwolnienia w roku, a od 50. roku życia przez 14 dni. Dopiero potem zasiłek chorobowy wypłaca ZUS albo pracodawca."
+                error={errors.dataUrodzenia}
+              >
                 <DateInput {...register('dataUrodzenia')} className="sm:max-w-xs" />
               </Field>
             </div>
