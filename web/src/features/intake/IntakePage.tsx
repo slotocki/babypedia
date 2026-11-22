@@ -211,7 +211,8 @@ const dateCopy: Record<EventKind, { label: string; hint: string; children: strin
   },
 }
 
-const AVERAGE_HINT = 'Liczymy średnią z 12 miesięcy przed świadczeniem. To szacunek — możesz go poprawić później.'
+const AVERAGE_HINT =
+  'Podstawa zasiłku to średnia z 12 miesięcy przed powstaniem prawa do świadczenia, pomniejszona o składki na ubezpieczenia społeczne (13,71%). Przyjmujemy tę samą kwotę w każdym miesiącu — to szacunek, który możesz później poprawić.'
 
 function applyAnswers(facts: FactSet, v: FormValues): FactSet {
   let next = withFact(facts, 'sprawa', 'zdarzenie.rodzaj', userFactOf(v.rodzaj))
@@ -267,7 +268,12 @@ function WorkFields({ prefix, values, errors, register }: WorkFieldsProps) {
 
       {working ? (
         <>
-          <Field label="Od kiedy trwa ta umowa lub działalność?" description="Datę znajdziesz w umowie albo we wpisie do CEIDG. Liczymy pełne miesiące od tej daty." error={errors?.od}>
+          <Field
+            label="Od kiedy trwa ta umowa lub działalność?"
+            description="Data z umowy albo z wpisu do CEIDG."
+            help="Od tej daty liczymy pełne miesiące ubezpieczenia. Z nich wychodzi podstawa zasiłku, a przy zasiłku chorobowym także okres wyczekiwania: 30 dni przy obowiązkowym ubezpieczeniu chorobowym i 90 dni przy dobrowolnym."
+            error={errors?.od}
+          >
             <DateInput {...register(name('od'))} className="sm:max-w-xs" />
           </Field>
 
@@ -275,7 +281,8 @@ function WorkFields({ prefix, values, errors, register }: WorkFieldsProps) {
             <Field
               group
               label={self ? 'Czy płacisz dobrowolne ubezpieczenie chorobowe?' : 'Czy drugi rodzic płaci dobrowolne ubezpieczenie chorobowe?'}
-              description="Sprawdzisz to w eZUS albo u zleceniodawcy. Bez niego zasiłek macierzyński nie przysługuje."
+              description="Sprawdzisz to w eZUS albo u zleceniodawcy."
+              help="Przy umowie zlecenia i działalności ubezpieczenie chorobowe jest dobrowolne. Bez niego nie przysługuje ani zasiłek chorobowy, ani macierzyński."
               error={errors?.chorobowe}
             >
               <RadioGroup {...radio('chorobowe')} options={yesNoOptions} columns={2} />
@@ -305,7 +312,8 @@ function WorkFields({ prefix, values, errors, register }: WorkFieldsProps) {
 
           <Field
             label={amountLabel}
-            description={forma === 'dzialalnosc' ? `To zadeklarowana podstawa składek, a nie przychód. ${AVERAGE_HINT}` : AVERAGE_HINT}
+            description={forma === 'dzialalnosc' ? 'Zadeklarowana podstawa składek, a nie przychód.' : 'Kwota brutto, przed potrąceniami.'}
+            help={AVERAGE_HINT}
             error={errors?.kwota}
           >
             <MoneyInput {...register(name('kwota'))} className="sm:max-w-xs" />
@@ -315,7 +323,7 @@ function WorkFields({ prefix, values, errors, register }: WorkFieldsProps) {
             <Field
               group
               label={forma === 'pracownik' ? 'Czy pracodawca zgłasza do ubezpieczenia więcej niż 20 osób?' : 'Czy zleceniodawca zgłasza do ubezpieczenia więcej niż 20 osób?'}
-              description="Od tego zależy, kto wypłaca zasiłek: płatnik składek czy ZUS."
+              help="Jeśli płatnik zgłasza do ubezpieczenia chorobowego więcej niż 20 osób, zasiłek wypłaca on sam. Przy 20 osobach lub mniej wypłaca ZUS, a wniosek składasz przez płatnika, który przekazuje go do ZUS."
               error={errors?.ponad20}
             >
               <RadioGroup {...radio('ponad20')} options={headcountOptions} appearance="rows" />
@@ -327,7 +335,7 @@ function WorkFields({ prefix, values, errors, register }: WorkFieldsProps) {
               <Field
                 group
                 label={self ? 'Czy masz zaległości w składkach ZUS?' : 'Czy drugi rodzic ma zaległości w składkach ZUS?'}
-                description="Większa zaległość wstrzymuje zasiłek do czasu spłaty."
+                help="Przy działalności ZUS sprawdza saldo składek na dzień powstania prawa do zasiłku. Jeśli zaległość przekracza 1% płacy minimalnej, zasiłek przysługuje dopiero po jej spłacie."
                 error={errors?.zaleglosci}
               >
                 <RadioGroup {...radio('zaleglosci')} options={yesNoOptions} columns={2} />
@@ -450,7 +458,7 @@ export function IntakePage() {
               {rodzaj === 'przyjecie' ? (
                 <Field
                   label="Kiedy urodziło się przyjmowane dziecko?"
-                  description="Wiek dziecka wpływa na zasady."
+                  help="Urlop na warunkach urlopu macierzyńskiego trwa do 20 tygodni (przy jednym dziecku), ale nie dłużej niż do 7. urodzin dziecka w rodzinie zastępczej (10. przy odroczonym obowiązku szkolnym) albo do 14. urodzin przy przysposobieniu. Nie krócej jednak niż 9 tygodni."
                   error={errors.dataDziecka}
                 >
                   <DateInput {...register('dataDziecka')} className="sm:max-w-xs" />
@@ -476,7 +484,7 @@ export function IntakePage() {
               <WorkFields prefix="praca" values={praca} errors={errors.praca} register={register} />
               <Field
                 label="Twoja data urodzenia"
-                description="Potrzebna przy zwolnieniu lekarskim w ciąży na umowie o pracę: pracodawca płaci wynagrodzenie chorobowe przez pierwsze 33 dni zwolnienia w roku, a od 50. roku życia przez 14 dni. Dopiero potem zasiłek chorobowy wypłaca ZUS albo pracodawca."
+                help="Przy zwolnieniu lekarskim w ciąży na umowie o pracę pracodawca najpierw płaci wynagrodzenie chorobowe: przez 33 dni w roku, a od 50. roku życia przez 14 dni. Dopiero potem jest zasiłek chorobowy."
                 error={errors.dataUrodzenia}
               >
                 <DateInput {...register('dataUrodzenia')} className="sm:max-w-xs" />

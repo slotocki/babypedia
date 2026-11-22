@@ -1,13 +1,17 @@
 import { useId, type ReactNode } from 'react'
 import { cn } from './cn'
 import { FieldContext, type FieldControl } from './field-context'
+import { HelpTip } from './HelpTip'
 import { ErrorIcon } from './icons'
 
 export type FieldErrorInput = string | { message?: string } | undefined
 
 export interface FieldProps {
   label: ReactNode
+  /** Krótka podpowiedź pod etykietą (jedna linia: co wpisać, gdzie to znaleźć). */
   description?: ReactNode
+  /** Dłuższe wyjaśnienie („dlaczego pytamy”) schowane pod ikonką „?” przy etykiecie. */
+  help?: ReactNode
   error?: FieldErrorInput
   fix?: ReactNode
   optional?: boolean
@@ -16,7 +20,7 @@ export interface FieldProps {
   children: ReactNode
 }
 
-export function Field({ label, description, error, fix, optional, group = false, className, children }: FieldProps) {
+export function Field({ label, description, help, error, fix, optional, group = false, className, children }: FieldProps) {
   const uid = useId()
   const descriptionId = `${uid}-description`
   const errorId = `${uid}-error`
@@ -36,6 +40,9 @@ export function Field({ label, description, error, fix, optional, group = false,
       {optional ? <span className="font-normal text-ink-muted"> (opcjonalnie)</span> : null}
     </>
   )
+  const helpTip = help ? (
+    <HelpTip label={typeof label === 'string' ? `Wyjaśnienie: ${label}` : 'Wyjaśnienie'}>{help}</HelpTip>
+  ) : null
 
   const body = (
     <>
@@ -62,14 +69,32 @@ export function Field({ label, description, error, fix, optional, group = false,
     <FieldContext value={control}>
       {group ? (
         <fieldset aria-describedby={describedBy} className={cn('min-w-0 space-y-2', className)}>
-          <legend className="mb-2 text-base font-semibold text-ink">{labelContent}</legend>
+          <legend className="mb-2 text-base font-semibold text-ink">
+            {helpTip ? (
+              <span className="flex items-start gap-1">
+                <span className="min-w-0">{labelContent}</span>
+                {helpTip}
+              </span>
+            ) : (
+              labelContent
+            )}
+          </legend>
           <div className="space-y-2">{body}</div>
         </fieldset>
       ) : (
         <div className={cn('min-w-0 space-y-2', className)}>
-          <label htmlFor={uid} className="block text-base font-semibold text-ink">
-            {labelContent}
-          </label>
+          {helpTip ? (
+            <div className="flex items-start gap-1">
+              <label htmlFor={uid} className="min-w-0 text-base font-semibold text-ink">
+                {labelContent}
+              </label>
+              {helpTip}
+            </div>
+          ) : (
+            <label htmlFor={uid} className="block text-base font-semibold text-ink">
+              {labelContent}
+            </label>
+          )}
           {body}
         </div>
       )}
