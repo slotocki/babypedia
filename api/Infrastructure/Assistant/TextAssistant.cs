@@ -59,14 +59,9 @@ internal sealed class TextAssistant(HttpClient client, AssistantOptions options)
     public async Task<ModelReply> AskAsync(
         string question, string? previousQuestion, IReadOnlyList<LegalExcerpt> sources, CancellationToken ct)
     {
-        var query = new { question, previousQuestion };
         if (options.MessagesEndpoint is { } endpoint)
-            return await AskClaudeAsync(endpoint, JsonSerializer.Serialize(query, Json), sources, ct);
+            return await AskClaudeAsync(endpoint, question, previousQuestion, sources, ct);
 
-        var documents = sources.Select((source, index) => new
-        {
-            document_index = index, title = $"{source.Document}, {source.Article}", text = source.Text,
-        });
         var request = new
         {
             model = options.Model,
@@ -78,10 +73,8 @@ internal sealed class TextAssistant(HttpClient client, AssistantOptions options)
                 : null,
             messages = new[]
             {
-                new { role = "system", content = Prompt +
-                    " Zwróć wyłącznie JSON w formacie: {\"answer\":\"Wyjaśnienie w 2–3 zdaniach.\",\"citations\":[{\"document_index\":0,\"cited_text\":\"Dosłowny cytat.\"}]}. " +
-                    "Przy braku podstawy zwróć pusty tekst w polu answer i pustą tablicę w polu citations." },
-                new { role = "user", content = JsonSerializer.Serialize(new { query.question, query.previousQuestion, documents }, Json) },
+                new { role = "system", content = Prompt + JsonFormat },
+                new { role = "user", content = UserPayload(question, previousQuestion, sources) },
             },
         };
         using var message = new HttpRequestMessage(HttpMethod.Post, "chat/completions")
@@ -94,23 +87,39 @@ internal sealed class TextAssistant(HttpClient client, AssistantOptions options)
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadFromJsonAsync<ChatResponse>(ct);
         var choice = body?.Choices?.FirstOrDefault();
-        var answer = choice?.FinishReason == "stop" ? choice.Message?.Content : null;
-        if (string.IsNullOrWhiteSpace(answer)) return ModelReply.Empty;
-        var parsed = JsonSerializer.Deserialize<CitationResponse>(answer, Json);
+        return ParseReply(choice?.FinishReason == "stop" ? choice.Message?.Content : null);
+    }
+
+    private const string JsonFormat =
+        " Zwróć wyłącznie JSON w formacie: {\"answer\":\"Wyjaśnienie w 2–3 zdaniach.\",\"citations\":[{\"document_index\":0,\"cited_text\":\"Dosłowny cytat.\"}]}. " +
+        "Pole answer pisz własnymi słowami, bez przepisywania przepisów; dosłowne fragmenty umieszczaj tylko w cited_text. " +
+        "Przy braku podstawy zwróć pusty tekst w polu answer i pustą tablicę w polu citations.";
+
+    private static string UserPayload(string? question, string? previousQuestion, IReadOnlyList<LegalExcerpt> sources) =>
+        JsonSerializer.Serialize(new
+        {
+            question,
+            previousQuestion,
+            documents = sources.Select((source, index) => new
+            {
+                document_index = index, title = $"{source.Document}, {source.Article}", text = source.Text,
+            }),
+        }, Json);
+
+    /// <summary>JSON odpowiedzi modelu — także gdy model otoczy go blokiem ```json albo krótkim wstępem.</summary>
+    private static ModelReply ParseReply(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return ModelReply.Empty;
+        var start = text.IndexOf('{');
+        var end = text.LastIndexOf('}');
+        if (start < 0 || end <= start) return ModelReply.Empty;
+        var parsed = JsonSerializer.Deserialize<CitationResponse>(text[start..(end + 1)], Json);
         return new ModelReply(parsed?.Answer, parsed?.Citations ?? []);
     }
 
     private async Task<ModelReply> AskClaudeAsync(
-        string endpoint, string query, IReadOnlyList<LegalExcerpt> sources, CancellationToken ct)
+        string endpoint, string? question, string? previousQuestion, IReadOnlyList<LegalExcerpt> sources, CancellationToken ct)
     {
-        var content = sources.Select<LegalExcerpt, object>(source => new
-        {
-            type = "document",
-            title = $"{source.Document}, {source.Article}",
-            source = new { type = "text", media_type = "text/plain", data = source.Text },
-            citations = new { enabled = true },
-        }).Append(new { type = "text", text = query }).ToArray();
-
         using var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
         {
             Content = JsonContent.Create(new
@@ -118,10 +127,10 @@ internal sealed class TextAssistant(HttpClient client, AssistantOptions options)
                 model = string.IsNullOrWhiteSpace(options.Model) ? "claude-haiku-5-5" : options.Model,
                 max_tokens = 900,
                 // Haiku 5.5 domyślnie „myśli” przed odpowiedzią i zużywał na to cały limit tokenów — odpowiedź urywała się
-                // przed pierwszym cytatem (stop_reason: max_tokens). Wybór cytatów nie wymaga rozumowania krok po kroku.
+                // przed pierwszym cytatem (stop_reason: max_tokens). Krótkie wyjaśnienie z cytatami nie wymaga rozumowania krok po kroku.
                 thinking = new { type = "disabled" },
-                system = Prompt,
-                messages = new[] { new { role = "user", content } },
+                system = Prompt + JsonFormat,
+                messages = new[] { new { role = "user", content = UserPayload(question, previousQuestion, sources) } },
             }),
         };
         if (options.Provider == "anthropic")
@@ -133,17 +142,13 @@ internal sealed class TextAssistant(HttpClient client, AssistantOptions options)
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadFromJsonAsync<ClaudeResponse>(ct);
         if (body?.StopReason != "end_turn" || body.Content is null) return ModelReply.Empty;
-        // Przy włączonych cytatach Claude dzieli odpowiedź na bloki tekstu z przypiętymi cytatami — sklejamy je w wyjaśnienie.
-        var blocks = body.Content.Where(block => block.Type == "text").ToList();
-        return new ModelReply(
-            string.Concat(blocks.Select(block => block.Text)),
-            blocks.SelectMany(block => block.Citations ?? []).ToArray());
+        return ParseReply(string.Concat(body.Content.Where(block => block.Type == "text").Select(block => block.Text)));
     }
 
     private sealed record ChatMessage(string? Content);
     private sealed record ChatChoice(ChatMessage? Message, [property: JsonPropertyName("finish_reason")] string? FinishReason);
     private sealed record ChatResponse(ChatChoice[]? Choices);
     private sealed record CitationResponse(string? Answer, ModelCitation[]? Citations);
-    private sealed record ClaudeBlock(string Type, string? Text, ModelCitation[]? Citations);
+    private sealed record ClaudeBlock(string Type, string? Text);
     private sealed record ClaudeResponse(ClaudeBlock[]? Content, [property: JsonPropertyName("stop_reason")] string? StopReason);
 }

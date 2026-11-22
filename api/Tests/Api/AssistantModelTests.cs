@@ -184,30 +184,27 @@ public sealed class AssistantModelTests(WebApplicationFactory<Program> factory) 
                 Assert.False(request.Headers.Contains("x-api-key"));
             }
             using var body = await request.Content!.ReadFromJsonAsync<JsonDocument>(ct);
-            var blocks = body!.RootElement.GetProperty("messages")[0].GetProperty("content");
-            var document = blocks[0];
-            Assert.Equal("document", document.GetProperty("type").GetString());
-            Assert.True(document.GetProperty("citations").GetProperty("enabled").GetBoolean());
-            using var query = JsonDocument.Parse(blocks[blocks.GetArrayLength() - 1].GetProperty("text").GetString()!);
+            var root = body!.RootElement;
+            Assert.Contains("JSON", root.GetProperty("system").GetString());
+            using var query = JsonDocument.Parse(root.GetProperty("messages")[0].GetProperty("content").GetString()!);
             Assert.Equal(PreviousTopic, query.RootElement.GetProperty("question").GetString());
 
             if (providerCase == "provider_error") return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable);
 
-            var source = document.GetProperty("source").GetProperty("data").GetString()!;
+            var source = query.RootElement.GetProperty("documents")[0].GetProperty("text").GetString()!;
             var quote = providerCase == "invented_quote" ? UntrustedText : SampleQuote(source);
+            var reply = JsonSerializer.Serialize(new
+            {
+                answer = text,
+                citations = providerCase == "no_citation" ? [] : new[] { new { document_index = 0, cited_text = quote } },
+            });
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = JsonContent.Create(new
                 {
                     stop_reason = "end_turn",
-                    content = new[]
-                    {
-                        new
-                        {
-                            type = "text", text,
-                            citations = providerCase == "no_citation" ? null : new[] { new { document_index = 0, cited_text = quote } },
-                        },
-                    },
+                    // Model czasem otacza JSON blokiem kodu — parser ma to znieść.
+                    content = new[] { new { type = "text", text = "```json\n" + reply + "\n```" } },
                 }),
             };
         }
