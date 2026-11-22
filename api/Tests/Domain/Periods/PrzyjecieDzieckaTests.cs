@@ -187,7 +187,7 @@ public sealed class PrzyjecieDzieckaTests
         AssertPeriod(Get(assessment, BenefitId.PrzyjecieDziecka), "2026-06-01", "2026-10-18", 140);
         var parental = Get(assessment, BenefitId.Rodzicielski);
         AssertPeriod(parental, "2026-10-19", "2026-12-14", 57);
-        Assert.Contains(parental.Notes, n => n.Contains("2026-12-14"));
+        Assert.Contains(parental.Notes, n => n.Contains("14.12.2026"));
     }
 
     [Fact]

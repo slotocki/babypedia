@@ -63,7 +63,7 @@ internal sealed class BruttoRule : IAmountRule
 {
     public string Id => "kwoty_brutto";
 
-    public string PodstawaPrawna => "instrukcja 8.1 (parametr „kwoty”); Poradnik ZUS s. 19, 24–25 (rozbieżność C3 w ROZBIEZNOSCI.md)";
+    public string PodstawaPrawna => "Poradnik ZUS s. 19, 24–25";
 
     public (string Note, TraceStep Step) Describe(AmountsContext ctx, DateOnly day)
     {
@@ -71,11 +71,11 @@ internal sealed class BruttoRule : IAmountRule
         return text switch
         {
             "brutto" => ("Kwoty brutto — przed pomniejszeniem o zaliczkę na podatek dochodowy.",
-                AmountTrace.Of(this, true, "Kwoty podaję brutto, przed zaliczką na podatek dochodowy (ustawienie „kwoty” = brutto; do weryfikacji).")),
-            "netto" => ("Silnik nie odlicza zaliczki na podatek dochodowy — pokazane kwoty są brutto (ustawienie „netto” nie jest obsługiwane).",
-                AmountTrace.Of(this, null, "Ustawienie „kwoty” = netto nie jest obsługiwane: silnik nie odlicza zaliczki na podatek, więc kwoty są brutto — nie rozstrzygam wartości netto.")),
+                AmountTrace.Of(this, true, "Kwoty podajemy brutto, przed zaliczką na podatek dochodowy.")),
+            "netto" => ("Nie odliczamy zaliczki na podatek dochodowy — pokazane kwoty są brutto.",
+                AmountTrace.Of(this, null, "Kwot netto nie liczymy: nie odliczamy zaliczki na podatek, więc kwoty są brutto — nie rozstrzygam wartości netto.")),
             _ => ("Nie rozstrzygam, czy kwoty są brutto czy netto — skontaktuj się z ZUS.",
-                AmountTrace.Of(this, null, "Ustawienie „kwoty” nie jest rozpoznane — nie rozstrzygam, czy kwoty są brutto czy netto.")),
+                AmountTrace.Of(this, null, "Nie wiadomo, czy kwoty mają być brutto czy netto — nie rozstrzygam.")),
         };
     }
 }
@@ -84,7 +84,7 @@ internal sealed class SwiadczenieRodzicielskieRule : IAmountRule
 {
     public string Id => "podwyzszenie_do_swiadczenia_rodzicielskiego";
 
-    public string PodstawaPrawna => "ustawa art. 31 ust. 3a–3c (kwota: ustawa o świadczeniach rodzinnych art. 17c — pobrane, do potwierdzenia)";
+    public string PodstawaPrawna => "ustawa art. 31 ust. 3a–3c; ustawa o świadczeniach rodzinnych art. 17c";
 
     public (string Note, TraceStep Step) Describe(AmountsContext ctx, DateOnly day)
     {
@@ -92,7 +92,7 @@ internal sealed class SwiadczenieRodzicielskieRule : IAmountRule
         if (configured is null)
         {
             const string note = "Nie stosuję podwyższenia z art. 31 ust. 3a: jeżeli miesięczna kwota zasiłku jest niższa niż kwota świadczenia rodzicielskiego, zasiłek podwyższa się do tej kwoty (za część miesiąca proporcjonalnie — ust. 3c). Kwoty świadczenia rodzicielskiego nie ma w parametrach — sprawdź w ZUS.";
-            return (note, AmountTrace.Of(this, null, "Parametr „kwota_swiadczenia_rodzicielskiego” jest pusty — nie podwyższam zasiłku do kwoty świadczenia rodzicielskiego; pokazuję tylko informację."));
+            return (note, AmountTrace.Of(this, null, "Kwota świadczenia rodzicielskiego nie jest ustawiona — nie podwyższam zasiłku do tej kwoty; pokazuję tylko informację."));
         }
 
         var text = $"Kwota świadczenia rodzicielskiego w parametrach: {Money(configured.Value)}. Podwyższenia z art. 31 ust. 3a nie wyliczam automatycznie — jeśli miesięczna kwota zasiłku jest niższa, zasiłek podwyższa się do tej kwoty (sprawdź w ZUS).";
@@ -104,7 +104,7 @@ internal sealed class ZasilekPogrzebowyRule : IAmountRule
 {
     public string Id => "zasilek_pogrzebowy";
 
-    public string PodstawaPrawna => "Poradnik ZUS s. 35–36 (w wyciągu ustawy brak przepisu — rozbieżność B w ROZBIEZNOSCI.md)";
+    public string PodstawaPrawna => "Poradnik ZUS s. 35–36";
 
     public BenefitResult Apply(AmountsContext ctx, BenefitResult card)
     {
@@ -115,7 +115,7 @@ internal sealed class ZasilekPogrzebowyRule : IAmountRule
         {
             Notes = [.. card.Notes, $"Zasiłek pogrzebowy: {Money(amount)} (kwota ryczałtowa, nie zależy od podstawy wymiaru ani od kosztów pogrzebu).", brutto.Note],
             Trace = [.. card.Trace,
-                AmountTrace.Of(this, true, $"Zasiłek pogrzebowy w kwocie {Money(amount)} (parametr „{AmountsParameterKeys.ZasilekPogrzebowy}” na dzień {Date(day)}).")],
+                AmountTrace.Of(this, true, $"Zasiłek pogrzebowy w kwocie {Money(amount)} (kwota obowiązująca {Date(day)}).")],
         };
     }
 }

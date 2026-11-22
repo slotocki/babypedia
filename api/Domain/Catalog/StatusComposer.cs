@@ -12,6 +12,15 @@ public static class StatusComposer
 
     public static BenefitResult Compose(CatalogEntry entry, PersonRef person, BenefitResult? rights, BenefitResult? period, bool employee)
     {
+        var composed = ComposeStatus(entry, person, rights, period, employee);
+        // Świadczenie warunkowe (np. chorobowy w ciąży bez zwolnienia): warunek przechodzi na kartę, terminów liczonych od umownego dnia nie pokazujemy.
+        return rights?.ConditionalOn is { } condition && composed.Status != BenefitStatus.NieDotyczy
+            ? composed with { ConditionalOn = condition, Deadlines = [] }
+            : composed;
+    }
+
+    private static BenefitResult ComposeStatus(CatalogEntry entry, PersonRef person, BenefitResult? rights, BenefitResult? period, bool employee)
+    {
         var modules = new[] { rights, period }.OfType<BenefitResult>().ToList();
         if (modules.Count == 0 || modules.Any(m => m.Status == BenefitStatus.NieDotyczy))
         {

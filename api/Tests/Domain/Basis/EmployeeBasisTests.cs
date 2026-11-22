@@ -41,7 +41,7 @@ public sealed class EmployeeBasisTests
             ],
             result.Trace.Select(t => t.Rule));
         Assert.All(result.Trace, t => Assert.False(string.IsNullOrWhiteSpace(t.Basis)));
-        Assert.Contains("6903,20 zł", result.Trace.Single(t => t.Rule == "srednia_wynagrodzen_pracownika").Text);
+        Assert.Contains("6 903,20 zł", result.Trace.Single(t => t.Rule == "srednia_wynagrodzen_pracownika").Text);
     }
 
     [Fact]
@@ -78,8 +78,8 @@ public sealed class EmployeeBasisTests
 
         Assert.Equal(BasisOutcome.MissingData, result.Outcome);
         Assert.Null(result.Basis);
-        Assert.Contains("2025-08", result.Message);
-        Assert.Contains(result.MissingFacts, m => m.Fact == FactKeys.UbezpieczeniePodstawySkladek && m.Question.Contains("2025-08"));
+        Assert.Contains("08.2025", result.Message);
+        Assert.Contains(result.MissingFacts, m => m.Fact == FactKeys.UbezpieczeniePodstawySkladek && m.Question.Contains("08.2025"));
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public sealed class EmployeeBasisTests
         var result = Assess(Person([Employee("2020-01-01")], contributions, [], []));
 
         Assert.Equal(BasisOutcome.Undecided, result.Outcome);
-        Assert.Contains("2025-05", result.Message);
+        Assert.Contains("05.2025", result.Message);
     }
 
     [Fact]
@@ -163,7 +163,7 @@ public sealed class EmployeeBasisTests
         Assert.Equal(4147.10m, result.Basis);
         Assert.Equal(BasisSource.Minimalna, result.Source);
         Assert.True(result.IsEstimate);
-        Assert.Contains(result.Notes, n => n.Contains("do potwierdzenia z ZUS"));
+        Assert.Contains(result.Notes, n => n.Contains("minimalne wynagrodzenie po odliczeniu składek (art. 45 ust. 1)"));
     }
 
     [Fact]
@@ -175,7 +175,7 @@ public sealed class EmployeeBasisTests
 
         Assert.Equal(2073.55m, result.Basis);
         Assert.Equal(BasisSource.Minimalna, result.Source);
-        Assert.Contains(result.Notes, n => n.Contains("Art. 45 ust. 1") && n.Contains("założenie do potwierdzenia"));
+        Assert.Contains(result.Notes, n => n.Contains("art. 45 ust. 1") && n.Contains("przyjęte założenie"));
     }
 
     [Fact]

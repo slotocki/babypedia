@@ -6,7 +6,7 @@ public sealed class EmployeeAverageRule : BasisRule<BasisValue>
 {
     public override string Id => "srednia_wynagrodzen_pracownika";
 
-    public override string PodstawaPrawna => "ustawa art. 36 ust. 1–2, art. 38 ust. 1, art. 3 pkt 3, art. 47; instrukcja 8.7 pkt 1–2";
+    public override string PodstawaPrawna => "ustawa art. 36 ust. 1–2, art. 38 ust. 1, art. 3 pkt 3, art. 47";
 
     protected override BasisStep<BasisValue> Compute(BasisInputs i)
     {
@@ -37,7 +37,7 @@ public sealed class EmployeeMinimumRule : BasisRule<BasisValue>
 {
     public override string Id => "minimalna_podstawa_pracownika";
 
-    public override string PodstawaPrawna => "ustawa art. 45 ust. 1, art. 47; instrukcja 8.2 i 8.7 pkt 5";
+    public override string PodstawaPrawna => "ustawa art. 45 ust. 1, art. 47";
 
     protected override BasisStep<BasisValue> Compute(BasisInputs i)
     {
@@ -71,8 +71,8 @@ public sealed class EmployeeMinimumRule : BasisRule<BasisValue>
 
         var minimum = Fmt.Round(fullMinimum * workingTime.Value);
         var assumption = workingTime == 1
-            ? $"Wartość minimalnej podstawy ({Fmt.Money(fullMinimum)}) pochodzi z parametru {BasisParameterKeys.PodstawaMinimalnaPelnyEtat} (wyliczenie z płacy minimalnej, art. 45 ust. 1), a nie z cytatu w materiałach — do potwierdzenia z ZUS."
-            : $"Minimalną podstawę dla niepełnego etatu liczę proporcjonalnie do wymiaru etatu ({Fmt.Money(fullMinimum)} × {Fmt.Fraction(workingTime.Value)}) zgodnie z instrukcją 8.2 i 8.7. Art. 45 ust. 1 ustawy mówi o pracy w pełnym wymiarze czasu pracy i proporcji nie przewiduje — założenie do potwierdzenia z ZUS.";
+            ? $"Minimalna podstawa ({Fmt.Money(fullMinimum)}) to minimalne wynagrodzenie po odliczeniu składek (art. 45 ust. 1)."
+            : $"Przy niepełnym etacie minimalną podstawę liczymy proporcjonalnie do wymiaru etatu ({Fmt.Money(fullMinimum)} × {Fmt.Fraction(workingTime.Value)}). To przyjęte założenie: art. 45 ust. 1 ustawy mówi o pracy w pełnym wymiarze czasu pracy i proporcji nie przewiduje.";
         if (average.Amount >= minimum)
         {
             return BasisSteps.Met(this, average,

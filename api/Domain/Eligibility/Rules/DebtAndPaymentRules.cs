@@ -2,7 +2,9 @@ using BabyRadnik.Domain.Contracts;
 
 namespace BabyRadnik.Domain.Eligibility;
 
-public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityRule
+/// <param name="hypotheticalDay">Dzień powstania prawa jest umowny (np. brak zwolnienia lekarskiego — liczymy „gdyby zwolnienie zaczęło się dziś”):
+/// teksty mówią wtedy o pierwszym dniu zwolnienia zamiast o konkretnej dacie i nie podają terminu spłaty liczonego od umownego dnia.</param>
+public sealed class ContributionDebtRule(DateOnly? onDate = null, bool hypotheticalDay = false) : EligibilityRule
 {
     public const string RuleId = "zadluzenie_skladkowe";
 
@@ -58,9 +60,10 @@ public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityR
         var months = (int)context.Param(EligibilityParameterKeys.TerminSplatyZadluzeniaMies, rightDate);
         var deadline = rightDate.AddMonths(months);
         var balance = BalanceText(debt, rightDate);
+        var rightDay = hypotheticalDay ? "w pierwszym dniu zwolnienia lekarskiego" : $"w dniu powstania prawa ({Text.Date(rightDate)})";
         string[] balanceNote = debt.NaDzien == rightDate
             ? []
-            : [$"Saldo zadłużenia składkowego jest znane na {Text.Date(debt.NaDzien)}, a o prawie decyduje saldo w dniu powstania prawa ({Text.Date(rightDate)}). Przyjmuję ostatnie znane saldo; jeśli do tego dnia się zmieni, zmieni się też wynik."];
+            : [$"Znamy saldo Twojego konta składkowego z {Text.Date(debt.NaDzien)}, a o prawie do zasiłku decyduje saldo {rightDay}. Liczymy z ostatnim znanym saldem — jeśli do tego dnia spłacisz zaległość albo saldo się zmieni, zmieni się też wynik."];
 
         if (debt.Kwota <= threshold)
         {
@@ -70,7 +73,7 @@ public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityR
                 balanceNote);
         }
 
-        string[] notes = onDate is null && context.Event() == EventKind.Ciaza
+        string[] notes = onDate is null && !hypotheticalDay && context.Event() == EventKind.Ciaza
             ? [.. balanceNote, $"Dzień powstania prawa przyjęto jako przewidywaną datę porodu ({Text.Date(rightDate)}); jeśli poród nastąpi w innym dniu, przesunie się też termin spłaty zadłużenia."]
             : balanceNote;
 
@@ -101,8 +104,12 @@ public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityR
         }
         else
         {
-            reason = $"Zadłużenie z tytułu składek ({Text.Money(debt.Kwota)}) przekracza próg {Text.Money(threshold)} {balance}, więc zasiłek nie przysługuje do czasu spłaty całości zadłużenia.";
-            whatWouldChange = $"Spłać całość zadłużenia ({Text.Money(debt.Kwota)}) do dnia {Text.Date(deadline)} — {Text.Number(months)} mies. od dnia powstania prawa ({Text.Date(rightDate)}); po tym terminie prawo się przedawnia.";
+            var known = debt.NaDzien == rightDate ? rightDay : $"stan konta z {Text.Date(debt.NaDzien)}";
+            reason = $"Masz zaległość w składkach na ubezpieczenia społeczne: {Text.Money(debt.Kwota)} ({known}). To więcej niż dopuszczalne {Text.Money(threshold)}, więc zasiłek nie przysługuje, dopóki nie spłacisz całej zaległości.";
+            whatWouldChange = (hypotheticalDay
+                    ? $"Jeśli spłacisz całą zaległość ({Text.Money(debt.Kwota)}) przed zwolnieniem albo w ciągu {Text.Number(months)} mies. od jego pierwszego dnia, zasiłek może zostać przyznany."
+                    : $"Jeśli spłacisz całą zaległość ({Text.Money(debt.Kwota)}) najpóźniej {Text.Date(deadline)} ({Text.Number(months)} mies. od dnia powstania prawa, {Text.Date(rightDate)}), zasiłek może zostać przyznany. Po tym terminie prawo do zasiłku się przedawnia.")
+                + " Aktualne saldo sprawdzisz na swoim koncie w PUE/eZUS (serwis internetowy ZUS) albo w placówce ZUS.";
         }
 
         var outcome = NotMet(
@@ -114,7 +121,7 @@ public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityR
         {
             Notes = notes.Length == 0 ? null : notes,
         };
-        if (repaid is null && context.AsOf <= deadline)
+        if (repaid is null && context.AsOf <= deadline && !hypotheticalDay)
         {
             outcome = outcome with
             {
@@ -124,7 +131,7 @@ public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityR
                         "splata_zadluzenia",
                         DeadlineType.NajpozniejDo,
                         deadline,
-                        $"Spłać całość zadłużenia ({Text.Money(debt.Kwota)}) do {Text.Date(deadline)} ({Text.Number(months)} mies. od dnia powstania prawa {Text.Date(rightDate)}).",
+                        $"Spłać całą zaległość w składkach ({Text.Money(debt.Kwota)}) najpóźniej {Words(deadline)} ({Text.Number(months)} mies. od dnia powstania prawa, {Text.Date(rightDate)}).",
                         "Po tym terminie prawo do świadczenia się przedawnia.",
                         PodstawaPrawna),
                 ],
@@ -133,6 +140,8 @@ public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityR
 
         return outcome;
     }
+
+    private static string Words(DateOnly date) => BabyRadnik.Domain.Deadlines.PolishDate.Words(date);
 
     /// <summary>Opis salda: wprost „w dniu powstania prawa”, gdy saldo jest z tego dnia; inaczej uczciwie — ostatnie znane saldo z innego dnia.</summary>
     private static string BalanceText(ContributionDebt debt, DateOnly rightDate) =>
@@ -263,7 +272,7 @@ public sealed class PaymentRouteRule(DateOnly? onDate = null, BenefitKindForDocu
         var term = days is { } d
             ? $"w ciągu {Text.Number(d)} dni od dnia wyjaśnienia ostatniej okoliczności niezbędnej do ustalenia prawa"
             : "w terminie z art. 64 ust. 1 ustawy";
-        return $"Zasiłek wypłaca się najpóźniej {term} (art. 64 ust. 1). Nazwy druków (ZAM, Z-3, Z-3a, ZAS-53, ZAS-12) podano wg treści zadania ZUS — nie występują w wyciągach przepisów; sprawdź aktualny druk w ZUS.";
+        return $"Zasiłek wypłaca się najpóźniej {term} (art. 64 ust. 1).";
     }
 }
 

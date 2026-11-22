@@ -51,7 +51,7 @@ public sealed class FuneralRule : IRule
         }
         catch (ParameterNotFoundException e)
         {
-            var reason = $"Brakuje parametru „{e.Key}” na dzień {e.Date:yyyy-MM-dd}, więc nie podaję kwoty zasiłku pogrzebowego. Skontaktuj się z ZUS.";
+            var reason = $"Brakuje parametru „{e.Key}” na dzień {e.Date:dd.MM.yyyy}, więc nie podaję kwoty zasiłku pogrzebowego. Skontaktuj się z ZUS.";
             var undecided = new BenefitResult
             {
                 Id = entry.Id,

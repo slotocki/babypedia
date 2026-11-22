@@ -18,7 +18,7 @@ public sealed class OjcowskiTests
         var result = Get(Assess(Facts(BirthCase(Birth), Father()), D("2027-02-21")), BenefitId.Ojcowski);
 
         Assert.Equal(BenefitStatus.NiePrzysluguje, result.Status);
-        Assert.Contains("2027-01-09", result.Reason);
+        Assert.Contains("09.01.2027", result.Reason);
         Assert.Equal("KP art. 182³ § 1, § 1¹", result.LegalBasis);
         Assert.Null(result.Period);
     }
@@ -94,7 +94,7 @@ public sealed class OjcowskiTests
 
         Assert.Equal(BenefitStatus.Przysluguje, result.Status);
         Assert.Null(result.Period);
-        Assert.Contains(result.Notes, n => n.Contains("2027-01-09"));
+        Assert.Contains(result.Notes, n => n.Contains("09.01.2027"));
     }
 
     [Fact]

@@ -19,7 +19,7 @@ internal static class AmountMath
         return new Period(from, to, days, days / (decimal)DaysPerWeek);
     }
 
-    public static string Date(DateOnly date) => date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+    public static string Date(DateOnly date) => date.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
 
     public static string Money(decimal value) =>
         value.ToString("#,##0.00", CultureInfo.InvariantCulture).Replace(',', ' ').Replace('.', ',') + " zł";

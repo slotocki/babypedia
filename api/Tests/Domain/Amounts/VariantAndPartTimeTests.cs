@@ -34,7 +34,7 @@ public sealed class VariantAndPartTimeTests
         var step = Assert.Single(card.Trace, t => t.Rule == "wniosek_usredniony");
         Assert.False(step.Met);
         Assert.Contains("ustawa art. 30a", step.Basis);
-        Assert.Contains(card.Notes, n => n.Contains("po terminie") && n.Contains("2026-03-23"));
+        Assert.Contains(card.Notes, n => n.Contains("po terminie") && n.Contains("23.03.2026"));
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public sealed class VariantAndPartTimeTests
         var card = Get(Run(Birth(WithVariant(Mother(), null)), null, D("2026-03-10")), BenefitId.Macierzynski);
 
         Assert.Equal(0.815m, card.Rate);
-        Assert.Contains(card.Notes, n => n.Contains("pod warunkiem złożenia wniosku najpóźniej 2026-03-23"));
+        Assert.Contains(card.Notes, n => n.Contains("pod warunkiem złożenia wniosku najpóźniej 23.03.2026"));
         Assert.Null(Assert.Single(card.Trace, t => t.Rule == "wniosek_usredniony").Met);
     }
 

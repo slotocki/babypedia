@@ -118,8 +118,8 @@ public sealed class Section11EligibilityTests
         Assert.Equal(D(2027, 11, 5), deadline.Date);
         Assert.Contains("05.11.2027", result.WhatWouldChange);
         Assert.DoesNotContain("20.05.2027", result.WhatWouldChange);
-        Assert.Contains("ostatniego znanego salda (stan na 20.11.2026", result.Reason);
-        Assert.Contains(result.Notes, n => n.Contains("Przyjmuję ostatnie znane saldo", StringComparison.Ordinal));
+        Assert.Contains("stan konta z 20.11.2026", result.Reason);
+        Assert.Contains(result.Notes, n => n.Contains("Liczymy z ostatnim znanym saldem", StringComparison.Ordinal));
         Assert.Contains(result.Notes, n => n.Contains("przewidywaną datę porodu", StringComparison.Ordinal));
     }
 

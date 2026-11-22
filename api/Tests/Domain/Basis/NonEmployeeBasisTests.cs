@@ -37,7 +37,7 @@ public sealed class NonEmployeeBasisTests
 
         Assert.Equal(20321.30m, result.Basis);
         Assert.Equal(BasisSource.SzacunekZus, result.Source);
-        Assert.Contains(result.Notes, n => n.Contains("23550,00 zł") && n.Contains("20321,30 zł"));
+        Assert.Contains(result.Notes, n => n.Contains("23 550,00 zł") && n.Contains("20 321,30 zł"));
         Assert.Contains("limit", result.Trace[^1].Text);
     }
 
@@ -124,7 +124,7 @@ public sealed class NonEmployeeBasisTests
         var result = Assess(person, service: Service(onlyFrom2026));
 
         Assert.Equal(BasisOutcome.Undecided, result.Outcome);
-        Assert.Contains("2025-09-01", result.Message);
+        Assert.Contains("01.09.2025", result.Message);
     }
 
     [Fact]

@@ -19,14 +19,14 @@ internal sealed class MinimalnaPodstawaRule : IAmountRule
 {
     public string Id => "minimalna_podstawa";
 
-    public string PodstawaPrawna => "ustawa art. 45 ust. 1 w zw. z art. 47; instrukcja 8.2 (niepełny etat: proporcjonalnie)";
+    public string PodstawaPrawna => "ustawa art. 45 ust. 1 w zw. z art. 47";
 }
 
 internal sealed class LimitPodstawyRule : IAmountRule
 {
     public string Id => "limit_podstawy_dobrowolne";
 
-    public string PodstawaPrawna => "Załącznik ZUS (Dla nie pracowników); instrukcja 8.1";
+    public string PodstawaPrawna => "Załącznik ZUS (dla osób niebędących pracownikami)";
 }
 
 /// <summary>
@@ -57,7 +57,7 @@ public sealed class BasisAdjuster(IParameterProvider parameters)
             var minimum = Round(fullMinimum * profile.EtatFraction, 2);
             if (profile.EtatFraction < 1)
             {
-                notes.Add("Minimalną podstawę dla niepełnego etatu liczę proporcjonalnie do wymiaru czasu pracy (instrukcja 8.2); art. 45 ust. 1 ustawy mówi tylko o pracy w pełnym wymiarze — do potwierdzenia z ZUS.");
+                notes.Add("Przy niepełnym etacie minimalną podstawę liczymy proporcjonalnie do wymiaru czasu pracy. To przyjęte założenie: art. 45 ust. 1 ustawy mówi o pracy w pełnym wymiarze czasu pracy.");
             }
 
             if (net < minimum)

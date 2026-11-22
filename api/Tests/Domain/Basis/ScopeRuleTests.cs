@@ -118,7 +118,7 @@ public sealed class ScopeRuleTests
         Assert.Equal(BasisOutcome.MissingData, result.Outcome);
         Assert.Null(result.Basis);
         Assert.Contains(result.MissingFacts, m => m.Fact == FactKeys.UbezpieczeniePodstawySkladek);
-        Assert.Contains("2025-01", result.Message);
+        Assert.Contains("01.2025", result.Message);
     }
 
     [Fact]
@@ -349,7 +349,7 @@ public sealed class ScopeRuleTests
 
         Assert.Equal(BasisOutcome.Undecided, result.Outcome);
         Assert.Contains("podstawa_minimalna_pelny_etat", result.Message);
-        Assert.Contains("2025-06-10", result.Message);
+        Assert.Contains("10.06.2025", result.Message);
         Assert.Null(result.Basis);
     }
 }

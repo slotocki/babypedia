@@ -36,7 +36,7 @@ public sealed class ZgonDzieckaTests
 
         // KP art. 180¹ § 2: prawo do urlopu zachowuje się przez 7 dni od zgonu — urlop trwa od porodu do 11.05.
         AssertPeriod(result, Birth, "2026-05-11", 72);
-        Assert.Contains("w tym po zgonie: od 2026-05-05 do 2026-05-11 (7 dni", result.Trace.Single(t => t.Rule == "martwe_urodzenie_zgon_dziecka").Text);
+        Assert.Contains("w tym po zgonie: od 05.05.2026 do 11.05.2026 (7 dni", result.Trace.Single(t => t.Rule == "martwe_urodzenie_zgon_dziecka").Text);
     }
 
     [Fact]

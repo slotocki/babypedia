@@ -17,6 +17,7 @@ import {
   Stepper,
   ToneScope,
   buttonVariants,
+  formatPercent,
 } from '@/ui'
 import { CaseDecisionComparison } from '@/features/cases'
 import { flowSteps } from '@/features/intake/steps'
@@ -25,12 +26,18 @@ import { LegalAssistant } from '@/features/support/LegalAssistant'
 import { BenefitCard } from './BenefitCard'
 import { DeadlineItemCard } from './DeadlineItemCard'
 import { DeadlinesSection, type DeadlineEntry } from './DeadlinesSection'
-import { benefitKey, personLabels, sortBenefits, statusSummaryLabels, todayIso } from './labels'
+import { FuneralNextStep } from './FuneralNextStep'
+import { conditionOf, mergeDeadlines } from './insights'
+import { benefitKey, benefitName, personLabels, sortBenefits, todayIso } from './labels'
+import { ResultSummary } from './ResultSummary'
 import { RisksSection } from './RisksSection'
 import { useFocusHeading } from './useFocusHeading'
 import { VariantSection } from './VariantSection'
 
 const EXAMPLE_COUNT = 5
+
+/** Pasek przykładowych odpowiedzi pokazujemy tylko na jawne życzenie: /wynik?dev=1 (i tylko w trybie deweloperskim Vite). */
+const DEV_PARAM = 'dev'
 
 function parseExample(value: string | null): number | null {
   const n = Number(value)
@@ -53,14 +60,14 @@ function ExampleSwitcher({ current }: { current: number | null }) {
       <ul className="flex flex-wrap gap-x-4 gap-y-1">
         {Array.from({ length: EXAMPLE_COUNT }, (_, i) => i + 1).map((n) => (
           <li key={n}>
-            <Link to={`${paths.result}?przyklad=${n}`} aria-current={current === n ? 'true' : undefined} className="font-semibold text-brand-strong underline underline-offset-4">
+            <Link to={`${paths.result}?${DEV_PARAM}=1&przyklad=${n}`} aria-current={current === n ? 'true' : undefined} className="font-semibold text-brand-strong underline underline-offset-4">
               Przykład {n}
               {current === n ? ' (bieżący)' : ''}
             </Link>
           </li>
         ))}
         <li>
-          <Link to={paths.result} className="font-semibold text-brand-strong underline underline-offset-4">
+          <Link to={`${paths.result}?${DEV_PARAM}=1`} className="font-semibold text-brand-strong underline underline-offset-4">
             Prawdziwe API
           </Link>
         </li>
@@ -88,7 +95,8 @@ function LoadingState() {
 export function ResultPage() {
   const { facts, setPersonFact, sessionId, profileName, caseId, completedDeadlines, setDeadlineDone } = useCaseState()
   const [params] = useSearchParams()
-  const exampleIndex = import.meta.env.DEV ? parseExample(params.get('przyklad')) : null
+  const devMode = import.meta.env.DEV && params.get(DEV_PARAM) === '1'
+  const exampleIndex = devMode ? parseExample(params.get('przyklad')) : null
   const pageRef = useFocusHeading<HTMLDivElement>()
   const [exampleCompleted, setExampleCompleted] = useState<string[]>([])
   const completed = exampleIndex ? exampleCompleted : completedDeadlines
@@ -151,15 +159,27 @@ export function ResultPage() {
         )
       : undefined
     const nextOpen = nextEntry && !completed.includes(nextEntry.deadline.id) ? nextEntry : undefined
+    const nextBenefits = nextOpen
+      ? mergeDeadlines(entries).find((m) => m.entry.deadline.id === nextOpen.deadline.id && m.benefits.includes(nextOpen.benefit))?.benefits
+      : undefined
 
-    const counts = visible.reduce<Partial<Record<keyof typeof statusSummaryLabels, number>>>((acc, b) => {
-      if (b.status !== 'nie_dotyczy') acc[b.status] = (acc[b.status] ?? 0) + 1
-      return acc
-    }, {})
-    const summary = (Object.keys(statusSummaryLabels) as (keyof typeof statusSummaryLabels)[])
-      .filter((s) => counts[s])
-      .map((s) => `${counts[s]} ${statusSummaryLabels[s]}`)
-      .join(' · ')
+    // Świadczenia warunkowe (np. chorobowy w ciąży bez L4) idą pod pozostałe; w sytuacji straty dziecka odmowy zwijamy.
+    const conditional = (b: BenefitResult) => conditionOf(b) !== null
+    const tucked = (b: BenefitResult) => difficult && b.status === 'nie_przysługuje'
+    const main = [...visible.filter((b) => !conditional(b) && !tucked(b)), ...visible.filter((b) => conditional(b) && !tucked(b))]
+    const notForYou = visible.filter(tucked)
+
+    const averaged = variant === 'usredniony'
+    const maternity = visible.find((b) => b.id === 'macierzynski' && b.status === 'przysługuje' && b.rate != null)
+    const parental = visible.find((b) => b.id === 'rodzicielski' && b.status === 'przysługuje' && b.rate != null)
+    const variantLabel = averaged
+      ? 'uśrednionym (81,5%)'
+      : maternity?.rate != null && parental?.rate != null
+        ? `standardowym (${formatPercent(maternity.rate)} za urlop macierzyński, ${formatPercent(parental.rate)} za rodzicielski)`
+        : null
+    const variantNote = variantLabel && (maternity || parental) ? `Kwoty pokazujemy w wariancie ${variantLabel}.` : undefined
+
+    const funeral = visible.filter((b) => b.id === 'pogrzebowy' && b.status === 'przysługuje' && nextOpen?.benefit !== b)
 
     const renderCards = (list: BenefitResult[]) => (
       <ul className="space-y-4">
@@ -174,49 +194,69 @@ export function ResultPage() {
               )}
               onSaveBasis={saveBasis}
               busy={busy}
+              difficult={difficult}
             />
           </li>
         ))}
       </ul>
     )
 
+    const renderGrouped = (list: BenefitResult[]) =>
+      grouped ? (
+        <div className="space-y-8">
+          {(['wnioskodawca', 'drugiRodzic'] as const).map((person) => {
+            const mine = list.filter((b) => b.person === person)
+            if (mine.length === 0) return null
+            return (
+              <section key={person} aria-label={personLabels[person]} className="space-y-4">
+                <h3 className="text-lg font-bold text-brand-strong">{personLabels[person]}</h3>
+                {renderCards(mine)}
+              </section>
+            )
+          })}
+        </div>
+      ) : (
+        renderCards(list)
+      )
+
     return (
       <>
+        {visible.length > 0 ? <ResultSummary benefits={visible} grouped={grouped} difficult={difficult} /> : null}
         <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
           <div className="min-w-0 space-y-4">
-            <Section title="Twoje świadczenia" description={summary || undefined}>
+            <Section title={difficult ? 'Co Ci przysługuje' : 'Twoje świadczenia'} description={variantNote}>
               {visible.length === 0 ? (
                 <EmptyState title="Nie ma jeszcze świadczeń do pokazania" description="Wróć do kroku „Sprawdź dane” i uzupełnij informacje o swojej sytuacji." />
-              ) : grouped ? (
-                <div className="space-y-8">
-                  {(['wnioskodawca', 'drugiRodzic'] as const).map((person) => {
-                    const list = visible.filter((b) => b.person === person)
-                    if (list.length === 0) return null
-                    return (
-                      <section key={person} aria-label={personLabels[person]} className="space-y-4">
-                        <h3 className="text-lg font-bold text-brand-strong">{personLabels[person]}</h3>
-                        {renderCards(list)}
-                      </section>
-                    )
-                  })}
-                </div>
               ) : (
-                renderCards(visible)
+                renderGrouped(main)
               )}
+              {notForYou.length > 0 ? (
+                <Disclosure title="Te świadczenia nie dotyczą Twojej sytuacji — szczegóły" summary={notForYou.map((b) => benefitName(b.id)).join(', ')}>
+                  {renderGrouped(notForYou)}
+                </Disclosure>
+              ) : null}
             </Section>
-            {caseSummary ? (
-              <CaseDecisionComparison expected={caseSummary.oczekiwanaDecyzja} benefits={visible} />
-            ) : null}
+            {caseSummary ? <CaseDecisionComparison expected={caseSummary.oczekiwanaDecyzja} benefits={visible} caseSummary={caseSummary} /> : null}
           </div>
 
           <aside aria-label="Dalsze kroki" className="min-w-0 space-y-4">
             <h2 className="text-xl font-bold tracking-tight">Co dalej?</h2>
             {nextOpen ? (
-              <DeadlineItemCard entry={nextOpen} showPerson={grouped} application={applicationFor(nextOpen.benefit, facts)} />
+              <DeadlineItemCard
+                entry={nextOpen}
+                benefits={nextBenefits}
+                showPerson={grouped}
+                application={applicationFor(nextOpen.benefit, facts)}
+                variantLabel={variantLabel}
+                averagedChosen={averaged}
+              />
             ) : null}
+            {funeral.map((b) => (
+              <FuneralNextStep key={benefitKey(b)} benefit={b} />
+            ))}
             <Card className="flex flex-col items-start gap-2">
               <Button asChild variant="link"><Link to={paths.submissions}>Wszystkie wnioski i dokumenty</Link></Button>
-              <Button asChild variant="link"><Link to={paths.scenarios}>Porównaj warianty</Link></Button>
+              {difficult ? null : <Button asChild variant="link"><Link to={paths.scenarios}>Porównaj warianty</Link></Button>}
               <Button asChild variant="link"><Link to={paths.review}>Zmień dane</Link></Button>
               {sessionId ? <Button asChild variant="link"><Link to={paths.login}>Zmień profil lub sprawę</Link></Button> : null}
             </Card>
@@ -227,23 +267,26 @@ export function ResultPage() {
           <DeadlinesSection
             entries={entries}
             completed={completed}
-            nextDeadlineId={nextOpen?.deadline.id}
+            next={nextOpen ? { deadlineId: nextOpen.deadline.id, benefitId: nextOpen.benefit.id, person: nextOpen.benefit.person } : null}
             showPerson={grouped}
             today={today}
             onToggle={toggleDone}
+            averagedChosen={averaged}
           />
-          <Disclosure title="Ryzyka i wariant wypłaty">
+          <Disclosure title={difficult ? 'Na co uważać' : 'Ryzyka i wariant wypłaty'}>
             <div className="space-y-5">
-              <RisksSection risks={result.risks} />
-              <VariantSection
-                variant={variant}
-                onChange={changeVariant}
-                disabled={busy}
-                applicationDateQuestion={result.missingFacts.find(
-                  (m) => m.fact === 'plan.dataWnioskuUsrednionego' && (m.person ?? 'wnioskodawca') === 'wnioskodawca',
-                )}
-                onApplicationDate={saveApplicationDate}
-              />
+              <RisksSection risks={result.risks} entries={entries} />
+              {difficult ? null : (
+                <VariantSection
+                  variant={variant}
+                  onChange={changeVariant}
+                  disabled={busy}
+                  applicationDateQuestion={result.missingFacts.find(
+                    (m) => m.fact === 'plan.dataWnioskuUsrednionego' && (m.person ?? 'wnioskodawca') === 'wnioskodawca',
+                  )}
+                  onApplicationDate={saveApplicationDate}
+                />
+              )}
             </div>
           </Disclosure>
         </div>
@@ -254,10 +297,19 @@ export function ResultPage() {
   return (
     <ToneScope tone={difficult ? 'difficult' : 'default'} className="-mx-4 -my-6 px-4 py-6">
       <div ref={pageRef} className="mx-auto max-w-5xl space-y-6">
+        {difficult ? (
+          <Alert variant="info" title="Wsparcie jest dla Ciebie">
+            Nie musisz załatwiać wszystkiego naraz. Jeśli potrzebujesz rozmowy lub pomocy, zobacz{' '}
+            <Link to={paths.support} className="font-semibold text-brand-strong underline underline-offset-4">
+              organizacje wsparcia
+            </Link>
+            .
+          </Alert>
+        ) : null}
         <Stepper steps={flowSteps} current={2} />
         <header className="flex flex-wrap items-start justify-between gap-3 rounded-card border border-line bg-surface p-5 sm:p-7">
           <div className="max-w-xl space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Twój plan</h1>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{difficult ? 'Co możesz teraz załatwić' : 'Twój plan'}</h1>
             <p className="text-ink-soft">
               {difficult
                 ? 'Poniżej zebraliśmy najważniejsze kroki. Możesz zajmować się nimi we własnym tempie.'
@@ -271,17 +323,7 @@ export function ResultPage() {
           ) : null}
         </header>
 
-        {import.meta.env.DEV ? <ExampleSwitcher current={exampleIndex} /> : null}
-
-        {difficult ? (
-          <Alert variant="info" title="Wsparcie jest dla Ciebie">
-            Jeśli potrzebujesz rozmowy lub pomocy, zobacz{' '}
-            <Link to={paths.support} className="font-semibold text-brand-strong underline underline-offset-4">
-              organizacje wsparcia
-            </Link>
-            .
-          </Alert>
-        ) : null}
+        {devMode ? <ExampleSwitcher current={exampleIndex} /> : null}
 
         {data?.validationErrors && data.validationErrors.length > 0 ? (
           <Alert variant="warning" title="Plan wymaga poprawy">

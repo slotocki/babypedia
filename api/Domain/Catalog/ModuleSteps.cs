@@ -32,7 +32,7 @@ public sealed class BasisServiceStep(IBasisService basis) : IBasisStep
         var future = rightsDay > context.AsOf;
         var assessment = basis.Assess(context.Facts, context.Person, future ? context.AsOf : rightsDay);
         string[] extra = future
-            ? [$"Prawo powstanie {PolishDate.Words(rightsDay)}, więc podstawę szacuję z 12 miesięcy poprzedzających dzień oceny ({PolishDate.Words(context.AsOf)})."]
+            ? [$"Prawo powstanie {PolishDate.Words(rightsDay)}. Tych miesięcy jeszcze nie znamy, więc podstawę szacujemy z 12 miesięcy przed {PolishDate.Words(context.AsOf)} (dzień, na który liczymy wynik). ZUS policzy ją z 12 miesięcy przed miesiącem, w którym powstanie prawo."]
             : [];
         if (assessment.Basis is not { } amount || assessment.Source is not { } source)
         {

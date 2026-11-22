@@ -14,7 +14,7 @@ internal abstract class RateRule : IAmountRule
     protected TraceStep Rate(AmountsContext ctx, string key, DateOnly day, string what)
     {
         var rate = ctx.Value(key, day);
-        return AmountTrace.Of(this, true, $"{what}: {Percent(rate)} podstawy wymiaru zasiłku (parametr „{key}”, wg dnia, za który przysługuje zasiłek).");
+        return AmountTrace.Of(this, true, $"{what}: {Percent(rate)} podstawy wymiaru zasiłku (stawka obowiązująca w dniu, za który przysługuje zasiłek).");
     }
 }
 

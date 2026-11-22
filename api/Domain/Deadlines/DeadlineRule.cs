@@ -52,7 +52,7 @@ public abstract class DeadlineRule
         }
         catch (ParameterNotFoundException e)
         {
-            return new DeadlineOutcome([], [$"Nie wyliczono terminu „{Id}”: brakuje parametru „{e.Key}” na dzień {e.Date:yyyy-MM-dd}."]);
+            return new DeadlineOutcome([], [$"Nie wyliczono terminu „{Id}”: brakuje parametru „{e.Key}” na dzień {e.Date:dd.MM.yyyy}."]);
         }
     }
 
@@ -71,7 +71,7 @@ public abstract class DeadlineRule
             consequence);
 
     protected static string Overdue(string action, DateOnly date, string? consequence) =>
-        $"Termin na {action} minął {PolishDate.Words(date)}." + (consequence is null ? "" : $" Skutek: {consequence}.");
+        $"Termin minął {PolishDate.Words(date)}: do tego dnia trzeba było złożyć {action}." + (consequence is null ? "" : $" Skutek: {consequence}.");
 
     protected static IReadOnlyList<DateOnly> LeaveStarts(BenefitResult benefit) =>
         benefit.Parts.Count > 0

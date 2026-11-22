@@ -70,7 +70,7 @@ public sealed class InsuranceOnDateRule(DateOnly? onDate = null, string? subject
 public sealed class TitleFeaturesRule(DateOnly? onDate = null) : EligibilityRule
 {
     public override string Id => "cechy_tytulu_ubezpieczenia";
-    public override string PodstawaPrawna => "instrukcja 8.2; ustawa art. 3 pkt 1, art. 4, art. 2a; KP art. 177";
+    public override string PodstawaPrawna => "ustawa art. 3 pkt 1, art. 4, art. 2a; KP art. 177";
 
     public override RuleOutcome Assess(EvaluationContext context)
     {
