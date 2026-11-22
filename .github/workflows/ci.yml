@@ -52,7 +52,9 @@ jobs:
 
   e2e:
     name: Web — testy e2e (Playwright)
-    runs-on: ubuntu-latest
+    # Playwright 1.55 obsługuje Ubuntu do 24.04; na ubuntu-latest (26.04) `playwright install --with-deps`
+    # od razu kończy się błędem „does not support chromium on ubuntu26.04”. Przy aktualizacji Playwrighta można wrócić do latest.
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: web
