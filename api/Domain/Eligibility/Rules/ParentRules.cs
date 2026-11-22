@@ -54,12 +54,8 @@ public sealed class FatherTakeoverRule : EligibilityRule
             return Missing("Do oceny przejęcia zasiłku potrzebna jest informacja, czy matka jest ubezpieczona.", condition, Ask.Titles(motherRef));
         }
 
-        if (state is InsuranceState.Concurrent)
-        {
-            return Undecided("Zbieg tytułów ubezpieczenia matki — nie rozstrzygam, skontaktuj się z ZUS.", condition, PodstawaPrawna);
-        }
-
-        var motherInsured = state is InsuranceState.Insured or InsuranceState.DeclaredInsured;
+        // Przy zbiegu tytułów matka jest ubezpieczona (z każdego z nich).
+        var motherInsured = state is InsuranceState.Insured or InsuranceState.DeclaredInsured or InsuranceState.Concurrent;
         var weeks14 = (int)context.Param(EligibilityParameterKeys.MatkaMinPoPorodzieTyg, date.Value);
         var weeks8 = (int)context.Param(EligibilityParameterKeys.MatkaMinPoPorodzieSzczegolneTyg, date.Value);
         var situation = context.Facts.Sprawa.MatkaSytuacjaSzczegolna?.Value;

@@ -9,6 +9,9 @@ public sealed class InsuranceOnDateRule(DateOnly? onDate = null, string? subject
     public override string Id => RuleId;
     public override string PodstawaPrawna => "ustawa art. 29 ust. 1–2";
 
+    public const string ConcurrentNote =
+        "Zbieg tytułów: zasiłek przysługuje odrębnie z każdego tytułu z ubezpieczeniem chorobowym — zwolnienie lekarskie wystawia się osobno dla każdego tytułu (art. 57 ust. 1c), a przy zasiłku macierzyńskim trzeba poinformować każdego płatnika o zasiłku z pozostałych tytułów i jego wysokości (art. 61 ust. 4). Podstawy wymiaru, kwoty i płatnika dla każdego tytułu osobno silnik nie ustala — tę część rozstrzyga płatnik albo ZUS.";
+
     public override RuleOutcome Assess(EvaluationContext context)
     {
         var date = onDate ?? context.EventDate();
@@ -26,10 +29,10 @@ public sealed class InsuranceOnDateRule(DateOnly? onDate = null, string? subject
             case InsuranceState.Unknown:
                 return Missing("Brak danych o tytułach ubezpieczenia.", condition, Ask.Titles(context.Person));
             case InsuranceState.Concurrent:
-                return Undecided(
-                    "W tym dniu obowiązuje więcej niż jeden tytuł ubezpieczenia (zbieg tytułów) albo działalność obok zatrudnienia. Przepisy z wyciągu tego nie rozstrzygają — nie rozstrzygam, skontaktuj się z ZUS.",
+                return Met(
+                    $"W tym dniu obowiązuje kilka tytułów z ubezpieczeniem chorobowym (zbieg tytułów): {Insurance.Describe(view.SicknessTitles)}. Każdy z nich obejmuje ten dzień, więc prawo do zasiłku istnieje z każdego tytułu.",
                     condition,
-                    PodstawaPrawna);
+                    ConcurrentNote);
             case InsuranceState.DeclaredInsured:
                 return Met(
                     "Z deklaracji wynika, że osoba podlega ubezpieczeniu chorobowemu; rodzaj tytułu nie jest znany.",
@@ -44,9 +47,12 @@ public sealed class InsuranceOnDateRule(DateOnly? onDate = null, string? subject
                     PodstawaPrawna);
             case InsuranceState.Insured:
                 var title = view.Title!;
-                return Met(
-                    $"Tytuł: {Insurance.KindName(title.RodzajTytulu)}, ubezpieczenie chorobowe {Insurance.SicknessName(title.Chorobowe)} — obejmuje ten dzień.",
-                    condition);
+                var withoutSickness = view.ActiveWithoutSickness;
+                var text = $"Tytuł: {Insurance.KindName(title.RodzajTytulu)}, ubezpieczenie chorobowe {Insurance.SicknessName(title.Chorobowe)} — obejmuje ten dzień.";
+                return withoutSickness.Count > 0
+                    ? Met(text, condition,
+                        $"W tym dniu trwa też tytuł bez ubezpieczenia chorobowego ({string.Join(", ", withoutSickness.Select(t => Insurance.KindName(t.RodzajTytulu)).Distinct())}). Z niego zasiłek nie przysługuje; prawo, podstawa i płatnik wynikają z tytułu „{Insurance.KindName(title.RodzajTytulu)}”.")
+                    : Met(text, condition);
             default:
                 var extra = view.ActiveWithoutSickness.Count > 0
                     ? $" Tytuł „{Insurance.KindName(view.ActiveWithoutSickness[0].RodzajTytulu)}” w tym dniu nie obejmuje ubezpieczenia chorobowego."
@@ -75,6 +81,11 @@ public sealed class TitleFeaturesRule(DateOnly? onDate = null) : EligibilityRule
         }
 
         var view = Insurance.View(context.PersonFacts, date.Value);
+        if (view.State == InsuranceState.Concurrent)
+        {
+            return Met($"Zbieg tytułów ({Insurance.Describe(view.SicknessTitles)}) — cechy (wynagrodzenie chorobowe, wniosek o urlop, kontrola zadłużenia) dotyczą każdego tytułu osobno.", "Cechy tytułu ubezpieczenia");
+        }
+
         if (view.Title is null)
         {
             return Met("Brak jednego rozpoznanego tytułu w tym dniu — cechy tytułu nie są ustalane.", "Cechy tytułu ubezpieczenia");

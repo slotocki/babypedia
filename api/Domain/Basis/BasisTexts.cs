@@ -33,7 +33,8 @@ public static class BasisTexts
 
     public static readonly IReadOnlyList<string> OutOfScopeItems =
     [
-        "zbieg tytułów ubezpieczenia chorobowego (w tym działalność obok zatrudnienia)",
+        "zbieg tytułów ubezpieczenia chorobowego — podstawę ustala się osobno dla każdego tytułu (art. 36 ust. 4, art. 48 ust. 2)",
+        "zmiana pracodawcy (innego płatnika) bez przerwy w ubezpieczeniu — podstawa tylko z wynagrodzenia u obecnego płatnika (art. 36 ust. 4)",
         "zatrudnienie krótsze niż jeden pełny miesiąc kalendarzowy — wynagrodzenie z umowy (art. 37)",
         "zmiana wymiaru czasu pracy w okresie obliczeniowym (art. 40)",
         "zmiana tytułu ubezpieczenia lub przerwa do 30 dni między tytułami w okresie obliczeniowym (art. 36 ust. 4, art. 48a ust. 2–4, art. 49 ust. 2–3)",

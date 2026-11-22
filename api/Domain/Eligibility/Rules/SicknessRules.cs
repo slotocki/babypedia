@@ -82,14 +82,18 @@ public sealed class WaitingPeriodRule(DateOnly firstDay) : EligibilityRule
         const string condition = "Upłynął okres wyczekiwania (30 dni ubezpieczenia obowiązkowego, 90 dni dobrowolnego), z wliczeniem wcześniejszych okresów przy przerwie do 30 dni";
         var person = context.PersonFacts;
         var view = Insurance.View(person, firstDay);
-        if (view.State != InsuranceState.Insured || Insurance.Titles(person) is not { } titles)
+        if (view.State is not (InsuranceState.Insured or InsuranceState.Concurrent) || Insurance.Titles(person) is not { } titles)
         {
             return Met("Okres wyczekiwania nie jest oceniany bez rozpoznanego tytułu ubezpieczenia.", condition);
         }
 
-        var title = view.Title!;
-        var key = TitleFeatures.Of(title).WaitingPeriodKey!;
-        var required = (int)context.Param(key, firstDay);
+        // Okresy ubezpieczenia chorobowego liczą się łącznie (art. 4 ust. 2), a wymagana liczba dni zależy od tytułu:
+        // przy zbiegu każdy tytuł ma swój próg (30 dni obowiązkowe, 90 dni dobrowolne).
+        var requirements = view.SicknessTitles
+            .Select(t => (Title: t, Days: (int)context.Param(TitleFeatures.Of(t).WaitingPeriodKey!, firstDay)))
+            .ToList();
+        var title = requirements.MinBy(r => r.Days).Title;
+        var required = requirements.Min(r => r.Days);
         var maxGap = (int)context.Param(EligibilityParameterKeys.WyczekiwanieMaxPrzerwaDni, firstDay);
 
         var components = SicknessCalc.Merge(titles
@@ -123,6 +127,17 @@ public sealed class WaitingPeriodRule(DateOnly firstDay) : EligibilityRule
         }
 
         var kindWord = title.Chorobowe == SicknessInsurance.Obowiazkowe ? "obowiązkowego" : "dobrowolnego";
+        if (view.State == InsuranceState.Concurrent && have >= required)
+        {
+            var list = string.Join(", ", requirements.Select(r => $"{Insurance.KindName(r.Title.RodzajTytulu)} — wymagane {r.Days}"));
+            var notYet = requirements.Where(r => have < r.Days).ToList();
+            var text = $"Ubezpieczenie chorobowe trwa {have} dni przed pierwszym dniem niezdolności ({list}).";
+            return notYet.Count == 0
+                ? Met(text, condition)
+                : Met(text, condition,
+                    $"Z tytułu {string.Join(", ", notYet.Select(r => $"„{Insurance.KindName(r.Title.RodzajTytulu)}” (chorobowe {Insurance.SicknessName(r.Title.Chorobowe)}, wymagane {r.Days} dni)"))} okres wyczekiwania jeszcze nie upłynął — z tego tytułu zasiłek chorobowy nie przysługuje (art. 4 ust. 1); przysługuje z pozostałych.");
+        }
+
         if (have >= required)
         {
             return Met($"Ubezpieczenie chorobowe ({kindWord}) trwa {have} dni przed pierwszym dniem niezdolności (wymagane {required}).", condition);
@@ -158,14 +173,13 @@ public sealed class WaitingPeriodExceptionRule(DateOnly firstDay) : EligibilityR
         const string condition = "Wyjątek od okresu wyczekiwania: co najmniej 10 lat wcześniejszego obowiązkowego ubezpieczenia albo absolwent objęty ubezpieczeniem w ciągu 90 dni od ukończenia szkoły";
         var person = context.PersonFacts!;
         var view = Insurance.View(person, firstDay);
-        var title = view.Title;
         var missing = new List<MissingFact>();
 
         var yearsNeeded = context.Param(EligibilityParameterKeys.WyczekiwanieWyjatekLatObowiazkowego, firstDay);
         var years = person.UbezpieczenieLatWczesniejszegoObowiazkowego?.Value;
         if (years is { } y)
         {
-            if (y >= yearsNeeded && title?.Chorobowe == SicknessInsurance.Obowiazkowe)
+            if (y >= yearsNeeded && view.SicknessTitles.Any(t => t.Chorobowe == SicknessInsurance.Obowiazkowe))
             {
                 return Met($"Wcześniejszy okres obowiązkowego ubezpieczenia chorobowego wynosi {Text.Number(y)} lat (wymagane co najmniej {Text.Number(yearsNeeded)}) — zasiłek od pierwszego dnia ubezpieczenia.", condition);
             }
@@ -250,6 +264,14 @@ public sealed class SicknessWagesRule(DateOnly firstDay) : EligibilityRule
         const string condition = "Pracownik: najpierw wynagrodzenie chorobowe od pracodawcy (33 dni, od 50. roku życia 14 dni w roku kalendarzowym), potem zasiłek";
         var person = context.PersonFacts;
         var view = Insurance.View(person, firstDay);
+        if (view.State == InsuranceState.Concurrent)
+        {
+            return Met(view.SicknessTitles.Any(t => t.RodzajTytulu == TitleKind.Pracownik)
+                    ? "Zbieg tytułów: z tytułu pracownika najpierw wynagrodzenie chorobowe od pracodawcy (art. 92 KP), potem zasiłek; z pozostałych tytułów zasiłek od pierwszego dnia niezdolności (po okresie wyczekiwania)."
+                    : "Zbieg tytułów bez zatrudnienia pracowniczego — wynagrodzenie chorobowe od pracodawcy nie przysługuje, zasiłek wypłaca się od pierwszego dnia po okresie wyczekiwania.",
+                condition);
+        }
+
         if (view.Title is not { RodzajTytulu: TitleKind.Pracownik })
         {
             return Met("Tytuł inny niż pracownik — wynagrodzenie chorobowe od pracodawcy nie przysługuje, zasiłek wypłaca się od pierwszego dnia po okresie wyczekiwania.", condition);

@@ -205,7 +205,8 @@ Otwarte kwestie do potwierdzenia z ZUS (źródło: `docs/prawo/ROZBIEZNOSCI.md`,
 
 Przypadki, w których silnik świadomie odpowiada „nie rozstrzygam" (zamiast zgadywać):
 
-- zbieg tytułów ubezpieczenia w dniu zdarzenia albo działalność obok zatrudnienia (uprawnienia, płatnik, podstawa);
+- zbieg tytułów ubezpieczenia chorobowego w dniu zdarzenia: prawo do zasiłku silnik uznaje (przysługuje z każdego tytułu, art. 57 ust. 1c, art. 61 ust. 4), ale podstawy, kwoty i płatnika dla każdego tytułu osobno nie ustala; przy zbiegu z działalnością nie rozstrzyga też kontroli zadłużenia (art. 2a). Tytuł bez ubezpieczenia chorobowego (np. działalność tylko ze składką zdrowotną obok etatu) nie tworzy zbiegu;
+- zmiana pracodawcy (znany, inny płatnik) bez przerwy w okresie obliczeniowym — podstawa tylko z wynagrodzenia u obecnego płatnika (art. 36 ust. 4), czego poziom 1 nie liczy;
 - tytuł „inny" (czy obejmuje go art. 2a), wyjątki z art. 30 dla tytułów niebędących zatrudnieniem pracowniczym, trwające inne zatrudnienie;
 - zasiłek chorobowy po ustaniu ubezpieczenia (art. 6–7, 13): choroby o długim okresie wylęgania, wyłączenia z art. 13;
 - wcześniejsza przerwa w ubezpieczeniu dłuższa niż 30 dni, z możliwym wliczeniem (urlop wychowawczy, wojsko) — okresu wyczekiwania;

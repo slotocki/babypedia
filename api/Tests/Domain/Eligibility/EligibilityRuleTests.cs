@@ -37,7 +37,7 @@ public sealed class EligibilityRuleTests
     }
 
     [Fact]
-    public void Concurrent_titles_are_not_decided()
+    public void Concurrent_titles_give_the_right_from_each_title_and_leave_the_payer_open()
     {
         var person = Person(
             ParentRole.Matka,
@@ -45,20 +45,86 @@ public sealed class EligibilityRuleTests
             Title(TitleKind.Zleceniobiorca, D(2021, 1, 1), null, SicknessInsurance.Dobrowolne));
         var result = Get(Service().Assess(Facts(Case(EventKind.Urodzenie, Birth), person), AsOf), BenefitId.Macierzynski);
 
-        Assert.Equal(BenefitStatus.NieRozstrzygam, result.Status);
-        Assert.Contains("zbieg tytułów", result.Reason);
-        Assert.Contains(result.Links, l => l.Url.Contains("zus.pl", StringComparison.Ordinal));
+        Assert.Equal(BenefitStatus.Przysluguje, result.Status);
+        Assert.Null(result.Payer);
+        var insurance = result.Trace.Single(t => t.Rule == InsuranceOnDateRule.RuleId);
+        Assert.True(insurance.Met);
+        Assert.Contains("zbieg tytułów", insurance.Text);
+        Assert.Contains(result.Notes, n => n.Contains("art. 61 ust. 4", StringComparison.Ordinal) && n.Contains("art. 57 ust. 1c", StringComparison.Ordinal));
+        Assert.Contains(result.Notes, n => n.StartsWith("Płatnika zasiłku nie ustalono", StringComparison.Ordinal));
+        Assert.Contains(result.Trace, t => t.Rule == ContributionDebtRule.RuleId && t.Met == true);
     }
 
     [Fact]
-    public void Employment_next_to_business_without_sickness_insurance_is_not_decided()
+    public void Concurrent_titles_with_business_leave_the_debt_check_undecided()
     {
         var person = Person(
             ParentRole.Matka,
             Title(TitleKind.Pracownik, D(2020, 1, 1)),
-            Title(TitleKind.Dzialalnosc, D(2021, 1, 1), null, SicknessInsurance.Brak));
+            Title(TitleKind.Dzialalnosc, D(2021, 1, 1), null, SicknessInsurance.Dobrowolne));
         var result = Get(Service().Assess(Facts(Case(EventKind.Urodzenie, Birth), person), AsOf), BenefitId.Macierzynski);
+
         Assert.Equal(BenefitStatus.NieRozstrzygam, result.Status);
+        Assert.Contains("art. 2a", result.Reason);
+        Assert.Contains(result.Links, l => l.Url.Contains("zus.pl", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Employment_next_to_business_without_sickness_insurance_is_assessed_from_the_employment()
+    {
+        var person = Person(
+            ParentRole.Matka,
+            Title(TitleKind.Pracownik, D(2020, 1, 1)),
+            Title(TitleKind.Dzialalnosc, D(2021, 1, 1), null, SicknessInsurance.Brak)) with
+        {
+            PlatnikLiczbaUbezpieczonych = F(50),
+        };
+        var assessment = Service().Assess(Facts(Case(EventKind.Urodzenie, Birth), person), AsOf);
+        var result = Get(assessment, BenefitId.Macierzynski);
+
+        Assert.Equal(BenefitStatus.Przysluguje, result.Status);
+        Assert.Equal(Payer.PlatnikSkladek, result.Payer);
+        Assert.Contains(result.Notes, n => n.Contains("bez ubezpieczenia chorobowego", StringComparison.Ordinal));
+        var risk = Assert.Single(assessment.Risks, r => r.Id == "brak_dobrowolnego_chorobowego");
+        Assert.Contains("z niego zasiłek nie przysługuje", risk.Text);
+    }
+
+    [Fact]
+    public void Concurrent_titles_check_the_waiting_period_per_title()
+    {
+        var firstDay = D(2026, 10, 21);
+        var person = Person(
+            ParentRole.Matka,
+            Title(TitleKind.Pracownik, firstDay.AddDays(-50)),
+            Title(TitleKind.Zleceniobiorca, firstDay.AddDays(-45), null, SicknessInsurance.Dobrowolne)) with
+        {
+            EzlaZwolnienia = F<IReadOnlyList<SickLeave>>([Leave(firstDay, D(2026, 11, 20))]),
+            OsobaDataUrodzenia = F(D(1990, 1, 1)),
+        };
+        var result = Get(Service().Assess(Facts(Case(EventKind.Ciaza, D(2027, 4, 1)), person), AsOf), BenefitId.ChorobowyWCiazy);
+
+        Assert.Equal(BenefitStatus.Przysluguje, result.Status);
+        Assert.Contains(result.Trace, t => t.Rule == WaitingPeriodRule.RuleId && t.Met == true && t.Text.Contains("50 dni", StringComparison.Ordinal));
+        Assert.Contains(result.Notes, n => n.Contains("„zleceniobiorca”", StringComparison.Ordinal) && n.Contains("okres wyczekiwania jeszcze nie upłynął", StringComparison.Ordinal));
+        Assert.Contains(result.Trace, t => t.Rule == "wynagrodzenie_chorobowe_pracownika" && t.Text.Contains("z tytułu pracownika", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Concurrent_titles_without_the_waiting_period_on_any_title_are_denied()
+    {
+        var firstDay = D(2026, 10, 21);
+        var person = Person(
+            ParentRole.Matka,
+            Title(TitleKind.Pracownik, firstDay.AddDays(-10)),
+            Title(TitleKind.Zleceniobiorca, firstDay.AddDays(-5), null, SicknessInsurance.Dobrowolne)) with
+        {
+            EzlaZwolnienia = F<IReadOnlyList<SickLeave>>([Leave(firstDay, D(2026, 11, 20))]),
+            UbezpieczenieLatWczesniejszegoObowiazkowego = F(0m),
+        };
+        var result = Get(Service().Assess(Facts(Case(EventKind.Ciaza, D(2027, 4, 1)), person), AsOf), BenefitId.ChorobowyWCiazy);
+
+        Assert.Equal(BenefitStatus.NiePrzysluguje, result.Status);
+        Assert.Contains("10 dni", result.Reason);
     }
 
     [Fact]

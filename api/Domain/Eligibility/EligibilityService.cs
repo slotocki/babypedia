@@ -617,7 +617,9 @@ internal static class RiskCatalog
                 {
                     risks.TryAdd("brak_dobrowolnego_chorobowego", new Risk(
                         "brak_dobrowolnego_chorobowego",
-                        "Ten tytuł nie obejmuje ubezpieczenia chorobowego (np. zlecenie bez dobrowolnego chorobowego albo ulga na start) — bez niego zasiłek macierzyński ani chorobowy nie przysługuje.",
+                        insuredOnDate
+                            ? "Jeden z tytułów (np. zlecenie bez dobrowolnego chorobowego albo działalność opłacająca tylko składkę zdrowotną) nie obejmuje ubezpieczenia chorobowego — z niego zasiłek nie przysługuje; prawo i wysokość zasiłku wynikają tylko z tytułu z ubezpieczeniem chorobowym."
+                            : "Ten tytuł nie obejmuje ubezpieczenia chorobowego (np. zlecenie bez dobrowolnego chorobowego albo ulga na start) — bez niego zasiłek macierzyński ani chorobowy nie przysługuje.",
                         "ustawa art. 29 ust. 1; instrukcja 8.2"));
                 }
             }
