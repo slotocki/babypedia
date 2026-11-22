@@ -14,7 +14,7 @@ import { FactList } from './FactList'
 import { getFact, userFactOf, withFact } from './facts'
 import { resolveQuestion } from './questions'
 
-/** Trzy pytania z ekranu 1 jako brakujące fakty — gdy wejście nie przeszło przez ekran 1 (np. „Sprawy ZUS”), a integracje nie dały zdarzenia. */
+/** Podstawowe pytania o zdarzenie jako brakujące fakty — gdy wejście nie przeszło przez ekran 1 (np. „Sprawy ZUS”), a integracje nie dały zdarzenia. */
 const eventQuestions: MissingFact[] = [
   {
     fact: 'zdarzenie.rodzaj',

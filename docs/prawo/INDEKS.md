@@ -87,7 +87,7 @@ Instrukcja przywołuje wszystkie potrzebne artykuły KP; żaden nie brakuje. Art
 | rozp. 11.03.2025, § 21–23 (dokumenty zagraniczne, akta osobowe, oryginał na żądanie) | 12.2 | `rozporzadzenie-2025-03-11-wnioski-pracownicze.md` → `## § 21`–`## § 23` | jest |
 | wniosek "urlop macierzyński i rodzicielski łącznie (pełny wymiar)" | 12.2 | brak odpowiednika w rozp. 11.03.2025 (patrz `ROZBIEZNOSCI.md`, sekcja D) | brak (jako osobny wniosek do pracodawcy); wniosek o pełny wymiar to art. 30a ustawy, adresowany do płatnika zasiłku |
 | rozp. 27.09.2026, § 12–30 i Załącznik 6 (dokumenty i dane do zasiłku macierzyńskiego; § 28: podwyższenie do świadczenia rodzicielskiego), § 3, Załączniki 2–3 (zaświadczenie płatnika składek) | 8.8, 12.2 ("dane do wniosku ZAM") | `rozporzadzenie-2026-09-27-dokumenty-zasilki.md` → `## § 12` … `## § 30`, `## Załącznik 6. …`, `## § 3`, `## Załącznik 2. …`, `## Załącznik 3. …` | jest (rozporządzenie opisuje zakres danych i dokumenty, nie nazywa formularzy ZAM, Z-3, Z-3a) |
-| rozp. 27.09.2026, § 43 (wejście w życie), § 42 (utrata mocy rozp. z 8.12.2015) | 8.8 (daty zmian formularzy) | `rozporzadzenie-2026-09-27-dokumenty-zasilki.md` → `## § 43`, `## § 42` | jest (data ogłoszenia nie występuje w wyciągu, więc data "24.10.2026" z instrukcji nie jest do wyliczenia) |
+| rozp. 27.09.2026, § 43 (wejście w życie), § 42 (utrata mocy rozp. z 8.12.2015) | 8.8 (daty zmian formularzy) | `rozporzadzenie-2026-09-27-dokumenty-zasilki.md` → `## § 43`, `## § 42` | jest (oznaczenie Dz.U. z 2026 r. poz. 1316 jest w nagłówku wyciągu i w treści zadania ZUS, s. 2; daty ogłoszenia wyciąg nie podaje. Datę 24.10.2026 dla połączenia ZUR i ZAO z ZAM oraz likwidacji Z-3b podaje treść zadania ZUS, s. 12, przypisy 3–5; patrz `ROZBIEZNOSCI.md`, A1) |
 
 ## 4. Załącznik ZUS i Poradnik ZUS
 
@@ -104,13 +104,13 @@ Znaczniki stron w `poradnik-zus-2026.md` mają postać `<!-- s. N -->` i oznacza
 
 ## 5. Poza materiałami organizatora
 
-Przepisy, których instrukcja potrzebuje lub które przywołuje, a których nie ma w materiałach.
+Przepisy, których instrukcja potrzebuje lub które przywołuje, a których nie ma w wyciągach przepisów. Wiersz o formularzach zostaje tu dla porządku: te informacje są w treści zadania ZUS, a nie w żadnym akcie z wyciągów.
 
 | Przepis / informacja | Gdzie w instrukcji | Wynik | Plik |
 |---|---|---|---|
 | kwota świadczenia rodzicielskiego (art. 31 ust. 3a odsyła do ustawy o świadczeniach rodzinnych) | 8.1 (kwota_swiadczenia_rodzicielskiego, [DO WERYFIKACJI]) | POBRANE z oficjalnego API Sejmu: art. 17c ust. 5 ustawy o świadczeniach rodzinnych, "1000,00 zł miesięcznie" (t.j. Dz.U. 2026 poz. 1240, stan na 5.08.2026, status w API: obowiązujący). Do potwierdzenia przez człowieka. | `pobrane/ustawa-swiadczenia-rodzinne-art-17c.md` |
 | najniższa podstawa wymiaru składek na ubezpieczenie chorobowe (art. 48a ust. 1 pkt 1 i ust. 5 odsyłają do art. 18 ust. 8 ustawy o systemie ubezpieczeń społecznych) | 8.7 pkt 2 (wzór z art. 48a, "najniższa podstawa") | POBRANE: art. 18 ustawy o systemie ubezpieczeń społecznych (ust. 8: "nieniższa jednak niż 60 % prognozowanego przeciętnego wynagrodzenia miesięcznego"). Uwaga: pobrano t.j. Dz.U. 2026 poz. 199 (stan na 6.02.2026); API oznacza to obwieszczenie jako "wygaśnięcie aktu" (zastąpione nowszym tekstem), a ustawa zasiłkowa powołuje zmiany z poz. 252, 426, 473, 507, 734. Brzmienie mogło się zmienić; do potwierdzenia przez człowieka. Konkretnej kwoty nie ma w żadnym materiale ani w pobranym tekście. | `pobrane/ustawa-o-systemie-ubezpieczen-spolecznych-art-18.md` |
-| formularze ZAM, Z-3, Z-3a, ZAS-53, ZUR, ZAO oraz data 24.10.2026 | 8.8 | BRAK w materiałach (patrz `ROZBIEZNOSCI.md`, sekcja A1). Poradnik wymienia tylko ZAM, Z-3b, Z-12, Z-15A, Z-15B, ZUS ZUA. Nie pobrano, bo to nie przepisy prawa, tylko organizacyjne informacje ZUS (źródło: zus.pl, do ustalenia przez człowieka). | nie dotyczy |
+| formularze ZAM, Z-3, Z-3a, ZAS-53, ZAS-12, ZUR, ZAO oraz data 24.10.2026 | 8.8 | JEST w materiałach, ale nie w wyciągach przepisów: treść zadania ZUS, s. 3 i 6 (Z-3, Z-3a, ZAS-53, ZAS-12, ZAM) oraz s. 11–12 z przypisami 3–5 (ZUR i ZAO połączone z ZAM od 24 października 2026 r., Z-3b zlikwidowany od tego dnia). Treść zadania nie mówi, że ZAM zastąpił Z-3, Z-3a albo ZAS-53. Poradnik wymienia tylko ZAM, Z-3b, Z-12, Z-15A, Z-15B, ZUS ZUA. Szczegóły: `ROZBIEZNOSCI.md`, A1. | nie dotyczy (treść zadania nie jest w `raw/`) |
 | minimalna podstawa wymiaru (wartość liczbowa 4 147,10 zł) | 8.1 | BRAK jako liczba w materiałach; wynika rachunkowo z art. 45 ust. 1 i kwoty 4 806 zł z Załącznika (4 806 × 0,8629 = 4 147,0974, po zaokrągleniu 4 147,10). Tabela, która miała ją zawierać, jest pusta w DOCX. | nie dotyczy |
 | zaokrąglanie kwot zasiłków | 8.1 | BRAK w ustawie i KP; patrz `ROZBIEZNOSCI.md`, sekcja B | nie dotyczy |
 

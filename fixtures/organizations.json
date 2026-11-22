@@ -339,25 +339,5 @@
     "data_weryfikacji": "2026-11-21",
     "zweryfikowano": true,
     "uwagi": "Podany telefon służy do zapisów na grupę. Opiekę dla dorosłych w ramach NFZ opisano osobno na stronie hospicjum."
-  },
-  {
-    "id": "polskie-stowarzyszenie-obroncow-zycia-czlowieka",
-    "nazwa": "Polskie Stowarzyszenie Obrońców Życia Człowieka",
-    "forma": "stowarzyszenie",
-    "krs": "0000140437",
-    "zakres": "Udziela rodzicom porad w sprawie organizacji pogrzebu dziecka zmarłego przed urodzeniem, także po poronieniu lub martwym urodzeniu.",
-    "sytuacje": [
-      "poronienie",
-      "martwe_urodzenie"
-    ],
-    "zasieg": "ogólnopolski",
-    "bezplatna": true,
-    "www": "https://pro-life.pl/",
-    "telefon": "12 421-08-43",
-    "email": "biuro@pro-life.pl",
-    "zrodlo": "https://pro-life.pl/krakowskie-obchody-dnia-dziecka-utraconego/",
-    "data_weryfikacji": "2026-11-21",
-    "zweryfikowano": true,
-    "uwagi": "Wpis dotyczy ogólnopolskiego poradnictwa socjalnego. Nabór do opisanej na tej samej stronie grupy w Krakowie zakończył się 10 października 2026 r."
   }
 ]

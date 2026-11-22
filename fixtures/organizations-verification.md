@@ -1,11 +1,11 @@
 # Weryfikacja organizacji wsparcia — 21 listopada 2026 r.
 
-W pliku jest **8 zweryfikowanych organizacji** i **10 wpisów z wątpliwościami**. **Odrzucono 3 kandydatów.** Każda sytuacja ma co najmniej dwa zweryfikowane wpisy, a 4 zweryfikowane organizacje oferują pomoc ogólnopolską.
+W pliku jest **7 zweryfikowanych organizacji** i **10 wpisów z wątpliwościami**. **Odrzucono 3 kandydatów.** Każda sytuacja ma co najmniej dwa zweryfikowane wpisy, a 3 zweryfikowane organizacje oferują pomoc ogólnopolską.
 
 | Sytuacja | Zweryfikowane wpisy |
 | --- | ---: |
-| Poronienie | 3 |
-| Martwe urodzenie | 3 |
+| Poronienie | 2 |
+| Martwe urodzenie | 2 |
 | Śmierć dziecka | 3 |
 | Wcześniak | 2 |
 | Ciężka choroba dziecka | 2 |

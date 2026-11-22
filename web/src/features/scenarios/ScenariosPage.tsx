@@ -146,11 +146,11 @@ export function ScenariosPage() {
       />
 
       {!hasEvent ? (
-        <Alert variant="warning" title="Najpierw odpowiedz na trzy pytania">
+        <Alert variant="warning" title="Najpierw podaj, czego dotyczy sprawa">
           Nie wiemy jeszcze, czego dotyczy sprawa, więc nie mamy z czym porównywać wariantów.
           <div className="pt-3">
             <Button asChild>
-              <Link to={paths.start}>Wróć do trzech pytań</Link>
+              <Link to={paths.start}>Wróć na start</Link>
             </Button>
           </div>
         </Alert>
