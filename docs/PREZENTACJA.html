@@ -2,21 +2,22 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400..800&display=swap">
 <style>
 *{margin:0;padding:0}
-html{background:#1b2333}
+html{background:#E8EAED}
 body{counter-reset:page}
 section{position:relative;width:1920px;height:1080px;overflow:hidden}
 aside.notes{display:none}
 :root {
-  --ink: #14233F;
-  --body: #46536A;
-  --muted: #6A768C;
-  --bg: #F4F6FA;
-  --bg2: #EAF0F8;
-  --card: #FDFDFE;
-  --line: #D5DCE8;
-  --brand: #2453A6;
-  --green: #0F7A5E;
-  --green-soft: #E3F3EC;
+  --ink: #1F2328;
+  --body: #3C4350;
+  --muted: #6B7280;
+  --bg: #FFFFFF;
+  --bg2: #FFFFFF;
+  --card: #FFFFFF;
+  --line: #DADDE3;
+  --brand: #0B57D0;
+  --soft: #E8F0FE;
+  --green: #0B57D0;
+  --green-soft: #E8F0FE;
   --navy: #14233F;
   --on-navy: #EEF2F8;
   --on-navy-soft: #B9C6DC;
@@ -34,6 +35,7 @@ section {
   box-sizing: border-box;
 }
 section.alt { background: var(--bg2); }
+section::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: var(--brand); }
 section.dark { background: var(--navy); color: var(--on-navy); }
 
 .foot {
@@ -59,14 +61,14 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 
 .points { display: flex; flex-direction: column; gap: 28px; }
 .pt { display: flex; gap: 20px; align-items: flex-start; }
-.pt .dot { width: 12px; height: 12px; border-radius: 6px; background: var(--green); margin-top: 15px; flex-shrink: 0; }
+.pt .dot { width: 11px; height: 11px; border-radius: 2px; background: var(--green); margin-top: 15px; flex-shrink: 0; }
 .dark .pt .dot { background: var(--mint); }
 .pt p { font-size: 30px; line-height: 1.38; color: var(--ink); }
 .dark .pt p { color: var(--on-navy); }
 .pt p.small { font-size: 28px; color: var(--body); }
 
-.shot { box-sizing: border-box; border: 2px solid var(--line); border-radius: 16px; background: #FFFFFF; box-shadow: 0 12px 40px rgba(20,35,63,0.12); object-fit: contain; }
-.phone { border: 8px solid var(--ink); border-radius: 36px; background: #FFFFFF; box-shadow: 0 16px 48px rgba(20,35,63,0.18); object-fit: cover; }
+.shot { box-sizing: border-box; border: 2px solid var(--line); border-radius: 16px; background: #FFFFFF; box-shadow: 0 4px 16px rgba(31,35,40,0.06); object-fit: contain; }
+.phone { border: 8px solid var(--ink); border-radius: 36px; background: #FFFFFF; box-shadow: 0 6px 20px rgba(31,35,40,0.10); object-fit: cover; }
 .cap { font-size: 24px; color: var(--muted); margin-top: 16px; }
 
 .pill { display: inline-block; font-size: 24px; font-weight: 600; color: var(--green); background: var(--green-soft); border-radius: 999px; padding: 8px 20px; }
@@ -96,6 +98,9 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 .stat .lbl { font-size: 26px; color: var(--on-navy-soft); margin-top: 12px; }
 
 .box { background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 36px 40px; }
+.box.hl { background: var(--soft); border-color: var(--brand); }
+.tags { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.tag { font-size: 24px; font-weight: 700; color: var(--brand); border: 2px solid var(--brand); border-radius: 999px; padding: 6px 18px; background: #FFFFFF; }
 .box h3 { margin-bottom: 16px; }
 .box p { font-size: 26px; }
 
@@ -117,20 +122,19 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 .sub{font-size:24px;color:var(--muted);margin:-28px 0 28px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px;width:100%}
 .box p.t2{font-size:25px;line-height:1.36}
-.pt code,.box code{font-size:.9em;background:#E3E9F3;border-radius:6px;padding:0 6px}
+.pt code,.box code{font-size:.9em;background:#F1F3F4;border-radius:6px;padding:0 6px}
 
 .pt p.t{font-size:26px;line-height:1.34}
 .sub{font-size:24px;color:var(--muted);margin:-28px 0 28px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px;width:100%}
 .box p.t2{font-size:25px;line-height:1.36}
-.pt code,.box code{font-size:.9em;background:#E3E9F3;border-radius:6px;padding:0 6px}
+.pt code,.box code{font-size:.9em;background:#F1F3F4;border-radius:6px;padding:0 6px}
 </style></head><body><section id="cover" class="cover" data-transition="fade">
 <div class="row" style="align-items:center;">
 <div class="col in" style="width:800px;">
-<p class="eyebrow">Związek z wyzwaniem (25%)</p>
+<p class="eyebrow">HackNation 2026 · zadanie ZUS</p>
 <h1 style="font-size:92px;margin-bottom:28px;">Kompas Rodzica</h1>
 <div class="points" style="margin-bottom:28px;">
-<div class="pt"><div class="dot"></div><p class="t">Zadanie ZUS „Zasiłkowy Przewodnik Przyszłego Rodzica”: przewodnik po zasiłkach z ubezpieczenia chorobowego dla przyszłych rodziców</p></div>
 <div class="pt"><div class="dot"></div><p class="t">Problem: prawo do zasiłku zależy od tytułu ubezpieczenia, stażu, płatnika, liczby dzieci i daty zdarzenia. Rodzic nie wie, co mu przysługuje, do kiedy i gdzie złożyć wniosek</p></div>
 <div class="pt"><div class="dot"></div><p class="t">O odmowie często dowiaduje się wtedy, gdy nie może już zmienić swojej sytuacji</p></div>
 <div class="pt"><div class="dot"></div><p class="t">Kompas Rodzica mówi konkretnej osobie: co przysługuje, ile, do kiedy, gdzie złożyć wniosek i na co uważać</p></div>
@@ -144,7 +148,7 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 <aside class="notes">Problem to nie brak informacji, tylko jej dopasowanie do jednej osoby. Przykład: zaległość w składkach przy działalności odbiera prawo do zasiłku, jeśli nie zostanie spłacona na czas. Demo działa pod adresem na slajdzie.</aside>
 </section>
 <section id="start" class="alt">
-<p class="eyebrow">Kompletność i UX (25%)</p>
+<p class="eyebrow">Jak to działa</p>
 <h2>Jak to działa: trzy drogi na start</h2>
 <div class="steps" style="margin-bottom:36px;">
 <div class="step in"><img class="shot" src="zrzuty/slajd-03-logowanie.png" alt="Ekran logowania przez mObywatela w trybie symulacji z listą fikcyjnych osób" style="width:528px; height:300px;"></div>
@@ -161,23 +165,22 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 <aside class="notes">Każdy ekran ma jedną główną akcję, a każda symulacja jest tak nazwana na ekranie. Sprawdź w demo: Start → „Połącz się przez mObywatela i ZUS” → Anna → „Połącz i pobierz dane (symulacja)” → „Potwierdź dane” → „Pokaż wynik”.</aside>
 </section>
 <section id="wynik">
-<p class="eyebrow">Pomysł (20%)</p>
+<p class="eyebrow">Wynik</p>
 <h2>Wynik, który da się sprawdzić</h2>
 <div class="row">
 <div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">„W skrócie” na górze: co przysługuje, w jakiej kwocie i czego brakuje, w jednym-dwóch zdaniach</p></div>
 <div class="pt"><div class="dot"></div><p class="t">Karta świadczenia: status, okres od–do, kwota, kto wypłaca, gdzie złożyć wniosek, dokumenty; przy urlopie rodzicielskim „Twoja część” obok wymiaru łącznego obojga rodziców</p></div>
 <div class="pt"><div class="dot"></div><p class="t">„Ścieżka decyzji”: najważniejsze kroki (reguła, przepis, warunek spełniony lub nie), reszta pod „Pokaż wszystkie kroki”; „Co znaczą te pojęcia” objaśnia ZAM, płatnika składek, e-ZLA, Z-3</p></div>
 <div class="pt"><div class="dot"></div><p class="t">Odmowa zawsze z powodem, przepisem i następnym krokiem („Co musiałoby się zmienić”, przy zaległości „To da się naprawić”); „Co dalej?” z najbliższym krokiem i terminami</p></div></div>
-<div class="col in2" style="width:640px;gap:20px;">
-<img class="shot" src="zrzuty/slajd-04-karta.png" alt="Karta zasiłku macierzyńskiego: przysługuje, kwota, okres" style="width:640px; height:322px;">
-<img class="shot" src="zrzuty/slajd-04-sciezka.png" alt="Rozwinięta ścieżka decyzji: reguła, warunek spełniony, podstawa prawna" style="width:640px; height:300px;">
+<div class="col in2" style="width:720px;gap:20px;">
+<img class="shot" src="zrzuty/slajd-04-karta.png" alt="Karta zasiłku macierzyńskiego: przysługuje, kwota, okres" style="width:720px; height:362px;">
 </div>
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
 <aside class="notes">Nasza główna różnica: nie „system odmówił”, tylko „odmowa, bo taki przepis, a zmieniłoby się, gdyby…”. W trudnej sytuacji (strata dziecka) wynik zmienia ton, a wsparcie i najpilniejsze sprawy są na górze. Sprawdź w demo: Edyta (zaległość 120,00 zł) — odmowa z kwotą do spłaty i terminem.</aside>
 </section>
 <section id="warianty" class="alt">
-<p class="eyebrow">Pomysł (20%)</p>
+<p class="eyebrow">Scenariusze</p>
 <h2>„Co jeśli” i porównanie wariantów</h2>
 <div class="points in" style="margin-bottom:32px;"><div class="pt"><div class="dot"></div><p class="t">Siedem scenariuszy: odejście z pracy, koniec umowy, przejście na działalność, drugi rodzic bierze część urlopu rodzicielskiego, praca na część etatu, wariant wypłaty (standardowy lub 81,5%), spłata zadłużenia</p></div>
 <div class="pt"><div class="dot"></div><p class="t">Silnik liczy drugi raz na zmienionych faktach; na górze podsumowanie w jednym zdaniu, niżej różnica w tygodniach i złotych oraz zmiana statusów</p></div>
@@ -191,26 +194,24 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 <aside class="notes">Tu są zagrożenia z zadania (pkt 3 h): utrata uprawnień, zmiana wymiaru i wysokości. Rodzic widzi skutek decyzji, zanim ją podejmie. Sprawdź w demo: Anna → „Porównaj warianty” → „Wariant wypłaty” → „Uśredniony”.</aside>
 </section>
 <section id="sprawy">
-<p class="eyebrow">Związek z wyzwaniem (25%)</p>
+<p class="eyebrow">Sprawy ZUS</p>
 <h2>Sprawdzone na sprawach ZUS</h2>
 <div class="row">
-<div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Ekran „Sprawy ZUS” (link „Sprawy ZUS (dla oceniających)” w stopce): 11 spraw z zestawu ZUS — wybór z listy albo dodanie pliku PDF</p></div>
+<div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Ekran „Sprawy ZUS” (link „Sprawy ZUS (dla oceniających)” w stopce): 11 wgranych spraw z zestawu ZUS</p></div>
 <div class="pt"><div class="dot"></div><p class="t">PDF rozpoznawany po sumie SHA-256 liczonej w przeglądarce; plik nie opuszcza urządzenia, aplikacja nie czyta jego treści</p></div>
-<div class="pt"><div class="dot"></div><p class="t">Na wyniku ramka „Porównanie z decyzją ZUS”: decyzja i okresy z akt obok wyniku silnika. 1 sprawa zgodna co do okresu i kwoty z wydrukiem ZUS, 8 co do okresu (co do dnia), 2 odmowy zgodne z decyzją</p></div>
-<div class="pt"><div class="dot"></div><p class="t">Z 43 przeanalizowanych spraw silnik rozstrzyga inaczej niż ZUS w jednej (umowa uznana za zawartą dla pozoru — ustalenie z kontroli)</p></div></div>
+<div class="pt"><div class="dot"></div><p class="t">Z przeanalizowanych przykładowych spraw silnik rozstrzyga inaczej niż ZUS tylko w jednej: ZUS uznał umowę za zawartą dla pozoru, czego nie widać w danych o ubezpieczeniu</p></div></div>
 <img class="shot in2" src="zrzuty/slajd-05-sprawy-zus.png" alt="Ekran „Sprawy ZUS” z listą spraw i ramką „Porównanie z decyzją ZUS” z tabelą okresów" style="width:700px; height:560px;">
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
 <aside class="notes">To odpowiedź na wymóg demo z pkt 4 i 6 zadania: upload lub wybór przykładowych wniosków i sprawdzenie wyliczeń. W większości akt kwota jest zaczerniona, dlatego kwotę porównujemy tam, gdzie jest w dokumentach. Pozostałe pliki z zestawu dają podgląd i komunikat „Nie znam tej sprawy” z możliwością wpisu ręcznego. Dokumentów ZUS ani danych z nich nie ma w repozytorium. Sprawdź w demo: „Sprawy ZUS” → sprawa z oznaczeniem „Okres i kwota zgodne z wydrukiem ZUS” → „Załaduj dane sprawy” → wynik.</aside>
 </section>
 <section id="pokrycie" class="alt">
-<p class="eyebrow">Kompletność i UX (25%)</p>
+<p class="eyebrow">Wymagania</p>
 <h2>Pokrycie wymagań zadania</h2>
 <div class="row">
 <div class="points in" style="width:880px;"><div class="pt"><div class="dot"></div><p class="t">Pozycje a–j z zadania mają ekran, endpoint i moduł kodu (mapa w README, wiersz po wierszu ze statusem)</p></div>
 <div class="pt"><div class="dot"></div><p class="t">Symulacje: logowanie mObywatel, dane ZUS, saldo i zaświadczenie o stanie składek (z datą stanu salda), e-ZLA, zapytanie PUE/eZUS, wnioski o urlopy i dane do ZAM z datami z planu, odpis aktu urodzenia; puste pola w PDF zostają do uzupełnienia odręcznie</p></div>
-<div class="pt"><div class="dot"></div><p class="t">„Wsparcie”: zweryfikowane organizacje charytatywne z filtrem sytuacji, kontakt do ZUS; „Baza wiedzy”: Poradnik ZUS i linki do zus.pl, MRPiPS, PIP</p></div>
-<div class="pt"><div class="dot"></div><p class="t">Status wprost: świadczenie rehabilitacyjne zawsze „nie rozstrzygam” (orzeka lekarz orzecznik ZUS); indywidualną podstawę liczymy dla typowych przypadków, w pozostałych prosimy o podstawę od płatnika</p></div></div>
+<div class="pt"><div class="dot"></div><p class="t">„Wsparcie”: zweryfikowane organizacje charytatywne z filtrem sytuacji, kontakt do ZUS; „Baza wiedzy”: Poradnik ZUS i linki do zus.pl, MRPiPS, PIP</p></div></div>
 <img class="shot in2" src="zrzuty/slajd-06-wnioski-top.png" alt="Ekran „Wnioski” z wzorami wniosków o urlop do pracodawcy" style="width:360px; height:400px;">
 <img class="phone in3" src="zrzuty/slajd-06-telefon-wynik.png" alt="Wynik na telefonie: karta zasiłku na wąskim ekranie" style="width:280px; height:606px;">
 </div>
@@ -218,7 +219,7 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 <aside class="notes">Mówimy wprost, co działa w pełni, a co częściowo. Pełna tabela jest w README w części „Mapa wymagań”. Responsywność sprawdziliśmy automatycznie przy 320, 390 i 768 px — bez przewijania w poziomie.</aside>
 </section>
 <section id="czat">
-<p class="eyebrow">Oryginalność (15%)</p>
+<p class="eyebrow">Czat</p>
 <h2>Czat „Zapytaj o przepisy”: FAQ i źródła</h2>
 <div class="row">
 <div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Na ekranach Twój plan, Wsparcie i Baza wiedzy; mały panel, który nie zasłania strony</p></div>
@@ -231,12 +232,11 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 <aside class="notes">Bez modelu czat odpowiada z FAQ i pokazuje wyniki wyszukiwania. Model nie może pokazać cytatu, którego nie ma w przepisie, i nie podaje kwot. To jedyne miejsce, w którym aplikacja w działaniu korzysta z AI.</aside>
 </section>
 <section id="silnik" class="alt">
-<p class="eyebrow">Potencjał wdrożeniowy (15%), oryginalność (15%)</p>
+<p class="eyebrow">Silnik reguł</p>
 <h2>Silnik reguł i jakość</h2>
 <div class="row">
 <div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Uprawnienia, okresy, kwoty i terminy liczy deterministyczny silnik reguł w C# — ponad 80 małych reguł, każda z podstawą prawną; te same dane dają ten sam wynik</p></div>
 <div class="pt"><div class="dot"></div><p class="t">Gdy przepis nie rozstrzyga: „nie rozstrzygam” i kontakt do ZUS, bez zgadywania; brakujący fakt wraca jako pytanie</p></div>
-<div class="pt"><div class="dot"></div><p class="t"><code>dotnet test</code>: 1050 testów, 1049 zielonych, 0 błędów, 1 pominięty (raport dla spraw ZUS z katalogu prywatnego); 55 przypadków referencyjnych napisanych przed regułami</p></div>
 <div class="pt"><div class="dot"></div><p class="t">102 parametry prawne w bazie z datą obowiązywania; zmiana w <code>/admin</code> (polskie nazwy w grupach) zmienia wynik od wskazanego dnia, z historią zmian</p></div></div>
 <img class="shot in2" src="zrzuty/slajd-02-odmowa.png" alt="Odmowa zasiłku z przepisem i „Co musiałoby się zmienić”" style="width:640px; height:576px;">
 </div>
@@ -244,24 +244,23 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
 <aside class="notes">Model językowy nie liczy i nie decyduje. Pełny ślad decyzji widać na każdej karcie. Wdrożenie przepisu to nowa wartość parametru z datą, nie zmiana kodu.</aside>
 </section>
 <section id="zewnetrzne">
-<p class="eyebrow">Potencjał wdrożeniowy (15%)</p>
+<p class="eyebrow">Technologie i AI</p>
 <h2>Rozwiązania zewnętrzne i użycie AI</h2>
 <p class="sub">Wymóg regulaminu (§ 4 ust. 1): „W przypadku stosowania rozwiązań zewnętrznych zostanie to wyraźnie wskazane w prezentacji zadania.”</p>
 <div class="grid2 in">
-<div class="box"><h3>Frontend</h3><p class="t2">React, React Router, TanStack Query, React Hook Form, Zod, Radix UI (MIT), TypeScript (Apache-2.0), Vite, Tailwind CSS (MIT), pdf.js — podgląd PDF (Apache-2.0)</p></div>
-<div class="box"><h3>Backend</h3><p class="t2">ASP.NET Core i .NET 10, Entity Framework Core z InMemory (MIT), PostgreSQL i sterownik Npgsql (PostgreSQL License), PDFsharp-MigraDoc 6.2.4 (MIT), font Roboto (Apache-2.0), xUnit (Apache-2.0)</p></div>
-<div class="box"><h3>Infrastruktura i usługi</h3><p class="t2">Docker i Docker Compose, nginx (BSD-2-Clause), Caddy (Apache-2.0), Microsoft Azure (maszyna wirtualna demo), Let's Encrypt; Claude Haiku przez Anthropic API — opcjonalnie, tylko czat</p></div>
-<div class="box"><h3>AI poza aplikacją</h3><p class="t2">Kod, testy, treść FAQ i dokumentację wytworzyły modele Claude w Claude Code pod nadzorem zespołu; dokumenty spraw ZUS odczytano z pomocą AI; ilustracja na ekranie startowym jest wygenerowana przez AI. Materiały źródłowe: przepisy i Poradnik ZUS z materiałów zadania</p></div>
+<div class="box"><h3>Frontend</h3><div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Vite</span><span class="tag">Tailwind CSS</span><span class="tag">TanStack Query</span><span class="tag">React Hook Form</span><span class="tag">Zod</span><span class="tag">Radix UI</span><span class="tag">pdf.js</span></div></div>
+<div class="box"><h3>Backend</h3><div class="tags"><span class="tag">.NET 10</span><span class="tag">ASP.NET Core</span><span class="tag">EF Core</span><span class="tag">PostgreSQL</span><span class="tag">PDFsharp-MigraDoc</span><span class="tag">xUnit</span></div></div>
+<div class="box"><h3>Infrastruktura</h3><div class="tags"><span class="tag">Docker Compose</span><span class="tag">nginx</span><span class="tag">Caddy</span><span class="tag">Microsoft Azure</span><span class="tag">Let's Encrypt</span></div><p class="t2" style="margin-top:16px;">Licencje permisywne (MIT, Apache-2.0, BSD); pełna lista w <code>docs/ZALEZNOSCI.md</code></p></div>
+<div class="box hl"><h3>AI w aplikacji</h3><div class="tags"><span class="tag">Claude Haiku (Anthropic API)</span></div><p class="t2" style="margin-top:16px;">Tylko czat „Zapytaj o przepisy”, opcjonalnie: krótkie wyjaśnienie obok sprawdzonych cytatów. Uprawnień, okresów i kwot AI nie liczy.</p></div>
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
 <aside class="notes">Wszystkie zależności mają licencje permisywne. Pełna lista z wersjami jest w docs/ZALEZNOSCI.md, a opis użycia AI w README, „Wykorzystanie AI”.</aside>
 </section>
 <section id="demo" class="alt">
-<p class="eyebrow">Potencjał wdrożeniowy (15%), kompletność i UX (25%)</p>
-<h2>Założenia, ograniczenia i jak przetestować</h2>
+<p class="eyebrow">Demo</p>
+<h2>Ograniczenia i jak przetestować</h2>
 <div class="row">
-<div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Założenia tam, gdzie materiały nie rozstrzygają, każde jako parametr w <code>/admin</code>: stawka dzienna zaokrąglana raz do 1 gr (jak w wyliczeniach ZUS w sprawach testowych); kwoty brutto; minimalna podstawa przy niepełnym etacie proporcjonalnie do etatu; druki Z-3, Z-3a, ZAS-53 i ZAM według treści zadania</p></div>
-<div class="pt"><div class="dot"></div><p class="t">Ograniczenia: podwyższenia do kwoty świadczenia rodzicielskiego (art. 31 ust. 3a) nie wyliczamy, tylko o nim informujemy; wszystkie integracje są symulowane, dane osób fikcyjne</p></div>
+<div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Ograniczenia: podwyższenia do kwoty świadczenia rodzicielskiego (art. 31 ust. 3a) nie wyliczamy, tylko o nim informujemy; wszystkie integracje są symulowane, dane osób fikcyjne</p></div>
 <div class="pt"><div class="dot"></div><p class="t">Jak przetestować: osoby testowe na ekranie logowania (Anna — ścieżka standardowa, Edyta — odmowa za zaległość w składkach, Halina — e-ZLA i mały płatnik, Tadeusz — ojciec, gdy matka nie ma ubezpieczenia) oraz „Sprawy ZUS (dla oceniających)” w stopce</p></div>
 <div class="pt"><div class="dot"></div><p class="t">Lokalnie bez Dockera: <code>dotnet run --project api/Api</code> i <code>npm run dev</code> w <code>web/</code> (baza w pamięci); kod: github.com/slotocki/babypedia</p></div></div>
 <img class="phone in2" src="zrzuty/slajd-10-telefon-start.png" alt="Ekran startowy Kompasu Rodzica na telefonie" style="width:280px; height:606px;">
