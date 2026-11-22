@@ -49,7 +49,7 @@ Kryterium: pomysł (20%).
 
 - „W skrócie” na górze: co przysługuje, w jakiej kwocie i czego brakuje, w jednym-dwóch zdaniach
 - Karta świadczenia: status, okres od–do, kwota, kto wypłaca, gdzie złożyć wniosek, dokumenty; przy urlopie rodzicielskim „Twoja część” obok wymiaru łącznego obojga rodziców
-- „Ścieżka decyzji”: 6 najważniejszych kroków (reguła, przepis, warunek spełniony lub nie), reszta pod „Pokaż wszystkie kroki”; „Co znaczą te pojęcia” objaśnia ZAM, płatnika składek, e-ZLA, Z-3
+- „Ścieżka decyzji”: najważniejsze kroki (reguła, przepis, warunek spełniony lub nie), reszta pod „Pokaż wszystkie kroki”; „Co znaczą te pojęcia” objaśnia ZAM, płatnika składek, e-ZLA, Z-3
 - Odmowa zawsze z powodem, przepisem i następnym krokiem („Co musiałoby się zmienić”, przy zaległości „To da się naprawić”); „Co dalej?” z najbliższym krokiem i terminami
 
 Notatka: Nasza główna różnica: nie „system odmówił”, tylko „odmowa, bo taki przepis, a zmieniłoby się, gdyby…”. W trudnej sytuacji (strata dziecka) wynik zmienia ton, a wsparcie i najpilniejsze sprawy są na górze. Sprawdź w demo: Edyta (zaległość 120,00 zł) — odmowa z kwotą do spłaty i terminem.
@@ -114,7 +114,7 @@ Kryterium: potencjał wdrożeniowy (15%), oryginalność (15%).
 
 - Uprawnienia, okresy, kwoty i terminy liczy deterministyczny silnik reguł w C# — ponad 80 małych reguł, każda z podstawą prawną; te same dane dają ten sam wynik
 - Gdy przepis nie rozstrzyga: „nie rozstrzygam” i kontakt do ZUS, bez zgadywania; brakujący fakt wraca jako pytanie
-- `dotnet test`: TESTY_SUMA testów, TESTY_ZIELONE zielonych, 0 błędów, 1 pominięty (raport dla spraw ZUS z katalogu prywatnego); 55 przypadków referencyjnych napisanych przed regułami
+- `dotnet test`: 1050 testów, 1049 zielonych, 0 błędów, 1 pominięty (raport dla spraw ZUS z katalogu prywatnego); 55 przypadków referencyjnych napisanych przed regułami
 - 102 parametry prawne w bazie z datą obowiązywania; zmiana w `/admin` (polskie nazwy w grupach) zmienia wynik od wskazanego dnia, z historią zmian
 
 Notatka: Model językowy nie liczy i nie decyduje. Pełny ślad decyzji widać na każdej karcie. Wdrożenie przepisu to nowa wartość parametru z datą, nie zmiana kodu.

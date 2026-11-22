@@ -196,9 +196,11 @@ await shot('slajd-05-scenariusze.png', async (f) => {
   const p = await page(SHARP()); await toScenarios(p, 'Anna'); await hideChatButton(p)
   await saveBox(p.locator('div.grid').filter({ has: p.locator('input[name=scenariusz]') }).first(), f)
 })
+// Imiona z nazw plików spraw ZUS nie trafiają do repozytorium — na zrzutach list spraw je ukrywamy.
+const hideCaseNames = (p) => p.addStyleTag({ content: 'a span.text-xs.font-semibold.text-ink-soft, button span.text-xs.font-semibold.text-ink-soft { visibility: hidden !important }' })
 // Lista spraw ZUS z oznaczeniami zgodności — bez podglądu dokumentu, bez kwot i dat ze spraw.
 await shot('slajd-05-sprawy-zus.png', async (f) => {
-  const p = await page(SLIDE); await p.goto(base + '/sprawy'); await p.getByText('Sprawdź tę sprawę').first().waitFor(); await save(p, f)
+  const p = await page(SLIDE); await p.goto(base + '/sprawy'); await p.getByText('Sprawdź tę sprawę').first().waitFor(); await hideCaseNames(p); await save(p, f)
 })
 await shot('slajd-06-telefon-wynik.png', async (f) => { const p = await page(PHONE); await toResult(p, 'Anna'); await save(p, f) })
 await shot('slajd-06-wnioski-top.png', async (f) => {
@@ -324,6 +326,7 @@ await shot('16-wniosek-pdf.png', async (f) => {
 })
 await shot('17-sprawy-zus.png', async (f) => {
   const p = await view(DESK, '/sprawy', 'Sprawdź tę sprawę')
+  await hideCaseNames(p)
   await p.getByText(/Masz plik PDF sprawy ZUS\? Rozpoznaj go/).click()
   await save(p, f, { fullPage: true })
 })
@@ -374,7 +377,7 @@ await shot('31-telefon-wynik.png', async (f) => {
 await shot('32-telefon-odmowa.png', async (f) => {
   const p = await page(PHONE); await toResult(p, 'Edyta'); await card(p, MAT).evaluate((el) => scrollTo(0, el.getBoundingClientRect().top + scrollY - 8)); await save(p, f)
 })
-await shot('33-telefon-sprawy.png', async (f) => save(await view(PHONE, '/sprawy', 'Sprawdź tę sprawę'), f))
+await shot('33-telefon-sprawy.png', async (f) => { const p = await view(PHONE, '/sprawy', 'Sprawdź tę sprawę'); await hideCaseNames(p); await save(p, f) })
 
 await browser.close()
 console.log(`\nZrobione: ${made.length}`)

@@ -67,7 +67,7 @@ Na demo albo lokalnie.
 4. **Twój plan** (`/wynik`):
    - „W skrócie” na górze: co przysługuje, w jakiej kwocie, czego brakuje.
    - Karty świadczeń: status, okres, kwota. Przy urlopie rodzicielskim karta pokazuje „Twoja część” i wymiar łączny obojga rodziców.
-   - „Szczegóły świadczenia”: kto wypłaca, gdzie złożyć wniosek, dokumenty, „Co znaczą te pojęcia” (ZAM, płatnik składek, e-ZLA, Z-3…) i „Ścieżka decyzji” (6 najważniejszych kroków, reszta pod „Pokaż wszystkie kroki”).
+   - „Szczegóły świadczenia”: kto wypłaca, gdzie złożyć wniosek, dokumenty, „Co znaczą te pojęcia” (ZAM, płatnik składek, e-ZLA, Z-3…) i „Ścieżka decyzji” (najważniejsze kroki, reszta pod „Pokaż wszystkie kroki”).
    - „Co dalej?”: najbliższy krok, terminy, wnioski. Wariant wypłaty 81,5% wybiera się w „Ryzyka i wariant wypłaty”.
 5. **Odmowa**: zaloguj osobę Edyta („Zmień profil lub sprawę”). Karta „nie przysługuje” podaje powód, przepis i następny krok („To da się naprawić”: kwota do spłaty i termin).
 6. **Porównaj warianty** (`/porownaj-warianty`): np. „Wariant wypłaty” → „Uśredniony” albo „Spłacam zadłużenie”. Na górze jedno zdanie podsumowania, niżej różnica w tygodniach, złotych i statusach.
@@ -171,9 +171,9 @@ Wynik `dotnet test --solution api/BabyRadnik.slnx` na gałęzi `main` (.NET 10):
 
 ```
 Podsumowanie przebiegu testu: Powodzenie!
-  suma: TESTY_SUMA
+  suma: 1050
   zakończone niepowodzeniem: 0
-  zakończone powodzeniem: TESTY_ZIELONE
+  zakończone powodzeniem: 1049
   pominięto: 1
 ```
 
