@@ -16,6 +16,7 @@ import {
   formatMoney,
   formatPercent,
   formatWeeks,
+  pluralize,
 } from '@/ui'
 import { BasisForm } from './BasisForm'
 import { ExtLink } from './ExtLink'
@@ -257,7 +258,14 @@ function Refused({ benefit, difficult }: { benefit: BenefitResult; difficult?: b
         </Alert>
       ) : null}
       {legalBasis ? <p className="break-words text-sm text-ink-soft">Przepis: {legalBasis}</p> : null}
-      <Notes notes={notes} />
+      {notes.length > 0 ? (
+        <Disclosure
+          title="Założenia wyniku"
+          summary={`Na czym opieramy tę ocenę: ${notes.length} ${pluralize(notes.length, 'uwaga', 'uwagi', 'uwag')}`}
+        >
+          <Notes notes={notes} />
+        </Disclosure>
+      ) : null}
       <LinkList links={links} />
     </div>
   )
