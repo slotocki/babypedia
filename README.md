@@ -8,7 +8,7 @@ Projekt na HackNation 2026, zadanie ZUS „Zasiłkowy Przewodnik Przyszłego Rod
 - Repozytorium: https://github.com/slotocki/babypedia
 - Panel `/admin`: hasło ustawia zmienna `ADMIN_PASSWORD`; jury dostaje je osobno.
 
-Uprawnienia, okresy, kwoty i terminy liczy deterministyczny silnik reguł w C#. Model językowy nie bierze udziału w decyzji ani w kwocie. Integracje z mObywatelem, ZUS, e-ZLA, rejestrem stanu cywilnego i wysyłka wniosków są symulowane i oznaczone na ekranie. Osoby testowe są fikcyjne.
+Uprawnienia, okresy, kwoty i terminy liczy deterministyczny silnik reguł w C#. Model językowy nie bierze udziału w decyzji ani w kwocie. Logowanie przez mObywatela, dane z ZUS i e-ZLA oraz wysyłka wniosków są symulowane i oznaczone na ekranie. Aplikacja nie łączy się z żadnym zewnętrznym systemem: „pobrane” dane pochodzą z plików osób testowych: fikcyjnych (`fixtures/personas`) albo przepisanych z dokumentów spraw testowych ZUS. Dane o urodzeniu dziecka mają w symulacji źródło „Rejestr stanu cywilnego”, bo gdy zasiłek wypłaca ZUS, to ZUS sam pozyskuje odpis aktu urodzenia z tego rejestru (§ 13 ust. 2–4 rozporządzenia z 27.09.2026). Zadanie tego nie wymaga; wymaga symulacji wniosku o odpis aktu urodzenia, który jest w „Wnioskach”.
 
 Nazwa techniczna: produkt nazywa się Kompas Rodzica. Wcześniejsza nazwa robocza BabyRadnik została w nazwach technicznych (przestrzenie nazw `BabyRadnik.*`, plik `BABYRADNIK_INSTRUKCJA.md`, projekt compose, baza, katalog na serwerze).
 
@@ -83,7 +83,7 @@ Pliki w `fixtures/personas/`. Opis wynika z danych osoby i z reguł; „oczekiwa
 | `anna-przyklad` | Pracownica na umowie o pracę od 2021 r., ciąża z terminem 15.03.2027. Płatnik zgłasza 150 osób, więc zasiłek wypłaca płatnik. Ścieżka standardowa: macierzyński, rodzicielski, terminy. |
 | `klara-demo` | Pracownica u dużego płatnika (240 osób), zasiłek wypłaca płatnik. |
 | `halina-demo` | Pracownica małego płatnika (12 osób): zasiłek wypłaca ZUS, wniosek przez pracodawcę. Ma zwolnienie e-ZLA z kodem B (ciąża). |
-| `monika-demo` | Po porodzie (8.10.2026), dziecko widoczne w rejestrze stanu cywilnego, płatnik 8 osób. Terminy liczone od daty porodu. |
+| `monika-demo` | Po porodzie (8.10.2026); data urodzenia dziecka w symulacji ze źródłem „Rejestr stanu cywilnego”, płatnik 8 osób. Terminy liczone od daty porodu. |
 | `edyta-demo` | Działalność z dobrowolnym chorobowym i zadłużeniem składkowym 120,00 zł. Oczekiwane: odmowa z powodem, kwotą do spłaty i datą graniczną; scenariusz „Spłacam zadłużenie”. Zasiłek wypłaca ZUS. Ma zaświadczenie o stanie składek (PDF, symulacja). |
 | `weronika-demo` | Zleceniobiorczyni z dobrowolnym chorobowym od 22.09.2026 (poniżej 90 dni wyczekiwania) i e-ZLA z kodem B. Oczekiwane: zasiłek chorobowy w ciąży odmowny z powodu okresu wyczekiwania. |
 | `tadeusz-demo` | Ojciec-pracownik, liczymy „dla mnie i drugiego rodzica”. Prawo ojca, gdy matka nie ma ubezpieczenia chorobowego. |
@@ -162,7 +162,7 @@ Zasady:
 - Decyzje i kwoty liczy wyłącznie deterministyczny silnik reguł. Każda reguła to mała klasa z `Id`, `PodstawaPrawna` i metodą oceny (w `api/Domain` jest ich ponad 80). Kwoty w `decimal`, daty w `DateOnly`.
 - Parametry prawne (wymiary, stawki, progi, płaca minimalna) są w bazie z datą obowiązywania. `IParameterProvider.Get(klucz, data)` zwraca wartość z największą datą `validFrom` nie późniejszą niż dzień, którego dotyczy ocena. Dane startowe: `fixtures/parameters.seed.json` (102 wpisy). Brak parametru daje „nie rozstrzygam”.
 - Silnik dostaje fakty z pochodzeniem (`mobywatel`, `zus`, `ezla`, `usc`, `user`, `assumption`). Brakujący fakt wraca jako gotowe pytanie.
-- Pięć interfejsów integracji, każdy z implementacją `Simulated…` nad jednym zbiorem `fixtures/personas`, gotowych do podmiany na prawdziwe usługi: `IIdentityProvider`, `IInsuranceRegistry`, `IContributionAccount`, `IMedicalCertificates`, `ISubmissionGateway`. Do tego rejestr stanu cywilnego (`ICivilRegistry`) w `api/Infrastructure/Simulation`.
+- Pięć interfejsów integracji, każdy z implementacją `Simulated…` nad jednym zbiorem `fixtures/personas`, gotowych do podmiany na prawdziwe usługi: `IIdentityProvider`, `IInsuranceRegistry`, `IContributionAccount`, `IMedicalCertificates`, `ISubmissionGateway`. Do tego rejestr stanu cywilnego (`ICivilRegistry`, dane dziecka po porodzie; poza wymaganiami zadania) w `api/Infrastructure/Simulation`.
 - Kontrakt (OpenAPI, schematy, typy C# i TypeScript) opisuje [docs/KONTRAKT.md](docs/KONTRAKT.md).
 
 ## Testy
@@ -236,7 +236,7 @@ Pełna lista z wersjami: [docs/ZALEZNOSCI.md](docs/ZALEZNOSCI.md). Zasada projek
 
 Aplikacja nie ma OCR ani parsera PDF, bazy wektorowej, kont z hasłami, powiadomień e-mail i SMS, kwot netto, świadczeń spoza ubezpieczenia chorobowego (800+, żłobkowe), etapów rozwoju dziecka ani wersji językowych. Informuje i nie wydaje decyzji.
 
-Symulowane są: logowanie mObywatel, konto ubezpieczonego i płatnika w ZUS, e-ZLA, rejestr stanu cywilnego, wysyłka wniosków do pracodawcy, ZUS, PUE i urzędu stanu cywilnego, zaświadczenie o stanie składek. Wnioski PDF i zestawienie „Dane do wniosku o zasiłek macierzyński (ZAM)” nie są drukami urzędowymi.
+Symulowane są: logowanie mObywatel, konto ubezpieczonego i płatnika w ZUS, e-ZLA, dane dziecka z rejestru stanu cywilnego, wysyłka wniosków do pracodawcy, ZUS, PUE i urzędu stanu cywilnego, zaświadczenie o stanie składek. Wnioski PDF i zestawienie „Dane do wniosku o zasiłek macierzyński (ZAM)” nie są drukami urzędowymi.
 
 ### Przyjęte założenia
 
