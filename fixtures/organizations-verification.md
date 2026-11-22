@@ -6,10 +6,12 @@ W pliku jest **7 zweryfikowanych organizacji** i **10 wpisów z wątpliwościami
 | --- | ---: |
 | Poronienie | 2 |
 | Martwe urodzenie | 2 |
-| Śmierć dziecka | 3 |
+| Śmierć dziecka | 2 |
 | Wcześniak | 2 |
 | Ciężka choroba dziecka | 2 |
 | Ciężka choroba lub śmierć matki | 2 |
+
+Hospicjum Maryi Królowej Apostołów nie jest oznaczone jako „śmierć dziecka”: pomaga dorosłym w terminalnej fazie choroby nowotworowej i ich rodzinom po śmierci bliskiej osoby na raka, więc dotyczy kategorii matki, a nie straty dziecka (poprawka po testach użytkowych).
 
 W kategorii dotyczącej matki krakowskie stowarzyszenie oferuje domową opiekę w terminalnej fazie choroby nowotworowej i pomoc po śmierci w jej wyniku. Fundacja w Pruszczu Gdańskim prowadzi otwartą grupę po śmierci bliskiej osoby i zapewnia opiekę domową osobom dorosłym kwalifikującym się do hospicjum. [Zakres opieki w Krakowie](https://hospicjum.info.pl/domowe-hospicjum/) · [Grupa w Pruszczu Gdańskim](https://hospicjumpruszcz.pl/grupa-wsparcia/) · [Zasady opieki w Pruszczu Gdańskim](https://hospicjumpruszcz.pl/faq/)
 

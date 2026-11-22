@@ -209,7 +209,6 @@
     "krs": "0000283040",
     "zakres": "Zapewnia domową opiekę dorosłym w terminalnej fazie choroby nowotworowej i udziela wsparcia rodzinom po śmierci bliskiej osoby na raka.",
     "sytuacje": [
-      "smierc_dziecka",
       "sytuacja_matki"
     ],
     "zasieg": "Kraków / małopolskie",

@@ -1,9 +1,14 @@
 import type { Organization } from '@/app/api/types'
-import { Card, EmptyState, ErrorState, Section, SkeletonText, Stack } from '@/ui'
+import { Card, Disclosure, EmptyState, ErrorState, Section, SkeletonText, Stack } from '@/ui'
 import type { UseQueryResult } from '@tanstack/react-query'
 import { ExtLink } from './ExtLink'
+import { linkClass } from './link-class'
 import { contactChannels } from './links'
 import { situationLabel } from './situations'
+
+/** Organizacje, które pomagają wyłącznie po stracie dziecka albo w ciężkiej chorobie matki. */
+const lossSituations = ['poronienie', 'martwe_urodzenie', 'zgon_dziecka', 'sytuacja_matki']
+const isLossOnly = (org: Organization) => org.sytuacje.length > 0 && org.sytuacje.every((s) => lossSituations.includes(s))
 
 const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, '')}`
 
@@ -19,7 +24,7 @@ function OrganizationCard({ org }: { org: Organization }) {
         {org.telefon ? (
           <li>
             Telefon:{' '}
-            <a href={telHref(org.telefon)} className="font-semibold text-brand-strong underline underline-offset-4">
+            <a href={telHref(org.telefon)} className={linkClass}>
               {org.telefon}
             </a>
           </li>
@@ -38,10 +43,13 @@ export function OrganizationsSection({
   query,
   filtered,
   onShowAll,
+  collapseLoss = false,
 }: {
   query: UseQueryResult<Organization[]>
   filtered: boolean
   onShowAll: () => void
+  /** Bez wybranej sytuacji: organizacje dla żałoby nie otwierają listy, tylko czekają pod rozwinięciem. */
+  collapseLoss?: boolean
 }) {
   return (
     <Section
@@ -59,11 +67,7 @@ export function OrganizationsSection({
             retrying={query.isFetching}
           />
         ) : query.data.length > 0 ? (
-          <Stack as="ul" gap="md" aria-label="Lista organizacji wsparcia">
-            {query.data.map((org) => (
-              <OrganizationCard key={org.id} org={org} />
-            ))}
-          </Stack>
+          <OrganizationList organizations={query.data} collapseLoss={collapseLoss} />
         ) : filtered ? (
           <EmptyState
             title="Nie mamy jeszcze organizacji dla tej sytuacji"
@@ -89,5 +93,30 @@ export function OrganizationsSection({
         )}
       </div>
     </Section>
+  )
+}
+
+function OrganizationList({ organizations, collapseLoss }: { organizations: Organization[]; collapseLoss: boolean }) {
+  const loss = collapseLoss ? organizations.filter(isLossOnly) : []
+  const main = collapseLoss ? organizations.filter((org) => !isLossOnly(org)) : organizations
+  const list = (items: Organization[], label: string) => (
+    <Stack as="ul" gap="md" aria-label={label}>
+      {items.map((org) => (
+        <OrganizationCard key={org.id} org={org} />
+      ))}
+    </Stack>
+  )
+  return (
+    <div className="space-y-4">
+      {main.length > 0 ? list(main, 'Lista organizacji wsparcia') : null}
+      {loss.length > 0 ? (
+        <Disclosure
+          title={`Wsparcie po stracie dziecka lub przy ciężkiej chorobie matki (${loss.length})`}
+          summary="Rozwiń tylko wtedy, gdy Cię to dotyczy. Możesz też wybrać swoją sytuację powyżej."
+        >
+          {list(loss, 'Organizacje wsparcia po stracie')}
+        </Disclosure>
+      ) : null}
+    </div>
   )
 }

@@ -66,7 +66,7 @@ export function SupportPage() {
 
   const orgs = (
     <div id="organizacje" tabIndex={-1} className="scroll-mt-4 focus:outline-none">
-      <OrganizationsSection query={organizations} filtered={filter !== ALL} onShowAll={() => setChosen(ALL)} />
+      <OrganizationsSection query={organizations} filtered={filter !== ALL} onShowAll={() => setChosen(ALL)} collapseLoss={filter === ALL && !difficult} />
     </div>
   )
 
@@ -112,6 +112,21 @@ export function SupportPage() {
             </Button>
           ) : null}
         </Card>
+
+        {!difficult ? (
+          <Section title="Masz pytanie do ZUS lub pracodawcy?" description="Zacznij tutaj, jeśli potrzebujesz zwykłej informacji, a nie organizacji pomocowej.">
+            <Card className="space-y-2">
+              <ul className="space-y-1 text-ink">
+                {contactChannels.map((c) => (
+                  <li key={c.id}>{c.node}</li>
+                ))}
+              </ul>
+              <p className="text-sm text-ink-soft">
+                Przepisy i oficjalne informacje znajdziesz też w <Link to={paths.knowledge} className={linkClass}>bazie wiedzy</Link>.
+              </p>
+            </Card>
+          </Section>
+        ) : null}
 
         {difficult ? (
           <Section title="Co możesz zrobić teraz">
