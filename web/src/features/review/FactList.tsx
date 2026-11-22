@@ -114,7 +114,12 @@ function FactRow({ rowId, factKey, fact, facts, example, editing, onEdit, onCanc
     onSave(result.value)
   }
 
-  const lines = formatFactValue(factKey, fact.value).split('\n')
+  // Kreator zapisuje odpowiedź „więcej niż 20 osób” jako 21, a „20 lub mniej” jako 20 — pokazujemy odpowiedź, nie liczbę.
+  const headcountAnswer =
+    factKey === 'platnik.liczbaUbezpieczonych' && fact.source === 'user' && (fact.value === 20 || fact.value === 21)
+      ? fact.value === 21 ? 'Więcej niż 20 osób' : '20 osób lub mniej'
+      : null
+  const lines = (headcountAnswer ?? formatFactValue(factKey, fact.value)).split('\n')
 
   return (
     <li className="space-y-3 py-3">

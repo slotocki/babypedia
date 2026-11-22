@@ -260,7 +260,7 @@ export function ReviewPage() {
 
               <Card className="p-5 sm:p-7">
                 <form ref={formRef} onSubmit={(event) => void submit(event)} noValidate className="space-y-5">
-                  <Section title={hasEvent ? 'Pytania, na które potrzebujemy odpowiedzi' : 'Pytania o Twoją sytuację'} className="space-y-6">
+                  <Section title={!hasEvent ? 'Pytania o Twoją sytuację' : answerable.length > 0 ? 'Pytania, na które potrzebujemy odpowiedzi' : 'Wszystko gotowe'} className="space-y-6">
                     {hasEvent && assessment.isPending ? (
                       <p role="status" className="flex items-center gap-2 text-ink-soft">
                         <Spinner label={null} /> Sprawdzam, czego jeszcze brakuje…
