@@ -127,9 +127,12 @@ export function LoginPage() {
                   </label>
                 ))}
               </fieldset>
-              <Button type="submit" disabled={!selected} className="w-full sm:w-auto">
-                Zaloguj przez mObywatela
-              </Button>
+              <div className="space-y-2">
+                <Button type="submit" disabled={!selected} aria-describedby={selected ? undefined : 'wybierz-osobe'} className="w-full sm:w-auto">
+                  Zaloguj przez mObywatela
+                </Button>
+                {!selected ? <p id="wybierz-osobe" className="text-sm text-ink-soft">Wybierz osobę powyżej, aby przejść dalej.</p> : null}
+              </div>
             </form>
           ) : null}
         </>

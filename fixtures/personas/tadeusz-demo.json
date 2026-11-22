@@ -1,7 +1,7 @@
 {
   "$schema": "../../contracts/persona.schema.json",
   "id": "tadeusz-demo",
-  "opis": "Wymyślona osoba: ojciec-pracownik, jego partnerka (olga-demo) nie ma ubezpieczenia chorobowego.",
+  "opis": "Wymyślona osoba: ojciec-pracownik, partnerka Olga w ciąży (termin 30.01.2027) nie ma ubezpieczenia chorobowego.",
   "status": "gotowe",
   "tozsamosc": {
     "imie": "Tadeusz",

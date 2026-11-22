@@ -1,7 +1,7 @@
 {
   "$schema": "../../contracts/persona.schema.json",
   "id": "klara-demo",
-  "opis": "Wymyślona osoba: pracownica w ciąży u dużego płatnika (ponad 20 ubezpieczonych), zasiłek wypłaca płatnik.",
+  "opis": "Wymyślona osoba: pracownica w ciąży (termin 20.03.2027) u dużego płatnika (ponad 20 ubezpieczonych), zasiłek wypłaca płatnik.",
   "status": "gotowe",
   "tozsamosc": {
     "imie": "Klara",

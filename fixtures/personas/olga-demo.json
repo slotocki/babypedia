@@ -1,7 +1,7 @@
 {
   "$schema": "../../contracts/persona.schema.json",
   "id": "olga-demo",
-  "opis": "Wymyślona osoba bez ubezpieczenia chorobowego: rejestr ZUS zwraca pustą listę tytułów (partnerka Tadeusza).",
+  "opis": "Wymyślona osoba: w ciąży (termin 30.01.2027), bez ubezpieczenia chorobowego — w rejestrze ZUS nie ma tytułów ubezpieczenia (partnerka Tadeusza).",
   "status": "gotowe",
   "tozsamosc": {
     "imie": "Olga",

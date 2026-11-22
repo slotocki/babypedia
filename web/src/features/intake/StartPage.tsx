@@ -26,18 +26,19 @@ export function StartPage() {
           <Link to={paths.manual} onClick={() => { clearWizardDraft(); startManual() }} className={card + ' border-line bg-surface hover:border-brand hover:bg-brand-soft/40'}>
             <FileIcon className="size-6 text-brand-strong" />
             <h2 className="text-lg font-bold leading-tight sm:text-xl">Wprowadź dane ręcznie</h2>
-            <p className="text-sm text-ink-soft">Odpowiedz na kilka pytań o swoją sytuację. Nie wymaga logowania</p>
-            <span className="mt-auto text-lg font-bold text-brand-strong" aria-hidden="true">→</span>
+            <p className="text-sm text-ink-soft">Odpowiedz na kilka pytań o swoją sytuację. Nie wymaga logowania.</p>
+            <span className="mt-auto text-base font-bold text-brand-strong">4–5 krótkich pytań, ok. 3 min <span aria-hidden="true">→</span></span>
           </Link>
           <Link to={paths.login} className={card + ' border-brand/25 bg-surface hover:border-brand hover:bg-brand-soft/40'}>
             <ShieldIcon className="size-6 text-brand-strong" />
             <h2 className="text-lg font-bold leading-tight sm:text-xl">Połącz się przez mObywatela i ZUS</h2>
-            <p className="text-sm text-ink-soft">Nie musisz wprowadzać większości danych</p>
-            <span className="mt-auto text-lg font-bold text-brand-strong" aria-hidden="true">→</span>
+            <p className="text-sm text-ink-soft">Nie musisz wprowadzać większości danych.</p>
+            <span className="mt-auto text-base font-bold text-brand-strong">Zaloguj się i pobierz dane <span aria-hidden="true">→</span></span>
           </Link>
         </div>
 
         <Link to={paths.cases} className={card + ' border-transparent bg-[#e6f4ef] text-[#134f46] hover:border-[#147664]'}>
+          <span className="text-sm font-semibold uppercase tracking-wide">Dla oceniających</span>
           <h2 className="text-lg font-bold leading-tight sm:text-xl">Sprawdź na rzeczywistych przykładach</h2>
           <p className="text-sm text-[#285e55]">Wybierz zanonimizowaną sprawę ZUS i porównaj wynik kalkulatora z odnotowaną decyzją.</p>
           <span className="mt-auto text-sm font-bold">Zobacz sprawy ZUS <span aria-hidden="true">→</span></span>
