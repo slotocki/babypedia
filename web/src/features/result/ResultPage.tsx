@@ -302,8 +302,8 @@ export function ResultPage() {
 
         {!exampleIndex && !hasEvent ? (
           <EmptyState
-            title="Najpierw odpowiedz na trzy pytania"
-            description="Bez nich nie wiemy, czego dotyczy Twoja sprawa."
+            title="Najpierw podaj, czego dotyczy sprawa"
+            description="Wprowadź dane ręcznie, połącz się przez mObywatela albo wybierz sprawę ZUS na starcie."
             action={
               <Button asChild>
                 <Link to={paths.start}>Wróć na start</Link>
