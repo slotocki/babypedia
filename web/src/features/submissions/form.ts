@@ -1,6 +1,7 @@
 import type { BenefitId, BenefitResult, FactSet, ProblemDetails } from '@/app/api/types'
 import type { SubmissionTemplate, TemplateField } from './api'
 import { isValidIsoDate } from '@/features/review/dates'
+import { ownShareOf } from '@/features/result/insights'
 
 export type Values = Record<string, string>
 
@@ -24,8 +25,19 @@ export function visibleFields(template: SubmissionTemplate, values: Values): Tem
 const periodOf = (benefits: BenefitResult[] | undefined, id: BenefitId) =>
   benefits?.find((b) => b.id === id && b.person === 'wnioskodawca' && b.status === 'przysługuje')?.period ?? undefined
 
+/**
+ * Urlop rodzicielski wnioskodawcy. Gdy karta pokazuje łączny wymiar obojga rodziców (41 tyg.), bierzemy część
+ * tej osoby (bez tygodni zarezerwowanych dla drugiego rodzica) — inaczej wniosek odrzuciłby własną datę.
+ */
+const parentalOf = (benefits: BenefitResult[] | undefined) => {
+  const benefit = benefits?.find((b) => b.id === 'rodzicielski' && b.person === 'wnioskodawca' && b.status === 'przysługuje')
+  if (!benefit?.period) return undefined
+  const own = ownShareOf(benefit)
+  return own ? { from: own.share.from, to: own.share.to } : benefit.period
+}
+
 export function prefill(template: SubmissionTemplate, facts: FactSet, profileName?: string | null, benefits?: BenefitResult[]): Values {
-  const parental = periodOf(benefits, 'rodzicielski')
+  const parental = parentalOf(benefits)
   const paternity = periodOf(benefits, 'ojcowski')
   const supplementary = periodOf(benefits, 'macierzynski_uzupelniajacy')
   const maternity = periodOf(benefits, 'macierzynski')
@@ -85,7 +97,7 @@ export function validateLocally(fields: TemplateField[], values: Values): Record
     if (ELEVEN_DIGITS.test(value.replace(/[\s-]/g, ''))) {
       errors[field.key] = 'Nie wpisuj numeru PESEL ani innych 11-cyfrowych numerów — Kompas Rodzica ich nie przyjmuje.'
     } else if (field.kind === 'date' && (!isValidIsoDate(value) || Number(value.slice(0, 4)) > 2200)) {
-      errors[field.key] = 'Wybierz datę z kalendarza albo wpisz ją w formacie RRRR-MM-DD.'
+      errors[field.key] = 'Wybierz datę z kalendarza albo wpisz ją w formacie DD.MM.RRRR.'
     } else if (field.kind === 'integer' && !/^\d{1,6}$/.test(value)) {
       errors[field.key] = 'Wpisz liczbę całkowitą, np. 1.'
     }
