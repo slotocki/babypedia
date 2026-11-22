@@ -17,7 +17,8 @@ public sealed class LegalSearchTests(WebApplicationFactory<Program> factory) : I
     [InlineData("Ile wynosi zasiłek macierzyński?", "Ustawa zasiłkowa", "Art. 31")]
     [InlineData("Co po martwym urodzeniu?", "Kodeks pracy", "Art. 180¹")]
     [InlineData("Kto wypłaca zasiłek, pracodawca czy ZUS?", "Ustawa zasiłkowa", "Art. 61")]
-    [InlineData("Jakie dokumenty do zasiłku macierzyńskiego?", "Rozporządzenie w sprawie dokumentów do zasiłków", "§")]
+    [InlineData("Jakie dokumenty do zasiłku macierzyńskiego?", "Rozporządzenie w sprawie dokumentów do zasiłków", "§ 13")]
+    [InlineData("Jakie dokumenty są potrzebne do zasiłku macierzyńskiego?", "Rozporządzenie w sprawie dokumentów do zasiłków", "§ 13")]
     [InlineData("Czy rodzina zastępcza ma prawo do zasiłku?", "Ustawa zasiłkowa", "Art. 29")]
     [InlineData("Co gdy umowa kończy się w ciąży?", "Kodeks pracy", "Art. 177")]
     public async Task Relevant_section_appears_in_first_three_results(string question, string document, string article)

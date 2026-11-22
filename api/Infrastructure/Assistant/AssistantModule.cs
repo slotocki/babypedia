@@ -11,6 +11,9 @@ namespace BabyRadnik.Infrastructure.Assistant;
 public static class AssistantModule
 {
     private const int MaxQuestionLength = 500;
+    private const int SearchResults = 6;
+    private const int ModelSources = 15;
+    private const int SupportingSources = 4;
 
     public static IServiceCollection AddAssistant(this IServiceCollection services, IConfiguration configuration)
     {
@@ -37,7 +40,7 @@ public static class AssistantModule
             if (Uri.TryCreate(options.BaseUrl?.Trim().TrimEnd('/') + "/", UriKind.Absolute, out var uri) &&
                 uri.Scheme is "http" or "https" && (!options.UseOpenCodeChat || IsOpenCodeChatUrl(uri)))
                 client.BaseAddress = uri;
-            client.Timeout = TimeSpan.FromSeconds(12);
+            client.Timeout = TimeSpan.FromSeconds(30);
             client.MaxResponseContentBufferSize = 64 * 1024;
         });
         return services;
@@ -75,10 +78,12 @@ public static class AssistantModule
                 !AssistantPolicy.IsFollowUp(question))
                 previous = null;
 
-            var hits = search.Find(previous is null ? question : $"{previous} {question}");
-            var fallback = AsSearchAnswer(hits);
-            var sources = hits.Where(hit => hit.IsLegalAct).ToArray();
-            if (!model.Enabled || sources.Length == 0 || !budget.TryTake(context.Connection.RemoteIpAddress?.ToString() ?? "unknown"))
+            // Wyszukiwarka pokazuje 6 najlepszych fragmentów, model dostaje szerszy wybór (w tym poradnik ZUS),
+            // żeby właściwy przepis nie odpadł przez gorsze dopasowanie słów.
+            var sources = search.Find(previous is null ? question : $"{previous} {question}", ModelSources, SupportingSources);
+            var fallback = AsSearchAnswer(sources.Take(SearchResults).ToArray());
+            if (!model.Enabled || !sources.Any(hit => hit.IsLegalAct) ||
+                !budget.TryTake(context.Connection.RemoteIpAddress?.ToString() ?? "unknown"))
                 return Results.Ok(fallback);
 
             try

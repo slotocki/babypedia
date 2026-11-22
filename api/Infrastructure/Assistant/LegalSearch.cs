@@ -44,24 +44,30 @@ internal sealed partial class LegalSearch
         averageLength = index.Length == 0 ? 1 : index.Average(item => item.Length);
     }
 
-    public IReadOnlyList<LegalExcerpt> Find(string question)
+    /// <summary>
+    /// Najlepiej pasujące fragmenty. <paramref name="minSupporting"/> rezerwuje miejsca dla materiałów pomocniczych ZUS:
+    /// akty prawne mają w rankingu przewagę, a poradnik tłumaczy to samo prostym językiem — model dostaje jedno i drugie.
+    /// </summary>
+    public IReadOnlyList<LegalExcerpt> Find(string question, int limit = 6, int minSupporting = 0)
     {
-        var words = LegalTerms.Tokenize(question).Distinct().ToArray();
+        var words = LegalTerms.Tokenize(LegalTerms.ExpandQuery(question)).Distinct().ToArray();
         if (words.Length == 0) return [];
 
-        var candidates = index.Select(item =>
-        {
-            var matches = words.Where(item.Terms.ContainsKey).ToArray();
-            var score = matches.Sum(term => Score(item, term));
-            return (item.Excerpt, Matches: matches.Length, Score: score);
-        });
-
-        return candidates
+        var ranked = index
+            .Select(item =>
+            {
+                var matches = words.Where(item.Terms.ContainsKey).ToArray();
+                var score = matches.Sum(term => Score(item, term));
+                return (item.Excerpt, Matches: matches.Length, Score: score);
+            })
             .Where(hit => hit.Matches >= Math.Min(2, words.Length) && hit.Score >= 1.2)
             .OrderByDescending(hit => hit.Score * (hit.Excerpt.IsLegalAct ? 1.3 : 0.75))
-            .Take(6)
             .Select(hit => hit.Excerpt)
             .ToArray();
+
+        var reserved = ranked.Where(hit => !hit.IsLegalAct).Take(Math.Min(minSupporting, limit)).ToHashSet();
+        var rest = ranked.Where(hit => !reserved.Contains(hit)).Take(limit - reserved.Count).ToHashSet();
+        return ranked.Where(hit => reserved.Contains(hit) || rest.Contains(hit)).ToArray();
     }
 
     private double Score(IndexedExcerpt item, string word)
@@ -81,6 +87,7 @@ internal sealed partial class LegalSearch
 
         var markdown = HtmlComment().Replace(File.ReadAllText(path), "");
         var sections = SectionHeading().Split(markdown);
+        string? parent = null;
         for (var i = 1; i < sections.Length; i += 2)
         {
             var title = sections[i].Trim();
@@ -88,8 +95,22 @@ internal sealed partial class LegalSearch
             if (source.IsLegalAct && !ArticleHeading().IsMatch(title)) continue;
 
             var content = sections[i + 1].Trim();
-            if (content.Length > 0)
-                yield return new LegalExcerpt(source.Title, title, content, source.IsLegalAct);
+            if (source.IsLegalAct)
+            {
+                if (content.Length > 0) yield return new LegalExcerpt(source.Title, title, content, true);
+                continue;
+            }
+
+            // W poradniku nagłówki są spłaszczone: pusty „Jak otrzymać zasiłek” stoi nad „Pracownicy” i „Osoby ubezpieczone…”.
+            // Bez rodzica taki tytuł nic nie mówi ani wyszukiwarce, ani czytelnikowi, więc go doklejamy.
+            if (content.Length == 0)
+            {
+                parent = AssistantPolicy.Normalize(title).StartsWith("jak ", StringComparison.Ordinal) ? title : null;
+                continue;
+            }
+            var audience = parent is not null && AudienceHeading().IsMatch(AssistantPolicy.Normalize(title));
+            yield return new LegalExcerpt(source.Title, audience ? $"{parent} › {title}" : title, content, false);
+            if (!audience) parent = null;
         }
     }
 
@@ -104,6 +125,9 @@ internal sealed partial class LegalSearch
 
     [GeneratedRegex(@"^(?:Art\.|§)\s*\d")]
     private static partial Regex ArticleHeading();
+
+    [GeneratedRegex(@"^(?:pracownic|ubezpieczeni|osoby ubezpieczone|zleceniobiorc|osoby prowadzace|przedsiebiorc)")]
+    private static partial Regex AudienceHeading();
 
     private static partial class LegalTerms
     {
@@ -120,6 +144,23 @@ internal sealed partial class LegalSearch
             (@"\bpracowac\b", "laczenie pracy"),
             (@"\bzus\b", "zaklad ubezpieczen spolecznych"),
         ];
+
+        // Tylko dla pytań: rodzic pyta „jakie dokumenty”, a przepisy mówią „dokumentem niezbędnym… jest zaświadczenie / odpis”,
+        // poradnik — „jak otrzymać zasiłek… wystarczy złożyć wniosek”. Do tekstów przepisów tego nie stosujemy.
+        private static readonly (string Pattern, string Expansion)[] QueryExpansions =
+        [
+            (@"\b(?:dokument\w*|potrzebn\w*|dostarcz\w*|zalacz\w*|przynies\w*|formalnosc\w*)\b",
+                "dokumentem niezbednym zaswiadczenie odpis wniosek otrzymac"),
+        ];
+
+        public static string ExpandQuery(string question)
+        {
+            var normalized = AssistantPolicy.Normalize(question);
+            foreach (var (pattern, expansion) in QueryExpansions)
+                if (Regex.IsMatch(normalized, pattern))
+                    normalized += " " + expansion;
+            return normalized;
+        }
 
         private static readonly string[] CommonStems =
             ["urlop", "zasil", "sklad", "wnios", "ubezpiecz", "okres", "ciaz", "martw", "dwoj", "lacz"];

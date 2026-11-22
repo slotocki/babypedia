@@ -99,7 +99,7 @@ export function LegalAssistant({ calculatorPath }: { calculatorPath: string }) {
             className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain bg-canvas px-4 py-5 focus-visible:outline-offset-[-3px]"
           >
             <p className="w-fit max-w-[94%] rounded-2xl rounded-tl-sm border border-line bg-surface px-3.5 py-3 text-sm text-ink">
-              Zapytaj o świadczenia, urlopy lub dokumenty. Wyjaśnię to krótko i pokażę fragmenty przepisów, na których opiera się odpowiedź.
+              Cześć! Pomogę Ci zrozumieć zasiłki, urlopy i formalności po narodzinach dziecka. Napisz pytanie własnymi słowami — odpowiem po ludzku i pokażę, na których przepisach się opieram.
             </p>
             {turns.length === 0 && !pendingQuestion ? (
               <div className="flex flex-wrap gap-2">
@@ -127,7 +127,7 @@ export function LegalAssistant({ calculatorPath }: { calculatorPath: string }) {
               <div className="space-y-3">
                 <UserMessage question={pendingQuestion} />
                 <p className="w-fit rounded-2xl rounded-tl-sm border border-line bg-surface px-3.5 py-2 text-sm text-ink-soft">
-                  Szukam przepisów…
+                  Sprawdzam przepisy i poradnik ZUS…
                 </p>
               </div>
             ) : null}
@@ -185,10 +185,40 @@ function UserMessage({ question }: { question: string }) {
   )
 }
 
+/** Tekst odpowiedzi: akapity rozdzielone pustą linią, wiersze zaczynające się od „- ” jako lista. */
+function AnswerText({ text }: { text: string }) {
+  const blocks: { list: boolean; lines: string[] }[] = []
+  for (const raw of text.split('\n')) {
+    const line = raw.trim()
+    if (!line) {
+      blocks.push({ list: false, lines: [] })
+      continue
+    }
+    const list = line.startsWith('- ')
+    const last = blocks.at(-1)
+    const content = list ? line.slice(2) : line
+    if (last && last.list === list && last.lines.length > 0) last.lines.push(content)
+    else blocks.push({ list, lines: [content] })
+  }
+  return (
+    <div className="space-y-2 break-words">
+      {blocks.filter((block) => block.lines.length > 0).map((block, index) =>
+        block.list ? (
+          <ul key={index} className="list-disc space-y-1 pl-5">
+            {block.lines.map((line, item) => <li key={item}>{line}</li>)}
+          </ul>
+        ) : (
+          <p key={index}>{block.lines.join(' ')}</p>
+        ),
+      )}
+    </div>
+  )
+}
+
 function Reply({ answer, calculatorPath }: { answer: AssistantAnswer; calculatorPath: string }) {
   return (
     <>
-      <p>{answer.answer || 'Znalazłem te przepisy i materiały.'}</p>
+      <AnswerText text={answer.answer || 'Znalazłem te przepisy i materiały.'} />
       {answer.mode === 'calculator' ? <Link to={calculatorPath} className={linkClass}>Przejdź do kalkulatora</Link> : null}
       {answer.mode === 'no_results' ? <p className="text-ink-soft">{contactChannels[0].node}</p> : null}
       {answer.citations.map((citation, index) => (

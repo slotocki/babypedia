@@ -65,7 +65,7 @@ public sealed class AssistantModelTests(WebApplicationFactory<Program> factory) 
     [InlineData("long")]
     public async Task Explanation_with_link_amount_or_bad_length_is_replaced_but_citations_stay(string text)
     {
-        var explanation = text == "long" ? string.Concat(Enumerable.Repeat("Urlop rodzicielski przysługuje obojgu rodzicom. ", 20)) : text;
+        var explanation = text == "long" ? string.Concat(Enumerable.Repeat("Urlop rodzicielski przysługuje obojgu rodzicom. ", 40)) : text;
         using var app = factory.WithWebHostBuilder(builder =>
         {
             builder.UseSetting("ASSISTANT_ENABLED", "true");
@@ -127,6 +127,61 @@ public sealed class AssistantModelTests(WebApplicationFactory<Program> factory) 
         Assert.NotEmpty(answer.Citations);
         Assert.Equal(expectedMode == "ai" ? Explanation : "", answer.Answer);
         Assert.DoesNotContain(answer.Citations, citation => citation.Fragment.Contains(UntrustedText));
+    }
+
+    [Fact]
+    public async Task Documents_question_reaches_model_with_regulation_and_zus_guide()
+    {
+        // Pytanie z prawdziwej rozmowy: wcześniej model nie dostawał § 13 rozporządzenia ani poradnika ZUS
+        // i odpowiadał, że listy dokumentów nie ma w przepisach.
+        var stub = new CapturingStub("Przed porodem potrzebujesz zaświadczenia lekarskiego.\r\n\r\n\r\n• Po porodzie: odpis skrócony aktu urodzenia.");
+        using var app = factory.WithWebHostBuilder(builder =>
+        {
+            builder.UseSetting("ASSISTANT_ENABLED", "true");
+            builder.UseSetting("ASSISTANT_PROVIDER", "anthropic");
+            builder.UseSetting("ANTHROPIC_API_KEY", "test-placeholder");
+            builder.UseSetting("ASSISTANT_DAILY_LIMIT", "10");
+            builder.ConfigureTestServices(services => services.ConfigureHttpClientDefaults(client =>
+                client.ConfigurePrimaryHttpMessageHandler(() => stub)));
+        });
+
+        using var client = app.CreateClient();
+        var ct = TestContext.Current.CancellationToken;
+        using var response = await client.PostAsJsonAsync(
+            "/api/assistant/ask", new { question = "Jakie dokumenty są potrzebne do zasiłku macierzyńskiego?" }, ct);
+        var answer = await response.Content.ReadFromJsonAsync<AssistantAnswer>(ct);
+
+        Assert.InRange(stub.Titles.Count, 7, 15);
+        Assert.Contains(stub.Titles, title => title == "Rozporządzenie w sprawie dokumentów do zasiłków, § 13");
+        Assert.Contains(stub.Titles, title => title.StartsWith("Poradnik ZUS (materiał pomocniczy), Jak otrzymać zasiłek", StringComparison.Ordinal));
+        Assert.Contains("materiał pomocniczy ZUS", stub.Kinds);
+        Assert.NotNull(answer);
+        Assert.Equal("ai", answer.Mode);
+        Assert.Equal("Przed porodem potrzebujesz zaświadczenia lekarskiego.\n\n- Po porodzie: odpis skrócony aktu urodzenia.", answer.Answer);
+    }
+
+    private sealed class CapturingStub(string explanation) : HttpMessageHandler
+    {
+        public List<string> Titles { get; } = [];
+        public List<string> Kinds { get; } = [];
+
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
+        {
+            using var body = await request.Content!.ReadFromJsonAsync<JsonDocument>(ct);
+            using var query = JsonDocument.Parse(body!.RootElement.GetProperty("messages")[0].GetProperty("content").GetString()!);
+            var documents = query.RootElement.GetProperty("documents").EnumerateArray().ToArray();
+            Titles.AddRange(documents.Select(document => document.GetProperty("title").GetString()!));
+            Kinds.AddRange(documents.Select(document => document.GetProperty("kind").GetString()!));
+            var reply = JsonSerializer.Serialize(new
+            {
+                answer = explanation,
+                citations = new[] { new { document_index = 0, cited_text = SampleQuote(documents[0].GetProperty("text").GetString()!) } },
+            });
+            return new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = JsonContent.Create(new { stop_reason = "end_turn", content = new[] { new { type = "text", text = reply } } }),
+            };
+        }
     }
 
     private sealed class ChatStub(string scenario) : HttpMessageHandler

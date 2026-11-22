@@ -18,9 +18,9 @@ internal static partial class AssistantPolicy
     public const string GenericAnswer = "Te fragmenty pasują do Twojego pytania.";
     public const string QuotesOnlyDisclaimer = "Cytaty wybrał model językowy. Indywidualną sprawę ocenia kalkulator.";
     public const string ExplanationDisclaimer =
-        "Wyjaśnienie napisał model językowy na podstawie przepisów poniżej — wiążące są przepisy. Indywidualną sprawę ocenia kalkulator.";
+        "Wyjaśnienie napisał model językowy na podstawie przepisów i materiałów ZUS poniżej — wiążące są przepisy. Indywidualną sprawę ocenia kalkulator.";
 
-    private const int MaxExplanationLength = 700;
+    private const int MaxExplanationLength = 1400;
 
     public static AssistantAnswer? Verify(ModelReply reply, IReadOnlyList<LegalExcerpt> sources)
     {
@@ -34,11 +34,16 @@ internal static partial class AssistantPolicy
             : new AssistantAnswer(explanation, citations, ExplanationDisclaimer, "ai");
     }
 
-    /// <summary>Wyjaśnienie modelu albo null: puste, za długie, z kwotą, linkiem lub danymi osobowymi.</summary>
+    /// <summary>
+    /// Wyjaśnienie modelu albo null: puste, za długie, z kwotą, linkiem lub danymi osobowymi.
+    /// Podział na wiersze zostaje (lista „- ” w odpowiedzi), znaki punktorów ujednolicamy do „- ”.
+    /// </summary>
     public static string? CleanExplanation(string? text)
     {
         if (string.IsNullOrWhiteSpace(text)) return null;
-        var clean = CollapseSpace(text.Trim());
+        var lines = text.Replace("\r\n", "\n").Split('\n')
+            .Select(line => Bullet().Replace(LineSpace().Replace(line, " ").Trim(), "- "));
+        var clean = BlankLines().Replace(string.Join('\n', lines), "\n\n").Trim();
         if (clean.Length < 20 || clean.Length > MaxExplanationLength) return null;
         if (HasSensitiveData(clean) || Money().IsMatch(Normalize(clean)) || Link().IsMatch(clean)) return null;
         return clean;
@@ -46,7 +51,7 @@ internal static partial class AssistantPolicy
 
     private static List<AssistantCitation>? VerifyCitations(ModelCitation[] selection, IReadOnlyList<LegalExcerpt> sources)
     {
-        const int maxCitations = 3;
+        const int maxCitations = 5;
         const int maxQuoteLength = 600;
         if (selection.Length == 0) return null;
 
@@ -98,6 +103,15 @@ internal static partial class AssistantPolicy
 
     [GeneratedRegex(@"\s+")]
     private static partial Regex Whitespace();
+
+    [GeneratedRegex(@"[^\S\n]+")]
+    private static partial Regex LineSpace();
+
+    [GeneratedRegex(@"\n{3,}")]
+    private static partial Regex BlankLines();
+
+    [GeneratedRegex(@"^(?:[•*·–]|-)\s+")]
+    private static partial Regex Bullet();
 
     [GeneratedRegex(@"^(?:a\s|(?:czy|jak|gdzie|kiedy|ile)\s+(?:to|tego|wtedy|tam)\b|ile (?:trwa|dni|tygodni)\s*\??$)")]
     private static partial Regex FollowUp();
