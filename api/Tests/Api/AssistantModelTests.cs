@@ -132,8 +132,8 @@ public sealed class AssistantModelTests(WebApplicationFactory<Program> factory) 
     [Fact]
     public async Task Documents_question_reaches_model_with_regulation_and_zus_guide()
     {
-        // Pytanie z prawdziwej rozmowy: wcześniej model nie dostawał § 13 rozporządzenia ani poradnika ZUS
-        // i odpowiadał, że listy dokumentów nie ma w przepisach.
+        // Hasło tematu (nie pytanie) omija gotowe odpowiedzi z FAQ i idzie do modelu. Wcześniej model nie dostawał
+        // § 13 rozporządzenia ani poradnika ZUS i odpowiadał, że listy dokumentów nie ma w przepisach.
         var stub = new CapturingStub("Przed porodem potrzebujesz zaświadczenia lekarskiego.\r\n\r\n\r\n• Po porodzie: odpis skrócony aktu urodzenia.");
         using var app = factory.WithWebHostBuilder(builder =>
         {
@@ -148,7 +148,7 @@ public sealed class AssistantModelTests(WebApplicationFactory<Program> factory) 
         using var client = app.CreateClient();
         var ct = TestContext.Current.CancellationToken;
         using var response = await client.PostAsJsonAsync(
-            "/api/assistant/ask", new { question = "Jakie dokumenty są potrzebne do zasiłku macierzyńskiego?" }, ct);
+            "/api/assistant/ask", new { question = "Dokumenty do zasiłku macierzyńskiego" }, ct);
         var answer = await response.Content.ReadFromJsonAsync<AssistantAnswer>(ct);
 
         Assert.InRange(stub.Titles.Count, 7, 15);

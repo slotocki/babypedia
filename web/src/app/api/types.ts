@@ -377,5 +377,6 @@ export interface AssistantAnswer {
   /** notes: daty wejścia w życie lub brzmienia ustępów cytowanego artykułu (z przypisów aktu). */
   citations: { document: string; fragment: string; article: string; articleText: string; notes?: string[] }[]
   disclaimer: string
-  mode: 'ai' | 'search' | 'no_results' | 'calculator'
+  /** faq: gotowa odpowiedź na typowe pytanie (bez modelu). */
+  mode: 'faq' | 'ai' | 'search' | 'no_results' | 'calculator'
 }
