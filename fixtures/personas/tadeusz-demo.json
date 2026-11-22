@@ -26,13 +26,13 @@
       },
       "dziecko.liczba": {
         "value": 1,
-        "source": "assumption"
+        "source": "user"
       }
     },
     "wnioskodawca": {
       "osoba.rola": {
         "value": "ojciec",
-        "source": "assumption"
+        "source": "user"
       },
       "osoba.dataUrodzenia": {
         "value": "1990-04-23",
@@ -123,6 +123,9 @@
         "value": 45,
         "source": "zus"
       }
+    },
+    "drugiRodzic": {
+      "osoba.rola": { "value": "matka", "source": "user" }
     }
   },
   "uwagi": "Osoba wymyślona na potrzeby demonstracji. PESEL fikcyjny — nie przechodzi sumy kontrolnej."

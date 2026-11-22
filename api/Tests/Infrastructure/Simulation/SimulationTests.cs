@@ -142,7 +142,8 @@ public sealed class SimulationTests : IDisposable
         var leave = applicant.GetProperty("ezla.zwolnienia");
         Assert.Equal("ezla", leave.GetProperty("source").GetString());
         Assert.Equal("B", leave.GetProperty("value")[0].GetProperty("kod").GetString());
-        Assert.False(applicant.TryGetProperty("osoba.rola", out _));
+        // Rola nie pochodzi z rejestru — to odpowiedź osoby demo (źródło „user”), do poprawienia na „Sprawdź dane”.
+        Assert.Equal("user", applicant.GetProperty("osoba.rola").GetProperty("source").GetString());
     }
 
     [Fact]
@@ -159,7 +160,8 @@ public sealed class SimulationTests : IDisposable
         Assert.Equal("urodzenie", caseFacts.GetProperty("zdarzenie.rodzaj").GetProperty("value").GetString());
         Assert.Equal("usc", caseFacts.GetProperty("zdarzenie.rodzaj").GetProperty("source").GetString());
         Assert.Equal("2026-10-08", caseFacts.GetProperty("zdarzenie.data").GetProperty("value").GetString());
-        Assert.False(caseFacts.TryGetProperty("zdarzenie.dlaKogo", out _));
+        Assert.Equal("usc", caseFacts.GetProperty("zdarzenie.data").GetProperty("source").GetString());
+        Assert.Equal("user", caseFacts.GetProperty("zdarzenie.dlaKogo").GetProperty("source").GetString());
     }
 
     [Fact]
@@ -201,7 +203,41 @@ public sealed class SimulationTests : IDisposable
         using var facts = await GetJsonAsync(client, "/api/sim/me/facts", sessionId);
 
         Assert.False(facts.RootElement.GetProperty("sprawa").TryGetProperty("dziecko.dataUrodzenia", out _));
-        Assert.False(facts.RootElement.GetProperty("sprawa").TryGetProperty("zdarzenie.rodzaj", out _));
+    }
+
+    [Fact]
+    public async Task Demo_person_answers_arrive_as_user_facts()
+    {
+        using var client = CreateFactory().CreateClient();
+        var (sessionId, _) = await LoginAsync(client, "anna-przyklad");
+        using var facts = await GetJsonAsync(client, "/api/sim/me/facts", sessionId);
+        var caseFacts = facts.RootElement.GetProperty("sprawa");
+        var applicant = facts.RootElement.GetProperty("wnioskodawca");
+
+        foreach (var (key, value) in new[] { ("zdarzenie.rodzaj", "ciaza"), ("zdarzenie.data", "2027-03-15"), ("zdarzenie.dlaKogo", "ja") })
+        {
+            Assert.Equal(value, caseFacts.GetProperty(key).GetProperty("value").GetString());
+            Assert.Equal("user", caseFacts.GetProperty(key).GetProperty("source").GetString());
+        }
+
+        Assert.Equal(1, caseFacts.GetProperty("dziecko.liczba").GetProperty("value").GetInt32());
+        Assert.Equal("matka", applicant.GetProperty("osoba.rola").GetProperty("value").GetString());
+        Assert.Equal("user", applicant.GetProperty("osoba.rola").GetProperty("source").GetString());
+        // Dane z rejestrów nadal z integracji, nie z pliku osoby.
+        Assert.Equal("zus", applicant.GetProperty("ubezpieczenie.tytuly").GetProperty("source").GetString());
+    }
+
+    [Fact]
+    public async Task Partner_answers_of_demo_person_are_returned_with_partner_titles()
+    {
+        using var client = CreateFactory().CreateClient();
+        var (sessionId, _) = await LoginAsync(client, "tadeusz-demo");
+        using var facts = await GetJsonAsync(client, "/api/sim/me/facts", sessionId);
+        var partner = facts.RootElement.GetProperty("drugiRodzic");
+
+        Assert.Equal("matka", partner.GetProperty("osoba.rola").GetProperty("value").GetString());
+        Assert.Equal("user", partner.GetProperty("osoba.rola").GetProperty("source").GetString());
+        Assert.Equal("zus", partner.GetProperty("ubezpieczenie.tytuly").GetProperty("source").GetString());
     }
 
     [Fact]

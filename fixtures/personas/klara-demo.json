@@ -25,13 +25,13 @@
       },
       "dziecko.liczba": {
         "value": 1,
-        "source": "assumption"
+        "source": "user"
       }
     },
     "wnioskodawca": {
       "osoba.rola": {
         "value": "matka",
-        "source": "assumption"
+        "source": "user"
       },
       "osoba.dataUrodzenia": {
         "value": "1992-03-18",

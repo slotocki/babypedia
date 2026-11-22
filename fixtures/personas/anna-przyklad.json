@@ -15,10 +15,10 @@
       "zdarzenie.rodzaj": { "value": "ciaza", "source": "user" },
       "zdarzenie.data": { "value": "2027-03-15", "source": "user" },
       "zdarzenie.dlaKogo": { "value": "ja", "source": "user" },
-      "dziecko.liczba": { "value": 1, "source": "assumption" }
+      "dziecko.liczba": { "value": 1, "source": "user" }
     },
     "wnioskodawca": {
-      "osoba.rola": { "value": "matka", "source": "assumption" },
+      "osoba.rola": { "value": "matka", "source": "user" },
       "osoba.dataUrodzenia": { "value": "1994-05-12", "source": "mobywatel" },
       "ubezpieczenie.tytuly": {
         "source": "zus",
