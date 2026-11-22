@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import type { CaseSummary } from '@/app/api/types'
 import { paths } from '@/app/paths'
 import { EmptyState, ErrorState, Spinner, cn } from '@/ui'
-import { agreementLabel, decisionLabel } from './decision'
+import { agreementLabel, decisionLabel, tidyTitle } from './decision'
 import type { useLoadCase } from './useLoadCase'
 
 type LoadState = ReturnType<typeof useLoadCase>
@@ -39,7 +39,7 @@ export function CaseList({ cases, loader }: { cases: CaseSummary[]; loader: Load
               type="button"
               disabled={!item.dostepna || loader.busy}
               onClick={() => void loader.load(item)}
-              aria-label={`Wybierz sprawę: ${item.tytul}`}
+              aria-label={`Wybierz sprawę: ${tidyTitle(item.tytul)}`}
               className={cn(
                 tile,
                 item.dostepna
@@ -58,7 +58,7 @@ export function CaseList({ cases, loader }: { cases: CaseSummary[]; loader: Load
                 </span>
                 {name ? <span className="text-xs font-semibold text-ink-soft">{name}</span> : null}
               </span>
-              <span className="text-base font-semibold leading-snug text-ink first-letter:uppercase">{item.tytul}</span>
+              <span className="text-base font-semibold leading-snug text-ink">{tidyTitle(item.tytul)}</span>
               {item.zgodnosc ? <span className="text-sm text-ink-soft">{agreementLabel[item.zgodnosc]}</span> : null}
               <span className="mt-auto pt-1 text-sm font-bold text-brand-strong">
                 {loading ? (

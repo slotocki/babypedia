@@ -18,7 +18,7 @@ const linkClass = (isActive: boolean) =>
   )
 
 export function Layout() {
-  const { sessionId } = useCaseState()
+  const { sessionId, caseId } = useCaseState()
 
   return (
     <div className="flex min-h-dvh flex-col bg-canvas text-ink">
@@ -43,7 +43,7 @@ export function Layout() {
               {sessionId ? (
                 <li>
                   <NavLink to={paths.account} className={({ isActive }) => linkClass(isActive)}>
-                    <UserIcon className="size-4" /> Moje konto
+                    <UserIcon className="size-4" /> {caseId ? 'Sprawa testowa' : 'Moje konto'}
                   </NavLink>
                 </li>
               ) : null}
