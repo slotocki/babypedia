@@ -174,7 +174,7 @@ export function applyExtraFacts(facts: FactSet, person: PersonRef, extras: Extra
 
 type Issue = (path: string, message: string) => void
 
-const DATE_HINT = 'Wybierz datę z kalendarza albo wpisz ją w formacie rrrr-mm-dd.'
+const DATE_HINT = 'Wpisz ją jako dzień, miesiąc i rok, np. 15.03.2027, albo wybierz z kalendarza.'
 
 /** Walidacja dodatkowych sekcji; `path` to prefiks pola w formularzu (np. „praca.extras”). */
 export function checkExtras(e: ExtrasAnswers, path: string, mainOd: string, mainForma: string, scope: ExtrasScope, issue: Issue) {

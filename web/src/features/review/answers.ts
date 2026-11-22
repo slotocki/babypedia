@@ -51,7 +51,7 @@ export function isDraftEmpty(kind: FactKind, draft: Draft): boolean {
 
 const dateSchema = z
   .string()
-  .refine(isValidIsoDate, 'Wybierz datę z kalendarza albo wpisz ją w formacie rrrr-mm-dd, np. 2027-03-15.')
+  .refine(isValidIsoDate, 'Wpisz dzień, miesiąc i rok, np. 15.03.2027, albo wybierz datę z kalendarza.')
 
 const normalizeNumber = (text: string) => text.replace(/[\s]/g, '').replace(',', '.')
 

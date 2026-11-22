@@ -6,7 +6,7 @@ import { z } from 'zod'
 import type { EventKind, FactSet, MotherSituationKind, ParentRole } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
-import { addDaysIso, isValidIsoDate, todayIso } from '@/features/review/dates'
+import { addDaysIso, eventDateIssue, isValidIsoDate, todayIso } from '@/features/review/dates'
 import { calculationScopeLabels, eventKindLabels } from '@/features/review/fact-labels'
 import { getFact, userFactOf, withFact } from '@/features/review/facts'
 import { Button, Card, DateInput, Field, MoneyInput, NumberInput, PageHeader, RadioGroup, Select, TextInput, type ChoiceOption } from '@/ui'
@@ -22,8 +22,6 @@ const roles = ['matka', 'ojciec']
 const workFormValues = ['pracownik', 'zleceniobiorca', 'dzialalnosc', 'brak']
 const childStates = ['zyje', 'martwe', 'zmarlo']
 const motherSituationValues = ['brak', 'pobyt_w_szpitalu', 'niezdolnosc_do_samodzielnej_egzystencji', 'zgon', 'porzucenie_dziecka']
-/** Jak daleko wstecz przyjmujemy termin porodu przy „Jestem w ciąży” (sprawy z poprzednich lat). */
-const PAST_PREGNANCY_YEARS = 5
 /** Krok „Szczególne okoliczności” ma sens tylko przy ciąży, porodzie i przyjęciu dziecka. */
 const hasCircumstances = (rodzaj: string) => rodzaj === 'ciaza' || rodzaj === 'urodzenie' || rodzaj === 'przyjecie'
 
@@ -50,8 +48,8 @@ function checkWork(w: WorkAnswers, prefix: 'praca' | 'drugi', issue: Issue, toda
     return
   }
   if (w.forma === 'brak') return
-  if (!w.od) at('od', 'Podaj datę początku umowy lub działalności. Wybierz ją z kalendarza albo wpisz w formacie rrrr-mm-dd.')
-  else if (!isValidIsoDate(w.od)) at('od', `Ta data wygląda nieprawidłowo. Wpisz ją w formacie rrrr-mm-dd, np. ${today}.`)
+  if (!w.od) at('od', 'Podaj datę początku umowy lub działalności. Wpisz ją jako dzień, miesiąc i rok, np. 15.03.2027.')
+  else if (!isValidIsoDate(w.od)) at('od', `Ta data wygląda nieprawidłowo. Wpisz dzień, miesiąc i rok, np. 15.03.2027.`)
   else if (w.od > today) at('od', 'Ta data jest z przyszłości. Podaj, od kiedy umowa lub działalność już trwa.')
 
   if (w.forma !== 'pracownik' && w.chorobowe !== 'tak' && w.chorobowe !== 'nie') at('chorobowe', 'Wybierz „Tak” albo „Nie”.')
@@ -59,7 +57,7 @@ function checkWork(w: WorkAnswers, prefix: 'praca' | 'drugi', issue: Issue, toda
   if (contract) {
     if (w.czasOkreslony !== 'tak' && w.czasOkreslony !== 'nie') at('czasOkreslony', 'Wybierz „Tak” albo „Nie”.')
     if (w.czasOkreslony === 'tak' && w.umowaDo) {
-      if (!isValidIsoDate(w.umowaDo)) at('umowaDo', 'Ta data wygląda nieprawidłowo. Wpisz ją w formacie rrrr-mm-dd albo zostaw pole puste.')
+      if (!isValidIsoDate(w.umowaDo)) at('umowaDo', 'Ta data wygląda nieprawidłowo. Wpisz dzień, miesiąc i rok, np. 15.03.2027, albo zostaw pole puste.')
       else if (isValidIsoDate(w.od) && w.umowaDo < w.od) at('umowaDo', 'Umowa nie może skończyć się przed jej początkiem.')
     }
     if (!['tak', 'nie', 'nie_wiem'].includes(w.ponad20)) at('ponad20', 'Wybierz odpowiedź. Jeśli nie wiesz, wybierz „Nie wiem”.')
@@ -105,11 +103,11 @@ const schema = z
     const today = todayIso()
     const checkDate = (value: string, path: string, required: boolean, label: string) => {
       if (!value) {
-        if (required) issue(path, `Podaj ${label}. Wybierz datę z kalendarza albo wpisz ją w formacie rrrr-mm-dd.`)
+        if (required) issue(path, `Podaj ${label}. Wpisz dzień, miesiąc i rok, np. 15.03.2027, albo wybierz z kalendarza.`)
         return false
       }
       if (!isValidIsoDate(value)) {
-        issue(path, `Ta data wygląda nieprawidłowo. Wybierz ją z kalendarza albo wpisz w formacie rrrr-mm-dd, np. ${today}.`)
+        issue(path, `Ta data wygląda nieprawidłowo. Wpisz dzień, miesiąc i rok, np. 15.03.2027, albo wybierz z kalendarza.`)
         return false
       }
       return true
@@ -118,33 +116,22 @@ const schema = z
     if (!eventKinds.includes(v.rodzaj as EventKind)) issue('rodzaj', 'Wybierz, co się dzieje — od tego zależą dalsze pytania.')
     if (!scopes.includes(v.dlaKogo)) issue('dlaKogo', 'Wybierz, dla kogo liczymy — dla Ciebie czy dla Ciebie i drugiego rodzica.')
 
-    switch (v.rodzaj) {
-      case 'planuje':
-        if (checkDate(v.data, 'data', false, 'planowaną datę') && v.data < today)
-          issue('data', 'Ta data już minęła. Podaj datę z przyszłości albo zostaw pole puste.')
-        break
-      case 'ciaza':
-        if (checkDate(v.data, 'data', true, 'przewidywaną datę porodu')) {
-          // Termin z przeszłości jest dozwolony (sprawy z ubiegłych lat): silnik liczy okresy od tej daty, a zwolnienia z ciąży wpisuje się w kroku o pracy.
-          if (v.data < addDaysIso(today, -365 * PAST_PREGNANCY_YEARS))
-            issue('data', `Ta data jest sprzed ponad ${PAST_PREGNANCY_YEARS} lat. Jeśli dziecko się urodziło, wybierz „Wróć”, a potem „Dziecko się urodziło”.`)
-          else if (v.data > addDaysIso(today, 330))
-            issue('data', 'Ta data jest zbyt odległa jak na termin porodu. Sprawdź ją w karcie ciąży.')
-        }
-        break
-      case 'urodzenie':
-        if (checkDate(v.data, 'data', true, 'datę urodzenia dziecka') && v.data > today)
-          issue('data', 'Data urodzenia nie może być z przyszłości. Jeśli dziecko jeszcze się nie urodziło, wybierz „Jestem w ciąży”.')
-        break
-      case 'przyjecie': {
-        const received = checkDate(v.data, 'data', true, 'datę przyjęcia dziecka')
-        if (received && v.data > addDaysIso(today, 365)) issue('data', 'Ta data jest zbyt odległa. Sprawdź ją jeszcze raz.')
-        const born = checkDate(v.dataDziecka, 'dataDziecka', true, 'datę urodzenia przyjmowanego dziecka')
-        if (born && v.dataDziecka > today) issue('dataDziecka', 'Data urodzenia dziecka nie może być z przyszłości.')
-        else if (born && received && v.dataDziecka > v.data)
-          issue('dataDziecka', 'Dziecko nie mogło urodzić się po dacie przyjęcia. Sprawdź obie daty.')
-        break
-      }
+    const labels: Record<string, string> = {
+      planuje: 'planowaną datę',
+      ciaza: 'przewidywaną datę porodu',
+      urodzenie: 'datę urodzenia dziecka',
+      przyjecie: 'datę przyjęcia dziecka',
+    }
+    if (v.rodzaj in labels && checkDate(v.data, 'data', v.rodzaj !== 'planuje', labels[v.rodzaj])) {
+      const problem = eventDateIssue(v.rodzaj, v.data, today)
+      if (problem) issue('data', problem)
+    }
+    if (v.rodzaj === 'przyjecie') {
+      const received = isValidIsoDate(v.data)
+      const born = checkDate(v.dataDziecka, 'dataDziecka', true, 'datę urodzenia przyjmowanego dziecka')
+      if (born && v.dataDziecka > today) issue('dataDziecka', 'Data urodzenia dziecka nie może być z przyszłości.')
+      else if (born && received && v.dataDziecka > v.data)
+        issue('dataDziecka', 'Dziecko nie mogło urodzić się po dacie przyjęcia. Sprawdź obie daty.')
     }
 
     const children = Number(v.liczbaDzieci)

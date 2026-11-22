@@ -5,6 +5,7 @@ import { api } from '@/app/api/client'
 import type { FactSet } from '@/app/api/types'
 import { emptyFacts, useCaseState, type DataConnection, type DataSource } from '@/app/case-context'
 import { paths } from '@/app/paths'
+import { rememberExampleAnswers } from '@/features/review/examples'
 import { mergeIntegrationFacts } from '@/features/review/facts'
 import { findKind, submissionFormPath } from '@/features/submissions/kinds'
 import { dataSources } from '@/features/zus-data/labels'
@@ -74,6 +75,8 @@ export function LoginPage() {
         connectProfile(sessionId, profileName, link)
         navigate(requestedKind ? submissionFormPath(requestedKind.id) : paths.submissions, { replace: true })
       } else {
+        // Odpowiedzi zapisane w pliku osoby testowej oznaczamy na „Sprawdź dane” jako przykład do poprawienia.
+        rememberExampleAnswers(sessionId, facts)
         replaceCase(facts, sessionId, null, profileName, link)
         navigate(paths.review)
       }

@@ -1,9 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import type { FactSet } from '@/app/api/types'
-import { Button, Section, SourceBadge } from '@/ui'
+import { Button, Section, SourceBadge, UserIcon } from '@/ui'
 import { AnswerField } from './AnswerField'
 import { draftFromValue, parseDraft, type Draft } from './answers'
 import { factKeyOrder, factMeta, formatFactValue, isFactKey, labelFor, optionsOf } from './fact-labels'
+import { isExampleAnswer } from './examples'
 import { factsIn, type AnyFact, type Bucket } from './facts'
 
 const groups: { bucket: Bucket; title: string; empty: string }[] = [
@@ -16,6 +17,8 @@ interface FactListProps {
   facts: FactSet
   onChange: (bucket: Bucket, key: string, value: unknown) => void
   subset?: 'essential' | 'other'
+  /** Sesja symulowanego logowania — odpowiedzi z pliku osoby testowej oznaczamy jako przykład. */
+  sessionId?: string | null
 }
 
 const essentialKeys = new Set([
@@ -23,7 +26,7 @@ const essentialKeys = new Set([
   'osoba.rola', 'ubezpieczenie.tytuly', 'skladki.zadluzenie', 'podstawa.ustalonaPrzezPlatnika',
 ])
 
-export function FactList({ facts, onChange, subset }: FactListProps) {
+export function FactList({ facts, onChange, subset, sessionId = null }: FactListProps) {
   const [editing, setEditing] = useState<string | null>(null)
   const showSecond = Boolean(facts.drugiRodzic) || facts.sprawa['zdarzenie.dlaKogo']?.value === 'ja_i_drugi_rodzic'
 
@@ -52,6 +55,7 @@ export function FactList({ facts, onChange, subset }: FactListProps) {
                         factKey={key}
                         fact={map[key] as AnyFact}
                         facts={facts}
+                        example={isExampleAnswer(sessionId, group.bucket, key, map[key])}
                         editing={editing === rowId}
                         onEdit={() => setEditing(rowId)}
                         onCancel={() => closeEditor(rowId, setEditing)}
@@ -81,13 +85,14 @@ interface FactRowProps {
   factKey: string
   fact: AnyFact
   facts: FactSet
+  example: boolean
   editing: boolean
   onEdit: () => void
   onCancel: () => void
   onSave: (value: unknown) => void
 }
 
-function FactRow({ rowId, factKey, fact, facts, editing, onEdit, onCancel, onSave }: FactRowProps) {
+function FactRow({ rowId, factKey, fact, facts, example, editing, onEdit, onCancel, onSave }: FactRowProps) {
   const meta = isFactKey(factKey) ? factMeta[factKey] : undefined
   const label = labelFor(factKey, facts)
   const editable = meta !== undefined && meta.kind !== 'readonly'
@@ -125,7 +130,15 @@ function FactRow({ rowId, factKey, fact, facts, editing, onEdit, onCancel, onSav
           ) : (
             <p className="break-words text-base font-semibold text-ink">{lines[0]}</p>
           )}
-          <SourceBadge source={fact.source} className="pt-1" />
+          {example ? (
+            <span className="inline-flex items-center gap-1.5 rounded-pill border border-line-strong bg-surface px-2.5 py-0.5 text-sm font-medium text-ink-soft">
+              <UserIcon className="size-4 shrink-0" />
+              <span className="sr-only">Źródło: </span>
+              Twoje odpowiedzi (przykład)
+            </span>
+          ) : (
+            <SourceBadge source={fact.source} className="pt-1" />
+          )}
         </div>
         {editable && !editing ? (
           <Button
