@@ -4,6 +4,7 @@ import { TextInput, type TextInputProps } from './TextInput'
 import { useFieldControl } from './field-context'
 import { CalendarIcon } from './icons'
 import { cn } from './cn'
+import { displayDate, isoDate, maskDate, outwardDate, parseDate } from './date-text'
 
 /**
  * Pole daty. Na zewnątrz (value / onChange / register z React Hook Form) zawsze RRRR-MM-DD, a w polu
@@ -19,47 +20,9 @@ const monthNames = Array.from({ length: 12 }, (_, month) =>
 const dayLabel = new Intl.DateTimeFormat('pl-PL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
 const years = Array.from({ length: 301 }, (_, index) => 1900 + index)
 const weekdays = ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'Nd']
-const pad = (value: number) => String(value).padStart(2, '0')
-const isoDate = (year: number, month: number, day: number) => `${year}-${pad(month + 1)}-${pad(day)}`
-
-function validIso(year: number, month: number, day: number): string | null {
-  if (year < 1900 || year > 2200 || month < 1 || month > 12 || day < 1) return null
-  const date = new Date(Date.UTC(year, month - 1, day))
-  return date.getUTCMonth() === month - 1 && date.getUTCDate() === day ? isoDate(year, month - 1, day) : null
-}
-
-/** Tekst wpisany przez użytkownika → RRRR-MM-DD albo null, gdy to nie jest pełna, istniejąca data. */
-function parseDate(text: string): string | null {
-  const t = text.trim().replace(/\s*([.\-/])\s*/g, '$1')
-  let m = /^(\d{1,2})[.\-/ ](\d{1,2})[.\-/ ](\d{4})$/.exec(t)
-  if (m) return validIso(Number(m[3]), Number(m[2]), Number(m[1]))
-  m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(t)
-  if (m) return validIso(Number(m[1]), Number(m[2]), Number(m[3]))
-  const digits = t.replace(/\./g, '')
-  if (/^[\d.]+$/.test(t) && /^\d{8}$/.test(digits)) {
-    return (
-      validIso(Number(digits.slice(4)), Number(digits.slice(2, 4)), Number(digits.slice(0, 2))) ??
-      validIso(Number(digits.slice(0, 4)), Number(digits.slice(4, 6)), Number(digits.slice(6)))
-    )
-  }
-  return null
-}
-
-const isIso = (value: string) => /^\d{4}-\d{2}-\d{2}$/.test(value) && parseDate(value) === value
-
-/** RRRR-MM-DD → DD.MM.RRRR; inne wartości bez zmian. */
-const display = (value: string) => (isIso(value) ? value.split('-').reverse().join('.') : value)
-
-/** Same cyfry → DD.MM.RRRR w trakcie pisania (np. „1503” → „15.03”). */
-function mask(digits: string): string {
-  const d = digits.slice(0, 8)
-  if (d.length <= 2) return d
-  if (d.length <= 4) return `${d.slice(0, 2)}.${d.slice(2)}`
-  return `${d.slice(0, 2)}.${d.slice(2, 4)}.${d.slice(4)}`
-}
-
-/** Co przekazujemy na zewnątrz dla danego tekstu: datę ISO albo (po opuszczeniu pola) tekst do walidacji. */
-const outward = (text: string) => parseDate(text) ?? text.trim()
+const display = displayDate
+const mask = maskDate
+const outward = outwardDate
 
 const monthOf = (value?: string) => {
   const match = /^(\d{4})-(0[1-9]|1[0-2])-\d{2}$/.exec(value ?? '')

@@ -32,7 +32,7 @@ jobs:
       - run: dotnet test --solution api/BabyRadnik.slnx --no-build -c Release
 
   web:
-    name: Web — typecheck, lint, build
+    name: Web — typecheck, lint, build, testy
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -48,3 +48,34 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run build
+      - run: npm test
+
+  e2e:
+    name: Web — testy e2e (Playwright)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      # Build API przed testami, żeby limit czasu webServer nie obejmował restore/kompilacji.
+      - run: dotnet build ../api/Api
+      - run: npm run e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            web/playwright-report/
+            web/test-results/
+          retention-days: 7
