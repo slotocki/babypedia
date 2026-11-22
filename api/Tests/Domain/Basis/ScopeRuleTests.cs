@@ -174,12 +174,70 @@ public sealed class ScopeRuleTests
     }
 
     [Fact]
-    public void Title_business_without_sickness_insurance_next_to_employment_is_not_decided()
+    public void Title_business_without_sickness_insurance_next_to_employment_does_not_block_the_employee_basis()
     {
         var business = new InsuranceTitle(TitleKind.Dzialalnosc, D("2024-01-01"), null, SicknessInsurance.Brak);
         var result = Assess(Person([Employee("2020-01-01"), business], Contributions("2025-03", 12, 8000), [], []));
 
+        Assert.Equal(BasisOutcome.Determined, result.Outcome);
+        Assert.Equal(Assess(FullTimeEmployee(8000)).Basis, result.Basis);
+    }
+
+    [Fact]
+    public void Title_code_change_of_the_same_business_without_a_break_counts_all_twelve_months()
+    {
+        var contributions = Override(Override(Contributions("2025-03", 12, 1000), "2026-01", 5000), "2026-02", 5000);
+        var changed = Person(
+            [Business("2024-01-01", to: "2025-12-31") with { KodTytulu = "0590" }, Business("2026-01-01") with { KodTytulu = "0510" }],
+            contributions, [], []);
+        var continuous = Person([Business("2024-01-01")], contributions, [], []);
+
+        var result = Assess(changed);
+
+        Assert.Equal(BasisOutcome.Determined, result.Outcome);
+        Assert.Equal(12, result.Months.Count(m => m.Included));
+        Assert.Equal(Assess(continuous).Basis, result.Basis);
+    }
+
+    [Fact]
+    public void Title_business_restarted_after_a_break_is_still_not_decided()
+    {
+        var person = Person(
+            [Business("2024-01-01", to: "2025-12-15"), Business("2026-01-01")],
+            Contributions("2025-03", 12, 1000), [], []);
+
+        var result = Assess(person);
+
         Assert.Equal(BasisOutcome.Undecided, result.Outcome);
+        Assert.Contains("art. 48a ust. 2–4", result.Message);
+    }
+
+    [Fact]
+    public void Title_employer_change_without_a_break_is_not_decided_because_only_the_current_payer_counts()
+    {
+        var person = Person(
+            [Employee("2020-01-01", "2025-10-31") with { PlatnikId = "1111111111" }, Employee("2025-11-01") with { PlatnikId = "2222222222" }],
+            Contributions("2025-03", 12, 8000), [], []);
+
+        var result = Assess(person);
+
+        Assert.Equal(BasisOutcome.Undecided, result.Outcome);
+        Assert.Contains("Zmiana pracodawcy", result.Message);
+        Assert.Contains("art. 36 ust. 4", result.Message);
+    }
+
+    [Fact]
+    public void Title_new_contract_with_the_same_employer_counts_all_twelve_months()
+    {
+        var person = Person(
+            [Employee("2020-01-01", "2025-10-31") with { PlatnikId = "1111111111" }, Employee("2025-11-01") with { PlatnikId = "1111111111" }],
+            Contributions("2025-03", 12, 8000), [], []);
+
+        var result = Assess(person);
+
+        Assert.Equal(6903.20m, result.Basis);
+        Assert.Equal(12, result.Months.Count(m => m.Included));
+        Assert.DoesNotContain(result.Trace, t => t.Text.Contains("brak identyfikatora płatnika", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -193,7 +251,7 @@ public sealed class ScopeRuleTests
     }
 
     [Fact]
-    public void Title_continuous_employment_across_employers_counts_all_twelve_months()
+    public void Title_consecutive_employments_with_unknown_payer_are_chained_and_the_assumption_is_said()
     {
         var person = Person(
             [Employee("2020-01-01", "2025-10-31"), Employee("2025-11-01")],
@@ -203,6 +261,7 @@ public sealed class ScopeRuleTests
 
         Assert.Equal(6903.20m, result.Basis);
         Assert.Equal(12, result.Months.Count(m => m.Included));
+        Assert.Contains(result.Trace, t => t.Rule == "tytul_ubezpieczenia_podstawy" && t.Text.Contains("brak identyfikatora płatnika", StringComparison.Ordinal));
     }
 
     [Fact]

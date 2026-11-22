@@ -82,6 +82,18 @@ public sealed class InsuredTitleRule : BasisRule<InsuredTitle>
 
     private static bool IsBusiness(InsuranceTitle t) => t.RodzajTytulu is TitleKind.Dzialalnosc or TitleKind.OsobaWspolpracujaca;
 
+    /// <summary>Obaj płatnicy są znani i różni (brak identyfikatora = nie wiadomo, traktujemy jak tego samego płatnika).</summary>
+    private static bool OtherPayer(InsuranceTitle a, InsuranceTitle b) =>
+        a.PlatnikId is { } x && b.PlatnikId is { } y && !string.Equals(x, y, StringComparison.OrdinalIgnoreCase);
+
+    /// <summary><paramref name="previous"/> kończy się najpóźniej dzień przed <paramref name="next"/>, jest tego samego rodzaju, z chorobowym i u tego samego płatnika.</summary>
+    private static bool Continues(InsuranceTitle previous, InsuranceTitle next) =>
+        previous.RodzajTytulu == next.RodzajTytulu
+        && (next.RodzajTytulu == TitleKind.Pracownik ? previous.Chorobowe == SicknessInsurance.Obowiazkowe : previous.Chorobowe != SicknessInsurance.Brak)
+        && previous.Od < next.Od
+        && previous.Do is { } end && end >= next.Od.AddDays(-1)
+        && !OtherPayer(previous, next);
+
     protected override BasisStep<InsuredTitle> Compute(BasisInputs i)
     {
         var titles = i.Me?.UbezpieczenieTytuly?.Value;
@@ -103,10 +115,11 @@ public sealed class InsuredTitleRule : BasisRule<InsuredTitle>
         }
 
         var title = active[0];
-        if (active.Count > 1 || (!IsBusiness(title) && activeAll.Any(t => t.Chorobowe == SicknessInsurance.Brak && IsBusiness(t))))
+        if (active.Count > 1)
         {
+            // Tytuł bez ubezpieczenia chorobowego (np. działalność tylko ze składką zdrowotną) nie wpływa na podstawę — liczy się tylko zbieg tytułów z chorobowym.
             return BasisSteps.Undecided<InsuredTitle>(this,
-                "W tym dniu obowiązuje więcej niż jeden tytuł ubezpieczenia (zbieg tytułów) albo działalność obok zatrudnienia. Przepisy z wyciągu nie rozstrzygają, z którego tytułu liczyć podstawę.");
+                "W tym dniu obowiązuje kilka tytułów z ubezpieczeniem chorobowym (zbieg tytułów). Zasiłek przysługuje z każdego z nich, a podstawę ustala się odrębnie dla każdego tytułu z wynagrodzenia lub przychodu u danego płatnika (art. 36 ust. 4, art. 48 ust. 2) — poziom 1 nie liczy kilku podstaw naraz.");
         }
 
         if (title.RodzajTytulu is not (TitleKind.Pracownik or TitleKind.Zleceniobiorca or TitleKind.Dzialalnosc or TitleKind.OsobaWspolpracujaca))
@@ -118,16 +131,19 @@ public sealed class InsuredTitleRule : BasisRule<InsuredTitle>
         var employee = title.RodzajTytulu == TitleKind.Pracownik;
         var chain = new List<InsuranceTitle> { title };
         var from = title.Od;
-        if (employee)
+        var current = title;
+        if (employee || IsBusiness(title))
         {
+            // Kolejne tytuły tego samego rodzaju bez przerwy i u tego samego płatnika to jedno nieprzerwane ubezpieczenie
+            // (np. nowa umowa u tego samego pracodawcy albo zmiana kodu tytułu tej samej działalności, 0590 → 0510).
             while (titles
-                       .Where(t => !chain.Contains(t) && t.RodzajTytulu == TitleKind.Pracownik && t.Chorobowe == SicknessInsurance.Obowiazkowe
-                                   && t.Od < from && t.Do is { } end && end >= from.AddDays(-1))
+                       .Where(t => !chain.Contains(t) && Continues(t, current))
                        .OrderBy(t => t.Od)
                        .FirstOrDefault() is { } previous)
             {
                 chain.Add(previous);
                 from = previous.Od;
+                current = previous;
             }
         }
 
@@ -145,6 +161,12 @@ public sealed class InsuredTitleRule : BasisRule<InsuredTitle>
         {
             var concurrent = other.Od < day && (other.Do is null || other.Do >= effectiveFrom);
             var closePredecessor = other.Do is { } end && end < from && from.DayNumber - end.DayNumber <= MaxBreakDays && from > windowStart;
+            if (employee && !concurrent && from > windowStart && other.Do is { } otherEnd && otherEnd >= from.AddDays(-1) && other.RodzajTytulu == TitleKind.Pracownik && OtherPayer(other, current))
+            {
+                return BasisSteps.Undecided<InsuredTitle>(this,
+                    $"Zmiana pracodawcy bez przerwy w ubezpieczeniu: poprzednie zatrudnienie u innego płatnika ({other.PlatnikNazwa ?? other.PlatnikId}) trwało do {otherEnd:yyyy-MM-dd}. Podstawę ustala się z wynagrodzenia u płatnika, u którego trwa ubezpieczenie (art. 36 ust. 4), więc wynagrodzeń od poprzedniego płatnika nie wliczam; przy krótkim zatrudnieniu u obecnego płatnika potrzebne są dane z umowy (art. 37), a przy przejęciu zakładu pracy (art. 23¹ KP) zasady są inne — poziom 1 tego nie liczy.");
+            }
+
             if (concurrent || closePredecessor)
             {
                 return BasisSteps.Undecided<InsuredTitle>(this,
@@ -169,8 +191,11 @@ public sealed class InsuredTitleRule : BasisRule<InsuredTitle>
             TitleKind.Dzialalnosc => "prowadzący działalność",
             _ => "osoba współpracująca",
         };
+        var payerAssumed = chain.Count > 1 && chain.Any(t => t.PlatnikId is null)
+            ? " Kolejne tytuły połączono jako jedno ubezpieczenie u tego samego płatnika (w danych brak identyfikatora płatnika) — jeśli to była zmiana pracodawcy, podstawę liczy się tylko z wynagrodzenia u obecnego (art. 36 ust. 4)."
+            : "";
         return BasisSteps.Met(this, new InsuredTitle(title, employee, from, chain),
-            $"Tytuł: {kind}; ubezpieczenie chorobowe nieprzerwanie od {Fmt.Date(from)} — stosuję zasady dla {(employee ? "pracowników (art. 36–42, 45)" : "osób niebędących pracownikami (art. 48–50)")}.",
+            $"Tytuł: {kind}; ubezpieczenie chorobowe nieprzerwanie od {Fmt.Date(from)} — stosuję zasady dla {(employee ? "pracowników (art. 36–42, 45)" : "osób niebędących pracownikami (art. 48–50)")}.{payerAssumed}",
             condition);
     }
 }

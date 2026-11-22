@@ -241,7 +241,7 @@ Który dzień wybiera parametr: wymiary — dzień porodu lub przyjęcia dziecka
 | Kontrola zadłużenia (art. 2a) | nie | nie | **tak** | — |
 | Ochrona stosunku pracy (KP art. 177) | tak | nie | nie | — |
 
-W kodzie rozdziel `okres zasiłku` (każdy ubezpieczony) od `wniosek o urlop` (tylko pracownik). Zbieg tytułów → `nie_rozstrzygam`.
+W kodzie rozdziel `okres zasiłku` (każdy ubezpieczony) od `wniosek o urlop` (tylko pracownik). Zbieg tytułów z chorobowym → prawo `przysługuje` z każdego tytułu (art. 57 ust. 1c, art. 61 ust. 4), a podstawa, kwota i płatnik każdego tytułu → `nie_rozstrzygam`. Tytuł bez chorobowego (np. działalność tylko ze składką zdrowotną obok etatu) nie tworzy zbiegu.
 
 ### 8.3. Prawo do zasiłku macierzyńskiego (ustawa art. 29–30)
 

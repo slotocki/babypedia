@@ -23,7 +23,9 @@ public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityR
         switch (view.State)
         {
             case InsuranceState.Concurrent:
-                return Undecided("Zbieg tytułów ubezpieczenia — nie da się ocenić, czy art. 2a ma zastosowanie — nie rozstrzygam, skontaktuj się z ZUS.", condition, PodstawaPrawna);
+                return view.SicknessTitles.Any(t => Insurance.IsBusiness(t) || t.RodzajTytulu == TitleKind.Inny)
+                    ? Undecided("Zbieg tytułów, wśród których jest działalność, współpraca albo tytuł „inny”: kontrola zadłużenia z art. 2a dotyczy zasiłku z takiego tytułu, a nie z pozostałych — przy zbiegu tego nie rozdzielam, nie rozstrzygam, skontaktuj się z ZUS.", condition, PodstawaPrawna)
+                    : Met($"Żaden z tytułów z ubezpieczeniem chorobowym ({Insurance.Describe(view.SicknessTitles)}) nie podlega kontroli zadłużenia z art. 2a.", condition);
             case InsuranceState.Insured:
                 break;
             default:
@@ -176,7 +178,10 @@ public sealed class PaymentRouteRule(DateOnly? onDate = null, BenefitKindForDocu
             case InsuranceState.Unknown or InsuranceState.DeclaredInsured:
                 return Unknown(Missing("Bez rodzaju tytułu ubezpieczenia nie da się ustalić płatnika zasiłku.", condition, Ask.Titles(context.Person)));
             case InsuranceState.Concurrent:
-                return Unknown(Undecided("Zbieg tytułów ubezpieczenia — nie ustalam płatnika zasiłku, skontaktuj się z ZUS.", condition, PodstawaPrawna));
+                return Unknown(Undecided(
+                    $"Zbieg tytułów ({Insurance.Describe(view.SicknessTitles)}): zasiłek z każdego tytułu wypłaca osobno jego płatnik (płatnik składek albo ZUS, art. 61 ust. 1), a każdego płatnika trzeba poinformować o zasiłku z pozostałych tytułów (art. 61 ust. 4). Płatnika dla każdego tytułu osobno nie ustalam — skontaktuj się z płatnikami albo z ZUS.",
+                    condition,
+                    PodstawaPrawna));
             case InsuranceState.NotInsured or InsuranceState.DeclaredNotInsured:
                 return Route(Payer.Zus, ApplicationPlace.Zus, "Brak aktywnego tytułu ubezpieczenia w tym dniu — zasiłek wypłaca ZUS (art. 61 ust. 1 pkt 2 lit. d).", condition, BaseDocuments(documents), info);
         }

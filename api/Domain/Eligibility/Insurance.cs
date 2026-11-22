@@ -40,7 +40,14 @@ internal enum InsuranceState
     DeclaredNotInsured,
 }
 
-internal sealed record InsuranceView(InsuranceState State, InsuranceTitle? Title, IReadOnlyList<InsuranceTitle> ActiveWithoutSickness);
+/// <summary>
+/// Stan ubezpieczenia w danym dniu. Przy zbiegu tytułów (<see cref="InsuranceState.Concurrent"/>) <c>Title</c> jest pusty,
+/// a <c>SicknessTitles</c> zawiera wszystkie tytuły z ubezpieczeniem chorobowym — prawo do zasiłku istnieje z każdego z nich.
+/// </summary>
+internal sealed record InsuranceView(InsuranceState State, InsuranceTitle? Title, IReadOnlyList<InsuranceTitle> ActiveWithoutSickness)
+{
+    public IReadOnlyList<InsuranceTitle> SicknessTitles { get; init; } = Title is null ? [] : [Title];
+}
 
 internal static class Insurance
 {
@@ -71,18 +78,21 @@ internal static class Insurance
 
         if (sickness.Count > 1)
         {
-            return new InsuranceView(InsuranceState.Concurrent, null, other);
+            return new InsuranceView(InsuranceState.Concurrent, null, other) { SicknessTitles = sickness };
         }
 
         if (sickness.Count == 1)
         {
-            var title = sickness[0];
-            var businessWithoutSickness = other.Any(IsBusiness) && !IsBusiness(title);
-            return new InsuranceView(businessWithoutSickness ? InsuranceState.Concurrent : InsuranceState.Insured, title, other);
+            // Tytuł bez ubezpieczenia chorobowego (np. działalność opłacająca tylko składkę zdrowotną obok etatu)
+            // nie daje prawa do zasiłku i nie tworzy zbiegu — zasiłek przysługuje z jedynego tytułu z chorobowym.
+            return new InsuranceView(InsuranceState.Insured, sickness[0], other);
         }
 
         return new InsuranceView(InsuranceState.NotInsured, null, other);
     }
+
+    public static string Describe(IEnumerable<InsuranceTitle> titles) =>
+        string.Join(", ", titles.Select(t => $"{KindName(t.RodzajTytulu)} (chorobowe {SicknessName(t.Chorobowe)})"));
 
     public static string KindName(TitleKind kind) => kind switch
     {
