@@ -317,7 +317,17 @@ export interface SubmissionReceipt {
 
 export type CaseDecision = 'odmowa' | 'przyznanie' | 'do_odczytania'
 export type CaseAgreement = 'kwota' | 'okres' | 'decyzja'
-export interface CaseSummary { id: string; tytul: string; oczekiwanaDecyzja: CaseDecision; persona?: string | null; dostepna: boolean; zgodnosc?: CaseAgreement | null }
+export interface CaseConfirmedPeriod { swiadczenie: string; od: string; do: string; dni?: number | null; tygodnie?: number | null }
+export interface CaseSummary {
+  id: string
+  tytul: string
+  oczekiwanaDecyzja: CaseDecision
+  persona?: string | null
+  dostepna: boolean
+  zgodnosc?: CaseAgreement | null
+  /** Okresy świadczeń odczytane z akt sprawy ZUS. */
+  potwierdzoneOkresy?: CaseConfirmedPeriod[] | null
+}
 
 export type SupportSituation =
   | 'poronienie'

@@ -1,21 +1,8 @@
 import { useId } from 'react'
-import type { BenefitResult, CaseDecision, CaseSummary } from '@/app/api/types'
+import type { BenefitResult, CaseConfirmedPeriod, CaseDecision, CaseSummary } from '@/app/api/types'
 import { cn, formatDate } from '@/ui'
 import { benefitName } from '@/features/result/labels'
 import { decisionLabel } from './decision'
-
-/**
- * Okres świadczenia odczytany z akt sprawy ZUS (katalog spraw: `potwierdzoneOkresy`).
- * Pole jest opcjonalne — pokazujemy porównanie okresów tylko wtedy, gdy API je zwraca.
- */
-interface ConfirmedPeriod {
-  swiadczenie: string
-  od: string
-  do: string
-  dni?: number | null
-}
-
-type CaseWithRecords = CaseSummary & { potwierdzoneOkresy?: ConfirmedPeriod[] | null }
 
 export interface CaseDecisionComparisonProps {
   expected: CaseDecision | null | undefined
@@ -40,7 +27,7 @@ const outcomeLabel: Record<Outcome, string> = {
   brak: 'brak rozstrzygnięcia (brakuje danych albo trzeba zapytać ZUS)',
 }
 
-function PeriodRows({ records, benefits }: { records: ConfirmedPeriod[]; benefits: BenefitResult[] }) {
+function PeriodRows({ records, benefits }: { records: CaseConfirmedPeriod[]; benefits: BenefitResult[] }) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full min-w-[32rem] text-left text-sm">
@@ -88,7 +75,7 @@ export function CaseDecisionComparison({ expected, benefits, caseSummary, classN
       : outcome === 'brak'
         ? 'Wynik Kompasu Rodzica nie rozstrzyga sprawy, więc nie ma z czym porównać decyzji.'
         : null
-  const records = (caseSummary as CaseWithRecords | undefined)?.potwierdzoneOkresy ?? []
+  const records = caseSummary?.potwierdzoneOkresy ?? []
 
   return (
     <section aria-labelledby={headingId} className={cn('space-y-2 rounded-card border border-line bg-surface p-4', className)}>

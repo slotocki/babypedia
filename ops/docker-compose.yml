@@ -34,6 +34,7 @@ services:
       ASSISTANT_DAILY_LIMIT: ${ASSISTANT_DAILY_LIMIT:-250}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       OPENCODE_ENABLED: ${OPENCODE_ENABLED:-}
+      # Stara, błędnie zapisana nazwa OPENCODE_ENABLED — zostaje wyłącznie dla zgodności wstecz (np. starszy .env na serwerze).
       PENCODE_ENABLED: ${PENCODE_ENABLED:-}
       OPENCODE_API_KEY: ${OPENCODE_API_KEY:-}
       OPENCODE_MODEL: ${OPENCODE_MODEL:-deepseek-v4.1-flash}

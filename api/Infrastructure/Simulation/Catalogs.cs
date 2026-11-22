@@ -4,11 +4,16 @@ using Microsoft.Extensions.Logging;
 
 namespace BabyRadnik.Infrastructure.Simulation;
 
-public sealed record CaseSummary(string Id, string Tytul, string OczekiwanaDecyzja, string? Persona, bool Dostepna, string? Zgodnosc = null);
+/// <summary>Okres świadczenia odczytany z akt sprawy (do porównania z wynikiem silnika).</summary>
+public sealed record ConfirmedPeriod(string Swiadczenie, string Od, string Do, int? Dni = null, int? Tygodnie = null);
+
+public sealed record CaseSummary(string Id, string Tytul, string OczekiwanaDecyzja, string? Persona, bool Dostepna, string? Zgodnosc = null,
+    IReadOnlyList<ConfirmedPeriod>? PotwierdzoneOkresy = null);
 
 public sealed record CaseFile(string? Nazwa, int? LiczbaStron, IReadOnlyList<string>? Sha256);
 
-public sealed record CaseEntry(string Id, string Tytul, string OczekiwanaDecyzja, string? Persona, CaseFile? Plik, string? Zgodnosc = null);
+public sealed record CaseEntry(string Id, string Tytul, string OczekiwanaDecyzja, string? Persona, CaseFile? Plik, string? Zgodnosc = null,
+    IReadOnlyList<ConfirmedPeriod>? PotwierdzoneOkresy = null);
 
 public sealed class CaseCatalog
 {
@@ -43,7 +48,7 @@ public sealed class CaseCatalog
     }
 
     private CaseSummary Summarize(CaseEntry c) =>
-        new(c.Id, c.Tytul, c.OczekiwanaDecyzja, c.Persona, c.Persona is not null && _personas.Find(c.Persona) is not null, c.Zgodnosc);
+        new(c.Id, c.Tytul, c.OczekiwanaDecyzja, c.Persona, c.Persona is not null && _personas.Find(c.Persona) is not null, c.Zgodnosc, c.PotwierdzoneOkresy);
 
     public static CaseCatalog Load(RepoPaths paths, PersonaStore personas, ILogger logger)
     {

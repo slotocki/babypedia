@@ -96,7 +96,7 @@ export function ScenarioForm({ scenario, persons, totalWeeks, initial, serverErr
                 ? 'Od kiedy zaczynasz działalność?'
                 : 'W którym dniu spłacisz zaległe składki?'
           }
-          description="Wybierz datę z kalendarza albo wpisz ją w formacie rrrr-mm-dd, np. 2026-11-25."
+          description="Wybierz datę z kalendarza albo wpisz ją w formacie DD.MM.RRRR, np. 25.11.2026."
           error={message('data')}
           fix="wpisz poprawną datę z lat 2000–2100."
         >

@@ -95,6 +95,18 @@ export const api = {
   submissions: {
     create: (session: string, body: SubmissionRequest) =>
       request<SubmissionReceipt>('POST', '/api/submissions', body, { session }),
+    /** PDF bez logowania (tylko wniosek_urlop i dane_zam); nic nie jest zapisywane na serwerze. */
+    document: async (body: SubmissionRequest): Promise<Blob> => {
+      const response = await fetch(`${baseUrl}/api/submissions/document`, {
+        method: 'POST',
+        headers: { Accept: 'application/pdf', 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      if (!response.ok) throw await failure(response)
+      const blob = await response.blob()
+      if (!blob.type.includes('pdf')) throw new Error('Serwer nie zwrócił pliku PDF.')
+      return blob
+    },
     list: (session: string) => request<SubmissionReceipt[]>('GET', '/api/submissions', undefined, { session }),
     templates: () => request<SubmissionTemplate[]>('GET', '/api/submissions/templates'),
     pdfPath: (id: string) => `/api/submissions/${encodeURIComponent(id)}/pdf`,

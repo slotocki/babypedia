@@ -399,6 +399,32 @@ public sealed class SimulationTests : IDisposable
     }
 
     [Fact]
+    public async Task Case_passes_confirmed_periods_from_records_in_list_and_by_hash()
+    {
+        var dir = TempDir();
+        var hash = new string('d', 64);
+        await File.WriteAllTextAsync(Path.Combine(dir, "cases.json"), $$"""
+            { "cases": [
+              { "id": "test-okresy", "tytul": "fikcyjna sprawa", "oczekiwanaDecyzja": "przyznanie",
+                "plik": { "nazwa": "x.pdf", "liczbaStron": 3, "sha256": ["{{hash}}"] },
+                "potwierdzoneOkresy": [ { "swiadczenie": "zasilek_macierzynski", "od": "2030-01-10", "do": "2030-07-09", "dni": 181, "tygodnie": 26 } ] },
+              { "id": "test-bez", "tytul": "bez okresow", "oczekiwanaDecyzja": "odmowa" } ] }
+            """, Ct);
+
+        var paths = new RepoPaths { Root = TestPaths.Root, CasesPrivateDir = dir };
+        using var client = CreateFactory(WithPaths(paths)).CreateClient();
+
+        var list = await client.GetFromJsonAsync<List<CaseSummary>>("/api/cases", SimJson.Options, Ct);
+        var withPeriods = Assert.Single(list!, c => c.Id == "test-okresy");
+        var period = Assert.Single(withPeriods.PotwierdzoneOkresy!);
+        Assert.Equal(("zasilek_macierzynski", "2030-01-10", "2030-07-09", 181), (period.Swiadczenie, period.Od, period.Do, period.Dni));
+        Assert.Null(list!.Single(c => c.Id == "test-bez").PotwierdzoneOkresy);
+
+        var byHash = await client.GetFromJsonAsync<CaseSummary>($"/api/cases/by-hash/{hash}", SimJson.Options, Ct);
+        Assert.Single(byHash!.PotwierdzoneOkresy!);
+    }
+
+    [Fact]
     public async Task Case_is_recognised_by_hash_then_by_file_name_and_pages_else_404()
     {
         var dir = TempDir();

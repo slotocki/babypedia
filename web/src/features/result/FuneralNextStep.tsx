@@ -16,7 +16,7 @@ export function FuneralNextStep({ benefit }: { benefit: BenefitResult }) {
   return (
     <Card as="section" aria-label={benefitName(benefit.id)} className="space-y-3 border-l-4 border-l-brand shadow-none">
       <h3 className="text-base font-semibold text-ink">{benefitName(benefit.id)}</h3>
-      {benefit.lumpSum != null ? <Amount value={benefit.lumpSum} /> : null}
+      {benefit.lumpSum != null ? <Amount value={benefit.lumpSum} showNote={false} /> : null}
       {benefit.deadlines.map((deadline) => (
         <DeadlineItem key={deadline.id} deadline={deadline} className="border-0 bg-transparent p-0" />
       ))}

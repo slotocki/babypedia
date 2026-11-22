@@ -352,6 +352,17 @@ paths:
         '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/SubmissionReceipt' } } } } }
         '501': { $ref: '#/components/responses/NotImplemented' }
 
+  /api/submissions/document:
+    post:
+      tags: [zgłoszenia]
+      summary: PDF wniosku do pracodawcy lub zestawienia ZAM bez logowania (nic nie jest zapisywane)
+      description: Tylko typy wniosek_urlop i dane_zam. Zgłoszenia do ZUS (zapytanie_ezus) i urzędu (odpis_aktu) wymagają sesji profilu (POST /api/submissions).
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/SubmissionRequest' } } }
+      responses:
+        '200': { description: PDF, content: { application/pdf: { schema: { type: string, format: binary } } } }
+        '400': { $ref: '#/components/responses/Problem' }
   /api/submissions/templates:
     get:
       tags: [zgłoszenia]

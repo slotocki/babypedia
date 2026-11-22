@@ -62,6 +62,35 @@ public sealed partial class SubmissionEndpointsTests : IDisposable
     private static byte[] Utf8(string text) => Encoding.UTF8.GetBytes(text);
 
     [Theory]
+    [InlineData("rodzicielski")]
+    [InlineData("dane_zam")]
+    public async Task Document_endpoint_returns_pdf_without_session_and_stores_nothing(string templateId)
+    {
+        using var client = _factory.CreateClient();
+
+        var response = await client.PostAsJsonAsync("/api/submissions/document", Samples.Request(templateId), Ct);
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("application/pdf", response.Content.Headers.ContentType?.MediaType);
+        var bytes = await response.Content.ReadAsByteArrayAsync(Ct);
+        Assert.Equal("%PDF", Encoding.ASCII.GetString(bytes, 0, 4));
+        Assert.Empty(_store.Rows);
+    }
+
+    [Theory]
+    [InlineData("zapytanie_ezus")]
+    [InlineData("odpis_aktu")]
+    public async Task Document_endpoint_refuses_submissions_that_need_a_session(string templateId)
+    {
+        using var client = _factory.CreateClient();
+
+        var response = await client.PostAsJsonAsync("/api/submissions/document", Samples.Request(templateId), Ct);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Empty(_store.Rows);
+    }
+
+    [Theory]
     [MemberData(nameof(Samples.TemplateIds), MemberType = typeof(Samples))]
     public async Task Post_creates_a_simulated_receipt_with_number_and_pdf(string templateId)
     {
