@@ -588,9 +588,9 @@ export function IntakePage() {
 
   const focusInvalid = () => {
     requestAnimationFrame(() => {
-      const invalid = pageRef.current?.querySelectorAll<HTMLElement>('[aria-invalid="true"]') ?? []
-      setFailedFields(invalid.length)
-      invalid[0]?.focus()
+      // Liczymy komunikaty pod polami (grupa przycisków radio to jedno pole, choć każdy przycisk ma aria-invalid).
+      setFailedFields(pageRef.current?.querySelectorAll('form [role="alert"]').length ?? 0)
+      pageRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus()
     })
   }
 
