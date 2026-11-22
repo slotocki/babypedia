@@ -49,54 +49,69 @@ public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityR
             return Missing("Dla prowadzących działalność i osób współpracujących potrzebne jest saldo zadłużenia składkowego na dzień powstania prawa.", condition, Ask.Debt(context.Person));
         }
 
-        var threshold = context.Param(EligibilityParameterKeys.ProgZadluzenia, debt.NaDzien);
-        var months = (int)context.Param(EligibilityParameterKeys.TerminSplatyZadluzeniaMies, debt.NaDzien);
-        var deadline = debt.NaDzien.AddMonths(months);
+        // Art. 2a ust. 1–2: liczy się zadłużenie na dzień powstania prawa do świadczenia, a 6 miesięcy na spłatę biegnie
+        // od tego dnia — nie od dnia, na który znamy saldo. Próg (1% minimalnego wynagrodzenia) też bierzemy z dnia powstania prawa.
+        var rightDate = date.Value;
+        var threshold = context.Param(EligibilityParameterKeys.ProgZadluzenia, rightDate);
+        var months = (int)context.Param(EligibilityParameterKeys.TerminSplatyZadluzeniaMies, rightDate);
+        var deadline = rightDate.AddMonths(months);
+        var balance = BalanceText(debt, rightDate);
+        string[] balanceNote = debt.NaDzien == rightDate
+            ? []
+            : [$"Saldo zadłużenia składkowego jest znane na {Text.Date(debt.NaDzien)}, a o prawie decyduje saldo w dniu powstania prawa ({Text.Date(rightDate)}). Przyjmuję ostatnie znane saldo; jeśli do tego dnia się zmieni, zmieni się też wynik."];
 
         if (debt.Kwota <= threshold)
         {
             return Met(
-                $"Zadłużenie {Text.Money(debt.Kwota)} nie przekracza progu {Text.Money(threshold)} w dniu powstania prawa ({Text.Date(debt.NaDzien)}).",
-                condition);
+                $"Zadłużenie {Text.Money(debt.Kwota)} nie przekracza progu {Text.Money(threshold)} {balance}.",
+                condition,
+                balanceNote);
         }
+
+        string[] notes = onDate is null && context.Event() == EventKind.Ciaza
+            ? [.. balanceNote, $"Dzień powstania prawa przyjęto jako przewidywaną datę porodu ({Text.Date(rightDate)}); jeśli poród nastąpi w innym dniu, przesunie się też termin spłaty zadłużenia."]
+            : balanceNote;
 
         var repaid = person.SkladkiDataSplaty?.Value;
         if (repaid is { } repaidDate && repaidDate <= deadline)
         {
-            var payoutDays = context.TryParam(EligibilityParameterKeys.TerminWyplatyPoSplacieDni, debt.NaDzien);
+            var payoutDays = context.TryParam(EligibilityParameterKeys.TerminWyplatyPoSplacieDni, rightDate);
             var payout = payoutDays is { } d
                 ? $"Zasiłek wypłaca się nie później niż w ciągu {Text.Number(d)} dni od dnia spłaty całości zadłużenia (art. 64 ust. 3)."
                 : "Termin wypłaty po spłacie zadłużenia określa art. 64 ust. 3 ustawy.";
             return Met(
-                $"Zadłużenie {Text.Money(debt.Kwota)} przekraczało próg {Text.Money(threshold)}, ale zostało spłacone {Text.Date(repaidDate)}, w terminie do {Text.Date(deadline)} — prawo przysługuje po spłacie.",
+                $"Zadłużenie {Text.Money(debt.Kwota)} przekraczało próg {Text.Money(threshold)}, ale zostało spłacone {Text.Date(repaidDate)}, w terminie do {Text.Date(deadline)} ({Text.Number(months)} mies. od dnia powstania prawa {Text.Date(rightDate)}) — prawo przysługuje po spłacie.",
                 condition,
-                payout);
+                [payout, .. notes]);
         }
 
         string reason;
         string whatWouldChange;
         if (repaid is { } late)
         {
-            reason = $"Zadłużenie z tytułu składek ({Text.Money(debt.Kwota)}) przekraczało próg {Text.Money(threshold)} w dniu powstania prawa, a spłata ({Text.Date(late)}) nastąpiła po terminie {Text.Date(deadline)}, więc prawo do świadczenia się przedawniło.";
+            reason = $"Zadłużenie z tytułu składek ({Text.Money(debt.Kwota)}) przekraczało próg {Text.Money(threshold)} w dniu powstania prawa, a spłata ({Text.Date(late)}) nastąpiła po terminie {Text.Date(deadline)} ({Text.Number(months)} mies. od dnia powstania prawa {Text.Date(rightDate)}), więc prawo do świadczenia się przedawniło.";
             whatWouldChange = $"Termin spłaty zadłużenia ({Text.Money(debt.Kwota)}) upłynął {Text.Date(deadline)}; skontaktuj się z ZUS.";
         }
         else if (context.AsOf > deadline)
         {
-            reason = $"Zadłużenie z tytułu składek ({Text.Money(debt.Kwota)}) przekraczało próg {Text.Money(threshold)} w dniu powstania prawa i nie zostało spłacone w ciągu {Text.Number(months)} miesięcy, więc prawo do świadczenia się przedawniło.";
+            reason = $"Zadłużenie z tytułu składek ({Text.Money(debt.Kwota)}) przekraczało próg {Text.Money(threshold)} w dniu powstania prawa i nie zostało spłacone w ciągu {Text.Number(months)} miesięcy od tego dnia ({Text.Date(rightDate)}), więc prawo do świadczenia się przedawniło.";
             whatWouldChange = $"Termin spłaty zadłużenia ({Text.Money(debt.Kwota)}) upłynął {Text.Date(deadline)}; skontaktuj się z ZUS.";
         }
         else
         {
-            reason = $"Zadłużenie z tytułu składek ({Text.Money(debt.Kwota)}) przekracza próg {Text.Money(threshold)} w dniu powstania prawa, więc zasiłek nie przysługuje do czasu spłaty całości zadłużenia.";
-            whatWouldChange = $"Spłać całość zadłużenia ({Text.Money(debt.Kwota)}) do dnia {Text.Date(deadline)}; po tym terminie prawo się przedawnia.";
+            reason = $"Zadłużenie z tytułu składek ({Text.Money(debt.Kwota)}) przekracza próg {Text.Money(threshold)} {balance}, więc zasiłek nie przysługuje do czasu spłaty całości zadłużenia.";
+            whatWouldChange = $"Spłać całość zadłużenia ({Text.Money(debt.Kwota)}) do dnia {Text.Date(deadline)} — {Text.Number(months)} mies. od dnia powstania prawa ({Text.Date(rightDate)}); po tym terminie prawo się przedawnia.";
         }
 
         var outcome = NotMet(
-            $"Zadłużenie {Text.Money(debt.Kwota)} jest wyższe niż próg {Text.Money(threshold)} (1% minimalnego wynagrodzenia) w dniu powstania prawa {Text.Date(debt.NaDzien)}.",
+            $"Zadłużenie {Text.Money(debt.Kwota)} jest wyższe niż próg {Text.Money(threshold)} (1% minimalnego wynagrodzenia) {balance}.",
             condition,
             reason,
             whatWouldChange,
-            PodstawaPrawna);
+            PodstawaPrawna) with
+        {
+            Notes = notes.Length == 0 ? null : notes,
+        };
         if (repaid is null && context.AsOf <= deadline)
         {
             outcome = outcome with
@@ -107,7 +122,7 @@ public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityR
                         "splata_zadluzenia",
                         DeadlineType.NajpozniejDo,
                         deadline,
-                        $"Spłać całość zadłużenia ({Text.Money(debt.Kwota)}) do {Text.Date(deadline)}.",
+                        $"Spłać całość zadłużenia ({Text.Money(debt.Kwota)}) do {Text.Date(deadline)} ({Text.Number(months)} mies. od dnia powstania prawa {Text.Date(rightDate)}).",
                         "Po tym terminie prawo do świadczenia się przedawnia.",
                         PodstawaPrawna),
                 ],
@@ -116,6 +131,12 @@ public sealed class ContributionDebtRule(DateOnly? onDate = null) : EligibilityR
 
         return outcome;
     }
+
+    /// <summary>Opis salda: wprost „w dniu powstania prawa”, gdy saldo jest z tego dnia; inaczej uczciwie — ostatnie znane saldo z innego dnia.</summary>
+    private static string BalanceText(ContributionDebt debt, DateOnly rightDate) =>
+        debt.NaDzien == rightDate
+            ? $"w dniu powstania prawa ({Text.Date(rightDate)})"
+            : $"według ostatniego znanego salda (stan na {Text.Date(debt.NaDzien)}), przyjętego jako zadłużenie w dniu powstania prawa ({Text.Date(rightDate)})";
 }
 
 public sealed class PaymentRouteRule(DateOnly? onDate = null, BenefitKindForDocuments documents = BenefitKindForDocuments.Maternity, bool afterInsuranceEnd = false) : EligibilityRule
