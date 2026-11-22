@@ -139,7 +139,7 @@ public static class PdfRenderer
         var wordmark = top.AddFormattedText("Kompas Rodzica", TextFormat.Bold);
         wordmark.Font.Color = Accent;
         top.AddTab();
-        top.AddText("Nr potwierdzenia: " + model.Number);
+        top.AddText($"{model.NumberLabel}: {model.Number}");
 
         var title = section.AddParagraph(model.Title);
         title.Format.Font.Size = 19;
@@ -152,19 +152,49 @@ public static class PdfRenderer
         var place = section.AddParagraph();
         place.Format.Font.Color = Muted;
         place.Format.SpaceAfter = Unit.FromPoint(5);
-        place.AddFormattedText("Miejsce i data: ", TextFormat.Bold);
-        place.AddText(string.IsNullOrEmpty(model.Place)
-            ? DocumentBuilder.FormatDate(model.Date)
-            : $"{model.Place}, {DocumentBuilder.FormatDate(model.Date)}");
+        var date = DocumentBuilder.FormatDate(model.Date);
+        if (model.PlaceLine)
+        {
+            place.AddFormattedText("Miejscowość i data: ", TextFormat.Bold);
+            if (string.IsNullOrEmpty(model.Place))
+            {
+                place.AddText(Blank + ", ");
+            }
+            else
+            {
+                place.AddText(model.Place + ", ");
+            }
 
-        if (!string.IsNullOrEmpty(model.Addressee))
+            place.AddText(date);
+        }
+        else
+        {
+            place.AddFormattedText(model.DateLabel + ": ", TextFormat.Bold);
+            place.AddText(string.IsNullOrEmpty(model.Place) ? date : $"{model.Place}, {date}");
+        }
+
+        if (!string.IsNullOrEmpty(model.Addressee) || model.AddresseeLine)
         {
             var to = section.AddParagraph();
             to.Format.SpaceAfter = Unit.FromPoint(5);
             to.AddFormattedText("Do: ", TextFormat.Bold);
-            to.AddText(model.Addressee);
+            if (string.IsNullOrEmpty(model.Addressee))
+            {
+                var blank = to.AddFormattedText(Blank + Blank);
+                blank.Font.Color = Muted;
+                var hint = to.AddFormattedText("  (nazwa i adres pracodawcy)");
+                hint.Font.Size = 8;
+                hint.Font.Color = Muted;
+            }
+            else
+            {
+                to.AddText(model.Addressee);
+            }
         }
     }
+
+    /// <summary>Puste miejsce do wpisania odręcznego.</summary>
+    private const string Blank = "____________________";
 
     private static void AddBanner(Section section, string text)
     {
@@ -201,8 +231,9 @@ public static class PdfRenderer
         table.RightPadding = Unit.FromPoint(6);
         table.TopPadding = Unit.FromPoint(4.5);
         table.BottomPadding = Unit.FromPoint(4.5);
-        table.AddColumn(Unit.FromCentimeter(withBasis ? 6.6 : 7.5));
-        table.AddColumn(Unit.FromCentimeter(withBasis ? 7.2 : 9.5));
+        // Kolumna etykiet ma stałą szerokość, żeby sekcje z podstawą prawną i bez niej były wyrównane w jednym dokumencie.
+        table.AddColumn(Unit.FromCentimeter(6.6));
+        table.AddColumn(Unit.FromCentimeter(withBasis ? 7.2 : 10.4));
         if (withBasis)
         {
             table.AddColumn(Unit.FromCentimeter(3.2));
@@ -212,9 +243,27 @@ public static class PdfRenderer
         {
             var row = table.AddRow();
             row.Borders.Bottom = new Border { Width = 0.5, Color = Line };
+            if (data.Label.EndsWith("— od", StringComparison.Ordinal))
+            {
+                row.KeepWith = 1; // początek i koniec okresu na tej samej stronie
+            }
+
             row.Cells[0].Shading.Color = LabelFill;
             row.Cells[0].AddParagraph(data.Label).Format.Font.Color = Muted;
-            row.Cells[1].AddParagraph(data.Value).Format.Font.Bold = true;
+            if (data.ToFill)
+            {
+                // Brak danych: linia do wpisania odręcznego i dopisek, bez pogrubienia — nie wygląda jak wartość.
+                var line = row.Cells[1].AddParagraph(Blank);
+                line.Format.Font.Color = Muted;
+                var note = row.Cells[1].AddParagraph(data.Value);
+                note.Format.Font.Size = 7.5;
+                note.Format.Font.Color = Muted;
+            }
+            else
+            {
+                row.Cells[1].AddParagraph(data.Value).Format.Font.Bold = true;
+            }
+
             if (withBasis)
             {
                 var basis = row.Cells[2].AddParagraph(data.Basis ?? string.Empty);
@@ -222,5 +271,13 @@ public static class PdfRenderer
                 basis.Format.Font.Color = Muted;
             }
         }
+
+        // Krótką sekcję drukuję w całości na jednej stronie, żeby ostatni wiersz nie zostawał sam na następnej.
+        if (part.Rows.Count is > 1 and <= KeepTogetherRows)
+        {
+            table.Rows[0].KeepWith = part.Rows.Count - 1;
+        }
     }
+
+    private const int KeepTogetherRows = 6;
 }

@@ -4,12 +4,16 @@ using BabyRadnik.Domain.Contracts;
 
 namespace BabyRadnik.Infrastructure.Submissions;
 
-public sealed record DocumentRow(string Label, string Value, string? Basis);
+/// <param name="ToFill">Brak danych: w PDF-ie puste pole do uzupełnienia odręcznie zamiast wartości.</param>
+public sealed record DocumentRow(string Label, string Value, string? Basis, bool ToFill = false);
 
 public sealed record DocumentSection(string Title, IReadOnlyList<DocumentRow> Rows);
 
 public sealed record DocumentAttachment(string Text, string? Basis);
 
+/// <param name="DateLabel">Etykieta daty w nagłówku, gdy dokument nie ma pola miejscowości.</param>
+/// <param name="PlaceLine">Dokument ma miejsce na miejscowość (wniosek do pracodawcy); bez danych PDF zostawia puste pole do wpisania odręcznie.</param>
+/// <param name="AddresseeLine">Dokument ma adresata (pracodawcę); bez danych PDF zostawia puste pole do wpisania odręcznie.</param>
 public sealed record DocumentModel(
     string Title,
     string Number,
@@ -21,7 +25,11 @@ public sealed record DocumentModel(
     IReadOnlyList<DocumentAttachment> Attachments,
     IReadOnlyList<NoteSpec> Notes,
     bool SignatureLine,
-    string SignatureCaption = "podpis wnioskodawcy");
+    string SignatureCaption = "podpis wnioskodawcy",
+    string DateLabel = "Data sporządzenia",
+    bool PlaceLine = false,
+    bool AddresseeLine = false,
+    string NumberLabel = "Nr potwierdzenia");
 
 public sealed record ValidationResult(IReadOnlyDictionary<string, string[]> Errors)
 {
@@ -159,11 +167,21 @@ public static class DocumentBuilder
     private const string SimulationBanner =
         "SYMULACJA — dokument wygenerowany w Kompasie Rodzica. Nic nie zostało wysłane do żadnej instytucji ani pracodawcy.";
 
-    public static DocumentModel Build(TemplateSpec spec, IReadOnlyDictionary<string, string> values, string number, DateOnly date)
+    /// <summary>Tekst pola bez danych — w PDF-ie puste miejsce do wpisania odręcznie.</summary>
+    public const string ToFillText = "do uzupełnienia";
+
+    /// <summary>Krótka podstawa pola pomocniczego w sekcjach, w których inne pola mają podstawę prawną.</summary>
+    public const string AuxBasisShort = "pole pomocnicze";
+
+    /// <param name="parameters">Parametry prawne do liczb w uwagach (np. próg płatnika z art. 61); bez nich uwaga nie podaje liczby.</param>
+    public static DocumentModel Build(
+        TemplateSpec spec, IReadOnlyDictionary<string, string> values, string number, DateOnly date, IParameterProvider? parameters = null)
     {
         var sections = new List<DocumentSection>();
         foreach (var section in spec.Sections)
         {
+            // Sekcja bez żadnego pola z przepisu nie potrzebuje kolumny podstaw — same „pole pomocnicze” to szum.
+            var onlyAux = section.Fields.All(f => f.Basis == TemplateCatalog.Aux);
             var rows = new List<DocumentRow>();
             foreach (var field in section.Fields)
             {
@@ -178,7 +196,10 @@ public static class DocumentBuilder
                     continue;
                 }
 
-                rows.Add(new DocumentRow(field.Label, value is null ? "— (nie podano)" : Display(field, value), field.Basis));
+                var basis = onlyAux ? null : field.Basis == TemplateCatalog.Aux ? AuxBasisShort : field.Basis;
+                rows.Add(value is null
+                    ? new DocumentRow(field.Label, ToFillText, basis, ToFill: true)
+                    : new DocumentRow(field.Label, Display(field, value), basis));
             }
 
             if (rows.Count > 0)
@@ -192,6 +213,12 @@ public static class DocumentBuilder
             .Select(a => new DocumentAttachment(a.Text, a.Basis))
             .ToList();
 
+        var notes = spec.Notes
+            .Where(n => n.When is null || SubmissionValidator.ConditionMet(n.When, values))
+            .Select(n => n with { Text = ResolveNote(n.Text, date, parameters) })
+            .ToList();
+
+        var fieldKeys = spec.Fields.Select(f => f.Key).ToHashSet(StringComparer.Ordinal);
         return new DocumentModel(
             spec.Title,
             number,
@@ -201,8 +228,34 @@ public static class DocumentBuilder
             SimulationBanner,
             sections,
             attachments,
-            spec.Notes,
-            spec.SignatureLine);
+            notes,
+            spec.SignatureLine,
+            PlaceLine: fieldKeys.Contains("miejscowosc"),
+            AddresseeLine: fieldKeys.Contains("pracodawca"));
+    }
+
+    private static string ResolveNote(string text, DateOnly date, IParameterProvider? parameters)
+    {
+        if (!text.Contains(TemplateCatalog.PayerThresholdToken, StringComparison.Ordinal))
+        {
+            return text;
+        }
+
+        string? threshold = null;
+        if (parameters is not null)
+        {
+            try
+            {
+                threshold = parameters.GetInt(BabyRadnik.Domain.Eligibility.EligibilityParameterKeys.ProgPlatnikaUbezpieczonych, date)
+                    .ToString(CultureInfo.InvariantCulture);
+            }
+            catch (ParameterNotFoundException)
+            {
+                // Bez parametru nie podaję liczby — zostaje odesłanie do przepisu.
+            }
+        }
+
+        return text.Replace(TemplateCatalog.PayerThresholdToken, threshold ?? "ustawowego progu", StringComparison.Ordinal);
     }
 
     public static string Summarize(TemplateSpec spec, IReadOnlyDictionary<string, string> values)

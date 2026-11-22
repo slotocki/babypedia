@@ -19,7 +19,10 @@ public static class TemplateCatalog
 {
     private const string R25 = "rozp. 11.03.2025";
     private const string R26 = "rozp. 27.09.2026";
-    private const string Aux = "pole pomocnicze (układ dokumentu, nie wymóg rozporządzenia)";
+    public const string Aux = "pole pomocnicze (układ dokumentu, nie wymóg rozporządzenia)";
+
+    /// <summary>Znacznik w treści uwagi: w PDF-ie zastępuje go próg z parametru <c>prog_platnika_ubezpieczonych</c>.</summary>
+    public const string PayerThresholdToken = "{prog_platnika_ubezpieczonych}";
 
     private static readonly IReadOnlyList<FieldOption> YesNo = [new("tak", "Tak"), new("nie", "Nie")];
 
@@ -50,8 +53,8 @@ public static class TemplateCatalog
 
     private static IEnumerable<FieldSpec> ParentalCore() =>
     [
-        new("dotychczasWykorzystano", "Okres dotychczas wykorzystanego urlopu rodzicielskiego lub zasiłku macierzyńskiego za okres odpowiadający urlopowi rodzicielskiemu (wpisz „brak”, jeśli nie korzystano)",
-            FieldKind.LongText, $"§ 15 ust. 1 pkt 2 {R25}", Required: true, MaxLength: 500),
+        new("dotychczasWykorzystano", "Okres dotychczas wykorzystanego urlopu rodzicielskiego lub zasiłku macierzyńskiego za okres odpowiadający urlopowi rodzicielskiemu",
+            FieldKind.LongText, $"§ 15 ust. 1 pkt 2 {R25}", Required: true, MaxLength: 500, Hint: "wpisz „brak”, jeśli nie korzystano"),
         new("liczbaWykorzystanychCzesci", "Liczba wykorzystanych części urlopu rodzicielskiego lub liczba wniosków o zasiłek macierzyński za część urlopu rodzicielskiego",
             FieldKind.Integer, $"§ 15 ust. 1 pkt 2 {R25}", Required: true),
         new("rodzicielskiOd", "Urlop rodzicielski lub jego część — od", FieldKind.Date, $"§ 15 ust. 1 pkt 3 {R25}", Required: true),
@@ -93,8 +96,8 @@ public static class TemplateCatalog
                 BirthDate(),
             ]),
             new("Część urlopu macierzyńskiego przed przewidywaną datą porodu (art. 180 § 2 KP)", [
-                new("macierzynskiPrzedPorodemOd", "Data, od której ma być udzielona część urlopu macierzyńskiego przed porodem (wypełnij tylko, jeśli korzystasz z tej części)",
-                    FieldKind.Date, $"§ 2 ust. 1 pkt 2 {R25}"),
+                new("macierzynskiPrzedPorodemOd", "Data, od której ma być udzielona część urlopu macierzyńskiego przed porodem",
+                    FieldKind.Date, $"§ 2 ust. 1 pkt 2 {R25}", Hint: "wypełnij tylko, jeśli korzystasz z tej części"),
             ]),
             new("Urlop rodzicielski (art. 182¹d § 1 KP)", [
                 .. ParentalCore(),
@@ -132,7 +135,7 @@ public static class TemplateCatalog
             new("Urlop rodzicielski (art. 182¹d § 1 KP)", [
                 .. ParentalCore(),
             ]),
-            new("Łączenie urlopu rodzicielskiego z pracą (art. 182¹e § 2 KP) — wypełnij tylko, jeśli składasz taki wniosek", [
+            new("Łączenie urlopu rodzicielskiego z pracą (art. 182¹e § 2 KP)", [
                 new("lacznieZPraca", "Łączę korzystanie z urlopu rodzicielskiego z pracą u tego pracodawcy w wymiarze nie wyższym niż połowa etatu", FieldKind.Choice,
                     $"§ 16 {R25}", Options: YesNo),
                 new("wymiarCzasuPracy", "Wymiar czasu pracy", FieldKind.Text, $"§ 16 pkt 2 {R25}", Required: true, When: new("lacznieZPraca", "tak"), MaxLength: 80),
@@ -151,7 +154,8 @@ public static class TemplateCatalog
         ],
         [.. ParentalAttachments()],
         [
-            new("Wniosek o łączenie urlopu rodzicielskiego z pracą (§ 16) jest w rozporządzeniu odrębnym wnioskiem; w tym dokumencie można go złożyć razem z wnioskiem o urlop.", $"§ 16 {R25}"),
+            new("Wniosek o łączenie urlopu rodzicielskiego z pracą (§ 16) jest w rozporządzeniu odrębnym wnioskiem; w tym dokumencie można go złożyć razem z wnioskiem o urlop.", $"§ 16 {R25}",
+                new("lacznieZPraca", "tak")),
             .. GeneralLeaveNotes,
         ],
         true);
@@ -281,7 +285,8 @@ public static class TemplateCatalog
             new("Numerów PESEL (ubezpieczonego, dziecka, drugiego rodzica) i numeru rachunku bankowego (pkt 3, 5, 6 i 17) Kompas Rodzica nie zbiera i nie drukuje — wpisz je samodzielnie we wniosku.", $"Zał. 6 pkt 3, 5, 6, 17 {R26}"),
             new("Miejscowość, data i podpis oraz pouczenie o zasiłku macierzyńskim (pkt 18 i 19) znajdują się we wniosku, który składasz w ZUS.", $"Zał. 6 pkt 18, 19 {R26}"),
             new("To nie jest druk ZUS ZAM ani jego odpowiednik. Zestawienie zawiera dane, które trzeba podać we wniosku o zasiłek macierzyński. Wniosek złożysz na stronie https://www.zus.pl (PUE ZUS) lub na druku udostępnionym przez ZUS."),
-            new("Płatnik składek zgłaszający do ubezpieczeń ponad 20 osób wypłaca zasiłek sam; ZUS wypłaca zasiłek w pozostałych przypadkach. Sprawdź w wyniku oceny, gdzie złożyć wniosek."),
+            new($"Zasiłek wypłaca płatnik składek, który zgłasza do ubezpieczenia chorobowego powyżej {PayerThresholdToken} ubezpieczonych; w pozostałych przypadkach (m.in. mniejszy płatnik, działalność gospodarcza, okres po ustaniu ubezpieczenia) wypłaca ZUS. Sprawdź w wyniku oceny, gdzie złożyć wniosek.",
+                "art. 61 ust. 1 ustawy zasiłkowej"),
         ],
         false);
 
@@ -303,7 +308,7 @@ public static class TemplateCatalog
                     new("e_zla", "Zwolnienia lekarskie (e-ZLA)"),
                     new("inne", "Inna sprawa"),
                 ]),
-                new("tresc", "Treść zapytania (bez numeru PESEL)", FieldKind.LongText, Aux, Required: true, MaxLength: 2000),
+                new("tresc", "Treść zapytania", FieldKind.LongText, Aux, Required: true, MaxLength: 2000, Hint: "bez numeru PESEL"),
             ]),
         ],
         [],
@@ -337,7 +342,7 @@ public static class TemplateCatalog
             new("Wniosek jest symulowany — nie został przesłany do urzędu stanu cywilnego. Informacje o rejestrze stanu cywilnego: https://www.gov.pl/web/cyfryzacja/rejestr-stanu-cywilnego"),
             new("Rozporządzenie z 11.03.2025 wymienia odpis skrócony aktu urodzenia jako dokument dołączany do wniosków o urlopy; treści samego wniosku o odpis nie określa."),
         ],
-        false);
+        true);
 
     public static readonly IReadOnlyList<TemplateSpec> Leave = [FullLeave, Parental, Paternity, Supplementary];
 

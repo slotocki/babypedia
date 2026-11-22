@@ -175,7 +175,7 @@ public static class SubmissionsModule
         fields = spec.Fields.Select(f => new
         {
             key = f.Key,
-            label = f.Label,
+            label = f.FormLabel,
             kind = f.Kind.ToString().ToLowerInvariant(),
             required = f.Required,
             maxLength = f.MaxLength,
