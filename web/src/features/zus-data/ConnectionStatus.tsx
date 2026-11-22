@@ -5,7 +5,10 @@ import { dataSources } from './labels'
 
 const formatTime = (iso: string) => {
   const date = new Date(iso)
-  return Number.isNaN(date.getTime()) ? null : date.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' })
+  if (Number.isNaN(date.getTime())) return null
+  const hour = date.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' })
+  if (date.toDateString() === new Date().toDateString()) return `dziś o ${hour}`
+  return `${date.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })} o ${hour}`
 }
 
 export function ConnectionStatus({ connection, action, className }: { connection: DataConnection; action?: ReactNode; className?: string }) {
@@ -22,7 +25,7 @@ export function ConnectionStatus({ connection, action, className }: { connection
       >
         {withZus ? <CheckIcon className="size-4 shrink-0" /> : <CrossIcon className="size-4 shrink-0" />}
         <span>{withZus ? 'Połączono z PUE/eZUS (symulacja)' : 'Bez połączenia z PUE/eZUS (symulacja)'}</span>
-        {time ? <span>· pobrano o {time}</span> : null}
+        {time ? <span>· pobrano {time}</span> : null}
       </p>
       <div>
         <p className="text-sm font-semibold text-ink-soft">Źródła danych</p>

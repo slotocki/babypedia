@@ -131,3 +131,19 @@ export const statusLabel = (status?: string) => (status ? (statusLabels[status] 
 
 export const dateTimeLabel = (iso: string) =>
   new Intl.DateTimeFormat('pl-PL', { dateStyle: 'long', timeStyle: 'short' }).format(new Date(iso))
+
+/** Dzieli wnioski o urlop na pasujące do sytuacji teraz i resztę (pełna lista zostaje dostępna). Brak danych = wszystkie „teraz”. */
+export function relevantLeaveKinds(facts: FactSet): { now: SubmissionKind[]; later: SubmissionKind[] } {
+  const { sprawa } = facts
+  const kind = sprawa['zdarzenie.rodzaj']?.value
+  const role = facts.wnioskodawca['osoba.rola']?.value
+  const preemie = (sprawa['dziecko.pobytyWSzpitalu']?.value ?? []).length > 0 || (sprawa['dziecko.tydzienCiazyPrzyPorodzie']?.value ?? 40) < 37
+  const isLater = (k: SubmissionKind): boolean => {
+    if (!kind) return false
+    if (k.id === 'macierzynski_i_rodzicielski') return kind === 'urodzenie' || kind === 'przyjecie'
+    if (k.id === 'ojcowski') return role === 'matka'
+    if (k.id === 'uzupelniajacy') return kind === 'planuje' || kind === 'ciaza' || (kind === 'urodzenie' && !preemie) || kind === 'przyjecie'
+    return false
+  }
+  return { now: leaveKinds.filter((k) => !isLater(k)), later: leaveKinds.filter(isLater) }
+}

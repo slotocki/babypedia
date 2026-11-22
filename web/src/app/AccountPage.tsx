@@ -6,13 +6,16 @@ import { ConnectionStatus } from '@/features/zus-data/ConnectionStatus'
 import { Button, Card, PageHeader, UserIcon } from '@/ui'
 
 export function AccountPage() {
-  const { sessionId, profileName, facts, connection } = useCaseState()
+  const { sessionId, profileName, facts, connection, caseId } = useCaseState()
   const ref = useFocusHeading<HTMLDivElement>()
   const hasResult = Boolean(facts.sprawa['zdarzenie.rodzaj'])
 
   return (
     <div ref={ref} className="mx-auto max-w-2xl space-y-5 py-3">
-      <PageHeader title="Moje konto" />
+      <PageHeader
+        title={caseId ? 'Sprawa testowa' : 'Moje konto'}
+        description={caseId ? 'Wczytano sprawę testową opartą na dokumentach ZUS. To nie jest Twoje konto, a dane są zanonimizowane.' : undefined}
+      />
       {sessionId ? (
         <Card className="space-y-5">
           <div className="flex items-center gap-3">

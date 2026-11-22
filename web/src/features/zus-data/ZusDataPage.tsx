@@ -38,13 +38,6 @@ export function ZusDataPage() {
       <PageHeader
         title="Moje dane w ZUS"
         description="Tak wyglądałyby Twoje dane na koncie ubezpieczonego. Wszystkie dane są fikcyjne."
-        action={
-          sessionId ? (
-            <Button asChild variant="secondary">
-              <Link to={askPath}>Zadaj pytanie do ZUS (symulacja)</Link>
-            </Button>
-          ) : undefined
-        }
       />
       {sessionId ? <Account session={sessionId} connection={connection} /> : <NeedsLogin />}
     </div>

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ApiError, api } from '@/app/api/client'
-import type { LeaveTemplate, SubmissionReceipt } from '@/app/api/types'
+import type { BenefitResult, LeaveTemplate, SubmissionReceipt } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
-import { Alert, Button, DateInput, ErrorState, Field, NumberInput, RadioGroup, Select, TextInput } from '@/ui'
+import { Alert, Button, DateInput, ErrorState, Field, NumberInput, RadioGroup, Select, SkeletonText, TextInput } from '@/ui'
 import type { SubmissionTemplate, TemplateField } from './api'
 import { collectFields, legalBasis, prefill, splitProblem, validateLocally, visibleFields, type Values } from './form'
 import { NeedsLogin } from './NeedsLogin'
@@ -17,11 +17,25 @@ interface TemplateFormProps {
 
 const RADIO_LIMIT = 4
 
-export function TemplateForm({ template, sessionId, onDone }: TemplateFormProps) {
+export function TemplateForm(props: TemplateFormProps) {
+  const { facts } = useCaseState()
+  const hasEvent = Boolean(facts.sprawa['zdarzenie.rodzaj'])
+  // Daty z planu (wynik silnika) wstępnie wypełniają formularz; bez wyniku formularz działa jak dotąd.
+  const assessment = useQuery({
+    queryKey: ['assessment', facts],
+    queryFn: () => api.assess({ facts }),
+    enabled: hasEvent,
+    retry: false,
+  })
+  if (hasEvent && assessment.isPending) return <SkeletonText lines={6} label="Wczytuję Twój plan…" />
+  return <TemplateFormInner {...props} benefits={assessment.data?.benefits} />
+}
+
+function TemplateFormInner({ template, sessionId, onDone, benefits }: TemplateFormProps & { benefits?: BenefitResult[] }) {
   const { facts, profileName } = useCaseState()
   const queryClient = useQueryClient()
   const formRef = useRef<HTMLFormElement>(null)
-  const [prefilled] = useState(() => prefill(template, facts, profileName))
+  const [prefilled] = useState(() => prefill(template, facts, profileName, benefits))
   const [values, setValues] = useState<Values>(prefilled)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [general, setGeneral] = useState<string[]>([])
@@ -95,7 +109,7 @@ export function TemplateForm({ template, sessionId, onDone }: TemplateFormProps)
   return (
     <form ref={formRef} onSubmit={submit} noValidate className="space-y-6">
       <p className="text-ink-soft">
-        Pola bez dopisku „opcjonalnie” są wymagane. Nie wpisuj numeru PESEL — nie jest nam potrzebny.
+        Pola bez dopisku „opcjonalnie” są wymagane. Nie wpisuj numeru PESEL — nie jest nam potrzebny. Przy polach z ikoną „?” znajdziesz podstawę prawną.
       </p>
 
       {errorCount > 0 || general.length > 0 ? (
@@ -136,19 +150,14 @@ interface FieldControlProps {
 
 function FieldControl({ field, value, error, prefilled, onChange }: FieldControlProps) {
   const basis = legalBasis(field)
-  const description =
-    basis || prefilled ? (
-      <>
-        {basis ? <span className="block">Podstawa: {basis}</span> : null}
-        {prefilled ? <span className="block font-medium text-brand-strong">Wstępnie wypełnione z Twoich danych — sprawdź.</span> : null}
-      </>
-    ) : undefined
+  const description = prefilled ? <span className="block font-medium text-brand-strong">Wstępnie wypełnione z Twoich danych i planu — sprawdź.</span> : undefined
+  const help = basis ? `Podstawa prawna: ${basis}` : undefined
 
   const options = field.options ?? []
   const asRadio = field.kind === 'choice' && options.length <= RADIO_LIMIT
 
   return (
-    <Field label={field.label} description={description} error={error} optional={!field.required} group={asRadio}>
+    <Field label={field.label} description={description} help={help} error={error} optional={!field.required} group={asRadio}>
       {field.kind === 'text' ? (
         <TextInput value={value} maxLength={field.maxLength} onChange={(e) => onChange(e.target.value)} autoComplete="off" />
       ) : null}

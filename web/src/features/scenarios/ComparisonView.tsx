@@ -1,23 +1,29 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router'
+import type { ScenarioId } from '@/app/api/types'
+import { useCaseState } from '@/app/case-context'
 import { paths } from '@/app/paths'
 import type { BenefitResult, CompareResult } from '@/app/api/types'
 import { Alert, Amount, Button, Card, Disclosure, Period, Section, StatusBadge } from '@/ui'
 import { formatDateShort, formatMoney } from '@/ui/format'
-import { analyze, benefitTitle, describeChange, signedMoney, signedWeeks, type BenefitChange } from './diff'
+import { analyze, benefitTitle, describeChange, signedMoney, signedWeeks, summarize, type BenefitChange } from './diff'
 import { statusText } from './labels'
 
 interface ComparisonViewProps {
   result: CompareResult
   scenarioTitle: string
+  scenarioId?: ScenarioId
   /** Brak = wynik bez faktów wariantu (np. przykład deweloperski) — zastosować nie można. */
   onApply?: () => void
 }
 
-export function ComparisonView({ result, scenarioTitle, onApply }: ComparisonViewProps) {
+export function ComparisonView({ result, scenarioTitle, scenarioId, onApply }: ComparisonViewProps) {
   const headingRef = useRef<HTMLHeadingElement>(null)
   const analysis = analyze(result)
   const { changed, unchanged, both } = analysis
+  const summary = summarize(result, analysis, scenarioId)
+  const { sessionId } = useCaseState()
+  const unknownAfter = result.variant.benefits.some((b) => b.status === 'brakuje_danych' && changed.some((c) => c.key === `${b.id}:${b.person}`))
 
   useEffect(() => {
     headingRef.current?.focus()
@@ -31,6 +37,7 @@ export function ComparisonView({ result, scenarioTitle, onApply }: ComparisonVie
           <h2 ref={headingRef} tabIndex={-1} className="text-xl font-bold text-ink focus:outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand">
             Różnica: plan bazowy a wariant „{scenarioTitle}”
           </h2>
+          {summary ? <p className="text-lg font-semibold text-ink">{summary}</p> : null}
           {changed.length === 0 ? (
             <p className="text-lg text-ink">Ten wariant nie zmienia wyniku: statusy, okresy i kwoty zostają takie same jak w planie bazowym.</p>
           ) : (
@@ -45,11 +52,19 @@ export function ComparisonView({ result, scenarioTitle, onApply }: ComparisonVie
               </ul>
               <p className="text-xl font-bold text-ink">
                 {analysis.totalAmountDelta === null
-                  ? 'Łącznie: nie da się policzyć różnicy w złotych — brakuje kwoty w jednym z planów.'
+                  ? 'Łącznie: różnicy w złotych jeszcze nie policzymy — w jednym z planów brakuje kwoty.'
                   : analysis.totalAmountDelta === 0
                     ? `Łącznie: ${formatMoney(0)} — kwoty się nie zmieniają.`
                     : `Łącznie: ${signedMoney(analysis.totalAmountDelta)}`}
               </p>
+              {unknownAfter ? (
+                <p className="text-ink">
+                  W wariancie brakuje jeszcze danych, od których zależy część świadczeń (np. podstawa wymiaru albo Twoja rola wobec dziecka). Uzupełnij je, a policzymy też kwoty.{' '}
+                  <Link className="font-semibold text-brand-strong underline underline-offset-4" to={sessionId ? paths.review : paths.manual}>
+                    Uzupełnij dane
+                  </Link>
+                </p>
+              ) : null}
               <p className="text-sm text-ink-soft">Kwoty brutto, przed zaliczką na podatek. To wyliczenie informacyjne, nie decyzja ZUS.</p>
             </>
           )}

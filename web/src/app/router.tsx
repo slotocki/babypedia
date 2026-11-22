@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, Navigate } from 'react-router'
 import { Layout } from './Layout'
 import { paths } from './paths'
 import { IntakePage, LoginPage } from '@/features/intake'
@@ -14,7 +14,6 @@ import { KnowledgePage } from '@/features/support/KnowledgePage'
 import { AccountPage } from './AccountPage'
 import { AdminPage } from '@/features/admin'
 import { NotFoundPage } from './NotFoundPage'
-import { UiGallery } from '@/ui/gallery/UiGallery'
 
 export const router = createBrowserRouter([
   {
@@ -33,7 +32,11 @@ export const router = createBrowserRouter([
       { path: paths.knowledge, element: <KnowledgePage /> },
       { path: paths.account, element: <AccountPage /> },
       { path: paths.admin, element: <AdminPage /> },
-      { path: '/ui', element: <UiGallery /> },
+      { path: '/konto', element: <Navigate to={paths.account} replace /> },
+      // Galeria komponentów tylko w trybie deweloperskim; w buildzie produkcyjnym trafia na stronę 404.
+      ...(import.meta.env.DEV
+        ? [{ path: '/ui', lazy: async () => ({ Component: (await import('@/ui/gallery/UiGallery')).UiGallery }) }]
+        : []),
       { path: '*', element: <NotFoundPage /> },
     ],
   },

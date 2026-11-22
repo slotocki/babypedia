@@ -1,4 +1,4 @@
-import type { FactSet, ProblemDetails } from '@/app/api/types'
+import type { BenefitId, BenefitResult, FactSet, ProblemDetails } from '@/app/api/types'
 import type { SubmissionTemplate, TemplateField } from './api'
 import { isValidIsoDate } from '@/features/review/dates'
 
@@ -21,7 +21,14 @@ export function visibleFields(template: SubmissionTemplate, values: Values): Tem
   return template.fields.filter((field) => shown.has(field.key))
 }
 
-export function prefill(template: SubmissionTemplate, facts: FactSet, profileName?: string | null): Values {
+const periodOf = (benefits: BenefitResult[] | undefined, id: BenefitId) =>
+  benefits?.find((b) => b.id === id && b.person === 'wnioskodawca' && b.status === 'przysługuje')?.period ?? undefined
+
+export function prefill(template: SubmissionTemplate, facts: FactSet, profileName?: string | null, benefits?: BenefitResult[]): Values {
+  const parental = periodOf(benefits, 'rodzicielski')
+  const paternity = periodOf(benefits, 'ojcowski')
+  const supplementary = periodOf(benefits, 'macierzynski_uzupelniajacy')
+  const maternity = periodOf(benefits, 'macierzynski')
   const kase = facts.sprawa
   const kind = kase['zdarzenie.rodzaj']?.value
   const eventDate = kase['zdarzenie.data']?.value
@@ -35,6 +42,16 @@ export function prefill(template: SubmissionTemplate, facts: FactSet, profileNam
     dzieckoDataUrodzenia: birthDate,
     przewidywanaDataPorodu: kind === 'ciaza' ? eventDate : undefined,
     zaZyciem: zaZyciem === undefined ? undefined : zaZyciem ? 'tak' : 'nie',
+    rodzicielskiOd: parental?.from,
+    rodzicielskiDo: parental?.to,
+    ojcowskiOd: paternity?.from,
+    ojcowskiDo: paternity?.to,
+    uzupelniajacyOd: supplementary?.from,
+    uzupelniajacyDo: supplementary?.to,
+    terminZakonczeniaMacierzynskiego: maternity?.to,
+    // Przy pierwszym dziecku w ciąży nic jeszcze nie wykorzystano.
+    dotychczasWykorzystano: kind === 'ciaza' ? 'brak' : undefined,
+    liczbaWykorzystanychCzesci: kind === 'ciaza' ? '0' : undefined,
     dzieckoPrzyjete: kind === 'przyjecie' ? 'tak' : undefined,
     dataPrzyjeciaDziecka: kind === 'przyjecie' ? eventDate : undefined,
     podstawaWniosku:

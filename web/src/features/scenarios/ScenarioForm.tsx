@@ -65,7 +65,7 @@ export function ScenarioForm({ scenario, persons, totalWeeks, initial, serverErr
       </div>
 
       {choosePerson ? (
-        <Field group label={id === 'drugi_rodzic_bierze' ? 'Kto bierze podaną liczbę tygodni?' : 'Kogo dotyczy ten wariant?'}>
+        <Field group label={id === 'drugi_rodzic_bierze' ? 'Kto z Was bierze podaną liczbę tygodni?' : 'Kogo dotyczy ten wariant?'}>
           <Controller
             control={control}
             name="person"
@@ -84,7 +84,7 @@ export function ScenarioForm({ scenario, persons, totalWeeks, initial, serverErr
           />
         </Field>
       ) : id === 'drugi_rodzic_bierze' ? (
-        <p className="text-ink-soft">Podaną liczbę tygodni bierze drugi rodzic, a reszta urlopu rodzicielskiego zostaje dla Ciebie.</p>
+        <p className="text-ink-soft">Wpisaną liczbę tygodni weźmie drugi rodzic, a resztę urlopu rodzicielskiego weźmiesz Ty.</p>
       ) : null}
 
       {id === 'odchodze_z_pracy' || id === 'przechodze_na_dzialalnosc' || id === 'splacam_zadluzenie' ? (
@@ -96,7 +96,7 @@ export function ScenarioForm({ scenario, persons, totalWeeks, initial, serverErr
                 ? 'Od kiedy zaczynasz działalność?'
                 : 'W którym dniu spłacisz zaległe składki?'
           }
-          description="Wybierz datę z kalendarza albo wpisz ją w formacie rrrr-mm-dd."
+          description="Wybierz datę z kalendarza albo wpisz ją w formacie rrrr-mm-dd, np. 2026-11-25."
           error={message('data')}
           fix="wpisz poprawną datę z lat 2000–2100."
         >
@@ -129,10 +129,10 @@ export function ScenarioForm({ scenario, persons, totalWeeks, initial, serverErr
 
       {id === 'drugi_rodzic_bierze' || id === 'praca_na_czesc_etatu' ? (
         <Field
-          label={id === 'drugi_rodzic_bierze' ? 'Ile tygodni urlopu rodzicielskiego bierze wskazana osoba?' : 'Przez ile tygodni łączysz urlop rodzicielski z pracą?'}
+          label={id === 'drugi_rodzic_bierze' ? `Ile tygodni urlopu rodzicielskiego (z ${totalWeeks}) weźmie drugi rodzic?` : 'Przez ile tygodni łączysz urlop rodzicielski z pracą?'}
           description={
             id === 'drugi_rodzic_bierze'
-              ? `Reszta z ${totalWeeks} tygodni przypada drugiej osobie. Każdy rodzic ma ${EXCLUSIVE_WEEKS} tygodni urlopu rodzicielskiego tylko dla siebie, więc jedna osoba może wziąć najwyżej ${maxForOne} z ${totalWeeks} tygodni. Urlop można podzielić najwyżej na 5 części.`
+              ? `Resztę weźmiesz Ty. Każde z Was ma ${EXCLUSIVE_WEEKS} tygodni tylko dla siebie, więc wpisz liczbę od ${EXCLUSIVE_WEEKS} do ${maxForOne}. Urlop można podzielić najwyżej na 5 części.`
               : `Urlop rodzicielski trwa łącznie ${totalWeeks} tygodni. Podaj, przez ile z nich pracujesz.`
           }
           error={message('tygodnie')}
@@ -173,7 +173,7 @@ export function ScenarioForm({ scenario, persons, totalWeeks, initial, serverErr
               />
             )}
           />
-          <p className="text-sm text-ink-soft">Dziewięć tygodni drugiego rodzica jest zawsze płatne w wysokości 70%.</p>
+          {persons.length > 1 ? <p className="text-sm text-ink-soft">Dziewięć tygodni drugiego rodzica jest zawsze płatne w wysokości 70%.</p> : null}
         </Field>
       ) : null}
 

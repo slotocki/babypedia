@@ -37,7 +37,9 @@ export function FuneralBlock({
             <strong>Kwota:</strong>{' '}
             {amount !== undefined
               ? `${formatMoney(amount)} (wartość z wyniku oceny). Rodzicom przysługuje pełna kwota, nawet jeśli koszty pogrzebu były niższe.`
-              : 'kwotę i szczegóły sprawdzisz na zus.pl lub w ZUS. Poradnik ZUS podaje, że kwota nie zależy od tego, ile kosztował pogrzeb.'}
+              : hasAssessment
+                ? 'według oceny zasiłek nie przysługuje albo brakuje danych do jego ustalenia, więc kwoty nie podajemy — szczegóły w wyniku oceny i w ZUS. Poradnik ZUS podaje, że kwota nie zależy od tego, ile kosztował pogrzeb.'
+                : 'zobaczysz ją w wyniku oceny po podaniu danych (kwota pochodzi z parametrów, nie z tego opisu). Do tego czasu sprawdź ją na zus.pl lub w ZUS. Poradnik ZUS podaje, że kwota nie zależy od tego, ile kosztował pogrzeb.'}
           </li>
           <li>
             <strong>Wniosek:</strong> druk Z-12, razem z rachunkami za pogrzeb. Jeśli nie sporządzono aktu urodzenia z adnotacją o martwym urodzeniu, potrzebna jest karta zgonu albo zaświadczenie o martwym urodzeniu wydane przez lekarza lub położną.

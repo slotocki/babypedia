@@ -2,7 +2,7 @@ import { useRef, useState, type DragEvent } from 'react'
 import { Link } from 'react-router'
 import { paths } from '@/app/paths'
 import { Alert, Button, ErrorState, Section, Spinner, cn } from '@/ui'
-import { decisionLabel } from './decision'
+import { decisionLabel, tidyTitle } from './decision'
 import { formatSize, MAX_PDF_BYTES } from './pdf-file'
 import type { useCasePdf } from './useCasePdf'
 import type { useLoadCase } from './useLoadCase'
@@ -54,7 +54,7 @@ function Recognition({ pdf, loader }: { pdf: PdfState; loader: LoadState }) {
   const { summary } = lookup
   if (!summary.dostepna) {
     return (
-      <Alert variant="info" title={`To sprawa: ${summary.tytul}`}>
+      <Alert variant="info" title={`To sprawa: ${tidyTitle(summary.tytul)}`}>
         <p>Oczekiwana decyzja ZUS: {decisionLabel[summary.oczekiwanaDecyzja]}.</p>
         <p className="mt-1">Dane tej sprawy nie zostały jeszcze dostarczone, więc nie możemy ich załadować.</p>
         <p className="mt-2">
@@ -68,7 +68,7 @@ function Recognition({ pdf, loader }: { pdf: PdfState; loader: LoadState }) {
   const loading = loader.state.status === 'loading'
   return (
     <div className="space-y-3">
-      <Alert variant="info" title={`To sprawa: ${summary.tytul}`}>
+      <Alert variant="info" title={`To sprawa: ${tidyTitle(summary.tytul)}`}>
         <p>Oczekiwana decyzja ZUS: {decisionLabel[summary.oczekiwanaDecyzja]}.</p>
       </Alert>
       <Button fullWidth className="sm:w-auto" loading={loading} loadingLabel="Ładuję dane sprawy (symulacja)…" disabled={loader.busy} onClick={() => void loader.load(summary)}>

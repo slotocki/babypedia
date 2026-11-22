@@ -35,7 +35,7 @@ export function KnowledgePage() {
       <PageHeader title="Baza wiedzy" description="Znajdź przepisy i oficjalne informacje o świadczeniach, urlopach i wnioskach." />
       <LegalAssistant calculatorPath={calculatorPath} />
 
-      <Section title="Poradnik ZUS" description="Oficjalny poradnik ZUS o ubezpieczeniach i świadczeniach dla rodziców. Czat powyżej przeszukuje też jego treść.">
+      <Section title="Poradnik ZUS" description="Oficjalny poradnik ZUS o ubezpieczeniach i świadczeniach dla rodziców. Czat „Zapytaj o przepisy” (ikona w prawym dolnym rogu) przeszukuje też jego treść.">
         <Card className="space-y-4">
           <div className="flex items-start gap-3">
             <FileIcon className="mt-0.5 size-6 shrink-0 text-brand-strong" />
