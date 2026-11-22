@@ -132,3 +132,35 @@ export function describeChange(c: BenefitChange, both: boolean): string {
   if (parts.length === 0) parts.push('zmienia się okres')
   return `${benefitTitle(c, both)}: ${parts.join(', ')}`
 }
+
+const AMOUNT_TOLERANCE = 0.01
+
+/**
+ * Jedno zdanie „co to znaczy” nad różnicą. Wyłącznie z danych porównania (statusy, kwoty, okresy); brak podstaw → null.
+ */
+export function summarize(result: CompareResult, analysis: Analysis, scenarioId?: string): string | null {
+  const { changed, totalAmountDelta, both } = analysis
+  if (changed.length === 0) return null
+  const statusChange = changed.find((c) => c.statusChanged)
+
+  if (totalAmountDelta !== null && !changed.some((c) => c.statusChanged)) {
+    const totalBase = result.base.benefits.reduce((sum, b) => sum + (b.amount?.total ?? 0), 0)
+    const abs = Math.abs(totalAmountDelta)
+    if (totalAmountDelta === 0 && analysis.changed.some((c) => c.periodChanged || c.weeksDelta)) {
+      return 'Łączna kwota zostaje taka sama, zmieniają się tylko okresy wypłat.'
+    }
+    if (totalBase > 0 && abs <= totalBase * AMOUNT_TOLERANCE) {
+      const tail = scenarioId === 'wariant_wyplaty' ? '; uśredniony wypłaca równo przez cały czas.' : '; różni się głównie rozłożeniem w czasie.'
+      return `Oba warianty dają prawie tyle samo (różnica ${formatMoney(abs)})${tail}`
+    }
+    return `Ten wariant daje łącznie o ${formatMoney(abs)} ${totalAmountDelta > 0 ? 'więcej' : 'mniej'} niż plan bazowy.`
+  }
+
+  if (statusChange) {
+    const name = benefitTitle(statusChange, both)
+    const became = statusText[statusChange.statusVariant]
+    const others = changed.filter((c) => c.statusChanged).length - 1
+    return `W tym wariancie zmienia się status: ${name} — ${became}${others > 0 ? ` (i jeszcze ${others} ${others === 1 ? 'świadczenie' : 'świadczenia'})` : ''}.`
+  }
+  return null
+}

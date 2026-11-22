@@ -34,7 +34,7 @@ export function Layout() {
 
           {/* Na telefonie: logo w pierwszym wierszu, menu w jednej linii pod nim (Start = logo, więc bez osobnego linku). */}
           <nav aria-label="Główna nawigacja" className="w-full sm:ml-auto sm:w-auto">
-            <ul className="flex items-center justify-between sm:justify-end sm:gap-x-0.5">
+            <ul className="flex flex-wrap items-center justify-between gap-x-1 sm:justify-end sm:gap-x-0.5">
               {primaryNav.map(({ to, label }) => (
                 <li key={to} className={to === paths.start ? 'hidden sm:block' : undefined}>
                   <NavLink to={to} end className={({ isActive }) => linkClass(isActive)}>{label}</NavLink>
@@ -57,6 +57,20 @@ export function Layout() {
       <footer className="border-t border-line bg-surface text-sm text-ink-soft">
         <div className="mx-auto max-w-5xl space-y-3 px-4 py-4">
           <p>Decyzję podejmuje ZUS lub płatnik składek. Integracje działają w trybie symulacji na fikcyjnych danych.</p>
+          <nav aria-label="Dodatkowe odnośniki">
+            <ul className="flex flex-wrap gap-x-5">
+              <li>
+                <NavLink to={paths.cases} className="inline-flex min-h-11 items-center font-semibold text-brand-strong underline underline-offset-4 hover:text-brand">
+                  Sprawy ZUS (dla oceniających)
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to={paths.scenarios} className="inline-flex min-h-11 items-center font-semibold text-brand-strong underline underline-offset-4 hover:text-brand">
+                  Porównaj warianty
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
         </div>
       </footer>
     </div>

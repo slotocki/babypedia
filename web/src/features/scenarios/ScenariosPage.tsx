@@ -13,6 +13,7 @@ import {
   emptyValues,
   isFieldIssue,
   primaryField,
+  personsInCalculation,
   scenarioList,
   totalLeaveWeeks,
   valuesFromChange,
@@ -50,7 +51,7 @@ function splitIssues(id: ScenarioId, result: CompareResult | undefined) {
 }
 
 export function ScenariosPage() {
-  const { facts, setFacts } = useCaseState()
+  const { facts, setFacts, sessionId } = useCaseState()
   const navigate = useNavigate()
   const [params] = useSearchParams()
   const example = devExampleParam(params)
@@ -92,6 +93,7 @@ export function ScenariosPage() {
 
   const options = useMemo(
     () =>
+      // Najczęstsze (kolejność listy) na górze; niedostępne na końcu, z wyjaśnieniem.
       scenarioList.map((s) => {
         const a = availability(s.id, facts)
         const forced = prefill?.id === s.id
@@ -108,7 +110,7 @@ export function ScenariosPage() {
             s.description
           ),
         }
-      }),
+      }).sort((a, b) => Number(a.disabled) - Number(b.disabled)),
     [facts, prefill],
   )
 
@@ -135,6 +137,7 @@ export function ScenariosPage() {
     navigate(paths.result)
   }
 
+  const needsSecondParent = selected?.id === 'drugi_rodzic_bierze' && personsInCalculation(facts).length < 2 && prefill === null
   const initial: FormValues = prefill && prefill.id === selectedId ? valuesFromChange(prefill) : emptyValues
   const showResult = compare.isSuccess && !hasIssues && selected
 
@@ -156,13 +159,24 @@ export function ScenariosPage() {
         </Alert>
       ) : (
         <>
-          <Section title="1. Wybierz, co chcesz sprawdzić" description="Warianty, które nie pasują do Twoich danych, są wyszarzone i mają krótkie wyjaśnienie.">
+          <Section title="1. Wybierz, co chcesz sprawdzić" description="Najczęściej sprawdzane są na górze. Warianty, które nie pasują do Twoich danych, są na końcu, wyszarzone, z krótkim wyjaśnieniem.">
             <RadioGroup name="scenariusz" options={options} value={selectedId ?? ''} onChange={(e) => pickScenario(e.target.value as ScenarioId)} />
           </Section>
 
           {selected && selectedAvailability ? (
             <div ref={formAreaRef}>
               <Section title="2. Ustaw wariant">
+                {needsSecondParent ? (
+                  <Alert variant="info" title="Ten wariant wymaga danych obojga rodziców">
+                    Liczysz teraz tylko dla siebie, więc nie wiemy nic o drugim rodzicu i nie da się podzielić urlopu rodzicielskiego. Dodaj drugiego rodzica
+                    do swoich danych, a potem wróć do tego porównania.
+                    <div className="pt-3">
+                      <Button asChild>
+                        <Link to={sessionId ? paths.review : paths.manual}>Dodaj drugiego rodzica</Link>
+                      </Button>
+                    </div>
+                  </Alert>
+                ) : (
                 <ScenarioForm
                   key={`${selected.id}-${prefill ? 'p' : 'n'}`}
                   scenario={selected}
@@ -176,6 +190,7 @@ export function ScenariosPage() {
                   }}
                   onSubmit={runChange}
                 />
+                )}
               </Section>
             </div>
           ) : null}
@@ -204,7 +219,7 @@ export function ScenariosPage() {
 
           {compare.isError ? <CompareError error={compare.error} onRetry={() => submitted && compare.mutate(submitted)} retrying={compare.isPending} /> : null}
 
-          {showResult ? <ComparisonView key={compare.submittedAt} result={compare.data} scenarioTitle={selected.title} onApply={variantFacts ? apply : undefined} /> : null}
+          {showResult ? <ComparisonView key={compare.submittedAt} result={compare.data} scenarioId={selected.id} scenarioTitle={selected.title} onApply={variantFacts ? apply : undefined} /> : null}
 
           <div>
             <Button variant="secondary" asChild>

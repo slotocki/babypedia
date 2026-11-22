@@ -20,7 +20,7 @@ export function HelpTip({ children, label = 'Wyjaśnienie' }: HelpTipProps) {
         <button
           type="button"
           aria-label={label}
-          className="-my-1 inline-grid size-8 shrink-0 place-items-center rounded-full text-ink-soft hover:bg-brand-soft hover:text-brand-strong focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand data-[state=open]:bg-brand-soft data-[state=open]:text-brand-strong"
+          className="relative -my-1 inline-grid size-8 after:absolute after:-inset-2 after:content-[''] shrink-0 place-items-center rounded-full text-ink-soft hover:bg-brand-soft hover:text-brand-strong focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand data-[state=open]:bg-brand-soft data-[state=open]:text-brand-strong"
         >
           <QuestionIcon className="size-[1.15rem]" aria-hidden="true" />
         </button>
