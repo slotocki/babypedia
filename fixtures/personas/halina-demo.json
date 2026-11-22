@@ -1,7 +1,7 @@
 {
   "$schema": "../../contracts/persona.schema.json",
   "id": "halina-demo",
-  "opis": "Wymyślona osoba: pracownica małego płatnika (do 20 ubezpieczonych) z zwolnieniem e-ZLA z kodem B; zasiłek wypłaca ZUS.",
+  "opis": "Wymyślona osoba: pracownica małego płatnika (do 20 ubezpieczonych) w ciąży (termin 10.02.2027), ze zwolnieniem e-ZLA z kodem B; zasiłek wypłaca ZUS.",
   "status": "gotowe",
   "tozsamosc": {
     "imie": "Halina",
@@ -26,13 +26,13 @@
       },
       "dziecko.liczba": {
         "value": 1,
-        "source": "assumption"
+        "source": "user"
       }
     },
     "wnioskodawca": {
       "osoba.rola": {
         "value": "matka",
-        "source": "assumption"
+        "source": "user"
       },
       "osoba.dataUrodzenia": {
         "value": "1989-07-02",

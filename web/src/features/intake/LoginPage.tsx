@@ -5,11 +5,13 @@ import { api } from '@/app/api/client'
 import type { FactSet } from '@/app/api/types'
 import { emptyFacts, useCaseState, type DataConnection, type DataSource } from '@/app/case-context'
 import { paths } from '@/app/paths'
+import { rememberExampleAnswers } from '@/features/review/examples'
 import { mergeIntegrationFacts } from '@/features/review/facts'
 import { findKind, submissionFormPath } from '@/features/submissions/kinds'
 import { dataSources } from '@/features/zus-data/labels'
 import { Button, Checkbox, ErrorState, PageHeader, SimulationBanner, Spinner, UserIcon } from '@/ui'
 import { useFocusHeading } from './useFocusHeading'
+import { clearWizardDraft } from './wizardDraft'
 
 const allSources: DataSource[] = dataSources.map((source) => source.id)
 
@@ -74,6 +76,9 @@ export function LoginPage() {
         connectProfile(sessionId, profileName, link)
         navigate(requestedKind ? submissionFormPath(requestedKind.id) : paths.submissions, { replace: true })
       } else {
+        // Odpowiedzi zapisane w pliku osoby testowej oznaczamy na „Sprawdź dane” jako przykład do poprawienia.
+        rememberExampleAnswers(sessionId, facts)
+        clearWizardDraft()
         replaceCase(facts, sessionId, null, profileName, link)
         navigate(paths.review)
       }
@@ -122,9 +127,12 @@ export function LoginPage() {
                   </label>
                 ))}
               </fieldset>
-              <Button type="submit" disabled={!selected} className="w-full sm:w-auto">
-                Zaloguj przez mObywatela
-              </Button>
+              <div className="space-y-2">
+                <Button type="submit" disabled={!selected} aria-describedby={selected ? undefined : 'wybierz-osobe'} className="w-full sm:w-auto">
+                  Zaloguj przez mObywatela
+                </Button>
+                {!selected ? <p id="wybierz-osobe" className="text-sm text-ink-soft">Wybierz osobę powyżej, aby przejść dalej.</p> : null}
+              </div>
             </form>
           ) : null}
         </>

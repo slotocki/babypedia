@@ -54,6 +54,51 @@ public sealed class DemoPersonaOutcomeTests(AssessmentFixture fixture) : IClassF
         return (await assessed.Content.ReadFromJsonAsync<AssessmentResult>(ApiJson.Options, Ct))!;
     }
 
+    private async Task<AssessmentResult> LoginOnlyAsync(string personaId)
+    {
+        using var client = fixture.CreateClient();
+        var login = await client.PostAsJsonAsync("/api/sim/login", new { personaId }, Ct);
+        login.EnsureSuccessStatusCode();
+        using var session = JsonDocument.Parse(await login.Content.ReadAsStringAsync(Ct));
+        using var request = new HttpRequestMessage(HttpMethod.Get, "/api/sim/me/facts");
+        request.Headers.Add(SimulationModule.SessionHeader, session.RootElement.GetProperty("sessionId").GetString());
+        var response = await client.SendAsync(request, Ct);
+        response.EnsureSuccessStatusCode();
+        var facts = (await response.Content.ReadFromJsonAsync<FactSet>(ApiJson.Options, Ct))!;
+        var assessed = await client.PostAsJsonAsync("/api/assessment", new AssessmentRequest(facts, CatalogKit.AsOf), ApiJson.Options, Ct);
+        assessed.EnsureSuccessStatusCode();
+        return (await assessed.Content.ReadFromJsonAsync<AssessmentResult>(ApiJson.Options, Ct))!;
+    }
+
+    [Theory]
+    [InlineData("anna-przyklad")]
+    [InlineData("klara-demo")]
+    [InlineData("halina-demo")]
+    [InlineData("monika-demo")]
+    public async Task Logged_in_employee_sees_maternity_amount_without_answering_questions_about_the_event(string personaId)
+    {
+        var result = await LoginOnlyAsync(personaId);
+
+        var maternity = Get(result, BenefitId.Macierzynski);
+        Assert.Equal(BenefitStatus.Przysluguje, maternity.Status);
+        Assert.NotNull(maternity.Amount);
+        // Zostaje co najwyżej pytanie o umowę terminową — tego rejestr ZUS nie zna, a opis osoby nie rozstrzyga.
+        Assert.All(result.MissingFacts, m => Assert.Equal(FactKeys.UmowaNaCzasOkreslony, m.Fact));
+    }
+
+    [Theory]
+    [InlineData("edyta-demo")]
+    [InlineData("olga-demo")]
+    [InlineData("tadeusz-demo")]
+    [InlineData("weronika-demo")]
+    public async Task Logged_in_demo_person_is_not_asked_about_the_event_role_or_number_of_children(string personaId)
+    {
+        var result = await LoginOnlyAsync(personaId);
+
+        Assert.DoesNotContain(result.MissingFacts, m => m.Fact is FactKeys.ZdarzenieRodzaj or FactKeys.ZdarzenieData
+            or FactKeys.ZdarzenieDlaKogo or FactKeys.OsobaRola or FactKeys.DzieckoLiczba);
+    }
+
     private static BenefitResult Get(AssessmentResult r, BenefitId id)
     {
         var benefit = CatalogKit.Get(r, id);

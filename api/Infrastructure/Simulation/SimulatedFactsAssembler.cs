@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using BabyRadnik.Domain.Contracts;
 
 namespace BabyRadnik.Infrastructure.Simulation;
@@ -68,6 +70,14 @@ public sealed class SimulatedFactsAssembler(
         {
             caseSet = CaseDocumentFacts(caseFacts, caseSet);
         }
+        else
+        {
+            // Osoba demo: odpowiedzi, które ta wymyślona osoba podałaby w pytaniach (zdarzenie, termin, dla kogo, rola…),
+            // trafiają do faktów jako jej odpowiedzi (źródło „user”) — do sprawdzenia i poprawienia na „Sprawdź dane”.
+            // Dane z rejestrów mają pierwszeństwo.
+            caseSet = Overlay(UserDeclarations(caseFacts), caseSet);
+            applicant = Overlay(UserDeclarations(own), applicant);
+        }
 
         return new FactSet { Sprawa = caseSet, Wnioskodawca = applicant, DrugiRodzic = await PartnerFactsAsync(persona, ct) };
     }
@@ -97,7 +107,44 @@ public sealed class SimulatedFactsAssembler(
 
         var account = await insurance.GetAccountAsync(partner.Id, ct);
         var titles = Emit(FactSource.Zus, FactKeys.UbezpieczenieTytuly, account.Tytuly, partner.Fakty.Wnioskodawca.UbezpieczenieTytuly?.Page);
-        return titles is null ? null : new PersonFacts { UbezpieczenieTytuly = titles };
+        var declared = persona.Fakty.DrugiRodzic is { } about ? UserDeclarations(about) : new PersonFacts();
+        if (titles is null)
+        {
+            return declared == new PersonFacts() ? null : declared;
+        }
+
+        return declared with { UbezpieczenieTytuly = titles };
+    }
+
+    /// <summary>Tylko fakty z odpowiedzi osoby (źródło „user”); pozostałe pola (dane rejestrów zapisane w pliku osoby) pomijamy.</summary>
+    private static T UserDeclarations<T>(T facts) where T : class, new()
+    {
+        var all = JsonSerializer.SerializeToNode(facts, SimJson.Options)?.AsObject() ?? [];
+        var declared = new JsonObject();
+        foreach (var (key, fact) in all)
+        {
+            if (fact is JsonObject f && f["source"]?.GetValue<string>() == "user")
+            {
+                declared[key] = f.DeepClone();
+            }
+        }
+
+        return declared.Deserialize<T>(SimJson.Options) ?? new T();
+    }
+
+    /// <summary>Fakty z <paramref name="over"/> zastępują te same klucze w <paramref name="under"/>.</summary>
+    private static T Overlay<T>(T under, T over) where T : class, new()
+    {
+        var merged = JsonSerializer.SerializeToNode(under, SimJson.Options)?.AsObject() ?? [];
+        foreach (var (key, fact) in JsonSerializer.SerializeToNode(over, SimJson.Options)?.AsObject() ?? [])
+        {
+            if (fact is not null)
+            {
+                merged[key] = fact.DeepClone();
+            }
+        }
+
+        return merged.Deserialize<T>(SimJson.Options) ?? new T();
     }
 
     private Fact<T>? Emit<T>(FactSource source, string key, T? value, int? page) where T : class =>

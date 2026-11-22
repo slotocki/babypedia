@@ -1,7 +1,7 @@
 {
   "$schema": "../../contracts/persona.schema.json",
   "id": "edyta-demo",
-  "opis": "Wymyślona osoba: prowadzi działalność z dobrowolnym chorobowym i zadłużeniem składkowym 120,00 zł; zasiłek wypłaca ZUS.",
+  "opis": "Wymyślona osoba: w ciąży (termin 05.05.2027), prowadzi działalność z dobrowolnym chorobowym i zadłużeniem składkowym 120,00 zł; zasiłek wypłaca ZUS.",
   "status": "gotowe",
   "tozsamosc": {
     "imie": "Edyta",
@@ -25,13 +25,13 @@
       },
       "dziecko.liczba": {
         "value": 1,
-        "source": "assumption"
+        "source": "user"
       }
     },
     "wnioskodawca": {
       "osoba.rola": {
         "value": "matka",
-        "source": "assumption"
+        "source": "user"
       },
       "osoba.dataUrodzenia": {
         "value": "1985-01-14",

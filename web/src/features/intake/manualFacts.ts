@@ -38,6 +38,8 @@ export interface ManualInput {
   rola: ParentRole
   /** Rodzaj zdarzenia — decyduje, które dodatkowe sekcje (e-ZLA, plan urlopów) są zapisywane. */
   rodzaj?: string
+  /** Wszystkie dzieci urodziły się martwe — plan urlopu rodzicielskiego i rezygnacja nie są zapisywane. */
+  stillborn?: boolean
   dataUrodzenia?: string
   ja: WorkInput
   /** Tylko gdy liczymy „dla mnie i drugiego rodzica”. Brak = dane drugiego rodzica z tego kroku są usuwane. */
@@ -113,6 +115,7 @@ interface WorkContext {
   eventDate?: string
   rodzaj?: string
   mother: boolean
+  stillborn?: boolean
 }
 
 function applyWork(facts: FactSet, person: PersonRef, work: WorkInput, ctx: WorkContext): FactSet {
@@ -132,7 +135,7 @@ function applyWork(facts: FactSet, person: PersonRef, work: WorkInput, ctx: Work
     return [...new Map(all.map((m) => [m.miesiac, m])).values()].sort((x, y) => x.miesiac.localeCompare(y.miesiac))
   }
   next = set(next, 'ubezpieczenie.podstawySkladek', insuredFrom && work.kwota !== undefined ? months(insuredFrom, work.kwota) : undefined)
-  next = applyExtraFacts(next, person, work.extras, { rodzaj: ctx.rodzaj ?? '', mother: ctx.mother })
+  next = applyExtraFacts(next, person, work.extras, { rodzaj: ctx.rodzaj ?? '', mother: ctx.mother, stillborn: ctx.stillborn })
 
   const hasContract = work.forma === 'pracownik' || work.forma === 'zleceniobiorca'
   next = set(next, 'umowa.naCzasOkreslony', hasContract ? work.czasOkreslony : undefined)
@@ -148,7 +151,7 @@ function applyWork(facts: FactSet, person: PersonRef, work: WorkInput, ctx: Work
 export function applyManualFacts(facts: FactSet, input: ManualInput): FactSet {
   let next = withFact(facts, 'wnioskodawca', 'osoba.rola', userFactOf(input.rola))
   next = withFact(next, 'wnioskodawca', 'osoba.dataUrodzenia', input.dataUrodzenia ? userFactOf(input.dataUrodzenia) : undefined)
-  const ctx = { today: input.today, eventDate: input.eventDate, rodzaj: input.rodzaj }
+  const ctx = { today: input.today, eventDate: input.eventDate, rodzaj: input.rodzaj, stillborn: input.stillborn }
   next = applyWork(next, 'wnioskodawca', input.ja, { ...ctx, mother: input.rola === 'matka' })
 
   if (input.drugi) {

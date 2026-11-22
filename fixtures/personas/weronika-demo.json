@@ -1,7 +1,7 @@
 {
   "$schema": "../../contracts/persona.schema.json",
   "id": "weronika-demo",
-  "opis": "Wymyślona osoba: zleceniobiorczyni z dobrowolnym ubezpieczeniem chorobowym od 22.09.2026 (poniżej 90 dni wyczekiwania), e-ZLA z kodem B.",
+  "opis": "Wymyślona osoba: zleceniobiorczyni w ciąży (termin 25.04.2027) z dobrowolnym ubezpieczeniem chorobowym od 22.09.2026 (poniżej 90 dni wyczekiwania), e-ZLA z kodem B.",
   "status": "gotowe",
   "tozsamosc": {
     "imie": "Weronika",
@@ -25,13 +25,13 @@
       },
       "dziecko.liczba": {
         "value": 1,
-        "source": "assumption"
+        "source": "user"
       }
     },
     "wnioskodawca": {
       "osoba.rola": {
         "value": "matka",
-        "source": "assumption"
+        "source": "user"
       },
       "osoba.dataUrodzenia": {
         "value": "1996-11-30",

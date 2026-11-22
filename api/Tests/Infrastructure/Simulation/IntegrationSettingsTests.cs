@@ -117,7 +117,8 @@ public sealed class IntegrationSettingsTests : IDisposable
             var facts = await FactsAsync(client, persona);
             foreach (var bucket in new[] { "sprawa", "wnioskodawca" })
             {
-                foreach (var p in facts.GetProperty(bucket).EnumerateObject())
+                // Odpowiedzi osoby demo (źródło „user”) nie pochodzą z integracji, więc panel ich nie przełącza.
+                foreach (var p in facts.GetProperty(bucket).EnumerateObject().Where(p => p.Value.GetProperty("source").GetString() != "user"))
                 {
                     emitted.Add($"{p.Value.GetProperty("source").GetString()}/{p.Name}");
                 }

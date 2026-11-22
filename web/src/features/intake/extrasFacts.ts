@@ -111,11 +111,17 @@ export function extrasAnswersFrom(facts: FactSet, person: PersonRef): ExtrasAnsw
 export interface ExtrasScope {
   rodzaj: string
   mother: boolean
+  /**
+   * Wszystkie dzieci z porodu urodziły się martwe. Silnik nie liczy wtedy urlopu rodzicielskiego
+   * (api/Domain/Periods/PeriodsService.cs, Rodzicielski), a urlop macierzyński trwa najwyżej 8 tygodni po porodzie
+   * (KP art. 180¹), więc rezygnacja po 14 tygodniach i podział urlopu rodzicielskiego nie mają zastosowania.
+   */
+  stillborn?: boolean
 }
 
 export const showsSickLeaves = (s: ExtrasScope) => s.mother && (s.rodzaj === 'ciaza' || s.rodzaj === 'urodzenie')
-export const showsLeavePlan = (s: ExtrasScope) => s.rodzaj === 'ciaza' || s.rodzaj === 'urodzenie' || s.rodzaj === 'przyjecie'
-export const showsResignation = (s: ExtrasScope) => s.mother && (s.rodzaj === 'ciaza' || s.rodzaj === 'urodzenie')
+export const showsLeavePlan = (s: ExtrasScope) => !s.stillborn && (s.rodzaj === 'ciaza' || s.rodzaj === 'urodzenie' || s.rodzaj === 'przyjecie')
+export const showsResignation = (s: ExtrasScope) => !s.stillborn && s.mother && (s.rodzaj === 'ciaza' || s.rodzaj === 'urodzenie')
 
 /**
  * Pierwszy tytuł (z głównych pytań) uzupełniony o datę końca i lista kolejnych tytułów.
@@ -174,7 +180,7 @@ export function applyExtraFacts(facts: FactSet, person: PersonRef, extras: Extra
 
 type Issue = (path: string, message: string) => void
 
-const DATE_HINT = 'Wybierz datę z kalendarza albo wpisz ją w formacie rrrr-mm-dd.'
+const DATE_HINT = 'Wpisz ją jako dzień, miesiąc i rok, np. 15.03.2027, albo wybierz z kalendarza.'
 
 /** Walidacja dodatkowych sekcji; `path` to prefiks pola w formularzu (np. „praca.extras”). */
 export function checkExtras(e: ExtrasAnswers, path: string, mainOd: string, mainForma: string, scope: ExtrasScope, issue: Issue) {
