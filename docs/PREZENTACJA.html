@@ -112,201 +112,162 @@ p { font-size: 28px; line-height: 1.4; color: var(--body); }
   .hint{position:fixed;right:16px;bottom:12px;font:14px Arial,sans-serif;color:#B9C6DC}
   body.present section{display:none;margin:0} body.present section.on{display:flex}
 }
+
+.pt p.t{font-size:26px;line-height:1.34}
+.sub{font-size:24px;color:var(--muted);margin:-28px 0 28px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px;width:100%}
+.box p.t2{font-size:25px;line-height:1.36}
+.pt code,.box code{font-size:.9em;background:#E3E9F3;border-radius:6px;padding:0 6px}
+
+.pt p.t{font-size:26px;line-height:1.34}
+.sub{font-size:24px;color:var(--muted);margin:-28px 0 28px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px;width:100%}
+.box p.t2{font-size:25px;line-height:1.36}
+.pt code,.box code{font-size:.9em;background:#E3E9F3;border-radius:6px;padding:0 6px}
 </style></head><body><section id="cover" class="cover" data-transition="fade">
 <div class="row" style="align-items:center;">
-<div class="col in" style="width:640px;">
-<p class="eyebrow">HackNation 2026 · zadanie ZUS</p>
-<h1>Kompas Rodzica</h1>
-<p class="lead">Zasiłkowy Przewodnik Przyszłego Rodzica: co przysługuje, ile, do kiedy i na co uważać — dla konkretnej osoby.</p>
+<div class="col in" style="width:800px;">
+<p class="eyebrow">Związek z wyzwaniem (25%)</p>
+<h1 style="font-size:92px;margin-bottom:28px;">Kompas Rodzica</h1>
+<div class="points" style="margin-bottom:28px;">
+<div class="pt"><div class="dot"></div><p class="t">Zadanie ZUS „Zasiłkowy Przewodnik Przyszłego Rodzica”: przewodnik po zasiłkach z ubezpieczenia chorobowego dla przyszłych rodziców</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Problem: prawo do zasiłku zależy od tytułu ubezpieczenia, stażu, płatnika, liczby dzieci i daty zdarzenia. Rodzic nie wie, co mu przysługuje, do kiedy i gdzie złożyć wniosek</p></div>
+<div class="pt"><div class="dot"></div><p class="t">O odmowie często dowiaduje się wtedy, gdy nie może już zmienić swojej sytuacji</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Kompas Rodzica mówi konkretnej osobie: co przysługuje, ile, do kiedy, gdzie złożyć wniosek i na co uważać</p></div>
+</div>
 <p class="team">Zespół 2Stosy: Sylwester Łotocki, Andrzej Laskowski</p>
 <p class="url">kompasrodzica.polandcentral.cloudapp.azure.com</p>
 </div>
-<img class="shot in2" src="zrzuty/slajd-01-start.png" alt="Ekran startowy Kompasu Rodzica: „Sprawdź, co Ci przysługuje” i trzy ścieżki wejścia" style="width:960px; height:600px;">
+<img class="shot in2" src="zrzuty/slajd-01-start.png" alt="Ekran startowy Kompasu Rodzica: „Sprawdź, co Ci przysługuje” i trzy ścieżki wejścia" style="width:820px; height:512px;">
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">Przedstawiamy się jednym zdaniem: aplikacja odpowiada rodzicowi na pytanie, co mu przysługuje, zanim będzie za późno na zmianę sytuacji. Demo działa pod adresem na slajdzie.</aside>
+<aside class="notes">Problem to nie brak informacji, tylko jej dopasowanie do jednej osoby. Przykład: zaległość w składkach przy działalności odbiera prawo do zasiłku, jeśli nie zostanie spłacona na czas. Demo działa pod adresem na slajdzie.</aside>
 </section>
-
-<section id="problem" class="alt">
-<p class="eyebrow">Problem</p>
-<h2>Rodzic nie wie, co mu przysługuje — ani do kiedy</h2>
-<div class="row">
-<div class="points grow in">
-<div class="pt"><div class="dot"></div><p>Prawo do zasiłku zależy od tytułu ubezpieczenia, stażu, płatnika, liczby dzieci i daty zdarzenia.</p></div>
-<div class="pt"><div class="dot"></div><p>Nikt nie mówi, ile i do kiedy złożyć wniosek.</p></div>
-<div class="pt"><div class="dot"></div><p>O odmowie rodzic dowiaduje się, gdy zmiana sytuacji jest już niemożliwa.</p></div>
-<div class="pt"><div class="dot"></div><p>Potrzebna jest odpowiedź z podstawą prawną, nie ogólna broszura.</p></div>
+<section id="start" class="alt">
+<p class="eyebrow">Kompletność i UX (25%)</p>
+<h2>Jak to działa: trzy drogi na start</h2>
+<div class="steps" style="margin-bottom:36px;">
+<div class="step in"><img class="shot" src="zrzuty/slajd-03-logowanie.png" alt="Ekran logowania przez mObywatela w trybie symulacji z listą fikcyjnych osób" style="width:528px; height:300px;"></div>
+<div class="step in2"><img class="shot" src="zrzuty/slajd-03-pytania-169.png" alt="Pytania o brakujące dane, daty w formacie DD.MM.RRRR" style="width:528px; height:300px;"></div>
+<div class="step in3"><img class="shot" src="zrzuty/slajd-03-wynik.png" alt="Ekran wyniku: Twój plan ze świadczeniami, kwotą i okresem" style="width:528px; height:300px;"></div>
 </div>
-<div class="quote in2" style="width:720px;">
-<p class="q">„Własne wypowiedzenie w ciąży odbiera prawo do zasiłku macierzyńskiego.”</p>
-<p class="qs">Informacji nie brakuje. Brakuje jej dopasowania do jednej osoby — zanim podejmie decyzję.</p>
-</div>
+<div class="grid2 in3">
+<div class="points"><div class="pt"><div class="dot"></div><p class="t">Start „Sprawdź, co Ci przysługuje”: „Wprowadź dane ręcznie”, „Połącz się przez mObywatela i ZUS”, „Sprawdź na rzeczywistych przykładach”</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Logowanie (symulacja): wybór osoby testowej, potem „Zgoda na pobranie danych” ze wskazaniem źródeł (ZUS, e-ZLA, rejestr stanu cywilnego)</p></div></div>
+<div class="points"><div class="pt"><div class="dot"></div><p class="t">„Potwierdź pobrane dane”: każda informacja ze źródłem i przyciskiem „Popraw”; pytania tylko o to, czego brakuje, daty w formacie DD.MM.RRRR</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Potem „Twój plan”, „Moje konto”, „Wnioski”, „Wsparcie”, „Baza wiedzy”; ten sam układ na telefonie i komputerze</p></div></div>
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">Pokaż, że problem to nie brak informacji, tylko jej dopasowanie do jednej osoby. Przykład: własne wypowiedzenie w ciąży odbiera prawo do zasiłku macierzyńskiego, a o tym łatwo nie wiedzieć.</aside>
+<aside class="notes">Każdy ekran ma jedną główną akcję, a każda symulacja jest tak nazwana na ekranie. Sprawdź w demo: Start → „Połącz się przez mObywatela i ZUS” → Anna → „Połącz i pobierz dane (symulacja)” → „Potwierdź dane” → „Pokaż wynik”.</aside>
 </section>
-
-<section id="rozwiazanie">
-<p class="eyebrow">Rozwiązanie</p>
-<h2>Od trzech pytań do wyniku</h2>
-<div class="steps">
-<div class="step in">
-<p class="n">KROK 1</p>
-<h3>Logowanie i dane z ZUS</h3>
-<img class="shot" src="zrzuty/slajd-03-logowanie.png" alt="Ekran logowania przez mObywatela w trybie symulacji z listą fikcyjnych osób" style="width:528px; height:330px;">
-<p class="cap">mObywatel i dane z ZUS (symulacja); każdy fakt ze źródłem i przyciskiem „Popraw”.</p>
-</div>
-<div class="step in2">
-<p class="n">KROK 2</p>
-<h3>Trzy pytania</h3>
-<img class="shot" src="zrzuty/slajd-03-pytania-169.png" alt="Pytania: co się dzieje, kiedy i dla kogo liczymy" style="width:528px; height:330px;">
-<p class="cap">Co się dzieje, kiedy i dla kogo liczymy.</p>
-</div>
-<div class="step in3">
-<p class="n">KROK 3</p>
-<h3>Twój plan</h3>
-<img class="shot" src="zrzuty/slajd-03-wynik.png" alt="Ekran wyniku: świadczenia z kwotą i okresem oraz najbliższy krok" style="width:528px; height:330px;">
-<p class="cap">Co przysługuje, co zrobić i do kiedy, na co uważać, inny wariant.</p>
-</div>
-</div>
-<div class="chips">
-<p class="pill">Wnioski w PDF</p>
-<p class="pill">Zaświadczenie o saldzie składek</p>
-<p class="pill">Wsparcie i linki</p>
-<p class="pill">Telefon od 360 px</p>
-</div>
-<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">To jest główny przebieg i pierwszy, który działa od początku do końca. Każdy ekran ma jedną główną akcję, a każda symulacja jest oznaczona słowem „symulacja”.</aside>
-</section>
-
-<section id="wynik" class="alt">
-<p class="eyebrow">Pomysł</p>
+<section id="wynik">
+<p class="eyebrow">Pomysł (20%)</p>
 <h2>Wynik, który da się sprawdzić</h2>
 <div class="row">
-<div class="col" style="width:1000px;">
-<img class="shot in" src="zrzuty/slajd-04-karta.png" alt="Karta zasiłku macierzyńskiego: przysługuje, 32 215,40 zł, 20 tygodni" style="width:880px; height:443px;">
-<div class="points" style="margin-top:36px;">
-<div class="pt"><div class="dot"></div><p class="small">Karta świadczenia: status, okres od–do, stawka, kwota, kto wypłaca, gdzie złożyć wniosek.</p></div>
-<div class="pt"><div class="dot"></div><p class="small">Jeden „najbliższy krok” na górze listy terminów.</p></div>
-</div>
-</div>
-<div class="col in2" style="width:560px;">
-<img class="shot" src="zrzuty/slajd-04-sciezka.png" alt="Rozwinięta ścieżka decyzji: reguła, warunek spełniony, podstawa prawna" style="width:560px; height:605px;">
+<div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">„W skrócie” na górze: co przysługuje, w jakiej kwocie i czego brakuje, w jednym-dwóch zdaniach</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Karta świadczenia: status, okres od–do, kwota, kto wypłaca, gdzie złożyć wniosek, dokumenty; przy urlopie rodzicielskim „Twoja część” obok wymiaru łącznego obojga rodziców</p></div>
+<div class="pt"><div class="dot"></div><p class="t">„Ścieżka decyzji”: 6 najważniejszych kroków (reguła, przepis, warunek spełniony lub nie), reszta pod „Pokaż wszystkie kroki”; „Co znaczą te pojęcia” objaśnia ZAM, płatnika składek, e-ZLA, Z-3</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Odmowa zawsze z powodem, przepisem i następnym krokiem („Co musiałoby się zmienić”, przy zaległości „To da się naprawić”); „Co dalej?” z najbliższym krokiem i terminami</p></div></div>
+<div class="col in2" style="width:640px;gap:20px;">
+<img class="shot" src="zrzuty/slajd-04-karta.png" alt="Karta zasiłku macierzyńskiego: przysługuje, kwota, okres" style="width:640px; height:322px;">
+<img class="shot" src="zrzuty/slajd-04-sciezka.png" alt="Rozwinięta ścieżka decyzji: reguła, warunek spełniony, podstawa prawna" style="width:640px; height:300px;">
 </div>
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">To nasza główna różnica: nie „system odmówił”, tylko „odmowa, bo art. 29 ust. 1, a zmieniłaby się, gdyby…”. Rozwijana ścieżka decyzji pokazuje regułę, artykuł, warunek i czy jest spełniony, z wyjaśnieniem prostym językiem. Jurorzy mogą sprawdzić każdy krok w przepisie.</aside>
+<aside class="notes">Nasza główna różnica: nie „system odmówił”, tylko „odmowa, bo taki przepis, a zmieniłoby się, gdyby…”. W trudnej sytuacji (strata dziecka) wynik zmienia ton, a wsparcie i najpilniejsze sprawy są na górze. Sprawdź w demo: Edyta (zaległość 120,00 zł) — odmowa z kwotą do spłaty i terminem.</aside>
 </section>
-
-<section id="warianty">
-<p class="eyebrow">Pomysł · kompletność</p>
+<section id="warianty" class="alt">
+<p class="eyebrow">Pomysł (20%)</p>
 <h2>„Co jeśli” i porównanie wariantów</h2>
-<div class="row">
-<div class="col in" style="width:600px;">
-<img class="shot" src="zrzuty/slajd-05-scenariusze.png" alt="Lista siedmiu scenariuszy: odejście z pracy, koniec umowy, działalność, drugi rodzic, część etatu, wariant wypłaty, spłata zadłużenia" style="width:600px; height:552px;">
-</div>
-<div class="col in2" style="width:960px;">
-<img class="shot" src="zrzuty/slajd-05-roznica.png" alt="Różnica między planem bazowym a wariantem wypłaty: zasiłek macierzyński −5 959,80 zł, urlop rodzicielski +5 929,28 zł" style="width:880px; height:493px;">
-<p class="cap">Siedem scenariuszy. Silnik liczy drugi raz na zmienionych faktach i pokazuje różnicę w tygodniach, złotych i statusach. Walidacja planu: 9 tygodni nieprzenoszalnych, najwyżej 5 części.</p>
-</div>
+<div class="points in" style="margin-bottom:32px;"><div class="pt"><div class="dot"></div><p class="t">Siedem scenariuszy: odejście z pracy, koniec umowy, przejście na działalność, drugi rodzic bierze część urlopu rodzicielskiego, praca na część etatu, wariant wypłaty (standardowy lub 81,5%), spłata zadłużenia</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Silnik liczy drugi raz na zmienionych faktach; na górze podsumowanie w jednym zdaniu, niżej różnica w tygodniach i złotych oraz zmiana statusów</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Podział urlopu: wskazana osoba bierze podaną liczbę tygodni; pilnujemy 9 tygodni nieprzenoszalnych i najwyżej 5 części</p></div>
+<div class="pt"><div class="dot"></div><p class="t">„Zastosuj ten wariant w moim planie” albo powrót do planu bazowego; wariant 81,5% można też wybrać od razu na wyniku</p></div></div>
+<div class="row in2" style="gap:40px;justify-content:center;flex:none;">
+<img class="shot" src="zrzuty/slajd-05-scenariusze.png" alt="Lista siedmiu scenariuszy" style="width:340px; height:313px;">
+<img class="shot" src="zrzuty/slajd-05-roznica.png" alt="Różnica między planem bazowym a wariantem wypłaty" style="width:560px; height:314px;">
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">Siedem scenariuszy: odejście z pracy, koniec umowy, przejście na działalność, drugi rodzic bierze część urlopu rodzicielskiego, praca na część etatu, wariant wypłaty (standardowy lub 81,5%), spłata zadłużenia. Tu pokazujemy zagrożenia z zadania: utratę uprawnień, zmianę wymiaru i wysokości. Rodzic widzi skutek decyzji, zanim ją podejmie.</aside>
+<aside class="notes">Tu są zagrożenia z zadania (pkt 3 h): utrata uprawnień, zmiana wymiaru i wysokości. Rodzic widzi skutek decyzji, zanim ją podejmie. Sprawdź w demo: Anna → „Porównaj warianty” → „Wariant wypłaty” → „Uśredniony”.</aside>
 </section>
-
+<section id="sprawy">
+<p class="eyebrow">Związek z wyzwaniem (25%)</p>
+<h2>Sprawdzone na sprawach ZUS</h2>
+<div class="row">
+<div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Ekran „Sprawy ZUS” (link „Sprawy ZUS (dla oceniających)” w stopce): 11 spraw z zestawu ZUS — wybór z listy albo dodanie pliku PDF</p></div>
+<div class="pt"><div class="dot"></div><p class="t">PDF rozpoznawany po sumie SHA-256 liczonej w przeglądarce; plik nie opuszcza urządzenia, aplikacja nie czyta jego treści</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Na wyniku ramka „Porównanie z decyzją ZUS”: decyzja i okresy z akt obok wyniku silnika. 1 sprawa zgodna co do okresu i kwoty z wydrukiem ZUS, 8 co do okresu (co do dnia), 2 odmowy zgodne z decyzją</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Z 43 przeanalizowanych spraw silnik rozstrzyga inaczej niż ZUS w jednej (umowa uznana za zawartą dla pozoru — ustalenie z kontroli)</p></div></div>
+<img class="shot in2" src="zrzuty/slajd-05-sprawy-zus.png" alt="Ekran „Sprawy ZUS” z listą spraw i ramką „Porównanie z decyzją ZUS” z tabelą okresów" style="width:700px; height:560px;">
+</div>
+<div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
+<aside class="notes">To odpowiedź na wymóg demo z pkt 4 i 6 zadania: upload lub wybór przykładowych wniosków i sprawdzenie wyliczeń. W większości akt kwota jest zaczerniona, dlatego kwotę porównujemy tam, gdzie jest w dokumentach. Pozostałe pliki z zestawu dają podgląd i komunikat „Nie znam tej sprawy” z możliwością wpisu ręcznego. Dokumentów ZUS ani danych z nich nie ma w repozytorium. Sprawdź w demo: „Sprawy ZUS” → sprawa z oznaczeniem „Okres i kwota zgodne z wydrukiem ZUS” → „Załaduj dane sprawy” → wynik.</aside>
+</section>
 <section id="pokrycie" class="alt">
-<p class="eyebrow">Związek z wyzwaniem · kompletność</p>
+<p class="eyebrow">Kompletność i UX (25%)</p>
 <h2>Pokrycie wymagań zadania</h2>
 <div class="row">
-<div class="points in" style="width:720px;">
-<div class="pt"><div class="dot"></div><p class="small">Wszystkie pozycje a–j z zadania mają ekran, endpoint i moduł kodu (mapa w README).</p></div>
-<div class="pt"><div class="dot"></div><p class="small">Symulacje S1–S7: logowanie, dane ZUS, saldo i zaświadczenie, e-ZLA, zapytanie PUE, wnioski, odpis aktu.</p></div>
-<div class="pt"><div class="dot"></div><p class="small">S8–S10: wsparcie i linki, panel /admin. T1–T2: responsywność i ekran „Sprawy ZUS”.</p></div>
-<div class="pt"><div class="dot"></div><p class="small">Uczciwy status: lista organizacji charytatywnych jest pusta, dane spraw ZUS są poza repozytorium.</p></div>
-</div>
-<img class="shot in2" src="zrzuty/slajd-06-wnioski-top.png" alt="Ekran „Wnioski i zgłoszenia” z wzorami wniosków o urlop do pracodawcy" style="width:540px; height:600px;">
-<img class="phone in3" src="zrzuty/slajd-06-telefon-wynik.png" alt="Wynik na telefonie: karta zasiłku macierzyńskiego na wąskim ekranie" style="width:280px; height:606px;">
+<div class="points in" style="width:880px;"><div class="pt"><div class="dot"></div><p class="t">Pozycje a–j z zadania mają ekran, endpoint i moduł kodu (mapa w README, wiersz po wierszu ze statusem)</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Symulacje: logowanie mObywatel, dane ZUS, saldo i zaświadczenie o stanie składek (z datą stanu salda), e-ZLA, zapytanie PUE/eZUS, wnioski o urlopy i dane do ZAM z datami z planu, odpis aktu urodzenia; puste pola w PDF zostają do uzupełnienia odręcznie</p></div>
+<div class="pt"><div class="dot"></div><p class="t">„Wsparcie”: zweryfikowane organizacje charytatywne z filtrem sytuacji, kontakt do ZUS; „Baza wiedzy”: Poradnik ZUS i linki do zus.pl, MRPiPS, PIP</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Status wprost: świadczenie rehabilitacyjne zawsze „nie rozstrzygam” (orzeka lekarz orzecznik ZUS); indywidualną podstawę liczymy dla typowych przypadków, w pozostałych prosimy o podstawę od płatnika</p></div></div>
+<img class="shot in2" src="zrzuty/slajd-06-wnioski-top.png" alt="Ekran „Wnioski” z wzorami wniosków o urlop do pracodawcy" style="width:360px; height:400px;">
+<img class="phone in3" src="zrzuty/slajd-06-telefon-wynik.png" alt="Wynik na telefonie: karta zasiłku na wąskim ekranie" style="width:280px; height:606px;">
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">Mówimy wprost, co działa w pełni, a co częściowo. Pełna tabela jest w README, wiersz po wierszu, ze statusem.</aside>
+<aside class="notes">Mówimy wprost, co działa w pełni, a co częściowo. Pełna tabela jest w README w części „Mapa wymagań”. Responsywność sprawdziliśmy automatycznie przy 320, 390 i 768 px — bez przewijania w poziomie.</aside>
 </section>
-
-<section id="silnik">
-<p class="eyebrow">Oryginalność</p>
-<h2>Deterministyczny silnik reguł</h2>
+<section id="czat">
+<p class="eyebrow">Oryginalność (15%)</p>
+<h2>Czat „Zapytaj o przepisy”: FAQ i źródła</h2>
 <div class="row">
-<div class="points grow in">
-<div class="pt"><div class="dot"></div><p>Uprawnienia, okresy, kwoty i terminy liczy wyłącznie silnik reguł w C#, bez udziału modelu językowego.</p></div>
-<div class="pt"><div class="dot"></div><p>Ponad 80 małych reguł, każda z identyfikatorem i podstawą prawną.</p></div>
-<div class="pt"><div class="dot"></div><p>Parametry prawne w bazie z datą obowiązywania; zmiana w /admin zmienia wynik we właściwym okresie.</p></div>
-<div class="pt"><div class="dot"></div><p>Gdy przepis nie rozstrzyga: „nie rozstrzygam, skontaktuj się z ZUS”. Bez zgadywania.</p></div>
-</div>
-<div class="col in2" style="width:720px;">
-<img class="shot" src="zrzuty/slajd-02-odmowa.png" alt="Odmowa zasiłku: zadłużenie 120 zł przekracza próg, podstawa prawna art. 2a, co musiałoby się zmienić" style="width:720px; height:527px;">
-<p class="cap">Odmowa zawsze z powodem, podstawą prawną i tym, co musiałoby się zmienić.</p>
-</div>
+<div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Na ekranach Twój plan, Wsparcie i Baza wiedzy; mały panel, który nie zasłania strony</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Najpierw 71 gotowych odpowiedzi (FAQ) z dosłownymi cytatami z materiałów ZUS i przepisów; test sprawdza każdy cytat słowo w słowo z wyciągiem</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Gdy pytanie nie pasuje do FAQ: wyszukiwarka po wyciągach przepisów; opcjonalnie, gdy ustawiony jest klucz API, model językowy (Claude Haiku) pisze krótkie wyjaśnienie obok sprawdzonych cytatów, oznaczone jako napisane przez model</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Źródła zwinięte do krótkich etykiet; po rozwinięciu cytat i cały fragment aktu. Pytania o własną sprawę czat kieruje do kalkulatora, a dane osobowe odrzuca</p></div></div>
+<img class="shot in2" src="zrzuty/slajd-08-czat.png" alt="Czat „Zapytaj o przepisy”: odpowiedź z FAQ i źródłami" style="width:388px; height:605px;">
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">To odpowiedź na pytanie, czy można ufać kalkulatorowi: ta sama odpowiedź na te same dane i pełny ślad. Uczciwe „nie rozstrzygam” jest cechą, nie brakiem. Na zrzucie: osoba demo z zadłużeniem składkowym 120 zł — odmowa z powodem, artykułem i datą, do której trzeba spłacić dług.</aside>
+<aside class="notes">Bez modelu czat odpowiada z FAQ i pokazuje wyniki wyszukiwania. Model nie może pokazać cytatu, którego nie ma w przepisie, i nie podaje kwot. To jedyne miejsce, w którym aplikacja w działaniu korzysta z AI.</aside>
 </section>
-
-<section id="ai" class="alt">
-<p class="eyebrow">Oryginalność · uczciwość</p>
-<h2>Jak powstał projekt i rola AI</h2>
+<section id="silnik" class="alt">
+<p class="eyebrow">Potencjał wdrożeniowy (15%), oryginalność (15%)</p>
+<h2>Silnik reguł i jakość</h2>
 <div class="row">
-<div class="points grow in">
-<div class="pt"><div class="dot"></div><p class="small"><b>„Zapytaj o przepisy”:</b> model pisze krótkie wyjaśnienie i wybiera cytaty z materiałów ZUS. Aplikacja pokazuje tylko cytaty sprawdzone z tekstem przepisu i oznacza wyjaśnienie jako napisane przez AI.</p></div>
-<div class="pt"><div class="dot"></div><p class="small">Kod, testy i dokumentację napisały modele Claude (Anthropic) w narzędziu Claude Code.</p></div>
-<div class="pt"><div class="dot"></div><p class="small">Zespół agentów: modele pisały gałęzie, osobny model przeglądał i zatwierdzał zmiany silnika.</p></div>
-<div class="pt"><div class="dot"></div><p class="small">Ilustracja na ekranie startowym została wygenerowana przez model AI.</p></div>
-<div class="pt"><div class="dot"></div><p class="small"><b>Ludzie:</b> materiały prawne, decyzje zakresu, weryfikacja. Reguły z wyciągów przepisów, nie z pamięci modelu.</p></div>
-</div>
-<img class="shot in2" src="zrzuty/slajd-08-czat.png" alt="Czat „Zapytaj o przepisy” z cytatem z Kodeksu pracy art. 184 i dopiskiem, że wyjaśnienie napisał model językowy" style="width:388px; height:605px;">
+<div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Uprawnienia, okresy, kwoty i terminy liczy deterministyczny silnik reguł w C# — ponad 80 małych reguł, każda z podstawą prawną; te same dane dają ten sam wynik</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Gdy przepis nie rozstrzyga: „nie rozstrzygam” i kontakt do ZUS, bez zgadywania; brakujący fakt wraca jako pytanie</p></div>
+<div class="pt"><div class="dot"></div><p class="t"><code>dotnet test</code>: TESTY_SUMA testów, TESTY_ZIELONE zielonych, 0 błędów, 1 pominięty (raport dla spraw ZUS z katalogu prywatnego); 55 przypadków referencyjnych napisanych przed regułami</p></div>
+<div class="pt"><div class="dot"></div><p class="t">102 parametry prawne w bazie z datą obowiązywania; zmiana w <code>/admin</code> (polskie nazwy w grupach) zmienia wynik od wskazanego dnia, z historią zmian</p></div></div>
+<img class="shot in2" src="zrzuty/slajd-02-odmowa.png" alt="Odmowa zasiłku z przepisem i „Co musiałoby się zmienić”" style="width:640px; height:469px;">
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">Mówimy wprost, że kod pisały modele, i pokazujemy, jak to kontrolowaliśmy: testy referencyjne przed regułami i przegląd silnika przez osobny model. Na zrzucie: odpowiedź czatu z cytatem z Kodeksu pracy i dopiskiem, że wiążące są przepisy.</aside>
+<aside class="notes">Model językowy nie liczy i nie decyduje. Pełny ślad decyzji widać na każdej karcie. Wdrożenie przepisu to nowa wartość parametru z datą, nie zmiana kodu.</aside>
 </section>
-
-<section id="jakosc" class="dark">
-<p class="eyebrow">Potencjał wdrożeniowy</p>
-<h2>Jakość i gotowość do wdrożenia</h2>
-<div class="stats">
-<div class="stat in"><p class="big">807</p><p class="lbl">testów w dotnet test</p></div>
-<div class="stat in"><p class="big">793</p><p class="lbl">zielonych</p></div>
-<div class="stat in2"><p class="big">0</p><p class="lbl">błędów</p></div>
-<div class="stat in2"><p class="big">14</p><p class="lbl">pominiętych — sprawy ZUS czekają na dane</p></div>
-</div>
-<div class="points in3">
-<div class="pt"><div class="dot"></div><p>54 aktywne przypadki referencyjne (okresy, uprawnienia, kwoty, parametry) z fixtures/reference/.</p></div>
-<div class="pt"><div class="dot"></div><p>Integracje za interfejsami: tożsamość, rejestr ubezpieczeń, konto składkowe, e-ZLA, wysyłka. Podmiana symulacji na usługi bez zmian w silniku.</p></div>
-<div class="pt"><div class="dot"></div><p>Panel parametrów, Docker Compose, CI; zależności na licencjach permisywnych.</p></div>
+<section id="zewnetrzne">
+<p class="eyebrow">Potencjał wdrożeniowy (15%)</p>
+<h2>Rozwiązania zewnętrzne i użycie AI</h2>
+<p class="sub">Wymóg regulaminu (§ 4 ust. 1): „W przypadku stosowania rozwiązań zewnętrznych zostanie to wyraźnie wskazane w prezentacji zadania.”</p>
+<div class="grid2 in">
+<div class="box"><h3>Frontend</h3><p class="t2">React, React Router, TanStack Query, React Hook Form, Zod, Radix UI (MIT), TypeScript (Apache-2.0), Vite, Tailwind CSS (MIT), pdf.js — podgląd PDF (Apache-2.0)</p></div>
+<div class="box"><h3>Backend</h3><p class="t2">ASP.NET Core i .NET 10, Entity Framework Core z InMemory (MIT), PostgreSQL i sterownik Npgsql (PostgreSQL License), PDFsharp-MigraDoc 6.2.4 (MIT), font Roboto (Apache-2.0), xUnit (Apache-2.0)</p></div>
+<div class="box"><h3>Infrastruktura i usługi</h3><p class="t2">Docker i Docker Compose, nginx (BSD-2-Clause), Caddy (Apache-2.0), Microsoft Azure (maszyna wirtualna demo), Let's Encrypt; Claude Haiku przez Anthropic API — opcjonalnie, tylko czat</p></div>
+<div class="box"><h3>AI poza aplikacją</h3><p class="t2">Kod, testy, treść FAQ i dokumentację wytworzyły modele Claude w Claude Code pod nadzorem zespołu; dokumenty spraw ZUS odczytano z pomocą AI; ilustracja na ekranie startowym jest wygenerowana przez AI. Materiały źródłowe: przepisy i Poradnik ZUS z materiałów zadania</p></div>
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">Wdrożenie to podmiana pięciu implementacji Simulated… i uzupełnienie parametrów, nie przepisywanie silnika. Pokaż listę licencji w repozytorium.</aside>
+<aside class="notes">Wszystkie zależności mają licencje permisywne. Pełna lista z wersjami jest w docs/ZALEZNOSCI.md, a opis użycia AI w README, „Wykorzystanie AI”.</aside>
 </section>
-
-<section id="demo">
-<p class="eyebrow">Ograniczenia · następne kroki</p>
-<h2>Co dalej — i gdzie to sprawdzić</h2>
+<section id="demo" class="alt">
+<p class="eyebrow">Potencjał wdrożeniowy (15%), kompletność i UX (25%)</p>
+<h2>Założenia, ograniczenia i jak przetestować</h2>
 <div class="row">
-<div class="col grow in" style="gap:24px;">
-<div class="box">
-<h3>Do potwierdzenia z ZUS</h3>
-<p>Zaokrąglanie, brutto/netto, minimalna podstawa przy niepełnym etacie, druki Z-3 i Z-3a, kwota świadczenia rodzicielskiego.</p>
-</div>
-<div class="box">
-<h3>Dziś i dalej</h3>
-<p>Dziś: integracje symulowane, osoby fikcyjne, kwoty brutto. Dalej: prawdziwe integracje, zweryfikowana lista organizacji, dane spraw ZUS w testach.</p>
-</div>
-<div class="col">
-<p style="font-size:28px; color:var(--ink);"><b>Demo:</b> kompasrodzica.polandcentral.cloudapp.azure.com</p>
-<p style="font-size:28px; color:var(--ink);"><b>Kod:</b> github.com/slotocki/babypedia</p>
-</div>
-</div>
+<div class="points grow in"><div class="pt"><div class="dot"></div><p class="t">Założenia tam, gdzie materiały nie rozstrzygają, każde jako parametr w <code>/admin</code>: stawka dzienna zaokrąglana raz do 1 gr (jak w wyliczeniach ZUS w sprawach testowych); kwoty brutto; minimalna podstawa przy niepełnym etacie proporcjonalnie do etatu; druki Z-3, Z-3a, ZAS-53 i ZAM według treści zadania</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Ograniczenia: podwyższenia do kwoty świadczenia rodzicielskiego (art. 31 ust. 3a) nie wyliczamy, tylko o nim informujemy; wszystkie integracje są symulowane, dane osób fikcyjne</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Jak przetestować: osoby testowe na ekranie logowania (Anna — ścieżka standardowa, Edyta — odmowa za zaległość w składkach, Halina — e-ZLA i mały płatnik, Tadeusz — ojciec, gdy matka nie ma ubezpieczenia) oraz „Sprawy ZUS (dla oceniających)” w stopce</p></div>
+<div class="pt"><div class="dot"></div><p class="t">Lokalnie bez Dockera: <code>dotnet run --project api/Api</code> i <code>npm run dev</code> w <code>web/</code> (baza w pamięci); kod: github.com/slotocki/babypedia</p></div></div>
 <img class="phone in2" src="zrzuty/slajd-10-telefon-start.png" alt="Ekran startowy Kompasu Rodzica na telefonie" style="width:280px; height:606px;">
 </div>
 <div class="foot"><p>Kompas Rodzica · 2Stosy</p><p class="num"></p></div>
-<aside class="notes">Kończymy listą rzeczy, których nie rozstrzygnęliśmy, bo to z nimi trzeba iść do ZUS. Zapraszamy do przetestowania demo na osobach z README.</aside>
+<aside class="notes">Każde założenie przy wdrożeniu zmienia się jedną wartością parametru z datą, bez zmiany kodu. Opis osób jest w README w części „Fikcyjne osoby demo”, a oznaczenia spraw w części „Sprawy testowe ZUS”.</aside>
 </section>
 <p class="hint">← → / spacja: kolejne slajdy · F: pełny ekran · Esc: widok wszystkich</p>
 <script>
