@@ -380,29 +380,29 @@ Podgląd PDF w przeglądarce (pdf.js). Plik nie opuszcza przeglądarki.
 
 **Dane osób przepisują ludzie z dokumentów. Agent nie wymyśla danych spraw.** Do czasu dostarczenia danych utwórz pliki z samą oczekiwaną decyzją i polem `"status": "do_uzupelnienia"`; test dla takiej sprawy jest pomijany, nie zielony.
 
-| Id | Sprawa (z nazwy pliku) | Oczekiwana decyzja |
+| Id | Sprawa (opis) | Oczekiwana decyzja |
 |---|---|---|
-| ewa | zasiłek macierzyński; nie podlega ubezpieczeniu chorobowemu w dniu porodu | odmowa |
-| justyna | zasiłek chorobowy w ciąży; osoba współpracująca; zadłużenie składkowe | odmowa |
-| zuzanna | zasiłek chorobowy w ciąży | do odczytania z dokumentów |
-| dariusz | ojciec; zasiłek za okres rodzicielskiego; matka nieubezpieczona | przyznanie |
-| julia | przyjęcie dziecka na wychowanie; przysposobienie | do odczytania |
-| alicja | zasiłek za okres macierzyńskiego i rodzicielskiego | do odczytania |
-| joanna | zasiłek w wysokości macierzyńskiego i macierzyński; likwidacja pracodawcy | przyznanie |
-| andrzej | ojciec; część rodzicielskiego, 9 tygodni | do odczytania |
-| teresa | zasiłek chorobowy i macierzyński; umowa zlecenia | do odczytania |
-| tomasz | ojciec; rodzicielski, szósta część | odmowa |
-| agnieszka-wa | łączenie urlopu rodzicielskiego z pracą | do odczytania |
-| piotr | działalność; okres urlopu ojcowskiego; zadłużenie | odmowa |
-| agnieszka-poz | pracownica od 2011 r.; skrajny wcześniak, masa < 1000 g | przyznanie |
-| karolina | działalność; poród 1.12.2025; zaznaczony pełny wymiar | przyznanie |
+| sprawa-01 | zasiłek macierzyński; nie podlega ubezpieczeniu chorobowemu w dniu porodu | odmowa |
+| sprawa-02 | zasiłek chorobowy w ciąży; osoba współpracująca; zadłużenie składkowe | odmowa |
+| sprawa-03 | zasiłek chorobowy w ciąży | do odczytania z dokumentów |
+| sprawa-04 | ojciec; zasiłek za okres rodzicielskiego; matka nieubezpieczona | przyznanie |
+| sprawa-05 | przyjęcie dziecka na wychowanie; przysposobienie | do odczytania |
+| sprawa-06 | zasiłek za okres macierzyńskiego i rodzicielskiego | do odczytania |
+| sprawa-07 | zasiłek w wysokości macierzyńskiego i macierzyński; likwidacja pracodawcy | przyznanie |
+| sprawa-08 | ojciec; część rodzicielskiego, 9 tygodni | do odczytania |
+| sprawa-09 | zasiłek chorobowy i macierzyński; umowa zlecenia | do odczytania |
+| sprawa-10 | ojciec; rodzicielski, szósta część | odmowa |
+| sprawa-11 | łączenie urlopu rodzicielskiego z pracą | do odczytania |
+| sprawa-12 | działalność; okres urlopu ojcowskiego; zadłużenie | odmowa |
+| sprawa-13 | pracownica od 2011 r.; skrajny wcześniak, masa < 1000 g | przyznanie |
+| sprawa-14 | działalność; poród 1.12.2025; zaznaczony pełny wymiar | przyznanie |
 
 Dwie sprawy mają potwierdzone okresy — użyj jako pierwszych testów arytmetyki:
 
 | Sprawa | Macierzyński | Uzupełniający | Rodzicielski |
 |---|---|---|---|
-| agnieszka-poz (poród 12.06.2025) | 12.06.2025–29.10.2025 = 140 dni | 30.10.2025–11.02.2026 = 105 dni (15 tyg.) | 12.02.2026–23.09.2026 = 224 dni (32 tyg.) |
-| karolina (poród 1.12.2025) | 1.12.2025–19.04.2026 = 140 dni | 20.04.2026–14.06.2026 = 56 dni (8 tyg.) | 15.06.2026–24.01.2027 = 224 dni (32 tyg.) |
+| sprawa-13 (poród 12.06.2025) | 12.06.2025–29.10.2025 = 140 dni | 30.10.2025–11.02.2026 = 105 dni (15 tyg.) | 12.02.2026–23.09.2026 = 224 dni (32 tyg.) |
+| sprawa-14 (poród 1.12.2025) | 1.12.2025–19.04.2026 = 140 dni | 20.04.2026–14.06.2026 = 56 dni (8 tyg.) | 15.06.2026–24.01.2027 = 224 dni (32 tyg.) |
 
 ---
 

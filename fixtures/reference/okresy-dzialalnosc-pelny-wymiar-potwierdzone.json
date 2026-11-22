@@ -1,6 +1,6 @@
 {
   "$schema": "../../contracts/reference.schema.json",
-  "id": "okresy-karolina-potwierdzone",
+  "id": "okresy-dzialalnosc-pelny-wymiar-potwierdzone",
   "opis": "Potwierdzone okresy (sekcja 10): działalność, poród 1.12.2025, pełny wymiar (wariant uśredniony)",
   "status": "gotowe",
   "modul": "okresy",

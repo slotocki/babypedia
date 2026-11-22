@@ -7,7 +7,7 @@ Przed nagraniem przejdź każdy krok na demo. Wyniki poniżej są oczekiwane na 
 Osoby i sprawa:
 
 - **Anna Przykładowa** (`anna-przyklad`: pracownica, ciąża, termin 15.03.2027) — ścieżka główna.
-- **Sprawa ZUS Andrzeja** (`zus-008`, plik „Andrzej El_5_zas. macierzyński za część urlopu rodzicielskiego - 9 tygodni.pdf”) — jedyna sprawa z oznaczeniem „Okres i kwota zgodne z wydrukiem ZUS”. Plik weź z zestawu ZUS na komputerze nagrywającego; nie kopiuj go do repozytorium.
+- **Sprawa ZUS Andrzeja** (`zus-008`: ojciec, zasiłek za część urlopu rodzicielskiego — 9 tygodni; plik PDF z zestawu ZUS) — jedyna sprawa z oznaczeniem „Okres i kwota zgodne z wydrukiem ZUS”. Plik weź z zestawu ZUS na komputerze nagrywającego; nie kopiuj go do repozytorium.
 - **Edyta Pokazowa** (`edyta-demo`: działalność, zadłużenie 120,00 zł, termin 5.05.2027) — odmowa i spłata zadłużenia.
 
 Lektor: ok. 2,3 słowa na sekundę, czyli najwyżej około 400 słów na cały film.

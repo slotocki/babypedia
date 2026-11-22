@@ -7,7 +7,7 @@ import type { useLoadCase } from './useLoadCase'
 
 type LoadState = ReturnType<typeof useLoadCase>
 
-/** Imię osoby ze sprawy (z identyfikatora, np. „zus-004-agnieszka-war” → „Agnieszka”). */
+/** Imię osoby ze sprawy (z identyfikatora sprawy, np. „zus-004-anna-x” → „Anna”). */
 function firstName(id: string) {
   const name = id.split('-')[2]
   return name ? name.charAt(0).toLocaleUpperCase('pl') + name.slice(1) : null

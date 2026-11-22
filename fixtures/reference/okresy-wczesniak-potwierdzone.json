@@ -1,6 +1,6 @@
 {
   "$schema": "../../contracts/reference.schema.json",
-  "id": "okresy-agnieszka-poz-potwierdzone",
+  "id": "okresy-wczesniak-potwierdzone",
   "opis": "Potwierdzone okresy (sekcja 10): pracownica od 2011 r., poród 12.06.2025, skrajny wcześniak, masa < 1000 g",
   "status": "gotowe",
   "modul": "okresy",

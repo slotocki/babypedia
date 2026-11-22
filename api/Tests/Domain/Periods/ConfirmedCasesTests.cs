@@ -16,7 +16,7 @@ public sealed class ConfirmedCasesTests
         Mother() with { PlanRodzicielskiCzesci = F<IReadOnlyList<LeavePart>>([new LeavePart(parentalWeeks)]) });
 
     [Fact]
-    public void Test2_agnieszka_poz_poród_12_06_2025_skrajny_wczesniak()
+    public void Test2_skrajny_wczesniak_porod_12_06_2025()
     {
         var assessment = Assess(Case("2025-06-12", 26, 900, "2025-06-12", "2025-10-01", 32));
 
@@ -31,7 +31,7 @@ public sealed class ConfirmedCasesTests
     }
 
     [Fact]
-    public void Test2_karolina_poród_1_12_2025()
+    public void Test2_dzialalnosc_pelny_wymiar_porod_1_12_2025()
     {
         var assessment = Assess(Case("2025-12-01", 34, 2100, "2025-12-01", "2026-01-30", 32));
 
