@@ -1,0 +1,153 @@
+{
+ "facts": {
+  "sprawa": {
+   "zdarzenie.rodzaj": {
+    "value": "ciaza",
+    "source": "user"
+   },
+   "zdarzenie.data": {
+    "value": "2024-08-10",
+    "source": "user"
+   },
+   "zdarzenie.dlaKogo": {
+    "value": "ja",
+    "source": "user"
+   },
+   "dziecko.liczba": {
+    "value": 1,
+    "source": "user"
+   },
+   "dziecko.zaZyciem": {
+    "value": false,
+    "source": "user"
+   }
+  },
+  "wnioskodawca": {
+   "osoba.rola": {
+    "value": "matka",
+    "source": "user"
+   },
+   "osoba.dataUrodzenia": {
+    "value": "1992-05-05",
+    "source": "user"
+   },
+   "ubezpieczenie.tytuly": {
+    "value": [
+     {
+      "rodzajTytulu": "zleceniobiorca",
+      "od": "2023-01-01",
+      "do": null,
+      "chorobowe": "dobrowolne"
+     }
+    ],
+    "source": "user"
+   },
+   "ubezpieczenie.podstawySkladek": {
+    "value": [
+     {
+      "miesiac": "2023-01",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2023-02",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2023-03",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2023-04",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2023-05",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2023-06",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2023-07",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2023-08",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2023-09",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2023-10",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2023-11",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2023-12",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2024-01",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2024-02",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2024-03",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2024-04",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2024-05",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2024-06",
+      "kwota": 4000
+     },
+     {
+      "miesiac": "2024-07",
+      "kwota": 4000
+     }
+    ],
+    "source": "user"
+   },
+   "ezla.zwolnienia": {
+    "value": [
+     {
+      "od": "2024-03-01",
+      "do": "2024-03-31",
+      "kod": "B",
+      "szpital": false
+     },
+     {
+      "od": "2024-04-01",
+      "do": "2024-05-15",
+      "kod": "B",
+      "szpital": true
+     }
+    ],
+    "source": "user"
+   },
+   "umowa.naCzasOkreslony": {
+    "value": false,
+    "source": "user"
+   },
+   "platnik.liczbaUbezpieczonych": {
+    "value": 20,
+    "source": "user"
+   }
+  }
+ }
+}

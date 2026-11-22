@@ -1,0 +1,134 @@
+{
+ "facts": {
+  "sprawa": {
+   "zdarzenie.rodzaj": {
+    "value": "urodzenie",
+    "source": "user"
+   },
+   "zdarzenie.data": {
+    "value": "2025-03-10",
+    "source": "user"
+   },
+   "zdarzenie.dlaKogo": {
+    "value": "ja",
+    "source": "user"
+   },
+   "dziecko.liczba": {
+    "value": 1,
+    "source": "user"
+   },
+   "dziecko.zaZyciem": {
+    "value": false,
+    "source": "user"
+   }
+  },
+  "wnioskodawca": {
+   "osoba.rola": {
+    "value": "matka",
+    "source": "user"
+   },
+   "osoba.dataUrodzenia": {
+    "value": "1992-05-05",
+    "source": "user"
+   },
+   "ubezpieczenie.tytuly": {
+    "value": [
+     {
+      "rodzajTytulu": "pracownik",
+      "od": "2020-01-01",
+      "do": "2024-12-31",
+      "chorobowe": "obowiazkowe",
+      "wymiarEtatu": 1,
+      "platnikId": "p1"
+     },
+     {
+      "rodzajTytulu": "pracownik",
+      "od": "2025-01-01",
+      "do": null,
+      "chorobowe": "obowiazkowe",
+      "wymiarEtatu": 0.625,
+      "platnikId": "p1"
+     },
+     {
+      "rodzajTytulu": "pracownik",
+      "od": "2025-02-01",
+      "do": null,
+      "chorobowe": "obowiazkowe",
+      "wymiarEtatu": 0.5,
+      "platnikId": "p2"
+     }
+    ],
+    "source": "user"
+   },
+   "ubezpieczenie.podstawySkladek": {
+    "value": [
+     {
+      "miesiac": "2024-01",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2024-02",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2024-03",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2024-04",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2024-05",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2024-06",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2024-07",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2024-08",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2024-09",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2024-10",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2024-11",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2024-12",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2025-01",
+      "kwota": 6000
+     },
+     {
+      "miesiac": "2025-02",
+      "kwota": 6000
+     }
+    ],
+    "source": "user"
+   },
+   "umowa.naCzasOkreslony": {
+    "value": false,
+    "source": "user"
+   },
+   "platnik.liczbaUbezpieczonych": {
+    "value": 21,
+    "source": "user"
+   }
+  }
+ }
+}

@@ -1,0 +1,208 @@
+{
+ "facts": {
+  "sprawa": {
+   "zdarzenie.rodzaj": {
+    "value": "urodzenie",
+    "source": "user"
+   },
+   "zdarzenie.data": {
+    "value": "2025-03-10",
+    "source": "user"
+   },
+   "zdarzenie.dlaKogo": {
+    "value": "ja_i_drugi_rodzic",
+    "source": "user"
+   },
+   "dziecko.liczba": {
+    "value": 1,
+    "source": "user"
+   },
+   "dziecko.zaZyciem": {
+    "value": false,
+    "source": "user"
+   }
+  },
+  "wnioskodawca": {
+   "osoba.rola": {
+    "value": "matka",
+    "source": "user"
+   },
+   "osoba.dataUrodzenia": {
+    "value": "1992-05-05",
+    "source": "user"
+   },
+   "ubezpieczenie.tytuly": {
+    "value": [
+     {
+      "rodzajTytulu": "pracownik",
+      "od": "2020-01-01",
+      "do": null,
+      "chorobowe": "obowiazkowe",
+      "wymiarEtatu": 1
+     }
+    ],
+    "source": "user"
+   },
+   "ubezpieczenie.podstawySkladek": {
+    "value": [
+     {
+      "miesiac": "2024-01",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2024-02",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2024-03",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2024-04",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2024-05",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2024-06",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2024-07",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2024-08",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2024-09",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2024-10",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2024-11",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2024-12",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2025-01",
+      "kwota": 7000
+     },
+     {
+      "miesiac": "2025-02",
+      "kwota": 7000
+     }
+    ],
+    "source": "user"
+   },
+   "plan.rezygnacjaZMacierzynskiegoPoTyg": {
+    "value": 14,
+    "source": "user"
+   },
+   "umowa.naCzasOkreslony": {
+    "value": false,
+    "source": "user"
+   },
+   "platnik.liczbaUbezpieczonych": {
+    "value": 21,
+    "source": "user"
+   }
+  },
+  "drugiRodzic": {
+   "osoba.rola": {
+    "value": "ojciec",
+    "source": "user"
+   },
+   "ubezpieczenie.tytuly": {
+    "value": [
+     {
+      "rodzajTytulu": "pracownik",
+      "od": "2018-03-01",
+      "do": null,
+      "chorobowe": "obowiazkowe",
+      "wymiarEtatu": 1
+     }
+    ],
+    "source": "user"
+   },
+   "ubezpieczenie.podstawySkladek": {
+    "value": [
+     {
+      "miesiac": "2024-01",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2024-02",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2024-03",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2024-04",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2024-05",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2024-06",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2024-07",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2024-08",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2024-09",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2024-10",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2024-11",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2024-12",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2025-01",
+      "kwota": 8000
+     },
+     {
+      "miesiac": "2025-02",
+      "kwota": 8000
+     }
+    ],
+    "source": "user"
+   },
+   "umowa.naCzasOkreslony": {
+    "value": false,
+    "source": "user"
+   },
+   "platnik.liczbaUbezpieczonych": {
+    "value": 21,
+    "source": "user"
+   }
+  }
+ }
+}

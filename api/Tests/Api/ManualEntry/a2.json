@@ -1,0 +1,140 @@
+{
+ "facts": {
+  "sprawa": {
+   "zdarzenie.rodzaj": {
+    "value": "urodzenie",
+    "source": "user"
+   },
+   "zdarzenie.data": {
+    "value": "2024-11-28",
+    "source": "user"
+   },
+   "zdarzenie.dlaKogo": {
+    "value": "ja",
+    "source": "user"
+   },
+   "dziecko.liczba": {
+    "value": 1,
+    "source": "user"
+   },
+   "dziecko.zaZyciem": {
+    "value": false,
+    "source": "user"
+   }
+  },
+  "wnioskodawca": {
+   "osoba.rola": {
+    "value": "matka",
+    "source": "user"
+   },
+   "osoba.dataUrodzenia": {
+    "value": "1992-05-05",
+    "source": "user"
+   },
+   "ubezpieczenie.tytuly": {
+    "value": [
+     {
+      "rodzajTytulu": "pracownik",
+      "od": "2020-01-01",
+      "do": null,
+      "chorobowe": "obowiazkowe",
+      "wymiarEtatu": 0.63
+     }
+    ],
+    "source": "user"
+   },
+   "ubezpieczenie.podstawySkladek": {
+    "value": [
+     {
+      "miesiac": "2023-09",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2023-10",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2023-11",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2023-12",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2024-01",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2024-02",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2024-03",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2024-04",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2024-05",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2024-06",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2024-07",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2024-08",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2024-09",
+      "kwota": 5000
+     },
+     {
+      "miesiac": "2024-10",
+      "kwota": 5000
+     }
+    ],
+    "source": "user"
+   },
+   "plan.rodzicielskiCzesci": {
+    "value": [
+     {
+      "tygodnie": 16,
+      "od": "2025-04-17"
+     },
+     {
+      "tygodnie": 16,
+      "od": "2025-09-01"
+     }
+    ],
+    "source": "user"
+   },
+   "plan.pracaNaCzescEtatu": {
+    "value": [
+     {
+      "wymiar": 0.5,
+      "tygodnie": 8,
+      "od": "2025-09-01"
+     }
+    ],
+    "source": "user"
+   },
+   "umowa.naCzasOkreslony": {
+    "value": false,
+    "source": "user"
+   },
+   "platnik.liczbaUbezpieczonych": {
+    "value": 21,
+    "source": "user"
+   }
+  }
+ }
+}
