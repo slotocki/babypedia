@@ -179,6 +179,8 @@ Podsumowanie przebiegu testu: Powodzenie!
 
 Pominięty test to raport dla spraw ZUS z katalogu prywatnego (`PrivateCasesReportTests`), uruchamiany tylko ze zmienną `CASES_REPORT_DIR`.
 
+Front (`cd web`): `npm test` — 88 testów jednostkowych (Vitest: fakty z wpisu ręcznego, daty, kwoty, porównanie wariantów, rozpoznawanie PDF sprawy, odpowiedzi czatu); `npm run e2e` — 8 scenariuszy Playwright, które same uruchamiają API (baza w pamięci) i Vite: Anna do wyniku z kwotą, odmowa Edyty, wpis ręczny (ciąża i martwe urodzenie), czat z FAQ, brak przewijania w poziomie przy 320/390/768 px, panel `/admin`, pobranie PDF wniosku. Przed pierwszym `npm run e2e`: `npx playwright install chromium`. Oba zestawy działają w CI.
+
 Przypadki referencyjne (`fixtures/reference/`): 55 plików — okresy 30, uprawnienia 15, kwoty 8, parametry 2. Pozostałe moduły (podstawa wymiaru, katalog, terminy, scenariusze, wnioski, symulacja, administracja, czat i FAQ) mają testy w `api/Tests/Domain/**`, `api/Tests/Infrastructure/**` i `api/Tests/Api/**`.
 
 Testy referencyjne powstają przed regułami, a reguła jest gotowa, gdy jej przypadki są zielone. Przypadek to plik `{id, opis, fakty, oczekiwane}`; testy silnika czytają je z `fixtures/reference/` (ewaluator wybierany polem `modul`, porównanie częściowe). Format opisuje [docs/KONTRAKT.md](docs/KONTRAKT.md), sekcja 6. CI (`.github/workflows/ci.yml`) buduje API, uruchamia testy, waliduje fixtures schematami i buduje frontend.
