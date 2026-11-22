@@ -10,6 +10,7 @@ internal sealed class Run(EvaluationContext context)
     public List<TraceStep> Trace { get; } = [];
     public List<MissingFact> Missing { get; } = [];
     public List<string> Notes { get; } = [];
+    public string? ConditionalOn { get; set; }
     public bool Denied => _decisive?.Outcome.Verdict == RuleVerdict.NotMet;
     public RuleVerdict? Pending => _decisive?.Outcome.Verdict;
 
@@ -23,8 +24,8 @@ internal sealed class Run(EvaluationContext context)
         catch (ParameterNotFoundException e)
         {
             outcome = new RuleOutcome(
-                new RuleResult(RuleVerdict.Undecided, $"Brak parametru „{e.Key}” obowiązującego w dniu {e.Date:yyyy-MM-dd} — nie rozstrzygam."),
-                $"Brak parametru „{e.Key}” obowiązującego w dniu {e.Date:yyyy-MM-dd} — nie rozstrzygam.");
+                new RuleResult(RuleVerdict.Undecided, $"Brak parametru „{e.Key}” obowiązującego w dniu {e.Date:dd.MM.yyyy} — nie rozstrzygam."),
+                $"Brak parametru „{e.Key}” obowiązującego w dniu {e.Date:dd.MM.yyyy} — nie rozstrzygam.");
         }
 
         Trace.Add(rule.ToTrace(outcome.Result));
@@ -145,7 +146,8 @@ internal sealed class Run(EvaluationContext context)
         }
     }
 
-    private BenefitEligibility Build(BenefitResult result) => new(result, Missing.ToList());
+    private BenefitEligibility Build(BenefitResult result) =>
+        new(ConditionalOn is null ? result : result with { ConditionalOn = ConditionalOn, Deadlines = [] }, Missing.ToList());
 }
 
 public sealed class EligibilityService(IParameterProvider parameters) : IEligibilityService
@@ -397,8 +399,8 @@ public sealed class EligibilityService(IParameterProvider parameters) : IEligibi
                 "Nie podano daty rozpoczęcia urlopu — ubezpieczenie ojca sprawdzono w dniu porodu, najwcześniejszym możliwym początku urlopu. Liczy się ubezpieczenie w dniu rozpoczęcia urlopu.");
         }
 
-        return OwnInsuranceRight(id, context, context.AsOf, "w dniu oceny",
-            "Nie podano daty rozpoczęcia urlopu — ubezpieczenie ojca sprawdzono w dniu oceny. Ojciec nie musiał być ubezpieczony w dniu porodu; liczy się ubezpieczenie w dniu rozpoczęcia urlopu.");
+        return OwnInsuranceRight(id, context, context.AsOf, $"w dniu sprawdzenia ({Text.Date(context.AsOf)})",
+            $"Nie podano daty rozpoczęcia urlopu — ubezpieczenie ojca sprawdziliśmy na dziś ({Text.Date(context.AsOf)}). Ojciec nie musiał być ubezpieczony w dniu porodu; liczy się ubezpieczenie w dniu rozpoczęcia urlopu.");
     }
 
     private static BenefitEligibility OwnInsuranceRight(BenefitId id, EvaluationContext context, DateOnly? leaveStart) =>
@@ -492,6 +494,9 @@ public sealed class EligibilityService(IParameterProvider parameters) : IEligibi
         return run.Finish(id, context.Person, route);
     }
 
+    /// <summary>Warunek karty zasiłku chorobowego w ciąży, gdy w danych nie ma zwolnienia lekarskiego.</summary>
+    public const string SicknessCondition = "gdy lekarz wystawi Ci zwolnienie lekarskie (L4) w okresie ciąży";
+
     private static BenefitEligibility Sickness(EvaluationContext context, bool rehabilitation)
     {
         var id = rehabilitation ? BenefitId.Rehabilitacyjne : BenefitId.ChorobowyWCiazy;
@@ -528,7 +533,9 @@ public sealed class EligibilityService(IParameterProvider parameters) : IEligibi
 
         if (!usage.HasLeaves)
         {
-            run.Notes.Add($"Brak zwolnień w danych — ocena dotyczy niezdolności do pracy powstałej w dniu oceny ({Text.Date(firstDay)}).");
+            run.ConditionalOn = SicknessCondition;
+            run.Notes.Add($"{BenefitResult.ConditionalNotePrefix} dotyczy sytuacji, {SicknessCondition}.");
+            run.Notes.Add($"Nie masz teraz zwolnienia lekarskiego, więc warunki sprawdzamy tak, jakby zwolnienie zaczęło się {Text.Date(firstDay)}.");
         }
 
         var firstInsuranceRule = new InsuranceOnDateRule(firstDay, "w pierwszym dniu niezdolności do pracy");
@@ -570,7 +577,7 @@ public sealed class EligibilityService(IParameterProvider parameters) : IEligibi
         }
 
         run.Do(new SicknessWagesRule(firstDay), affectsDecision: false);
-        run.Do(new ContributionDebtRule(firstDay));
+        run.Do(new ContributionDebtRule(firstDay, hypotheticalDay: !usage.HasLeaves));
         if (run.Denied || run.Pending is not null)
         {
             return run.Finish(id, context.Person);
@@ -620,7 +627,7 @@ internal static class RiskCatalog
                         insuredOnDate
                             ? "Jeden z tytułów (np. zlecenie bez dobrowolnego chorobowego albo działalność opłacająca tylko składkę zdrowotną) nie obejmuje ubezpieczenia chorobowego — z niego zasiłek nie przysługuje; prawo i wysokość zasiłku wynikają tylko z tytułu z ubezpieczeniem chorobowym."
                             : "Ten tytuł nie obejmuje ubezpieczenia chorobowego (np. zlecenie bez dobrowolnego chorobowego albo ulga na start) — bez niego zasiłek macierzyński ani chorobowy nie przysługuje.",
-                        "ustawa art. 29 ust. 1; instrukcja 8.2"));
+                        "ustawa art. 29 ust. 1"));
                 }
             }
 

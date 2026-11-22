@@ -277,7 +277,7 @@ public sealed class EligibilityRuleTests
         var result = Get(Service().Assess(Facts(Case(EventKind.Urodzenie, Birth), father), D(2026, 5, 1)), BenefitId.Ojcowski);
 
         Assert.Equal(BenefitStatus.NiePrzysluguje, result.Status);
-        Assert.Contains("1000,00 zł", result.WhatWouldChange);
+        Assert.Contains("1 000,00 zł", result.WhatWouldChange);
     }
 
     [Fact]
@@ -304,7 +304,7 @@ public sealed class EligibilityRuleTests
         {
             var result = Get(assessment, id);
             Assert.Equal(BenefitStatus.Przysluguje, result.Status);
-            Assert.Contains(result.Notes, n => n.Contains("w dniu oceny", StringComparison.Ordinal));
+            Assert.Contains(result.Notes, n => n.Contains("sprawdziliśmy na dziś", StringComparison.Ordinal));
         }
     }
 
@@ -315,7 +315,7 @@ public sealed class EligibilityRuleTests
         var result = Get(Service().Assess(Facts(Case(EventKind.Urodzenie, Birth), father), AsOf), BenefitId.Rodzicielski);
 
         Assert.Equal(BenefitStatus.NiePrzysluguje, result.Status);
-        Assert.Contains("w dniu oceny", result.Reason);
+        Assert.Contains("w dniu sprawdzenia", result.Reason);
         Assert.DoesNotContain("porodu", result.Reason);
     }
 
@@ -448,7 +448,8 @@ public sealed class EligibilityRuleTests
 
         var pregnant = Get(Service().Assess(Facts(Case(EventKind.Ciaza, D(2027, 2, 1)), person), AsOf), BenefitId.ChorobowyWCiazy);
         Assert.Equal(BenefitStatus.Przysluguje, pregnant.Status);
-        Assert.Contains(pregnant.Notes, n => n.Contains("dniu oceny", StringComparison.Ordinal));
+        Assert.Contains(pregnant.Notes, n => n.StartsWith(BenefitResult.ConditionalNotePrefix, StringComparison.Ordinal));
+        Assert.Equal(EligibilityService.SicknessCondition, pregnant.ConditionalOn);
 
         var born = Get(Service().Assess(Facts(Case(EventKind.Urodzenie, Birth), person), AsOf), BenefitId.ChorobowyWCiazy);
         Assert.Equal(BenefitStatus.NieDotyczy, born.Status);

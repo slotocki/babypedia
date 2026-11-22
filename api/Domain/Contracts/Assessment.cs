@@ -125,6 +125,16 @@ public sealed record BenefitResult
 
     /// <summary>Kwota ryczałtowa świadczenia (np. zasiłek pogrzebowy) — stała kwota z parametru, bez okresu i podstawy.</summary>
     [JsonPropertyName("lumpSum")] public decimal? LumpSum { get; init; }
+
+    /// <summary>
+    /// Świadczenie zależy od zdarzenia, którego jeszcze nie ma (np. zasiłek chorobowy w ciąży bez zwolnienia lekarskiego):
+    /// status opisuje sytuację „gdyby zdarzenie nastąpiło dziś”, a tekst mówi, czego dotyczy warunek. Bez terminów.
+    /// Pole wewnętrzne (poza kontraktem API) — karta dostaje notatkę z warunkiem (<see cref="ConditionalNotePrefix"/>).
+    /// </summary>
+    [JsonIgnore] public string? ConditionalOn { get; init; }
+
+    /// <summary>Początek notatki na karcie świadczenia warunkowego (front rozpoznaje po nim kartę „gdy dostaniesz L4”).</summary>
+    public const string ConditionalNotePrefix = "Świadczenie warunkowe:";
     [JsonPropertyName("parts")] public IReadOnlyList<BenefitPart> Parts { get; init; } = [];
     [JsonPropertyName("payer")] public Payer? Payer { get; init; }
     [JsonPropertyName("whereToApply")] public ApplicationPlace? WhereToApply { get; init; }
