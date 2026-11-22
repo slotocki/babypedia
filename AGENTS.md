@@ -8,7 +8,7 @@ Najważniejsza jest zgodność z treścią zadania ZUS; `BABYRADNIK_INSTRUKCJA.m
 - Adres: https://kompasrodzica.polandcentral.cloudapp.azure.com (zapasowy: https://20-215-34-39.sslip.io).
 - Serwer: `ssh babyradnik-azure` (alias w `~/.ssh/config` na komputerze zespołu). Aplikacja leży w `~/babyradnik`.
 - Wdrożenie: z katalogu repozytorium `bash ops/deploy.sh`. Skrypt wysyła na serwer **zapisany stan gałęzi `main`**
-  (archiwum przez SSH — repozytorium jest prywatne), buduje kontenery i czeka na `/health`.
+  (archiwum przez SSH, więc serwer nie musi klonować repozytorium; samo repozytorium jest publiczne), buduje kontenery i czeka na `/health`.
   Zmiany niezapisane w gicie nie trafiają na demo.
 - `bash ops/deploy.sh babyradnik-azure main --reset-db` — dodatkowo czyści bazę. Potrzebne tylko po zmianie
   `fixtures/parameters.seed.json` albo schematu bazy (parametry wczytują się wyłącznie do pustej tabeli).

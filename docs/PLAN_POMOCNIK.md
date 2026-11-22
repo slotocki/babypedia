@@ -1,6 +1,14 @@
 # Pomocnik „Zapytaj o przepisy”
 
-Najpierw sprawdza gotowe odpowiedzi na ~70 typowych pytań (`docs/prawo/faq.json`, tryb `faq`, bez modelu; cytaty sprawdza test). Pomocnik otwiera okno rozmowy na ekranie **Wsparcie** i pod wynikiem. Domyślnie wyświetla pasujące fragmenty materiałów. Po włączeniu modelu pokazuje wybrane przez niego cytaty po zweryfikowaniu ich w indeksie przepisów. Indywidualne uprawnienia, kwoty, okresy i terminy sprawdza kalkulator Kompas Rodzica.
+Pomocnik otwiera mały panel rozmowy na ekranach **Twój plan**, **Wsparcie** i **Baza wiedzy**. Indywidualne uprawnienia, kwoty, okresy i terminy liczy kalkulator Kompasu Rodzica, nie czat.
+
+Kolejność odpowiedzi:
+
+1. **FAQ** (tryb `faq`, bez modelu). 71 gotowych odpowiedzi w `docs/prawo/faq.json` (`FaqCatalog`). Każda pozycja ma pytanie, parafrazy, krótką odpowiedź i dosłowne cytaty z wyciągów przepisów albo materiałów ZUS. Dopasowanie jest deterministyczne (ważone podobieństwo słów do pytania i parafraz). Przy starcie katalog odrzuca cytat, którego nie ma dosłownie we wskazanym artykule. Test `api/Tests/Infrastructure/Assistant/FaqTests.cs` sprawdza cytaty, unikalność pytań, brak kwot w odpowiedziach i dopasowanie parafraz. Kilka pozycji (`starter`) to podpowiedzi pytań w panelu (`GET /api/assistant/suggestions`). Dopytanie („A przy bliźniętach?”) omija FAQ, bo ma kontekst poprzedniego pytania.
+2. **Wyszukiwarka** (tryb `search`). Gdy pytanie nie pasuje do FAQ, indeks BM25 zwraca 6 najlepszych fragmentów przepisów i materiałów ZUS.
+3. **Model językowy** (opcjonalnie, gdy ustawiony jest klucz API). Pisze krótką odpowiedź i wybiera cytaty spośród znalezionych fragmentów; aplikacja pokazuje tylko cytaty zweryfikowane w indeksie przepisów. Bez modelu czat kończy na kroku 1 albo 2.
+
+Źródła odpowiedzi są zwinięte do krótkich etykiet; po rozwinięciu widać cytat i cały fragment aktu.
 
 ## Działanie
 
@@ -28,7 +36,7 @@ Tryb `OPENCODE_ENABLED` zastępuje wybór dostawcy z `ASSISTANT_PROVIDER`. Klucz
 
 ## Odbiór przed włączeniem modelu na demo
 
-1. Sprawdź na ekranie Wsparcie i pod wynikiem, czy wyszukiwarka działa na telefonie i czy można rozwinąć cytat oraz cały fragment aktu.
+1. Sprawdź na ekranach Twój plan, Wsparcie i Baza wiedzy, czy FAQ i wyszukiwarka działają na telefonie i czy można rozwinąć cytat oraz cały fragment aktu.
 2. Porównaj wyniki dla pytań o bliźnięta, urlop ojcowski, okres wyczekiwania, zlecenie, zaległe składki, pracę na urlopie rodzicielskim, wysokość zasiłku, martwe urodzenie, płatnika, dokumenty, rodzinę zastępczą i koniec umowy w ciąży z materiałami źródłowymi.
 3. Sprawdź przekierowanie dla „Ile dostanę przy pensji 6000?”, brak wyników dla pytania o pogodę i odrzucenie pytania zawierającego przykładowy adres e-mail.
 4. Włącz wybranego dostawcę na środowisku testowym. Porównaj odpowiedzi z wyświetlanymi cytatami. Sprawdź, czy awaria dostawcy i wyczerpanie limitu przywracają wyniki wyszukiwarki.

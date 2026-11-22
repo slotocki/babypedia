@@ -1,6 +1,6 @@
 # Zależności i licencje
 
-Zasada 2.11: tylko MIT, Apache-2.0, BSD. Każdą nową zależność zatwierdza koordynator i dopisuje tutaj.
+Zasada projektu (instrukcja, pkt 2.11): licencje permisywne — MIT, Apache-2.0, BSD i równoważne. Każda nowa zależność trafia na tę listę.
 Świadomie **nie** używamy: FluentAssertions ≥ 8, MediatR, AutoMapper, QuestPDF (licencje komercyjne / niestandardowe).
 
 ## Backend (.NET 10, NuGet) — zależności bezpośrednie
@@ -8,9 +8,10 @@ Zasada 2.11: tylko MIT, Apache-2.0, BSD. Każdą nową zależność zatwierdza k
 | Paczka | Wersja | Licencja | Projekt |
 |---|---|---|---|
 | Microsoft.Extensions.DependencyInjection.Abstractions | 10.0.0 | MIT | Domain (tylko rejestracja modułów) |
-| Npgsql.EntityFrameworkCore.PostgreSQL | 10.0.3 | PostgreSQL License ⚠ | Infrastructure |
-| ↳ Npgsql | 10.0.3 | PostgreSQL License ⚠ | Infrastructure (przechodnia) |
+| Npgsql.EntityFrameworkCore.PostgreSQL | 10.0.3 | PostgreSQL License | Infrastructure |
+| ↳ Npgsql | 10.0.3 | PostgreSQL License | Infrastructure (przechodnia) |
 | ↳ Microsoft.EntityFrameworkCore (+ Relational, Abstractions) | 10.0.4 | MIT | Infrastructure (przechodnia) |
+| Microsoft.EntityFrameworkCore.InMemory | 10.0.4 | MIT | Infrastructure (baza w pamięci, gdy brak `ConnectionStrings__Default`) |
 | Microsoft.AspNetCore.App (framework) | 10.0 | MIT | Api, Infrastructure |
 | xunit.v3 | 4.0.2 | Apache-2.0 | Tests |
 | xunit.runner.visualstudio | 4.0.0 | Apache-2.0 | Tests |
@@ -19,7 +20,7 @@ Zasada 2.11: tylko MIT, Apache-2.0, BSD. Każdą nową zależność zatwierdza k
 
 Przechodnie tylko w testach: Microsoft.Testing.Platform 2.5.1 (MIT), Microsoft.CodeCoverage 17.14.1 (MIT), Microsoft.ApplicationInsights 2.23.0 (MIT, telemetria platformy testowej), Newtonsoft.Json 13.0.3 (MIT).
 
-⚠ **PostgreSQL License** — licencja permisywna zatwierdzona przez OSI, w treści równoważna MIT/BSD (bez ograniczeń przeniesienia praw). Brak alternatywnego sterownika .NET dla PostgreSQL. **Do decyzji zatwierdzającego.**
+**PostgreSQL License** — licencja permisywna zatwierdzona przez OSI, w treści równoważna MIT/BSD (bez ograniczeń przeniesienia praw). To jedyny dojrzały sterownik .NET dla PostgreSQL. Licencja spełnia zasadę licencji permisywnych.
 
 ## Frontend (npm, `web/`) — zależności bezpośrednie
 
@@ -50,7 +51,7 @@ Przechodnie tylko w testach: Microsoft.Testing.Platform 2.5.1 (MIT), Microsoft.C
 
 Drzewo runtime (`npm ls --omit=dev`): 93 × MIT, 2 × Apache-2.0, 1 × 0BSD (`tslib`, przez Radix). Opcjonalne natywne `@napi-rs/canvas-*` (MIT; zależność pdfjs-dist tylko dla Node.js, w przeglądarce nieużywana, na Windows niezainstalowana).
 
-Przechodnie narzędzia budowania/lintowania (nie trafiają do aplikacji): ISC (np. semver, minimatch, picocolors), BlueOak-1.0.0 (np. minipass, tar), BSD-2/3, CC-BY-4.0 (`caniuse-lite` — dane), **MPL-2.0 (`lightningcss`, kompilator CSS używany przez Tailwind 4 przy budowaniu)**, Python-2.0 (`argparse`). ⚠ Do decyzji zatwierdzającego, czy zasada 2.11 obejmuje narzędzia budowania; jeśli tak — Tailwind 4 trzeba zamienić na Tailwind 3 (PostCSS, bez lightningcss).
+Przechodnie narzędzia budowania/lintowania (nie trafiają do aplikacji): ISC (np. semver, minimatch, picocolors), BlueOak-1.0.0 (np. minipass, tar), BSD-2/3, CC-BY-4.0 (`caniuse-lite` — dane), **MPL-2.0 (`lightningcss`, kompilator CSS używany przez Tailwind 4 przy budowaniu)**, Python-2.0 (`argparse`). Te licencje dotyczą wyłącznie narzędzi uruchamianych przy budowaniu i nie trafiają do aplikacji. MPL-2.0 (`lightningcss`) obejmuje tylko pliki samej biblioteki i nie nakłada obowiązków na nasz kod.
 
 ## Narzędzia kontraktu (npm, `contracts/`) — tylko dev
 
@@ -69,7 +70,7 @@ Przechodnie narzędzia budowania/lintowania (nie trafiają do aplikacji): ISC (n
 | nginx:1.27-alpine | BSD-2-Clause |
 | postgres:17-alpine | PostgreSQL License |
 | caddy:2.10-alpine (profil `proxy`) | Apache-2.0 |
-| ollama/ollama:0.9.6 (profil `assistant`, P2) | MIT (wagi modelu mają własne licencje — wybór modelu do zatwierdzenia) |
+| ollama/ollama:0.9.6 (profil opcjonalny `assistant`, nieużywany na demo) | MIT (wagi modelu mają własne licencje) |
 
 ## Generowanie PDF (`api/Infrastructure/Submissions`)
 
