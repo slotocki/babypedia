@@ -5,6 +5,7 @@ Aplikacja WWW dla przyszłych rodziców. Dla konkretnej osoby ustala, które zas
 Projekt na HackNation 2026, zadanie ZUS „Zasiłkowy Przewodnik Przyszłego Rodzica”. Zespół 2Stosy: Sylwester Łotocki, Andrzej Laskowski.
 
 - Demo: https://kompasrodzica.polandcentral.cloudapp.azure.com
+- Film (do 3 minut): https://youtu.be/jhyZm2kL2Tk
 - Repozytorium: https://github.com/slotocki/babypedia
 - Panel `/admin`: hasło ustawia zmienna `ADMIN_PASSWORD`; jury dostaje je osobno.
 
@@ -272,7 +273,7 @@ Zamiast zgadywać, silnik mówi „nie rozstrzygam” i odsyła do ZUS, gdy:
 
 - [docs/OPIS_PROJEKTU.md](docs/OPIS_PROJEKTU.md): tytuł i opis do formularza
 - [docs/PREZENTACJA.md](docs/PREZENTACJA.md): treść prezentacji (10 slajdów); wersje [HTML](docs/PREZENTACJA.html) i [PDF](docs/PREZENTACJA.pdf)
-- [docs/SCENARIUSZ_FILMU.md](docs/SCENARIUSZ_FILMU.md): scenariusz filmu (do 3 minut)
+- Film: https://youtu.be/jhyZm2kL2Tk; scenariusz: [docs/SCENARIUSZ_FILMU.md](docs/SCENARIUSZ_FILMU.md)
 - [docs/zrzuty/README.md](docs/zrzuty/README.md): lista zrzutów ekranu
 - [docs/ZALEZNOSCI.md](docs/ZALEZNOSCI.md): zależności i licencje
 - [docs/PLAN_POMOCNIK.md](docs/PLAN_POMOCNIK.md): czat „Zapytaj o przepisy” (FAQ, wyszukiwarka, model)
