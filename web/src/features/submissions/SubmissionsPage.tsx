@@ -5,9 +5,9 @@ import type { SubmissionReceipt } from '@/app/api/types'
 import { useCaseState } from '@/app/case-context'
 import { api } from '@/app/api/client'
 import { paths } from '@/app/paths'
-import { Button, Card, ErrorState, PageHeader, Section, SkeletonText } from '@/ui'
+import { Button, Card, Disclosure, ErrorState, PageHeader, Section, SkeletonText } from '@/ui'
 import { Certificate } from './Certificate'
-import { findKind, leaveKinds, otherKinds, submissionFormPath, type SubmissionKind } from './kinds'
+import { findKind, relevantLeaveKinds, otherKinds, submissionFormPath, type SubmissionKind } from './kinds'
 import { MySubmissions } from './MySubmissions'
 import { NeedsLogin } from './NeedsLogin'
 import { Receipt } from './Receipt'
@@ -114,17 +114,33 @@ function KindNote({ note }: { note: NonNullable<SubmissionKind['note']> }) {
 }
 
 function KindList() {
+  const { facts } = useCaseState()
+  const { now, later } = relevantLeaveKinds(facts)
   return (
     <div className="space-y-8">
 
-      <Section title="Wnioski o urlop do pracodawcy" description="Cztery wzory wniosków. Każdy kończy się plikiem PDF do wydrukowania lub przekazania.">
+      <Section
+        title={later.length > 0 ? 'Wnioski o urlop dla Ciebie teraz' : 'Wnioski o urlop do pracodawcy'}
+        description="Każdy wniosek kończy się plikiem PDF do wydrukowania lub przekazania. Daty z Twojego planu wpiszemy za Ciebie."
+      >
         <ul className="space-y-4">
-          {leaveKinds.map((kind) => (
+          {now.map((kind) => (
             <li key={kind.id}>
               <KindCard kind={kind} />
             </li>
           ))}
         </ul>
+        {later.length > 0 ? (
+          <Disclosure title={`Pozostałe wnioski o urlop (${later.length})`} summary="Zwykle nie dotyczą Twojej obecnej sytuacji" className="mt-4">
+            <ul className="space-y-4">
+              {later.map((kind) => (
+                <li key={kind.id}>
+                  <KindCard kind={kind} />
+                </li>
+              ))}
+            </ul>
+          </Disclosure>
+        ) : null}
       </Section>
 
       <Section title="Zasiłek, zapytania i dokumenty">
