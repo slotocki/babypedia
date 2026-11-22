@@ -42,7 +42,7 @@ function Recognition({ pdf, loader }: { pdf: PdfState; loader: LoadState }) {
       <Alert variant="warning" title="Nie znam tej sprawy, wprowadź dane">
         <p>Plik nie pasuje do żadnej sprawy testowej. Możesz obejrzeć go obok i wprowadzić dane samodzielnie.</p>
         <p className="mt-2">
-          <Link to={paths.start} className={linkClass}>
+          <Link to={paths.manual} className={linkClass}>
             Przejdź do ręcznego wprowadzania danych
           </Link>
         </p>
