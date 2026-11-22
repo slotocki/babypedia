@@ -88,7 +88,7 @@ public sealed class SubmissionService(
             .ToDictionary(f => f.Key, f => f.Value.Trim(), StringComparer.Ordinal);
         var receipt = await gateway.SubmitAsync(new Submission(type.Value, spec.Recipient, personaId, clean), ct);
 
-        var model = DocumentBuilder.Build(spec, clean, receipt.Number, DateOnly.FromDateTime(receipt.SubmittedAt.UtcDateTime));
+        var model = DocumentBuilder.Build(spec, clean, receipt.Number, DateOnly.FromDateTime(receipt.SubmittedAt.UtcDateTime), parameters);
         var pdf = PdfRenderer.Render(model);
 
         var row = new SubmissionRow

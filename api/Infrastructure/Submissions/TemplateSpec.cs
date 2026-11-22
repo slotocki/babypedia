@@ -23,13 +23,19 @@ public sealed record FieldSpec(
     bool Required = false,
     FieldCondition? When = null,
     IReadOnlyList<FieldOption>? Options = null,
-    int MaxLength = 200);
+    int MaxLength = 200,
+    string? Hint = null)
+{
+    /// <summary>Etykieta w formularzu — z podpowiedzią, jak wypełnić. W PDF-ie drukuję samo <see cref="Label"/>.</summary>
+    public string FormLabel => Hint is null ? Label : $"{Label} ({Hint})";
+}
 
 public sealed record SectionSpec(string Title, IReadOnlyList<FieldSpec> Fields);
 
 public sealed record AttachmentSpec(string Text, string Basis, FieldCondition? When = null);
 
-public sealed record NoteSpec(string Text, string? Basis = null);
+/// <param name="When">Uwaga trafia do PDF-u tylko wtedy, gdy warunek jest spełniony.</param>
+public sealed record NoteSpec(string Text, string? Basis = null, FieldCondition? When = null);
 
 public sealed record TemplateSpec(
     string Id,
