@@ -56,8 +56,6 @@ Notatka: Nasza główna różnica: nie „system odmówił”, tylko „odmowa, 
 
 - Siedem scenariuszy: odejście z pracy, koniec umowy, przejście na działalność, drugi rodzic bierze część urlopu rodzicielskiego, praca na część etatu, wariant wypłaty (standardowy lub 81,5%), spłata zadłużenia
 - Silnik liczy drugi raz na zmienionych faktach; na górze podsumowanie w jednym zdaniu, niżej różnica w tygodniach i złotych oraz zmiana statusów
-- Podział urlopu: wskazana osoba bierze podaną liczbę tygodni; pilnujemy 9 tygodni nieprzenoszalnych i najwyżej 5 części
-- „Zastosuj ten wariant w moim planie” albo powrót do planu bazowego; wariant 81,5% można też wybrać od razu na wyniku
 
 Notatka: Tu są zagrożenia z zadania (pkt 3 h): utrata uprawnień, zmiana wymiaru i wysokości. Rodzic widzi skutek decyzji, zanim ją podejmie. Sprawdź w demo: Anna → „Porównaj warianty” → „Wariant wypłaty” → „Uśredniony”.
 
@@ -76,7 +74,7 @@ Notatka: To odpowiedź na wymóg demo z pkt 4 i 6 zadania: upload lub wybór prz
 <!-- Zrzuty: docs/zrzuty/slajd-06-wnioski-top.png, slajd-06-telefon-wynik.png -->
 
 
-- Pozycje a–j z zadania mają ekran, endpoint i moduł kodu (mapa w README, wiersz po wierszu ze statusem)
+- Pozycje a–j z zadania mają ekran, endpoint i moduł kodu (mapa w README)
 - Symulacje: logowanie mObywatel, dane ZUS, saldo i zaświadczenie o stanie składek (z datą stanu salda), e-ZLA, zapytanie PUE/eZUS, wnioski o urlopy i dane do ZAM z datami z planu, odpis aktu urodzenia; puste pola w PDF zostają do uzupełnienia odręcznie
 - „Wsparcie”: zweryfikowane organizacje charytatywne z filtrem sytuacji, kontakt do ZUS; „Baza wiedzy”: Poradnik ZUS i linki do zus.pl, MRPiPS, PIP
 
