@@ -45,7 +45,7 @@ export function SubmissionsPage() {
   const ref = useFocusHeading<HTMLDivElement>(view)
 
   const headers: Record<string, { title: string; description?: string }> = {
-    lista: { title: 'Wnioski i zgłoszenia', description: 'Wybierz, co chcesz przygotować. Wypełnisz formularz, a my wygenerujemy plik PDF i numer zgłoszenia.' },
+    lista: { title: 'Wnioski i zgłoszenia', description: 'Wybierz, co chcesz przygotować. Wypełnisz formularz, a my przygotujemy plik PDF (po zalogowaniu także numer zgłoszenia w symulacji).' },
     moje: { title: 'Moje zgłoszenia', description: 'Zgłoszenia złożone w tej sesji (symulacja).' },
     zaswiadczenie: { title: 'Zaświadczenie o stanie składek (symulacja)' },
     potwierdzenie: {
