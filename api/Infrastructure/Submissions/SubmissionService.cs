@@ -18,6 +18,12 @@ public sealed record SubmissionReceiptDto(
     string Status,
     string Summary);
 
+/// <summary>Wynik wygenerowania dokumentu bez sesji: sam PDF (nic nie jest zapisywane ani „wysyłane”).</summary>
+public sealed record DocumentOutcome(byte[]? Pdf, string? Number, IReadOnlyDictionary<string, string[]> Errors)
+{
+    public bool Succeeded => Pdf is not null;
+}
+
 public sealed record SubmissionOutcome(SubmissionReceiptDto? Receipt, IReadOnlyDictionary<string, string[]> Errors, bool LimitReached = false)
 {
     public bool Succeeded => Receipt is not null;
@@ -104,6 +110,39 @@ public sealed class SubmissionService(
         await store.AddAsync(row, ct);
         documents.Put(sessionHash, row.Id, pdf);
         return new SubmissionOutcome(ToDto(row, hasPdf: true), new Dictionary<string, string[]>());
+    }
+
+    /// <summary>
+    /// Dokument PDF bez logowania: tylko wnioski do pracodawcy i zestawienie danych do ZAM. Nic nie jest zapisywane
+    /// ani przekazywane bramce zgłoszeń; zgłoszenia „do ZUS” i urzędu wymagają sesji profilu (CreateAsync).
+    /// </summary>
+    public async Task<DocumentOutcome> RenderDocumentAsync(SubmissionRequestBody body, CancellationToken ct)
+    {
+        var type = SubmissionNames.ParseType(body.Type);
+        if (type is not (SubmissionType.WniosekUrlop or SubmissionType.DaneZam))
+        {
+            return new DocumentOutcome(null, null, new Dictionary<string, string[]> { ["type"] = ["Bez logowania dostępne są tylko typy: wniosek_urlop i dane_zam."] });
+        }
+
+        var spec = TemplateCatalog.Resolve(type.Value, body.Template);
+        if (spec is null || (type != SubmissionType.WniosekUrlop && body.Template is not null))
+        {
+            return new DocumentOutcome(null, null, new Dictionary<string, string[]> { ["template"] = ["Nieznany szablon."] });
+        }
+
+        var fields = body.Fields ?? [];
+        var validation = SubmissionValidator.Validate(spec, fields, parameters);
+        if (!validation.IsValid)
+        {
+            return new DocumentOutcome(null, null, validation.Errors);
+        }
+
+        var clean = fields
+            .Where(f => !string.IsNullOrWhiteSpace(f.Value))
+            .ToDictionary(f => f.Key, f => f.Value.Trim(), StringComparer.Ordinal);
+        var receipt = await gateway.SubmitAsync(new Submission(type.Value, spec.Recipient, "bez-logowania", clean), ct);
+        var model = DocumentBuilder.Build(spec, clean, receipt.Number, DateOnly.FromDateTime(receipt.SubmittedAt.UtcDateTime), parameters);
+        return new DocumentOutcome(PdfRenderer.Render(model), receipt.Number, new Dictionary<string, string[]>());
     }
 
     public async Task<IReadOnlyList<SubmissionReceiptDto>> ListAsync(string sessionId, CancellationToken ct)

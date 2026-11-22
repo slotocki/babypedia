@@ -41,6 +41,7 @@ public static class SubmissionsModule
         group.AddEndpointFilter(MarkSimulation);
         group.MapGet("/templates", () => Results.Json(TemplateCatalog.All.Select(Describe).ToList(), Json));
         group.MapPost("", CreateAsync);
+        group.MapPost("/document", CreateDocumentAsync);
         group.MapGet("", ListAsync);
         group.MapGet("/{id}/pdf", GetPdfAsync);
 
@@ -96,6 +97,36 @@ public static class SubmissionsModule
 
         return outcome.Succeeded
             ? Results.Json(outcome.Receipt, Json, statusCode: StatusCodes.Status201Created)
+            : Results.ValidationProblem(outcome.Errors.ToDictionary(e => e.Key, e => e.Value), title: "Nieprawidłowe dane wejściowe");
+    }
+
+    /// <summary>PDF wniosku do pracodawcy lub zestawienia ZAM bez logowania; nic nie jest zapisywane.</summary>
+    private static async Task<IResult> CreateDocumentAsync(HttpContext http, SubmissionService service, CancellationToken ct)
+    {
+        if (http.Request.ContentLength > MaxBodyBytes)
+        {
+            return Problem(StatusCodes.Status413PayloadTooLarge, "Za duże żądanie", $"Treść żądania może mieć najwyżej {MaxBodyBytes / 1024} KB.");
+        }
+
+        SubmissionRequestBody? body;
+        try
+        {
+            body = await JsonSerializer.DeserializeAsync<SubmissionRequestBody>(LimitedBody(http), Json, ct);
+        }
+        catch (Exception ex) when (ex is JsonException or BadHttpRequestException or InvalidOperationException)
+        {
+            return Problem(StatusCodes.Status400BadRequest, "Nieprawidłowe dane wejściowe",
+                "Treść żądania musi być obiektem JSON: type, opcjonalnie template, fields (same teksty).");
+        }
+
+        if (body is null)
+        {
+            return Problem(StatusCodes.Status400BadRequest, "Nieprawidłowe dane wejściowe", "Brak treści żądania.");
+        }
+
+        var outcome = await service.RenderDocumentAsync(body, ct);
+        return outcome.Succeeded
+            ? Results.File(outcome.Pdf!, "application/pdf", $"{outcome.Number}.pdf")
             : Results.ValidationProblem(outcome.Errors.ToDictionary(e => e.Key, e => e.Value), title: "Nieprawidłowe dane wejściowe");
     }
 
