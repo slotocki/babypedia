@@ -18,6 +18,7 @@ public static class AssistantModule
     public static IServiceCollection AddAssistant(this IServiceCollection services, IConfiguration configuration)
     {
         var openCodeFlag = configuration["OPENCODE_ENABLED"];
+        // PENCODE_ENABLED: dawna literówka, obsługiwana tylko dla zgodności wstecz.
         if (string.IsNullOrWhiteSpace(openCodeFlag)) openCodeFlag = configuration["PENCODE_ENABLED"];
         var useOpenCodeChat = bool.TryParse(openCodeFlag, out var openCodeEnabled) && openCodeEnabled;
         var provider = useOpenCodeChat ? "opencode-chat" : configuration["ASSISTANT_PROVIDER"]?.Trim().ToLowerInvariant() ?? "openai";
