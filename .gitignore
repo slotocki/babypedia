@@ -18,3 +18,6 @@ dist/
 *.user
 TestResults/
 coverage/
+# testy e2e (Playwright)
+web/playwright-report/
+web/test-results/
