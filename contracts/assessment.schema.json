@@ -203,7 +203,7 @@
         "person": { "$ref": "#/$defs/person" },
         "params": {
           "type": "object",
-          "description": "odchodze_z_pracy {data}; umowa_nie_zostanie_przedluzona {}; przechodze_na_dzialalnosc {data, dobrowolneChorobowe}; drugi_rodzic_bierze {tygodnie}; praca_na_czesc_etatu {wymiar, tygodnie}; wariant_wyplaty {wariant: standardowy|usredniony}; splacam_zadluzenie {data}.",
+          "description": "odchodze_z_pracy {data}; umowa_nie_zostanie_przedluzona {}; przechodze_na_dzialalnosc {data, dobrowolneChorobowe}; drugi_rodzic_bierze {tygodnie} — `person` = osoba, która bierze podaną liczbę tygodni urlopu rodzicielskiego (zwykle drugiRodzic; bez `person` — wnioskodawca), druga osoba dostaje resztę wymiaru; praca_na_czesc_etatu {wymiar, tygodnie}; wariant_wyplaty {wariant: standardowy|usredniony}; splacam_zadluzenie {data}.",
           "properties": {
             "data": { "$ref": "#/$defs/data" },
             "dobrowolneChorobowe": { "type": "boolean" },

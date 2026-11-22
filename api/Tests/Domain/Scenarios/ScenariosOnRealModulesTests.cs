@@ -67,26 +67,55 @@ public sealed class ScenariosOnRealModulesTests
         Assert.NotEqual(BenefitStatus.NiePrzysluguje, result.Status);
     }
 
-    [Fact]
-    public void Drugi_rodzic_bierze_33_of_41_weeks_returns_engine_validation_error()
+    [Theory]
+    [InlineData(PersonRef.DrugiRodzic)]
+    [InlineData(PersonRef.Wnioskodawca)]
+    public void Drugi_rodzic_bierze_33_of_41_weeks_flags_the_parent_who_takes_them(PersonRef taker)
     {
         var facts = BirthWithBothParents();
 
-        var variant = Apply(new DrugiRodzicBierzeScenario(), facts, """{"tygodnie":33}""");
+        var variant = Apply(new DrugiRodzicBierzeScenario(), facts, """{"tygodnie":33}""", taker);
         var assessment = PeriodsEngine().Assess(variant, AsOf);
 
         var issue = Assert.Single(assessment.ValidationErrors, v => v.Code == "rodzicielski_ponad_limit_jednego_rodzica");
         Assert.Equal(FactKeys.PlanRodzicielskiCzesci, issue.Fact);
-        Assert.Equal(PersonRef.DrugiRodzic, issue.Person);
+        Assert.Equal(taker, issue.Person);
         Assert.Empty(PeriodsEngine().Assess(facts, AsOf).ValidationErrors);
+    }
+
+    [Theory]
+    [InlineData(PersonRef.DrugiRodzic, 9)]
+    [InlineData(PersonRef.DrugiRodzic, 32)]
+    [InlineData(PersonRef.Wnioskodawca, 9)]
+    [InlineData(PersonRef.Wnioskodawca, 32)]
+    public void Drugi_rodzic_bierze_up_to_total_minus_9_weeks_for_either_parent_is_valid(PersonRef taker, int weeks)
+    {
+        var variant = Apply(new DrugiRodzicBierzeScenario(), BirthWithBothParents(), $$"""{"tygodnie":{{weeks}}}""", taker);
+
+        Assert.Empty(PeriodsEngine().Assess(variant, AsOf).ValidationErrors);
     }
 
     [Fact]
     public void Drugi_rodzic_bierze_valid_split_has_no_validation_errors()
     {
-        var variant = Apply(new DrugiRodzicBierzeScenario(), BirthWithBothParents(), """{"tygodnie":20}""");
+        var variant = Apply(new DrugiRodzicBierzeScenario(), BirthWithBothParents(), """{"tygodnie":20}""", PersonRef.DrugiRodzic);
 
         Assert.Empty(PeriodsEngine().Assess(variant, AsOf).ValidationErrors);
+    }
+
+    // Zgłoszenie: część drugiego rodzica miała „nie ustalam okresu”. Teraz obie części mają okres (część ojca — założenie scenariusza).
+    [Fact]
+    public void Drugi_rodzic_bierze_9_weeks_gives_both_parents_a_parental_leave_period()
+    {
+        var variant = Apply(new DrugiRodzicBierzeScenario(), BirthWithBothParents(), """{"tygodnie":9}""", PersonRef.DrugiRodzic);
+
+        var periods = PeriodsEngine().Assess(variant, AsOf).Benefits.Where(b => b.Id == BenefitId.Rodzicielski).ToList();
+        var mother = periods.Single(b => b.Person == PersonRef.Wnioskodawca).Period!;
+        var father = periods.Single(b => b.Person == PersonRef.DrugiRodzic).Period!;
+        Assert.Equal(32m, mother.Weeks);
+        Assert.Equal(D("2026-07-20"), mother.From);
+        Assert.Equal(9m, father.Weeks);
+        Assert.Equal(mother.To.AddDays(1), father.From);
     }
 
     [Fact]
@@ -111,6 +140,24 @@ public sealed class ScenariosOnRealModulesTests
 
         Assert.Equal(BenefitStatus.NiePrzysluguje, Maternity(facts));
         Assert.Equal(BenefitStatus.Przysluguje, Maternity(variant));
+    }
+
+    // Zgłoszenie (edyta-demo): saldo z 20.11.2026, poród 05.05.2027 — spłata 01.06.2027 mieści się w 6 mies. od dnia powstania prawa.
+    [Fact]
+    public void Splacam_zadluzenie_deadline_counts_from_the_day_the_right_arises_not_from_the_balance_date()
+    {
+        var facts = MotherWithDebt() with
+        {
+            Sprawa = new CaseFacts { ZdarzenieRodzaj = F(EventKind.Ciaza), ZdarzenieData = F(D("2027-05-05")), DzieckoLiczba = F(1) },
+        };
+        facts = facts with { Wnioskodawca = facts.Wnioskodawca with { SkladkiZadluzenie = F(new ContributionDebt(D("2026-11-20"), 120m)) } };
+
+        var inTime = Apply(new SplacamZadluzenieScenario(), facts, """{"data":"2027-06-01"}""");
+        var late = Apply(new SplacamZadluzenieScenario(), facts, """{"data":"2027-11-06"}""");
+
+        Assert.Equal(BenefitStatus.NiePrzysluguje, Maternity(facts));
+        Assert.Equal(BenefitStatus.Przysluguje, Maternity(inTime));
+        Assert.Equal(BenefitStatus.NiePrzysluguje, Maternity(late));
     }
 
     [Fact]

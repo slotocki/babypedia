@@ -121,7 +121,7 @@ public sealed class ScenarioDiffTests
             [
                 new ScenarioChange(ScenarioId.WariantWyplaty, PersonRef.Wnioskodawca, P("""{"wariant":"usredniony"}""")),
                 new ScenarioChange(ScenarioId.PracaNaCzescEtatu, PersonRef.Wnioskodawca, P("""{"wymiar":0.5,"tygodnie":20}""")),
-                new ScenarioChange(ScenarioId.DrugiRodzicBierze, PersonRef.Wnioskodawca, P("""{"tygodnie":9}""")),
+                new ScenarioChange(ScenarioId.DrugiRodzicBierze, PersonRef.DrugiRodzic, P("""{"tygodnie":9}""")),
             ],
             AsOf);
 
@@ -194,7 +194,7 @@ public sealed class ScenarioDiffTests
             new AssessmentResult { RulesetVersion = "fake", ValidationErrors = [inherited, introduced] });
         var request = new CompareRequest(
             BirthWithBothParents(),
-            [new ScenarioChange(ScenarioId.DrugiRodzicBierze, PersonRef.Wnioskodawca, P("""{"tygodnie":33}"""))],
+            [new ScenarioChange(ScenarioId.DrugiRodzicBierze, PersonRef.DrugiRodzic, P("""{"tygodnie":33}"""))],
             AsOf);
 
         var result = Comparer(engine).Compare(request);

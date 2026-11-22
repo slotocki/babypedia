@@ -169,10 +169,10 @@ public sealed class ScenarioOverlayTests
     }
 
     [Fact]
-    public void Drugi_rodzic_bierze_splits_parental_leave_between_parents()
+    public void Drugi_rodzic_bierze_gives_the_weeks_to_the_indicated_person_and_the_rest_to_the_other()
     {
         var input = BirthWithBothParents();
-        var result = Apply(new DrugiRodzicBierzeScenario(), input, """{"tygodnie":20}""");
+        var result = Apply(new DrugiRodzicBierzeScenario(), input, """{"tygodnie":20}""", PersonRef.DrugiRodzic);
 
         Assert.Equal(20, result.DrugiRodzic!.PlanRodzicielskiCzesci!.Value.Single().Tygodnie);
         Assert.Equal(21, result.Wnioskodawca.PlanRodzicielskiCzesci!.Value.Single().Tygodnie);
@@ -180,13 +180,52 @@ public sealed class ScenarioOverlayTests
         Assert.Null(input.DrugiRodzic!.PlanRodzicielskiCzesci);
     }
 
+    // Zgłoszony błąd: person=drugiRodzic, tygodnie=9 dawało 9 tyg. wnioskodawcy i 32 drugiemu rodzicowi.
     [Fact]
-    public void Drugi_rodzic_bierze_from_second_parent_perspective_gives_weeks_to_applicant()
+    public void Drugi_rodzic_bierze_9_weeks_for_second_parent_leaves_the_rest_to_the_applicant()
     {
-        var result = Apply(new DrugiRodzicBierzeScenario(), BirthWithBothParents(), """{"tygodnie":12}""", PersonRef.DrugiRodzic);
+        var outcome = new DrugiRodzicBierzeScenario().Apply(Context(BirthWithBothParents(), """{"tygodnie":9}""", PersonRef.DrugiRodzic));
+
+        Assert.True(outcome.Succeeded);
+        Assert.Equal(9, outcome.Facts!.DrugiRodzic!.PlanRodzicielskiCzesci!.Value.Single().Tygodnie);
+        Assert.Equal(32, outcome.Facts.Wnioskodawca.PlanRodzicielskiCzesci!.Value.Single().Tygodnie);
+        Assert.StartsWith("Urlop rodzicielski (41 tyg. łącznie): część drugiego rodzica — 9 tyg.", outcome.Changes[0]);
+        Assert.StartsWith("Urlop rodzicielski: część wnioskodawcy — 32 tyg.", outcome.Changes[1]);
+    }
+
+    [Fact]
+    public void Drugi_rodzic_bierze_for_the_applicant_gives_the_weeks_to_the_applicant()
+    {
+        var result = Apply(new DrugiRodzicBierzeScenario(), BirthWithBothParents(), """{"tygodnie":12}""", PersonRef.Wnioskodawca);
 
         Assert.Equal(12, result.Wnioskodawca.PlanRodzicielskiCzesci!.Value.Single().Tygodnie);
         Assert.Equal(29, result.DrugiRodzic!.PlanRodzicielskiCzesci!.Value.Single().Tygodnie);
+    }
+
+    [Fact]
+    public void Drugi_rodzic_bierze_places_mother_part_after_maternity_and_father_part_right_after_it()
+    {
+        var outcome = new DrugiRodzicBierzeScenario().Apply(Context(BirthWithBothParents(), """{"tygodnie":9}""", PersonRef.DrugiRodzic));
+
+        var mother = outcome.Facts!.Wnioskodawca.PlanRodzicielskiCzesci!.Value.Single();
+        var father = outcome.Facts.DrugiRodzic!.PlanRodzicielskiCzesci!.Value.Single();
+        Assert.Equal(D("2026-07-20"), mother.Od);
+        Assert.Equal(D("2027-03-01"), father.Od);
+        Assert.Contains("od 01.03.2027 — założenie: bezpośrednio po części matki", outcome.Changes[0]);
+        Assert.Contains("od 20.07.2026 — bezpośrednio po urlopie macierzyńskim", outcome.Changes[1]);
+    }
+
+    [Fact]
+    public void Drugi_rodzic_bierze_does_not_guess_start_dates_without_known_maternity_end()
+    {
+        var facts = BirthWithBothParents();
+        facts = facts with { Wnioskodawca = facts.Wnioskodawca with { OsobaRola = null } };
+
+        var outcome = new DrugiRodzicBierzeScenario().Apply(Context(facts, """{"tygodnie":9}""", PersonRef.DrugiRodzic));
+
+        Assert.True(outcome.Succeeded);
+        Assert.Null(outcome.Facts!.DrugiRodzic!.PlanRodzicielskiCzesci!.Value.Single().Od);
+        Assert.Null(outcome.Facts.Wnioskodawca.PlanRodzicielskiCzesci!.Value.Single().Od);
     }
 
     [Fact]
