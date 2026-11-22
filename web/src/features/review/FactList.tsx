@@ -136,7 +136,7 @@ function FactRow({ rowId, factKey, fact, facts, example, editing, onEdit, onCanc
             <p className="break-words text-base font-semibold text-ink">{lines[0]}</p>
           )}
           {example ? (
-            <span className="inline-flex items-center gap-1.5 rounded-pill border border-line-strong bg-surface px-2.5 py-0.5 text-sm font-medium text-ink-soft">
+            <span className="mt-1 inline-flex items-center gap-1.5 rounded-pill border border-line-strong bg-surface px-2.5 py-0.5 text-sm font-medium text-ink-soft">
               <UserIcon className="size-4 shrink-0" />
               <span className="sr-only">Źródło: </span>
               Twoje odpowiedzi (przykład)
