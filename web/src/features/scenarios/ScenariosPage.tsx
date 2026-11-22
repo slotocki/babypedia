@@ -91,6 +91,9 @@ export function ScenariosPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [example])
 
+  const single = personsInCalculation(facts).length < 2
+  // Niedostępne na końcu; wariant z drugim rodzicem przy liczeniu tylko „dla mnie” tuż przed nimi.
+  const rank = (o: { value: string; disabled: boolean }) => (o.disabled ? 2 : o.value === 'drugi_rodzic_bierze' && single ? 1 : 0)
   const options = useMemo(
     () =>
       // Najczęstsze (kolejność listy) na górze; niedostępne na końcu, z wyjaśnieniem.
@@ -110,8 +113,9 @@ export function ScenariosPage() {
             s.description
           ),
         }
-      }).sort((a, b) => Number(a.disabled) - Number(b.disabled)),
-    [facts, prefill],
+      }).sort((a, b) => rank(a) - rank(b)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [facts, prefill, single],
   )
 
   const selected = scenarioList.find((s) => s.id === selectedId) ?? null
