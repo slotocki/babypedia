@@ -374,7 +374,8 @@ export interface IntegrationField { source: FactSource; fact: FactKey; wlaczone:
 
 export interface AssistantAnswer {
   answer: string
-  citations: { document: string; fragment: string; article: string; articleText: string }[]
+  /** notes: daty wejścia w życie lub brzmienia ustępów cytowanego artykułu (z przypisów aktu). */
+  citations: { document: string; fragment: string; article: string; articleText: string; notes?: string[] }[]
   disclaimer: string
   mode: 'ai' | 'search' | 'no_results' | 'calculator'
 }

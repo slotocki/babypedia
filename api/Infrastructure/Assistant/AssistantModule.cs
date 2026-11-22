@@ -54,7 +54,7 @@ public static class AssistantModule
         app.MapGet("/api/law/search", (string? q, HttpContext context, LegalSearch search) =>
         {
             context.Response.Headers.CacheControl = "no-store";
-            return Validate(q) ?? Results.Ok(AsSearchAnswer(search.Find(q!)));
+            return Validate(q) ?? Results.Ok(OutOfScope(q!) ?? AsSearchAnswer(search.Find(q!)));
         }).WithTags("pomocnik");
 
         app.MapPost("/api/assistant/ask", async (
@@ -66,6 +66,7 @@ public static class AssistantModule
             if (invalid is not null) return invalid;
 
             var question = body.Question!.Trim();
+            if (OutOfScope(question) is { } outOfScope) return Results.Ok(outOfScope);
             if (AssistantPolicy.IsPersonalCase(question))
                 return Results.Ok(new AssistantAnswer("Swoją sytuację sprawdzisz w kalkulatorze świadczeń.", [], "", "calculator"));
 
@@ -77,7 +78,7 @@ public static class AssistantModule
 
             var hits = search.Find(previous is null ? question : $"{previous} {question}");
             var fallback = AsSearchAnswer(hits);
-            var sources = hits.Where(hit => hit.IsLegalAct).ToArray();
+            var sources = hits.Select(hit => hit.Excerpt).Where(excerpt => excerpt.IsLegalAct).ToArray();
             if (!model.Enabled || sources.Length == 0 || !budget.TryTake(context.Connection.RemoteIpAddress?.ToString() ?? "unknown"))
                 return Results.Ok(fallback);
 
@@ -106,21 +107,14 @@ public static class AssistantModule
             new Dictionary<string, string[]> { ["question"] = [message] });
     }
 
-    private static AssistantAnswer AsSearchAnswer(IReadOnlyList<LegalExcerpt> hits)
-    {
-        if (hits.Count == 0)
-            return new AssistantAnswer("Nie znaleźliśmy odpowiedniego przepisu w materiałach aplikacji.", [], "", "no_results");
+    private const string NoResults = "Nie znaleźliśmy odpowiedniego przepisu w materiałach aplikacji.";
 
-        return new AssistantAnswer("", hits.Select(hit => hit.Citation(ExcerptPreview(hit.Text))).ToArray(), "", "search");
-    }
+    private static AssistantAnswer AsSearchAnswer(IReadOnlyList<LegalHit> hits) => hits.Count == 0
+        ? new AssistantAnswer(NoResults, [], "", "no_results")
+        : new AssistantAnswer("", hits.Select(hit => hit.Excerpt.Citation(hit.Preview)).ToArray(), "", "search");
 
-    private static string ExcerptPreview(string text)
-    {
-        const int maxLength = 260;
-        if (text.Length <= maxLength) return text;
-        var end = text.LastIndexOf(' ', maxLength);
-        return text[..(end > 0 ? end : maxLength)].TrimEnd() + "…";
-    }
+    private static AssistantAnswer? OutOfScope(string question) =>
+        AssistantPolicy.OutOfScope(question) is { } message ? new AssistantAnswer(message, [], "", "no_results") : null;
 
     private sealed class AssistantBudget(AssistantOptions options) : IDisposable
     {

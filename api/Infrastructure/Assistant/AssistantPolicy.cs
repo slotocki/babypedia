@@ -15,6 +15,27 @@ internal static partial class AssistantPolicy
 
     public static bool IsFollowUp(string text) => FollowUp().IsMatch(Normalize(text));
 
+    public const string OtherBenefitAnswer =
+        "Pytasz o świadczenie spoza ubezpieczenia chorobowego (np. 800+ albo becikowe). Pomocnik zna tylko przepisy " +
+        "o zasiłkach z ubezpieczenia chorobowego (chorobowym, macierzyńskim, opiekuńczym) i o urlopach związanych " +
+        "z rodzicielstwem, więc nie wskaże tu przepisu na ten temat.";
+
+    public const string OffTopicAnswer =
+        "Odpowiadam tylko na ogólne pytania o przepisy dotyczące zasiłków i urlopów związanych z rodzicielstwem. " +
+        "Zapytaj na przykład o urlop, zasiłek albo dokumenty.";
+
+    /// <summary>
+    /// Pytanie wyraźnie spoza materiałów: inne świadczenia (800+, becikowe…) albo polecenie zmiany zadania
+    /// („zignoruj instrukcje”, „napisz wiersz”). Zwraca odpowiedź bez cytatów albo null.
+    /// </summary>
+    public static string? OutOfScope(string text)
+    {
+        var normalized = Normalize(text);
+        if (OtherBenefit().IsMatch(normalized)) return OtherBenefitAnswer;
+        if (Injection().IsMatch(normalized)) return OffTopicAnswer;
+        return null;
+    }
+
     public const string GenericAnswer = "Te fragmenty pasują do Twojego pytania.";
     public const string QuotesOnlyDisclaimer = "Cytaty wybrał model językowy. Indywidualną sprawę ocenia kalkulator.";
     public const string ExplanationDisclaimer =
@@ -62,6 +83,9 @@ internal static partial class AssistantPolicy
             var text = CollapseSpace(source.Text);
             var quote = CollapseSpace(citation.CitedText.Trim());
             var start = text.IndexOf(quote, StringComparison.Ordinal);
+            // Wyświetlany tekst ma numerację z indeksami górnymi (§ 1¹), a źródło — spłaszczoną (§ 11). Zamiana jest
+            // znak na znak, więc cytat w dowolnej z tych postaci porównujemy z tekstem źródłowym bez zmiany długości.
+            if (start < 0) start = LegalNumbering.Flatten(text).IndexOf(LegalNumbering.Flatten(quote), StringComparison.Ordinal);
             if (start < 0) return null;
 
             // Modele oddają cytaty różnej długości i czasem więcej niż trzy (Haiku tnie przepis na zdania).
@@ -98,6 +122,14 @@ internal static partial class AssistantPolicy
 
     [GeneratedRegex(@"\s+")]
     private static partial Regex Whitespace();
+
+    // Świadczenia spoza ubezpieczenia chorobowego — nie ma ich w materiałach pomocnika.
+    [GeneratedRegex(@"\bbecikow\w*|\b(?:300|500|800)\s*(?:\+|plus\b)|\bswiadczen\w*\s+wychowawcz\w*|\bdobry\s+start\b|\bbabciow\w*|\bkosiniakow\w*|\brodzinn\w*\s+kapital\w*|\bzasil\w*\s+rodzinn\w*|\bdodat\w*\s+mieszkaniow\w*|\bzapomog\w*\s+z\s+tytulu\s+urodzenia")]
+    private static partial Regex OtherBenefit();
+
+    // Próba zmiany zadania albo prośba o tekst twórczy.
+    [GeneratedRegex(@"\b(?:zignoruj|ignoruj|zapomnij|pomin)\w*\b.{0,40}\b(?:instrukcj|polecen|zasad|regul|prompt)\w*|\bignore\b.{0,40}\binstructions?\b|\b(?:napisz|uloz|stworz|wymysl|zaspiewaj)\w*\b.{0,30}\b(?:wiersz|piosenk|rym|opowiadani|bajk|esej|limeryk|haiku|zart|dowcip)\w*|\budawaj\b|\bjestes\s+teraz\b|\bsystem\s+prompt\b|\bjailbreak\b")]
+    private static partial Regex Injection();
 
     [GeneratedRegex(@"^(?:a\s|(?:czy|jak|gdzie|kiedy|ile)\s+(?:to|tego|wtedy|tam)\b|ile (?:trwa|dni|tygodni)\s*\??$)")]
     private static partial Regex FollowUp();

@@ -246,6 +246,10 @@ components:
               fragment: { type: string }
               article: { type: string }
               articleText: { type: string, description: 'Pełna treść sekcji z wyciągu.' }
+              notes:
+                type: array
+                items: { type: string }
+                description: 'Daty wejścia w życie lub brzmienia ustępów artykułu, odczytane z przypisów aktu.'
         disclaimer: { type: string }
 
 paths:

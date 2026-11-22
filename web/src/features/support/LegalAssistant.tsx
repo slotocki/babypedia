@@ -195,7 +195,16 @@ function Reply({ answer, calculatorPath }: { answer: AssistantAnswer; calculator
         <Disclosure
           key={`${citation.document}|${citation.article}|${index}`}
           title={`${citation.document} · ${citation.article}`}
-          summary={<span className="break-words">{citation.fragment}</span>}
+          summary={
+            <>
+              <span className="break-words">{citation.fragment}</span>
+              {citation.notes?.map((note) => (
+                <span key={note} className="mt-1 block text-xs font-medium break-words text-ink">
+                  Obowiązywanie: {note}
+                </span>
+              ))}
+            </>
+          }
         >
           <blockquote className="whitespace-pre-wrap break-words text-sm">{citation.articleText}</blockquote>
         </Disclosure>
