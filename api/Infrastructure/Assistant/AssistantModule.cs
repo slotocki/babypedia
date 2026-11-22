@@ -34,6 +34,7 @@ public static class AssistantModule
 
         services.AddSingleton(options);
         services.AddSingleton<LegalSearch>();
+        services.AddSingleton<FaqCatalog>();
         services.AddSingleton<AssistantBudget>();
         services.AddHttpClient<TextAssistant>(client =>
         {
@@ -54,6 +55,13 @@ public static class AssistantModule
     public static IEndpointRouteBuilder MapAssistantEndpoints(this IEndpointRouteBuilder app)
     {
         _ = app.ServiceProvider.GetRequiredService<LegalSearch>();
+        _ = app.ServiceProvider.GetRequiredService<FaqCatalog>();
+        app.MapGet("/api/assistant/suggestions", (HttpContext context, FaqCatalog faq) =>
+        {
+            context.Response.Headers.CacheControl = "public, max-age=3600";
+            return Results.Ok(faq.Starters);
+        }).WithTags("pomocnik");
+
         app.MapGet("/api/law/search", (string? q, HttpContext context, LegalSearch search) =>
         {
             context.Response.Headers.CacheControl = "no-store";
@@ -61,7 +69,7 @@ public static class AssistantModule
         }).WithTags("pomocnik");
 
         app.MapPost("/api/assistant/ask", async (
-            AssistantQuestion body, HttpContext context, LegalSearch search, TextAssistant model,
+            AssistantQuestion body, HttpContext context, LegalSearch search, FaqCatalog faq, TextAssistant model,
             AssistantBudget budget, CancellationToken ct) =>
         {
             context.Response.Headers.CacheControl = "no-store";
@@ -70,8 +78,16 @@ public static class AssistantModule
 
             var question = body.Question!.Trim();
             if (OutOfScope(question) is { } outOfScope) return Results.Ok(outOfScope);
-            if (AssistantPolicy.IsPersonalCase(question))
-                return Results.Ok(new AssistantAnswer("Swoją sytuację sprawdzisz w kalkulatorze świadczeń.", [], "", "calculator"));
+
+            // Gotowa odpowiedź na typowe pytanie: bez wyszukiwania i bez modelu. Dopytanie („A przy bliźniętach?”)
+            // ma kontekst poprzedniego pytania, więc idzie zwykłą ścieżką. Pytanie z „czy mogę…” trafia do FAQ tylko
+            // przy bardzo wysokim podobieństwie do pytania ogólnego; inne sprawy osobiste wracają do kalkulatora.
+            var followUp = !string.IsNullOrWhiteSpace(body.PreviousQuestion) && AssistantPolicy.IsFollowUp(question);
+            var ready = followUp ? null : faq.Match(question);
+            if (AssistantPolicy.IsPersonalCase(question) && ready is not { Score: >= FaqCatalog.StrongScore })
+                return Results.Ok(new AssistantAnswer(
+                    "Kwoty, okresy i terminy dla Twojej sytuacji liczy kalkulator, nie czat. Jeśli masz już wynik, znajdziesz je na stronie wyniku, w „Twój plan”.", [], "", "calculator"));
+            if (ready is not null) return Results.Ok(faq.ToAnswer(ready.Entry));
 
             var previous = body.PreviousQuestion?.Trim();
             if (string.IsNullOrEmpty(previous) || previous.Length > MaxQuestionLength ||

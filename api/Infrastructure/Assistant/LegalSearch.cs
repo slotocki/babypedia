@@ -119,7 +119,7 @@ internal sealed partial class LegalSearch
         return text[..(end > 0 ? end : MaxPreview)].TrimEnd() + "…";
     }
 
-    private static bool IsGeneric(string word) => GenericStems.Any(stem => word.StartsWith(stem, StringComparison.Ordinal));
+    internal static bool IsGeneric(string word) => GenericStems.Any(stem => word.StartsWith(stem, StringComparison.Ordinal));
 
     private double UnitScore(Unit unit, IEnumerable<string> words, IndexedExcerpt item) =>
         words.Where(unit.Terms.ContainsKey).Sum(term => Score(unit.Terms[term], unit.Length, averageUnitLength, term, item));
@@ -173,7 +173,7 @@ internal sealed partial class LegalSearch
     [GeneratedRegex(@"\b(?:ustaw\w*\s+zasilkow\w*|ustawy)\b")]
     private static partial Regex ActHint();
 
-    private static partial class LegalTerms
+    internal static partial class LegalTerms
     {
         private static readonly (string Pattern, string Replacement)[] Synonyms =
         [

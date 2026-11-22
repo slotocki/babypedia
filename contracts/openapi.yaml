@@ -235,7 +235,7 @@ components:
       required: [answer, citations, disclaimer, mode]
       properties:
         answer: { type: string }
-        mode: { type: string, enum: [ai, search, no_results, calculator] }
+        mode: { type: string, enum: [faq, ai, search, no_results, calculator], description: 'faq: gotowa odpowiedź na typowe pytanie (bez modelu), z 1–2 cytatami.' }
         citations:
           type: array
           items:
@@ -493,12 +493,20 @@ paths:
         '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/AssistantAnswer' } } } }
         '400': { $ref: '#/components/responses/Problem' }
 
+  /api/assistant/suggestions:
+    get:
+      tags: [pomocnik]
+      summary: Podpowiedzi pytań na pusty czat (z gotowych odpowiedzi FAQ)
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { type: string } } } } }
+
   /api/assistant/ask:
     post:
       tags: [pomocnik]
       summary: Zapytaj o przepisy
       description: |
-        Wyszukuje przepisy do ogólnego pytania. Przy włączonym modelu może dodać odpowiedź z cytatami.
+        Najpierw sprawdza gotowe odpowiedzi na typowe pytania rodziców (mode faq, bez modelu). Jeśli ich nie ma,
+        wyszukuje przepisy do ogólnego pytania. Przy włączonym modelu może dodać odpowiedź z cytatami.
         Bez działającego modelu lub po wyczerpaniu limitu zwraca wyniki wyszukiwania.
       requestBody:
         required: true

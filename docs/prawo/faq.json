@@ -1,0 +1,1612 @@
+[
+  {
+    "id": "macierzynski-kto",
+    "starter": true,
+    "question": "Komu przysługuje zasiłek macierzyński?",
+    "alternatives": [
+      "kto dostaje zasiłek macierzyński",
+      "warunki zasiłku macierzyńskiego",
+      "kto ma prawo do zasiłku macierzyńskiego",
+      "od czego zależy zasiłek macierzyński"
+    ],
+    "answer": "Zasiłek macierzyński przysługuje, gdy w dniu narodzin dziecka (albo przyjęcia go na wychowanie) podlegasz ubezpieczeniu chorobowemu. To ubezpieczenie jest obowiązkowe m.in. dla pracowników, a przedsiębiorcy i zleceniobiorcy mogą do niego przystąpić dobrowolnie.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Kiedy przysługuje i przez jaki okres jest wypłacany",
+        "quote": "Kluczowy warunek: w dniu powstania prawa do zasiłku musicie podlegać ubezpieczeniu chorobowemu."
+      },
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 29",
+        "quote": "Zasiłek macierzyński przysługuje ubezpieczonej, która w okresie ubezpieczenia chorobowego albo w okresie urlopu wychowawczego:"
+      }
+    ]
+  },
+  {
+    "id": "macierzynski-ile-trwa",
+    "question": "Ile tygodni trwa urlop macierzyński?",
+    "alternatives": [
+      "jak długo trwa urlop macierzyński",
+      "wymiar urlopu macierzyńskiego",
+      "ile trwa macierzyński",
+      "długość urlopu macierzyńskiego"
+    ],
+    "answer": "Przy jednym dziecku urlop macierzyński trwa 20 tygodni. Przy dwojgu dzieci to 31 tygodni, przy trojgu 33, przy czworgu 35, a przy pięciorgu i więcej 37 tygodni.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 180",
+        "quote": "20 tygodni - w przypadku urodzenia jednego dziecka przy jednym porodzie;"
+      },
+      {
+        "document": "Załącznik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu macierzyńskiego",
+        "quote": "Zasiłek macierzyński za okres urlopu macierzyńskiego trwa od 20 do 37 tygodni, zależnie od liczby dzieci."
+      }
+    ]
+  },
+  {
+    "id": "blizniaki",
+    "question": "Ile trwa urlop macierzyński przy bliźniętach?",
+    "alternatives": [
+      "bliźniaki urlop macierzyński",
+      "urlop przy porodzie bliźniaczym",
+      "ile urlopu przy dwójce dzieci",
+      "urlop rodzicielski przy bliźniętach",
+      "dwoje dzieci jednocześnie urlop"
+    ],
+    "answer": "Przy urodzeniu dwojga dzieci urlop macierzyński trwa 31 tygodni, a urlop rodzicielski 43 tygodnie.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 180",
+        "quote": "31 tygodni - w przypadku urodzenia dwojga dzieci przy jednym porodzie;"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu rodzicielskiego",
+        "quote": "43 tygodni – gdy urodziło się co najmniej dwoje dzieci."
+      }
+    ]
+  },
+  {
+    "id": "rodzicielski-ile",
+    "question": "Ile trwa urlop rodzicielski?",
+    "alternatives": [
+      "jak długo trwa urlop rodzicielski",
+      "wymiar urlopu rodzicielskiego",
+      "ile tygodni urlopu rodzicielskiego",
+      "długość urlopu rodzicielskiego"
+    ],
+    "answer": "Urlop rodzicielski to 41 tygodni przy jednym dziecku i 43 tygodnie, gdy urodziło się co najmniej dwoje dzieci. Wymiar przysługuje obojgu rodzicom łącznie.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu rodzicielskiego",
+        "quote": "41 tygodni – gdy urodziło się jedno dziecko,"
+      },
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹a",
+        "quote": "Urlop rodzicielski w wymiarze, o którym mowa w § 1 i 2, przysługuje łącznie obojgu pracownikom - rodzicom dziecka."
+      }
+    ]
+  },
+  {
+    "id": "rodzicielski-podzial",
+    "question": "Jak podzielić urlop rodzicielski między rodziców?",
+    "alternatives": [
+      "czy urlop rodzicielski można dzielić z tatą",
+      "podział urlopu rodzicielskiego",
+      "urlop rodzicielski dla obojga rodziców",
+      "czy tata może wziąć urlop rodzicielski",
+      "urlop rodzicielski naprzemiennie"
+    ],
+    "answer": "Urlop rodzicielski przysługuje obojgu rodzicom łącznie i możecie go dzielić. Każde z Was ma osobno 9 tygodni, których nie można przenieść na drugiego rodzica.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹a",
+        "quote": "Każdemu z pracowników - rodziców dziecka przysługuje wyłączne prawo do 9 tygodni urlopu rodzicielskiego z wymiaru urlopu określonego w § 1 i 2."
+      },
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹a",
+        "quote": "Z urlopu rodzicielskiego mogą jednocześnie korzystać oboje pracownicy - rodzice dziecka."
+      }
+    ]
+  },
+  {
+    "id": "rodzicielski-9-tygodni",
+    "question": "Czy 9 tygodni urlopu rodzicielskiego można przenieść na drugiego rodzica?",
+    "alternatives": [
+      "dziewięć tygodni dla ojca",
+      "nieprzenoszalne 9 tygodni urlopu rodzicielskiego",
+      "czy tata musi wziąć 9 tygodni",
+      "część urlopu zarezerwowana dla drugiego rodzica"
+    ],
+    "answer": "Nie. 9 tygodni urlopu rodzicielskiego jest zarezerwowane dla każdego z rodziców i nie można go przenieść na drugiego. Za ten okres zasiłek wynosi zawsze 70% podstawy.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹a",
+        "quote": "Prawa tego nie można przenieść na drugiego z pracowników - rodziców dziecka."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Wysokość zasiłku macierzyńskiego",
+        "quote": "Część urlopu rodzicielskiego (9 tygodni) jest zarezerwowana dla drugiego z rodziców."
+      }
+    ]
+  },
+  {
+    "id": "rodzicielski-czesci",
+    "question": "W ilu częściach i do kiedy można wykorzystać urlop rodzicielski?",
+    "alternatives": [
+      "na ile części podzielić urlop rodzicielski",
+      "do kiedy wykorzystać urlop rodzicielski",
+      "termin wykorzystania urlopu rodzicielskiego",
+      "ile razy można brać urlop rodzicielski"
+    ],
+    "answer": "Urlop rodzicielski możesz wziąć jednorazowo albo w najwyżej 5 częściach. Musisz go wykorzystać najpóźniej do końca roku kalendarzowego, w którym dziecko skończy 6 lat.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹c",
+        "quote": "Urlop rodzicielski jest udzielany jednorazowo albo niewięcej niż w 5 częściach niepóźniej niż do zakończenia roku kalendarzowego, w którym dziecko kończy 6 rok życia."
+      }
+    ]
+  },
+  {
+    "id": "rodzicielski-wniosek",
+    "question": "Kiedy złożyć wniosek o urlop rodzicielski?",
+    "alternatives": [
+      "termin wniosku o urlop rodzicielski",
+      "z jakim wyprzedzeniem wniosek o urlop rodzicielski",
+      "jak wystąpić o urlop rodzicielski",
+      "wniosek o urlop rodzicielski do pracodawcy"
+    ],
+    "answer": "Wniosek o urlop rodzicielski złóż pracodawcy (papierowo lub elektronicznie) najpóźniej 21 dni przed jego rozpoczęciem. Pracodawca ma obowiązek uwzględnić wniosek.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹d",
+        "quote": "składany przez pracownika - rodzica dziecka w terminie niekrótszym niż 21 dni przed rozpoczęciem korzystania z urlopu."
+      },
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹d",
+        "quote": "Pracodawca jest obowiązany uwzględnić wniosek pracownika."
+      }
+    ]
+  },
+  {
+    "id": "rodzicielski-praca",
+    "starter": true,
+    "question": "Czy można pracować na urlopie rodzicielskim?",
+    "alternatives": [
+      "łączenie pracy z urlopem rodzicielskim",
+      "praca w trakcie urlopu rodzicielskiego",
+      "pracować na pół etatu na urlopie rodzicielskim",
+      "czy na urlopie rodzicielskim można wrócić do pracy",
+      "praca na urlopie rodzicielskim",
+      "czy można łączyć pracę z urlopem rodzicielskim",
+      "czy mogę pracować w trakcie urlopu rodzicielskiego"
+    ],
+    "answer": "Tak, u pracodawcy, który udziela urlopu, możesz pracować w wymiarze nie wyższym niż połowa etatu. Urlop rodzicielski dostajesz wtedy na pozostałą część etatu, a zasiłek jest proporcjonalnie mniejszy.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹e",
+        "quote": "Pracownik może łączyć korzystanie z urlopu rodzicielskiego z wykonywaniem pracy u pracodawcy udzielającego tego urlopu w wymiarze niewyższym niż połowa pełnego wymiaru czasu pracy."
+      },
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 31",
+        "quote": "Wysokość zasiłku macierzyńskiego zmniejsza się proporcjonalnie do wymiaru czasu pracy, w którym pracownik łączy korzystanie z urlopu rodzicielskiego z wykonywaniem pracy u pracodawcy udzielającego takiego urlopu."
+      }
+    ]
+  },
+  {
+    "id": "rodzicielski-praca-wydluzenie",
+    "question": "Czy łącząc pracę z urlopem rodzicielskim wydłużam urlop?",
+    "alternatives": [
+      "wydłużenie urlopu rodzicielskiego przy pracy",
+      "82 tygodnie urlopu rodzicielskiego",
+      "ile trwa urlop rodzicielski gdy pracuję w niepełnym wymiarze",
+      "urlop rodzicielski przy pracy na pół etatu dłużej"
+    ],
+    "answer": "Tak. Gdy łączysz urlop rodzicielski z pracą u tego samego pracodawcy, urlop wydłuża się proporcjonalnie do wymiaru pracy. Przy jednym dziecku nie dłużej niż do 82 tygodni.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹f",
+        "quote": "wymiar urlopu rodzicielskiego ulega wydłużeniu proporcjonalnie do wymiaru czasu pracy wykonywanej przez pracownika w trakcie korzystania z urlopu lub jego części"
+      },
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹f",
+        "quote": "82 tygodni - w przypadku, o którym mowa w art. 180 § 1 pkt 1;"
+      }
+    ]
+  },
+  {
+    "id": "rodzicielski-za-zycie",
+    "question": "Ile trwa urlop rodzicielski, gdy dziecko ma zaświadczenie „Za życiem”?",
+    "alternatives": [
+      "urlop rodzicielski Za życiem",
+      "wydłużony urlop rodzicielski dla dziecka z chorobą",
+      "65 tygodni urlopu rodzicielskiego",
+      "67 tygodni urlopu rodzicielskiego",
+      "ustawa Za życiem urlop"
+    ],
+    "answer": "Przy zaświadczeniu „Za życiem” urlop rodzicielski trwa 65 tygodni (jedno dziecko) albo 67 tygodni (co najmniej dwoje dzieci). Za te wydłużone okresy przysługuje zasiłek macierzyński.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu rodzicielskiego dla rodziców dzieci z zaświadczeniem „Za życiem”",
+        "quote": "65 tygodni – gdy urodziło się jedno dziecko,"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu rodzicielskiego dla rodziców dzieci z zaświadczeniem „Za życiem”",
+        "quote": "Za wydłużone okresy urlopu rodzicielskiego przysługuje prawo do zasiłku macierzyńskiego."
+      }
+    ]
+  },
+  {
+    "id": "ojcowski-ile",
+    "starter": true,
+    "question": "Ile trwa urlop ojcowski?",
+    "alternatives": [
+      "wymiar urlopu ojcowskiego",
+      "ile dni urlopu ojcowskiego",
+      "jak długo trwa urlop dla taty",
+      "urlop ojcowski ile tygodni",
+      "czy urlop ojcowski można podzielić"
+    ],
+    "answer": "Urlop ojcowski trwa do 2 tygodni (14 dni kalendarzowych). Tata może go wykorzystać jednorazowo albo w dwóch częściach, z których każda trwa co najmniej tydzień.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182³",
+        "quote": "celu sprawowania opieki nad dzieckiem pracownik - ojciec ma prawo do urlopu ojcowskiego w wymiarze do 2 tygodni"
+      },
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182³",
+        "quote": "Urlop ojcowski może być wykorzystany jednorazowo albo niewięcej niż w 2 częściach, z których żadna nie może być krótsza niż tydzień."
+      }
+    ]
+  },
+  {
+    "id": "ojcowski-termin",
+    "question": "Do kiedy tata musi wykorzystać urlop ojcowski?",
+    "alternatives": [
+      "termin urlopu ojcowskiego",
+      "kiedy wygasa urlop ojcowski",
+      "czy urlop ojcowski przepada",
+      "urlop ojcowski do ilu miesięcy dziecka",
+      "do którego roku życia dziecka urlop ojcowski"
+    ],
+    "answer": "Urlop ojcowski trzeba wykorzystać, zanim dziecko skończy 12 miesięcy. Jeśli tata nie zdąży, prawo do urlopu wygasa. Przy przysposobieniu liczy się 12 miesięcy od uprawomocnienia postanowienia sądu, nie dłużej niż do 14. roku życia dziecka.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu ojcowskiego",
+        "quote": "Jeśli tata nie zdąży z niego skorzystać przed pierwszymi urodzinami malucha, prawo do tego urlopu wygasa."
+      },
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182³",
+        "quote": "ukończenia przez dziecko 12 miesiąca życia albo"
+      }
+    ]
+  },
+  {
+    "id": "ojcowski-wniosek",
+    "question": "Jak złożyć wniosek o urlop ojcowski?",
+    "alternatives": [
+      "wniosek o urlop ojcowski termin",
+      "ile dni wcześniej złożyć wniosek o urlop ojcowski",
+      "urlop ojcowski wniosek do pracodawcy",
+      "jak wziąć urlop ojcowski"
+    ],
+    "answer": "Tata składa pracodawcy wniosek (papierowy lub elektroniczny) najpóźniej 7 dni przed rozpoczęciem urlopu ojcowskiego. Pracodawca ma obowiązek go uwzględnić.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182³",
+        "quote": "składany przez pracownika - ojca w terminie niekrótszym niż 7 dni przed rozpoczęciem korzystania z urlopu."
+      }
+    ]
+  },
+  {
+    "id": "ojcowski-wysokosc",
+    "question": "Ile procent wynagrodzenia wynosi zasiłek za urlop ojcowski?",
+    "alternatives": [
+      "czy urlop ojcowski jest płatny",
+      "zasiłek za urlop ojcowski wysokość",
+      "urlop ojcowski 100%",
+      "czy za urlop ojcowski tata dostaje pieniądze"
+    ],
+    "answer": "Zasiłek za urlop ojcowski jest płatny i wynosi 100% podstawy wymiaru zasiłku.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Wysokość zasiłku macierzyńskiego",
+        "quote": "Zasiłek macierzyński za okres urlopu ojcowskiego – 100% podstawy wymiaru zasiłku."
+      },
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 31",
+        "quote": "oraz okres urlopu ojcowskiego wynosi 100% podstawy wymiaru zasiłku."
+      }
+    ]
+  },
+  {
+    "id": "ojcowski-mama-nie-pracuje",
+    "question": "Czy tata dostanie zasiłek za urlop ojcowski, jeśli mama nie ma ubezpieczenia chorobowego?",
+    "alternatives": [
+      "urlop ojcowski gdy mama nie pracuje",
+      "ojciec urlop ojcowski matka bezrobotna",
+      "czy prawo taty do urlopu ojcowskiego zależy od mamy",
+      "urlop ojcowski niezależny od mamy"
+    ],
+    "answer": "Tak. Prawo taty do zasiłku za urlop ojcowski jest jego własne i nie zależy od uprawnień mamy. Przysługuje także wtedy, gdy mama nie podlega ubezpieczeniu chorobowemu.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu ojcowskiego",
+        "quote": "Przysługuje także wtedy, gdy mama nie podlega ubezpieczeniu chorobowemu i nie może korzystać ze świadczeń związanych z urodzeniem dziecka."
+      }
+    ]
+  },
+  {
+    "id": "wysokosc-zasilku",
+    "starter": true,
+    "question": "Ile procent podstawy wynosi zasiłek macierzyński?",
+    "alternatives": [
+      "wysokość zasiłku macierzyńskiego w procentach",
+      "ile wynosi zasiłek macierzyński",
+      "ile płatny jest urlop macierzyński",
+      "100% czy 70% zasiłku",
+      "jaki procent wynagrodzenia dostanę na macierzyńskim",
+      "procent zasiłku macierzyńskiego"
+    ],
+    "answer": "Za urlop macierzyński, uzupełniający i ojcowski zasiłek wynosi 100% podstawy wymiaru, a za urlop rodzicielski 70%. Jeśli wybierzesz wariant uśredniony, to 81,5% przez cały okres. Konkretną kwotę policzy kalkulator.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 31",
+        "quote": "Miesięczny zasiłek macierzyński za okres ustalony przepisami Kodeksu pracy jako okres urlopu rodzicielskiego wynosi 70% podstawy wymiaru zasiłku."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Wysokość zasiłku macierzyńskiego",
+        "quote": "Zasiłek macierzyński za okres urlopu macierzyńskiego przed porodem wynosi 100% podstawy wymiaru zasiłku."
+      }
+    ]
+  },
+  {
+    "id": "wariant-815",
+    "question": "Jak dostać 81,5% zasiłku przez cały okres urlopu?",
+    "alternatives": [
+      "wariant uśredniony zasiłku macierzyńskiego",
+      "81,5 procent zasiłku",
+      "co daje wniosek w 21 dni po porodzie",
+      "wniosek o zasiłek w pełnym wymiarze",
+      "jak wybrać wariant zasiłku macierzyńskiego"
+    ],
+    "answer": "Matka musi złożyć pisemny wniosek o zasiłek za urlop macierzyński i rodzicielski w pełnym wymiarze nie później niż 21 dni po porodzie. Wtedy zasiłek wynosi 81,5% podstawy za cały ten okres.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 30a",
+        "quote": "Ubezpieczona - matka dziecka, niepóźniej niż 21 dni po porodzie, może złożyć pisemny wniosek o wypłacenie jej zasiłku macierzyńskiego za okres odpowiadający okresowi urlopu macierzyńskiego i urlopu rodzicielskiego w pełnym wymiarze"
+      },
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 31",
+        "quote": "miesięczny zasiłek macierzyński za cały okres odpowiadający okresowi urlopu macierzyńskiego, urlopu na warunkach urlopu macierzyńskiego oraz urlopu rodzicielskiego wynosi 81,5% podstawy wymiaru zasiłku"
+      }
+    ]
+  },
+  {
+    "id": "wariant-zmienny",
+    "question": "Co jeśli nie złożę wniosku o pełny wymiar zasiłku w ciągu 21 dni po porodzie?",
+    "alternatives": [
+      "zasiłek 100% i 70%",
+      "wariant zmienny zasiłku macierzyńskiego",
+      "spóźniony wniosek o zasiłek w pełnym wymiarze",
+      "co gdy minie 21 dni po porodzie"
+    ],
+    "answer": "Dostajesz wtedy 100% podstawy za urlop macierzyński, a potem 70% za urlop rodzicielski.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Wysokość zasiłku macierzyńskiego",
+        "quote": "mama nie złożyła wniosku o zasiłek w pełnym wymiarze w ciągu 21 dni po porodzie"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Wysokość zasiłku macierzyńskiego",
+        "quote": "100% podstawy wymiaru zasiłku za okres urlopu macierzyńskiego, a następnie 70% za okres urlopu rodzicielskiego."
+      }
+    ]
+  },
+  {
+    "id": "wyrownanie-100",
+    "question": "Czy można dostać wyrównanie zasiłku do 100%?",
+    "alternatives": [
+      "jednorazowe wyrównanie zasiłku macierzyńskiego",
+      "wyrównanie do 100% podstawy",
+      "dopłata do zasiłku macierzyńskiego",
+      "wyrównanie gdy nie wykorzystam urlopu rodzicielskiego w pierwszym roku"
+    ],
+    "answer": "Tak, jeśli w pierwszym roku życia dziecka nie wykorzystasz ani jednego dnia zasiłku za urlop rodzicielski. Możesz wtedy złożyć wniosek o jednorazowe wyrównanie zasiłku za urlop macierzyński do 100% podstawy.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 31",
+        "quote": "przysługuje jednorazowe wyrównanie pobranego zasiłku macierzyńskiego za okres urlopu macierzyńskiego do wysokości 100% podstawy wymiaru zasiłku."
+      },
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 31",
+        "quote": "Jednorazowe wyrównanie zasiłku macierzyńskiego następuje na wniosek ubezpieczonego."
+      }
+    ]
+  },
+  {
+    "id": "swiadczenie-rodzicielskie-minimum",
+    "question": "Co jeśli zasiłek macierzyński wyjdzie niższy niż świadczenie rodzicielskie?",
+    "alternatives": [
+      "minimalny zasiłek macierzyński",
+      "podwyższenie zasiłku macierzyńskiego",
+      "zasiłek macierzyński do poziomu świadczenia rodzicielskiego",
+      "kto finansuje podwyższenie zasiłku"
+    ],
+    "answer": "Wtedy zasiłek macierzyński podwyższa się do wysokości świadczenia rodzicielskiego. Podwyższenie finansuje budżet państwa.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 31",
+        "quote": "kwotę zasiłku macierzyńskiego podwyższa się do wysokości świadczenia rodzicielskiego."
+      },
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 31",
+        "quote": "Podwyższenie, o którym mowa w ust. 3a, podlega finansowaniu z budżetu państwa"
+      }
+    ]
+  },
+  {
+    "id": "przed-porodem",
+    "question": "Ile tygodni przed porodem można zacząć urlop macierzyński?",
+    "alternatives": [
+      "urlop przed porodem",
+      "kiedy zacząć urlop macierzyński przed terminem porodu",
+      "6 tygodni przed porodem",
+      "macierzyński przed przewidywaną datą porodu",
+      "ile urlopu mogę wziąć przed porodem"
+    ],
+    "answer": "Przed przewidywaną datą porodu możesz wykorzystać najwyżej 6 tygodni urlopu macierzyńskiego. Wniosek złóż najpóźniej 14 dni przed planowanym początkiem tego urlopu.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 180",
+        "quote": "Przed przewidywaną datą porodu pracownica może wykorzystać niewięcej niż 6 tygodni urlopu macierzyńskiego."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu macierzyńskiego przed porodem",
+        "quote": "Wniosek o zasiłek macierzyński za okres urlopu macierzyńskiego przed porodem przyszła mama musi złożyć najpóźniej na 14 dni przed planowanym rozpoczęciem tego urlopu."
+      }
+    ]
+  },
+  {
+    "id": "przed-porodem-dokument",
+    "question": "Jakie zaświadczenie jest potrzebne do urlopu przed porodem?",
+    "alternatives": [
+      "zaświadczenie o przewidywanej dacie porodu",
+      "dokument do macierzyńskiego przed porodem",
+      "zaświadczenie lekarskie o terminie porodu",
+      "co przynieść do pracodawcy przed porodem"
+    ],
+    "answer": "Potrzebujesz zaświadczenia lekarskiego na zwykłym druku z przewidywaną datą porodu. Dołączasz je do wniosku o zasiłek.",
+    "sources": [
+      {
+        "document": "Rozporządzenie w sprawie dokumentów do zasiłków",
+        "article": "§ 13",
+        "quote": "zaświadczenie lekarskie wystawione na zwykłym druku określające przewidywaną datę porodu – za okres przed dniem porodu;"
+      }
+    ]
+  },
+  {
+    "id": "dokumenty-macierzynski",
+    "starter": true,
+    "question": "Jakie dokumenty są potrzebne do zasiłku macierzyńskiego?",
+    "alternatives": [
+      "jakie dokumenty do zasiłku macierzyńskiego",
+      "co złożyć żeby dostać zasiłek macierzyński",
+      "akt urodzenia do zasiłku",
+      "wniosek i dokumenty do macierzyńskiego",
+      "formalności po urodzeniu dziecka zasiłek",
+      "jakie papiery do macierzyńskiego"
+    ],
+    "answer": "Zwykle wystarczy wniosek o zasiłek i skrócony odpis aktu urodzenia dziecka, który okazujesz pracodawcy do wglądu. Przed porodem potrzebne jest też zaświadczenie lekarskie z przewidywaną datą porodu.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Jak otrzymać zasiłek › Pracownicy",
+        "quote": "wystarczy złożyć wniosek o jego udzielenie i okazać pracodawcy do wglądu skrócony odpis aktu urodzenia dziecka"
+      },
+      {
+        "document": "Rozporządzenie w sprawie dokumentów do zasiłków",
+        "article": "§ 13",
+        "quote": "odpis skrócony aktu urodzenia dziecka lub zagraniczny dokument potwierdzający urodzenie dziecka"
+      }
+    ]
+  },
+  {
+    "id": "co-zanies-pracodawcy",
+    "question": "Co mam zanieść pracodawcy po urodzeniu dziecka?",
+    "alternatives": [
+      "co zanieść pracodawcy",
+      "co złożyć u pracodawcy po porodzie",
+      "jakie wnioski do pracodawcy po urodzeniu dziecka",
+      "jakie dokumenty do pracodawcy urlop",
+      "co przynieść do kadr po urodzeniu dziecka",
+      "co powinnam dostarczyć pracodawcy",
+      "o co wnioskować u pracodawcy po narodzinach dziecka"
+    ],
+    "answer": "Pracodawcy składasz wniosek o urlop (papierowo lub elektronicznie) i okazujesz skrócony odpis aktu urodzenia dziecka. Terminy: urlop rodzicielski i uzupełniający najpóźniej 21 dni przed startem, ojcowski 7 dni, a urlop macierzyński przed porodem 14 dni. Przed porodem dołączasz zaświadczenie lekarskie z przewidywaną datą porodu.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹d",
+        "quote": "Urlop rodzicielski jest udzielany na wniosek w postaci papierowej lub elektronicznej składany przez pracownika - rodzica dziecka"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Jak otrzymać zasiłek › Pracownicy",
+        "quote": "wystarczy złożyć wniosek o jego udzielenie i okazać pracodawcy do wglądu skrócony odpis aktu urodzenia dziecka"
+      }
+    ]
+  },
+  {
+    "id": "odpis-zus",
+    "question": "Czy muszę dostarczać akt urodzenia, gdy zasiłek wypłaca ZUS?",
+    "alternatives": [
+      "skrócony odpis aktu urodzenia ZUS",
+      "ZUS sam pobierze akt urodzenia",
+      "akt urodzenia z urzędu stanu cywilnego",
+      "czy ZUS wymaga odpisu aktu urodzenia"
+    ],
+    "answer": "Nie musisz go przedstawiać. Jeśli to ZUS wypłaca zasiłek, sam może uzyskać odpis z rejestru stanu cywilnego. Podajesz tylko dane dziecka, np. imię, nazwisko i datę urodzenia.",
+    "sources": [
+      {
+        "document": "Rozporządzenie w sprawie dokumentów do zasiłków",
+        "article": "§ 13",
+        "quote": "Odpisu skróconego aktu urodzenia dziecka nie przedstawia się, jeżeli płatnikiem zasiłku jest Zakład."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Jak otrzymać zasiłek › Pracownicy",
+        "quote": "zgłosić wniosek o to, aby ZUS sam uzyskał odpis skrócony aktu urodzenia z urzędu stanu cywilnego"
+      }
+    ]
+  },
+  {
+    "id": "kto-wyplaca",
+    "starter": true,
+    "question": "Kto wypłaca zasiłek macierzyński: pracodawca czy ZUS?",
+    "alternatives": [
+      "kto wypłaca zasiłek",
+      "czy zasiłek wypłaca pracodawca czy ZUS",
+      "płatnik zasiłku macierzyńskiego",
+      "duży płatnik składek zasiłek",
+      "mały płatnik składek zasiłek",
+      "od kogo dostanę zasiłek macierzyński"
+    ],
+    "answer": "To zależy od liczby osób zgłoszonych przez pracodawcę do ubezpieczenia chorobowego. Gdy jest ich więcej niż 20, wypłaca pracodawca, a przy 20 lub mniej ZUS. Osobom prowadzącym działalność zawsze wypłaca ZUS.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 61",
+        "quote": "płatnicy składek na ubezpieczenie chorobowe, którzy zgłaszają do ubezpieczenia chorobowego powyżej 20 ubezpieczonych"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek chorobowy",
+        "quote": "najwyżej 20 osób (tzw. mały płatnik składek) – płatnikiem zasiłków jest ZUS."
+      }
+    ]
+  },
+  {
+    "id": "termin-wyplaty",
+    "question": "Kiedy dostanę wypłatę zasiłku macierzyńskiego?",
+    "alternatives": [
+      "w jakim terminie wypłata zasiłku macierzyńskiego",
+      "po jakim czasie ZUS wypłaca zasiłek",
+      "ile czekać na zasiłek macierzyński",
+      "kiedy pieniądze z zasiłku",
+      "termin wypłaty zasiłku"
+    ],
+    "answer": "Pracodawca jako płatnik wypłaca zasiłek w terminach wypłaty wynagrodzeń. ZUS wypłaca na bieżąco po stwierdzeniu uprawnień, najpóźniej w ciągu 30 dni od wyjaśnienia ostatniej okoliczności potrzebnej do ustalenia prawa.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Jak otrzymać zasiłek › Pracownicy",
+        "quote": "nie później jednak niż w ciągu 30 dni od dnia wyjaśnienia ostatniej okoliczności niezbędnej do ustalenia prawa do zasiłku"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Jak otrzymać zasiłek › Pracownicy",
+        "quote": "Płatnik wypłaci zasiłek w terminach przyjętych dla wypłaty wynagrodzeń."
+      }
+    ]
+  },
+  {
+    "id": "dzialalnosc-wniosek",
+    "question": "Jak złożyć wniosek o zasiłek macierzyński, gdy prowadzę działalność?",
+    "alternatives": [
+      "zasiłek macierzyński przedsiębiorca wniosek",
+      "druk ZAM",
+      "druk Z-3b",
+      "działalność gospodarcza zasiłek macierzyński",
+      "samozatrudniona zasiłek macierzyński",
+      "jak przedsiębiorczyni dostanie zasiłek macierzyński",
+      "eZUS wniosek o zasiłek"
+    ],
+    "answer": "Osoba prowadząca działalność składa do ZUS wniosek na druku ZAM albo zaświadczenie płatnika składek na druku Z-3b. Najwygodniej zrobić to przez portal eZUS. Zasiłek zawsze wypłaca ZUS.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Jak otrzymać zasiłek › Osoby ubezpieczone, które nie są pracownikami",
+        "quote": "powinna złożyć do ZUS wniosek o zasiłek macierzyński na druku ZAM lub zaświadczenie płatnika składek na druku Z-3b. Najwygodniej jest je złożyć za pośrednictwem portalu eZUS."
+      }
+    ]
+  },
+  {
+    "id": "przedsiebiorca-dobrowolne",
+    "question": "Czy przedsiębiorca ma prawo do zasiłku macierzyńskiego?",
+    "alternatives": [
+      "dobrowolne ubezpieczenie chorobowe przedsiębiorcy",
+      "zasiłek macierzyński dla osoby prowadzącej działalność",
+      "czy trzeba opłacać chorobowe żeby dostać zasiłek",
+      "dobrowolne chorobowe a zasiłek macierzyński",
+      "jednoosobowa działalność a macierzyński"
+    ],
+    "answer": "Tak, jeśli w dniu narodzin dziecka podlegasz ubezpieczeniu chorobowemu, które w działalności jest dobrowolne. Bez niego zasiłek macierzyński nie przysługuje.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Kiedy przysługuje i przez jaki okres jest wypłacany",
+        "quote": "dobrowolnie, np. przedsiębiorcom i przedsiębiorczyniom, osobom z nimi współpracującym, osobom świadczącym pracę na podstawie umowy cywilnoprawnej."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Kiedy przysługuje i przez jaki okres jest wypłacany",
+        "quote": "Kluczowy warunek: w dniu powstania prawa do zasiłku musicie podlegać ubezpieczeniu chorobowemu."
+      }
+    ]
+  },
+  {
+    "id": "zlecenie",
+    "question": "Czy na umowie zlecenia przysługuje zasiłek macierzyński?",
+    "alternatives": [
+      "umowa zlecenie zasiłek macierzyński",
+      "zleceniobiorca macierzyński",
+      "chorobowe na zleceniu",
+      "czy na zleceniu dostanę macierzyński",
+      "dobrowolne ubezpieczenie chorobowe zleceniobiorcy"
+    ],
+    "answer": "Tak, ale tylko jeśli podlegasz ubezpieczeniu chorobowemu. Zleceniobiorca może do niego przystąpić dobrowolnie na swój wniosek. Nie da się tego zrobić wstecz, więc ważny jest termin zgłoszenia.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zleceniobiorcy",
+        "quote": "Natomiast ubezpieczeniu chorobowemu zleceniobiorca może podlegać dobrowolnie, na swój wniosek."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zleceniobiorcy",
+        "quote": "Do dobrowolnego ubezpieczenia chorobowego nie można zgłosić się z okresem wstecznym"
+      }
+    ]
+  },
+  {
+    "id": "wyczekiwanie",
+    "question": "Co to jest okres wyczekiwania i ile trwa?",
+    "alternatives": [
+      "okres wyczekiwania zasiłek",
+      "ile dni ubezpieczenia trzeba mieć żeby dostać zasiłek",
+      "30 dni ubezpieczenia chorobowego",
+      "90 dni ubezpieczenia chorobowego",
+      "czy jest okres wyczekiwania do zasiłku macierzyńskiego"
+    ],
+    "answer": "Okres wyczekiwania dotyczy zasiłku chorobowego: 30 dni ubezpieczenia przy obowiązkowym i 90 dni przy dobrowolnym. Do zasiłku macierzyńskiego wystarczy, że w dniu porodu podlegasz ubezpieczeniu chorobowemu.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 4",
+        "quote": "po upływie 30 dni nieprzerwanego ubezpieczenia chorobowego - jeżeli podlega obowiązkowo temu ubezpieczeniu;"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Kiedy przysługuje i przez jaki okres jest wypłacany",
+        "quote": "Kluczowy warunek: w dniu powstania prawa do zasiłku musicie podlegać ubezpieczeniu chorobowemu."
+      }
+    ]
+  },
+  {
+    "id": "chorobowe-ciaza-wysokosc",
+    "question": "Ile procent wynagrodzenia wynosi zasiłek chorobowy w ciąży?",
+    "alternatives": [
+      "zwolnienie lekarskie w ciąży ile płatne",
+      "L4 w ciąży 100%",
+      "zasiłek chorobowy w ciąży wysokość",
+      "ile płatne jest zwolnienie w ciąży",
+      "chorobowe w ciąży"
+    ],
+    "answer": "W ciąży zasiłek chorobowy wynosi 100% podstawy wymiaru od pierwszego dnia zwolnienia, ale tylko gdy na zwolnieniu jest kod B.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Wysokość zasiłku chorobowego",
+        "quote": "Zasiłek chorobowy w czasie ciąży przysługuje w wysokości 100% podstawy wymiaru od pierwszego dnia zwolnienia, oczywiście pod warunkiem że na zwolnieniu lekarskim jest kod B."
+      }
+    ]
+  },
+  {
+    "id": "chorobowe-kod-b",
+    "question": "Co oznacza kod B na zwolnieniu lekarskim?",
+    "alternatives": [
+      "kod B na L4",
+      "zwolnienie z kodem B",
+      "czy sama ciąża daje prawo do L4",
+      "czy ciąża jest powodem zwolnienia lekarskiego",
+      "e-ZLA w ciąży"
+    ],
+    "answer": "Kod B oznacza niezdolność do pracy przypadającą w okresie ciąży. Zwolnienie wystawia się z powodu choroby występującej w ciąży, a nie z powodu samej ciąży.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Pracownicy",
+        "quote": "Kod B na zwolnieniu lekarskim oznacza niezdolność do pracy przypadającą w okresie ciąży."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zwolnienie lekarskie (e-ZLA)",
+        "quote": "Sama ciąża nie jest przesłanką do wystawienia e-ZLA."
+      }
+    ]
+  },
+  {
+    "id": "chorobowe-ciaza-okres",
+    "question": "Jak długo można być na zwolnieniu lekarskim w ciąży?",
+    "alternatives": [
+      "okres zasiłkowy w ciąży",
+      "270 dni zwolnienia w ciąży",
+      "ile dni L4 w ciąży",
+      "maksymalny czas zwolnienia w ciąży",
+      "okres zasiłkowy 182 dni"
+    ],
+    "answer": "Zwykle okres zasiłkowy to 182 dni, ale gdy niezdolność przypada w ciąży, wydłuża się do 270 dni.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Okres zasiłkowy",
+        "quote": "gdy niezdolność przypada w trakcie ciąży wydłuża się do 270 dni"
+      },
+      {
+        "document": "Załącznik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek chorobowy w okresie ciąży",
+        "quote": "Zasiłek chorobowy – ciąża | ZUS | do 270 dni"
+      }
+    ]
+  },
+  {
+    "id": "chorobowe-kto-placi",
+    "question": "Kto płaci za zwolnienie lekarskie: pracodawca czy ZUS?",
+    "alternatives": [
+      "wynagrodzenie chorobowe pracodawca",
+      "kto płaci za pierwsze 33 dni zwolnienia",
+      "kiedy zasiłek chorobowy płaci ZUS",
+      "33 dni wynagrodzenia chorobowego",
+      "14 dni wynagrodzenia chorobowego po 50 roku życia"
+    ],
+    "answer": "Za pierwsze 33 dni zwolnienia w roku (14 dni po ukończeniu 50 lat) wynagrodzenie chorobowe płaci pracodawca. Dalej wypłaca się zasiłek chorobowy; w ciąży ze środków ZUS.",
+    "sources": [
+      {
+        "document": "Załącznik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek chorobowy w okresie ciąży",
+        "quote": "Wynagrodzenie chorobowe (pracownik <50 lat) | Pracodawca | 33 dni w roku kalendarzowym"
+      },
+      {
+        "document": "Załącznik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek chorobowy w okresie ciąży",
+        "quote": "Wynagrodzenie chorobowe (pracownik ≥50 lat) | Pracodawca | 14 dni w roku kalendarzowym"
+      }
+    ]
+  },
+  {
+    "id": "podstawa-pracownik",
+    "question": "Jak liczy się podstawę wymiaru zasiłku dla pracownika?",
+    "alternatives": [
+      "z czego liczony jest zasiłek",
+      "podstawa wymiaru zasiłku",
+      "średnie wynagrodzenie z 12 miesięcy zasiłek",
+      "13,71% podstawa zasiłku",
+      "od jakiej pensji liczony jest zasiłek macierzyński",
+      "jak liczy się zasiłek macierzyński"
+    ],
+    "answer": "Podstawą jest przeciętne miesięczne wynagrodzenie z 12 miesięcy poprzedzających chorobę, pomniejszone o 13,71% (składki). Dokładną kwotę dla Twojej sytuacji policzy kalkulator.",
+    "sources": [
+      {
+        "document": "Załącznik ZUS (materiał pomocniczy)",
+        "article": "Dla pracowników",
+        "quote": "Podstawę wymiaru zasiłku dla pracownika stanowi przeciętne miesięczne wynagrodzenie z 12 miesięcy poprzedzających chorobę, pomniejszone o 13,71%."
+      }
+    ]
+  },
+  {
+    "id": "podstawa-dzialalnosc",
+    "question": "Jak liczy się podstawę zasiłku przy działalności lub umowie zlecenia?",
+    "alternatives": [
+      "podstawa zasiłku dla przedsiębiorcy",
+      "podstawa zasiłku zleceniobiorcy",
+      "przeciętny przychód z 12 miesięcy zasiłek",
+      "z czego liczony jest zasiłek przedsiębiorcy",
+      "zasiłek przedsiębiorcy od jakiej podstawy"
+    ],
+    "answer": "Dla osób, które nie są pracownikami, liczy się przeciętny miesięczny przychód z 12 miesięcy kalendarzowych poprzedzających miesiąc choroby, pomniejszony o 13,71%.",
+    "sources": [
+      {
+        "document": "Załącznik ZUS (materiał pomocniczy)",
+        "article": "Dla nie pracowników",
+        "quote": "Podstawę wymiaru zasiłku dla ubezpieczonego niebędącego pracownikiem (np. przedsiębiorcy lub zleceniobiorcy) stanowi przeciętny miesięczny przychód za 12 miesięcy kalendarzowych poprzedzających miesiąc choroby, pomniejszony o 13,71%."
+      }
+    ]
+  },
+  {
+    "id": "zadluzenie",
+    "question": "Czy zaległe składki blokują zasiłek?",
+    "alternatives": [
+      "zadłużenie składkowe a zasiłek",
+      "zaległości w ZUS a zasiłek macierzyński",
+      "dług w ZUS zasiłek",
+      "przedsiębiorca z zaległościami zasiłek",
+      "1% minimalnego wynagrodzenia zaległości",
+      "czy zaległości w składkach wpływają na zasiłek",
+      "zaległości w składkach a zasiłek"
+    ],
+    "answer": "Dotyczy to osób, które same opłacają swoje składki, np. prowadzących działalność. Jeśli w dniu powstania prawa do zasiłku masz zadłużenie przekraczające 1% minimalnego wynagrodzenia, zasiłek nie przysługuje do czasu spłaty całości długu.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 2a",
+        "quote": "w razie wystąpienia w dniu powstania prawa do świadczenia zadłużenia z tytułu składek na ubezpieczenia społeczne na kwotę przekraczającą 1 % minimalnego wynagrodzenia za pracę"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek chorobowy",
+        "quote": "Stan zadłużenia ustalamy na dzień powstania prawa do świadczenia."
+      }
+    ]
+  },
+  {
+    "id": "zadluzenie-splata",
+    "question": "Ile mam czasu na spłatę zadłużenia składkowego, żeby dostać zasiłek?",
+    "alternatives": [
+      "spłata zaległych składek a zasiłek",
+      "termin spłaty zadłużenia w ZUS",
+      "6 miesięcy na spłatę zadłużenia",
+      "co jeśli spłacę długi po porodzie",
+      "przedawnienie prawa do zasiłku przez zadłużenie"
+    ],
+    "answer": "Masz 6 miesięcy od dnia powstania prawa do świadczenia. Jeśli w tym czasie nie spłacisz zadłużenia, prawo do zasiłku się przedawnia.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 2a",
+        "quote": "Prawo do świadczeń, o których mowa w art. 2 pkt 1, 2, 5 i 6, przedawnia się, jeżeli zadłużenie, o którym mowa w ust. 1, nie zostanie uregulowane w ciągu 6 miesięcy od dnia powstania prawa do świadczenia."
+      }
+    ]
+  },
+  {
+    "id": "przedawnienie",
+    "question": "W jakim terminie trzeba złożyć wniosek o wypłatę zasiłku macierzyńskiego?",
+    "alternatives": [
+      "przedawnienie zasiłku macierzyńskiego",
+      "do kiedy można wnioskować o zasiłek macierzyński",
+      "6 miesięcy na złożenie wniosku o zasiłek",
+      "czy mogę złożyć wniosek po czasie",
+      "spóźniony wniosek o zasiłek macierzyński"
+    ],
+    "answer": "Roszczenie o wypłatę zasiłku macierzyńskiego przedawnia się po 6 miesiącach od ostatniego dnia okresu, za który zasiłek przysługuje. Wniosek złóż więc w tym czasie.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Przedawnienie roszczenia o wypłatę zasiłku macierzyńskiego",
+        "quote": "Roszczenie o wypłatę zasiłku macierzyńskiego przedawnia się po upływie 6 miesięcy od ostatniego dnia okresu, za który ten zasiłek przysługuje."
+      }
+    ]
+  },
+  {
+    "id": "przedawnienie-chorobowy",
+    "question": "Do kiedy można złożyć wniosek o zasiłek chorobowy?",
+    "alternatives": [
+      "przedawnienie zasiłku chorobowego",
+      "termin wniosku o zasiłek chorobowy",
+      "6 miesięcy zasiłek chorobowy",
+      "czy zasiłek chorobowy się przedawnia"
+    ],
+    "answer": "Zasiłek chorobowy przedawnia się po 6 miesiącach od ostatniego dnia okresu, za który przysługuje. Wyjątkiem jest błąd ZUS lub dużego płatnika, wtedy termin wynosi 3 lata.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Przedawnienie roszczenia o wypłatę zasiłku chorobowego",
+        "quote": "Roszczenie o wypłatę zasiłku chorobowego przedawnia się po upływie 6 miesięcy od ostatniego dnia okresu, za który zasiłek przysługuje."
+      }
+    ]
+  },
+  {
+    "id": "adopcja",
+    "question": "Czy przy adopcji dziecka przysługuje zasiłek macierzyński?",
+    "alternatives": [
+      "przysposobienie dziecka zasiłek",
+      "adopcja urlop macierzyński",
+      "urlop na warunkach urlopu macierzyńskiego",
+      "przyjęcie dziecka na wychowanie zasiłek",
+      "adoptowałam dziecko urlop",
+      "jak adopcja wpływa na urlop"
+    ],
+    "answer": "Tak. Zasiłek przysługuje, gdy przyjmiesz dziecko na wychowanie i wystąpisz do sądu o jego przysposobienie. Wymiar zasiłku jest taki sam jak przy urodzeniu dziecka.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 29",
+        "quote": "przyjęła na wychowanie dziecko w wieku do 14 roku życia i wystąpiła do sądu opiekuńczego w sprawie jego przysposobienia;"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu na warunkach urlopu macierzyńskiego",
+        "quote": "przyjęli dziecko na wychowanie i wystąpili do sądu o jego przysposobienie (adopcję),"
+      }
+    ]
+  },
+  {
+    "id": "adopcja-wymiar",
+    "question": "Ile trwa urlop przy adopcji dziecka?",
+    "alternatives": [
+      "wymiar urlopu przy przysposobieniu",
+      "ile tygodni urlopu po adopcji",
+      "minimalny okres zasiłku przy adopcji",
+      "9 tygodni zasiłku przy przyjęciu dziecka",
+      "długość urlopu na warunkach urlopu macierzyńskiego"
+    ],
+    "answer": "Wymiar jest taki sam jak przy urodzeniu: 20–37 tygodni zależnie od liczby jednocześnie przyjętych dzieci. Zasiłek za ten urlop nie może trwać krócej niż 9 tygodni.",
+    "sources": [
+      {
+        "document": "Załącznik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu na warunkach urlopu macierzyńskiego – (przyjęcie dziecka na wychowanie)",
+        "quote": "Wymiar identyczny jak przy urodzeniu dziecka — 20–37 tygodni zależnie od liczby dzieci przyjętych jednocześnie"
+      },
+      {
+        "document": "Załącznik ZUS (materiał pomocniczy)",
+        "article": "Minimalny okres",
+        "quote": "Zasiłek macierzyński za okres urlopu na warunkach urlopu macierzyńskiego nie może trwać krócej niż 9 tygodni"
+      }
+    ]
+  },
+  {
+    "id": "rodzina-zastepcza-wiek",
+    "question": "Do jakiego wieku dziecka przysługuje zasiłek w rodzinie zastępczej lub przy adopcji?",
+    "alternatives": [
+      "rodzina zastępcza zasiłek macierzyński",
+      "rodzina zastępcza zawodowa zasiłek",
+      "do którego roku życia dziecka urlop przy adopcji",
+      "dziecko w wieku do 7 lat rodzina zastępcza",
+      "odroczony obowiązek szkolny urlop"
+    ],
+    "answer": "Przy przysposobieniu dziecko może mieć do 14 lat. W rodzinie zastępczej (poza zawodową) liczy się wiek do 7 lat, a przy odroczonym obowiązku szkolnym do 10 lat.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 29",
+        "quote": "przyjęła na wychowanie w ramach rodziny zastępczej, z wyjątkiem rodziny zastępczej zawodowej, dziecko w wieku do 7 roku życia, a w przypadku dziecka, wobec którego podjęto decyzję o odroczeniu obowiązku szkolnego - do 10 roku życia."
+      },
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 29",
+        "quote": "przyjęła na wychowanie dziecko w wieku do 14 roku życia i wystąpiła do sądu opiekuńczego w sprawie jego przysposobienia;"
+      }
+    ]
+  },
+  {
+    "id": "wczesniak",
+    "question": "Co przysługuje rodzicom wcześniaka lub dziecka w szpitalu?",
+    "alternatives": [
+      "uzupełniający urlop macierzyński",
+      "wcześniak urlop macierzyński",
+      "dziecko urodzone przedwcześnie urlop",
+      "dziecko w szpitalu po porodzie urlop",
+      "tydzień urlopu za tydzień w szpitalu",
+      "ile urlopu przy wcześniaku"
+    ],
+    "answer": "Przysługuje uzupełniający urlop macierzyński: tydzień urlopu za każdy tydzień pobytu dziecka w szpitalu. Limit to 15 tygodni po porodzie przy dziecku urodzonym przed 28. tygodniem ciąży lub o niskiej wadze, a w innych przypadkach 8 tygodni.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 180²",
+        "quote": "w wymiarze tygodnia uzupełniającego urlopu macierzyńskiego za każdy tydzień pobytu dziecka w szpitalu do upływu 15. tygodnia po porodzie;"
+      },
+      {
+        "document": "Załącznik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres uzupełniającego urlopu macierzyńskiego",
+        "quote": "Wymiar urlopu to 1 tydzień za każdy tydzień pobytu dziecka w szpitalu, z limitami 8 lub 15 tygodni zależnie od przypadku."
+      }
+    ]
+  },
+  {
+    "id": "wczesniak-wniosek",
+    "question": "Jak i kiedy złożyć wniosek o uzupełniający urlop macierzyński?",
+    "alternatives": [
+      "wniosek o uzupełniający urlop macierzyński",
+      "zaświadczenie ze szpitala o pobycie dziecka",
+      "termin wniosku o urlop uzupełniający",
+      "jakie dokumenty do uzupełniającego urlopu",
+      "oświadczenie drugiego rodzica uzupełniający urlop"
+    ],
+    "answer": "Wniosek złóż najpóźniej 21 dni przed zakończeniem urlopu macierzyńskiego. Dołącz zaświadczenie ze szpitala o pobycie dziecka oraz oświadczenie drugiego rodzica, że nie zamierza korzystać z tego urlopu ani zasiłku za ten okres.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 180²",
+        "quote": "w terminie niekrótszym niż 21 dni przed zakończeniem korzystania z urlopu macierzyńskiego."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres uzupełniającego urlopu macierzyńskiego",
+        "quote": "Do wniosku mama lub tata musi załączyć zaświadczenie ze szpitala potwierdzające pobyt dziecka."
+      }
+    ]
+  },
+  {
+    "id": "dziecko-w-szpitalu",
+    "question": "Czy gdy dziecko zostaje w szpitalu, mogę wykorzystać resztę urlopu macierzyńskiego później?",
+    "alternatives": [
+      "dziecko wymaga opieki szpitalnej urlop",
+      "odroczenie reszty urlopu macierzyńskiego",
+      "urlop po wyjściu dziecka ze szpitala",
+      "dziecko długo w szpitalu urlop macierzyński"
+    ],
+    "answer": "Tak. Jeśli dziecko wymaga opieki szpitalnej, po wykorzystaniu 8 tygodni urlopu macierzyńskiego pozostałą część możesz wziąć później, po wyjściu dziecka ze szpitala.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 181",
+        "quote": "pozostałą część tego urlopu może wykorzystać w terminie późniejszym, po wyjściu dziecka ze szpitala."
+      }
+    ]
+  },
+  {
+    "id": "martwe-urodzenie",
+    "question": "Co przysługuje po urodzeniu martwego dziecka?",
+    "alternatives": [
+      "martwe urodzenie urlop",
+      "zasiłek macierzyński po śmierci dziecka",
+      "śmierć dziecka po porodzie urlop",
+      "poronienie urlop macierzyński",
+      "dziecko zmarło urlop macierzyński",
+      "co z zasiłkiem gdy dziecko urodzi się martwe",
+      "co przysługuje gdy dziecko urodziło się martwe"
+    ],
+    "answer": "Jeśli dziecko urodzi się martwe lub zmarło przed 8. tygodniem życia, masz zasiłek macierzyński przez 8 tygodni po porodzie, nie krócej niż 7 dni od śmierci dziecka. Zasiłek wynosi wtedy 100% podstawy.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński, gdy dziecko urodzi się martwe lub po śmierci dziecka",
+        "quote": "Jeżeli dziecko urodziło się martwe lub zmarło przed upływem 8. tygodnia życia (56 dni), ubezpieczonej matce przysługuje zasiłek macierzyński za okres urlopu macierzyńskiego w wymiarze 8 tygodni po porodzie"
+      },
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 180¹",
+        "quote": "W razie urodzenia martwego dziecka lub zgonu dziecka przed upływem 8 tygodni życia, pracownicy przysługuje urlop macierzyński w wymiarze 8 tygodni po porodzie"
+      }
+    ]
+  },
+  {
+    "id": "martwe-dokumenty",
+    "question": "Jakie dokumenty są potrzebne, gdy dziecko urodzi się martwe?",
+    "alternatives": [
+      "dokumenty po martwym urodzeniu",
+      "zaświadczenie o martwym urodzeniu",
+      "akt urodzenia z adnotacją martwe",
+      "dokumenty do zasiłku po śmierci dziecka"
+    ],
+    "answer": "Potrzebujesz skróconego odpisu aktu urodzenia z adnotacją, że dziecko urodziło się martwe. Gdy nie sporządzono aktu, wystarczy zaświadczenie o martwym urodzeniu od lekarza ginekologa-położnika lub położnej.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński, gdy dziecko urodzi się martwe lub po śmierci dziecka",
+        "quote": "odpis skrócony aktu urodzenia dziecka, z adnotacją, że dziecko urodziło się martwe"
+      },
+      {
+        "document": "Rozporządzenie w sprawie dokumentów do zasiłków",
+        "article": "§ 13",
+        "quote": "zaświadczenie lekarza posiadającego tytuł specjalisty w dziedzinie położnictwa i ginekologii"
+      }
+    ]
+  },
+  {
+    "id": "zasilek-pogrzebowy",
+    "question": "Czy po martwym urodzeniu przysługuje zasiłek pogrzebowy?",
+    "alternatives": [
+      "zasiłek pogrzebowy dziecko martwe",
+      "pogrzeb dziecka zasiłek",
+      "druk Z-12",
+      "ile czasu na wniosek o zasiłek pogrzebowy"
+    ],
+    "answer": "Tak, bez względu na czas trwania ciąży. Zasiłek dostaje osoba, która zorganizowała pogrzeb. Wniosek na druku Z-12 złóż w ZUS w ciągu 12 miesięcy od pochówku.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek pogrzebowy, gdy dziecko urodzi się martwe",
+        "quote": "Jeżeli dziecko urodzi się martwe (bez względu na czas trwania ciąży) przysługuje zasiłek pogrzebowy"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek pogrzebowy, gdy dziecko urodzi się martwe",
+        "quote": "Wniosek wraz z dokumentacją osoba ta musi złożyć do ZUS w ciągu 12 miesięcy od dnia pochówku."
+      }
+    ]
+  },
+  {
+    "id": "urlop-wychowawczy",
+    "question": "Czy za urlop wychowawczy przysługuje zasiłek macierzyński?",
+    "alternatives": [
+      "urlop wychowawczy zasiłek",
+      "zasiłek na urlopie wychowawczym",
+      "dziecko urodzone na urlopie wychowawczym",
+      "macierzyński a urlop wychowawczy"
+    ],
+    "answer": "Za sam czas urlopu wychowawczego zasiłek macierzyński nie przysługuje. Jeśli jednak dziecko urodzisz w czasie urlopu wychowawczego, prawo do zasiłku macierzyńskiego nadal powstaje.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Ważne informacje uzupełniające",
+        "quote": "Zasiłek macierzyński nie przysługuje za czas urlopu wychowawczego."
+      },
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 29",
+        "quote": "Zasiłek macierzyński przysługuje ubezpieczonej, która w okresie ubezpieczenia chorobowego albo w okresie urlopu wychowawczego:"
+      }
+    ]
+  },
+  {
+    "id": "ochrona-zwolnienie",
+    "question": "Czy pracodawca może zwolnić pracownicę w ciąży?",
+    "alternatives": [
+      "ochrona przed zwolnieniem w ciąży",
+      "wypowiedzenie umowy w ciąży",
+      "czy w ciąży mogą mnie zwolnić",
+      "zakaz wypowiedzenia w ciąży",
+      "ochrona pracownicy na urlopie macierzyńskim",
+      "zwolnienie na urlopie rodzicielskim"
+    ],
+    "answer": "W ciąży i na urlopie macierzyńskim pracodawca co do zasady nie może wypowiedzieć ani rozwiązać umowy. Wyjątkiem są przyczyny uzasadniające rozwiązanie bez wypowiedzenia z winy pracownicy, i to za zgodą związku zawodowego. Ochrona działa też od złożenia wniosku o urlop.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 177",
+        "quote": "wypowiedzieć ani rozwiązać stosunku pracy z tą pracownicą lub tym pracownikiem, chyba że zachodzą przyczyny uzasadniające rozwiązanie umowy bez wypowiedzenia z ich winy"
+      },
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 177",
+        "quote": "prowadzić przygotowań do wypowiedzenia lub rozwiązania bez wypowiedzenia stosunku pracy z tą pracownicą lub tym pracownikiem;"
+      }
+    ]
+  },
+  {
+    "id": "umowa-na-czas",
+    "question": "Co się dzieje z umową na czas określony, która kończy się w ciąży?",
+    "alternatives": [
+      "umowa terminowa w ciąży",
+      "umowa na okres próbny a ciąża",
+      "przedłużenie umowy do dnia porodu",
+      "umowa kończy się w ciąży",
+      "umowa na zastępstwo w ciąży"
+    ],
+    "answer": "Umowa na czas określony albo na okres próbny dłuższy niż miesiąc, która skończyłaby się po upływie trzeciego miesiąca ciąży, przedłuża się do dnia porodu. Nie dotyczy to umowy zawartej na zastępstwo innego pracownika.",
+    "sources": [
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 177",
+        "quote": "Umowa o pracę zawarta na czas określony albo na okres próbny przekraczający jeden miesiąc, która uległaby rozwiązaniu po upływie trzeciego miesiąca ciąży, ulega przedłużeniu do dnia porodu."
+      },
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 177",
+        "quote": "Przepisu § 3 nie stosuje się do umowy o pracę na czas określony zawartej w celu zastępstwa pracownika w czasie jego usprawiedliwionej nieobecności w pracy."
+      }
+    ]
+  },
+  {
+    "id": "utrata-pracy-ciaza",
+    "question": "Czy po utracie ubezpieczenia w ciąży przysługuje zasiłek macierzyński?",
+    "alternatives": [
+      "zasiłek po ustaniu ubezpieczenia chorobowego",
+      "upadłość pracodawcy w ciąży",
+      "likwidacja firmy a macierzyński",
+      "zasiłek macierzyński po zakończeniu umowy",
+      "ubezpieczenie ustało w ciąży"
+    ],
+    "answer": "Tak, w dwóch sytuacjach: gdy ubezpieczenie ustało w ciąży wskutek śmierci, upadłości lub likwidacji pracodawcy albo z naruszeniem prawa stwierdzonym prawomocnym wyrokiem sądu.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 30",
+        "quote": "Zasiłek macierzyński przysługuje również w razie urodzenia dziecka po ustaniu ubezpieczenia chorobowego, jeżeli ubezpieczenie to ustało w okresie ciąży:"
+      },
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 30",
+        "quote": "wskutek śmierci, ogłoszenia upadłości lub likwidacji pracodawcy;"
+      }
+    ]
+  },
+  {
+    "id": "tata-przejmuje",
+    "question": "Czy tata może przejąć część urlopu macierzyńskiego?",
+    "alternatives": [
+      "mama wraca do pracy tata bierze macierzyński",
+      "rezygnacja z części urlopu macierzyńskiego na rzecz taty",
+      "pierwsze 14 tygodni dla mamy",
+      "skrócenie urlopu macierzyńskiego przez mamę",
+      "tata na zasiłku macierzyńskim zamiast mamy"
+    ],
+    "answer": "Tak, ale dopiero po tym, jak mama wykorzysta co najmniej 14 tygodni po porodzie. Mama musi złożyć wniosek o skrócenie urlopu najpóźniej 7 dni przed powrotem do pracy. ZUS sprawdza też, czy tata ma ubezpieczenie chorobowe.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu macierzyńskiego",
+        "quote": "pierwsze 14 tygodni przysługuje wyłącznie mamie,"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu macierzyńskiego",
+        "quote": "w formie papierowej lub elektronicznej w terminie nie krótszym niż 7 dni przed przystąpieniem do pracy"
+      }
+    ]
+  },
+  {
+    "id": "rodzicielski-jednoczesnie",
+    "question": "Czy oboje rodzice mogą jednocześnie korzystać z urlopu rodzicielskiego?",
+    "alternatives": [
+      "urlop rodzicielski w tym samym czasie",
+      "mama i tata razem na urlopie rodzicielskim",
+      "jednoczesny zasiłek dla obojga rodziców",
+      "dwoje rodziców na urlopie rodzicielskim naraz"
+    ],
+    "answer": "Tak. Oboje możecie być na urlopie rodzicielskim w tym samym czasie i pobierać zasiłek. Łączny wymiar nie może jednak przekroczyć wymiaru urlopu rodzicielskiego.",
+    "sources": [
+      {
+        "document": "Ustawa zasiłkowa",
+        "article": "Art. 29a",
+        "quote": "Z zasiłku macierzyńskiego za okres odpowiadający okresowi urlopu rodzicielskiego mogą jednocześnie korzystać ubezpieczeni rodzice dziecka."
+      },
+      {
+        "document": "Kodeks pracy",
+        "article": "Art. 182¹a",
+        "quote": "W takim przypadku łączny wymiar urlopu rodzicielskiego nie może przekraczać wymiaru, o którym mowa w § 1 albo 2."
+      }
+    ]
+  },
+  {
+    "id": "ulga-na-start",
+    "question": "Czy na uldze na start przysługuje zasiłek macierzyński?",
+    "alternatives": [
+      "ulga na start a zasiłek",
+      "zasiłek w pierwszych miesiącach działalności",
+      "nowa działalność zasiłek macierzyński",
+      "ulga na start ubezpieczenie chorobowe",
+      "ile trwa ulga na start"
+    ],
+    "answer": "Na uldze na start nie podlegasz ubezpieczeniom społecznym ani obowiązkowo, ani dobrowolnie, a chorobowe jest jednym z nich. Zasiłek wymaga ubezpieczenia chorobowego, więc w tym czasie nie przysługuje.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Tzw. ulga na start",
+        "quote": "nie podlega wtedy ubezpieczeniom społecznym ani obowiązkowo, ani dobrowolnie."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Objaśnienie używanych pojęć i skrótów",
+        "quote": "emerytalne, rentowe, chorobowe i wypadkowe"
+      }
+    ]
+  },
+  {
+    "id": "wyrejestrowanie-dobrowolne",
+    "question": "Co dzieje się z dobrowolnym ubezpieczeniem chorobowym, gdy zaczynam pobierać zasiłek macierzyński?",
+    "alternatives": [
+      "wyrejestrowanie z ubezpieczenia chorobowego po zasiłku",
+      "ponowne zgłoszenie do dobrowolnego chorobowego",
+      "dobrowolne chorobowe po macierzyńskim",
+      "czy muszę znów zgłosić się do chorobowego"
+    ],
+    "answer": "Zostajesz z niego automatycznie wyrejestrowana. Aby po zakończeniu zasiłku znów podlegać dobrowolnemu ubezpieczeniu chorobowemu, musisz ponownie się do niego zgłosić.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Ważne informacje uzupełniające",
+        "quote": "zostaje automatycznie i obowiązkowo wyrejestrowana z tego ubezpieczenia, gdy zaczyna pobierać zasiłek macierzyński."
+      }
+    ]
+  },
+  {
+    "id": "skladki-na-zasilku",
+    "question": "Czy za czas zasiłku macierzyńskiego odprowadzane są składki emerytalne?",
+    "alternatives": [
+      "emerytura a zasiłek macierzyński",
+      "składki emerytalne na macierzyńskim",
+      "kto płaci składki od zasiłku macierzyńskiego",
+      "czy macierzyński liczy się do emerytury"
+    ],
+    "answer": "Tak. Pobierając zasiłek macierzyński podlegasz obowiązkowo ubezpieczeniom emerytalnemu i rentowym. Składki finansuje w całości budżet państwa przez ZUS.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Ubezpieczenia społeczne",
+        "quote": "Osoba pobierająca zasiłek macierzyński podlega obowiązkowo ubezpieczeniom emerytalnemu i rentowym."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Ubezpieczenia społeczne",
+        "quote": "Składki na ubezpieczenia finansuje w całości budżet państwa za pośrednictwem Zakładu Ubezpieczeń Społecznych."
+      }
+    ]
+  },
+  {
+    "id": "zdrowotne-na-zasilku",
+    "question": "Czy na zasiłku macierzyńskim mam ubezpieczenie zdrowotne?",
+    "alternatives": [
+      "ubezpieczenie zdrowotne na macierzyńskim",
+      "składka zdrowotna od zasiłku macierzyńskiego",
+      "NFZ na zasiłku macierzyńskim",
+      "leczenie w czasie zasiłku macierzyńskiego"
+    ],
+    "answer": "Z tytułu samego zasiłku macierzyńskiego nie podlegasz ubezpieczeniu zdrowotnemu. Prawo do świadczeń leczniczych w tym czasie należy do właściwości NFZ.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Ubezpieczenie zdrowotne",
+        "quote": "Osoba pobierająca zasiłek macierzyński nie podlega z tego tytułu ubezpieczeniu zdrowotnemu."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Ubezpieczenie zdrowotne",
+        "quote": "Prawo do świadczeń leczniczych w okresie pobierania zasiłku macierzyńskiego należy do właściwości NFZ."
+      }
+    ]
+  },
+  {
+    "id": "bez-ubezpieczenia",
+    "question": "Co jeśli nie mam ubezpieczenia chorobowego, jestem bezrobotna albo studentką?",
+    "alternatives": [
+      "bezrobotna po porodzie wsparcie",
+      "student a zasiłek macierzyński",
+      "umowa o dzieło zasiłek macierzyński",
+      "świadczenie rodzicielskie",
+      "co dla osób bez umowy o pracę",
+      "nie pracuję i rodzę dziecko"
+    ],
+    "answer": "Zasiłek macierzyński z ZUS wymaga ubezpieczenia chorobowego. Osobom, które z powodu swojej sytuacji zawodowej nie mogą z niego skorzystać, np. bezrobotnym, studentom czy pracującym na umowie o dzieło, przysługuje świadczenie rodzicielskie lub uposażenie macierzyńskie.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Ważne informacje uzupełniające",
+        "quote": "Ze wsparcia tego mogą skorzystać np. osoby bezrobotne, studenci czy pracujący na umowę o dzieło."
+      }
+    ]
+  },
+  {
+    "id": "opiekunczy-kiedy",
+    "question": "Kiedy przysługuje zasiłek opiekuńczy?",
+    "alternatives": [
+      "zasiłek opiekuńczy kto dostaje",
+      "zasiłek opiekuńczy na chore dziecko",
+      "opieka nad chorym dzieckiem zwolnienie",
+      "kiedy można wziąć zasiłek opiekuńczy",
+      "zasiłek opiekuńczy dziecko do lat 8",
+      "zwolnienie na dziecko"
+    ],
+    "answer": "Zasiłek opiekuńczy dostajesz, gdy jesteś zwolniony z pracy, bo musisz osobiście opiekować się chorym dzieckiem albo członkiem rodziny, albo zdrowym dzieckiem do lat 8 w określonych sytuacjach. Przysługuje niezależnie od długości ubezpieczenia.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek opiekuńczy",
+        "quote": "Zasiłek opiekuńczy to świadczenie z ubezpieczenia chorobowego, które przysługuje osobie zwolnionej od wykonywania pracy z powodu konieczności osobistego sprawowania opieki nad chorym dzieckiem lub członkiem rodziny albo zdrowym dzieckiem do lat 8."
+      }
+    ]
+  },
+  {
+    "id": "opiekunczy-dni",
+    "question": "Ile dni zasiłku opiekuńczego przysługuje w roku?",
+    "alternatives": [
+      "limit dni zasiłku opiekuńczego",
+      "60 dni zasiłku opiekuńczego",
+      "ile dni opieki nad dzieckiem",
+      "zasiłek opiekuńczy 14 dni",
+      "ile dni można być na opiece nad chorym dzieckiem"
+    ],
+    "answer": "Na dziecko do 14 lat przysługuje 60 dni w roku kalendarzowym. Na chore dziecko z niepełnosprawnością w wieku 14–18 lat 30 dni, a na starsze dziecko lub dorosłego członka rodziny 14 dni. Łącznie nie więcej niż 60 dni w roku, niezależnie od liczby dzieci.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Okres wypłaty zasiłku opiekuńczego",
+        "quote": "Łączny okres wypłaty zasiłku opiekuńczego nie może przekroczyć 60 dni w roku kalendarzowym."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Okres wypłaty zasiłku opiekuńczego",
+        "quote": "60 dni opieki nad dziećmi do lat 14,"
+      }
+    ]
+  },
+  {
+    "id": "opiekunczy-wysokosc",
+    "question": "Ile procent wynosi zasiłek opiekuńczy?",
+    "alternatives": [
+      "wysokość zasiłku opiekuńczego",
+      "zasiłek opiekuńczy 80%",
+      "ile płatne jest zwolnienie na dziecko",
+      "jak liczy się zasiłek opiekuńczy"
+    ],
+    "answer": "Zasiłek opiekuńczy wynosi 80% podstawy wymiaru. Podstawę ustala się tak samo jak dla zasiłku chorobowego.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Wysokość zasiłku opiekuńczego",
+        "quote": "Zasiłek opiekuńczy wynosi 80% podstawy wymiaru."
+      }
+    ]
+  },
+  {
+    "id": "opiekunczy-wniosek",
+    "question": "Jak złożyć wniosek o zasiłek opiekuńczy?",
+    "alternatives": [
+      "druk Z-15A",
+      "wniosek o zasiłek opiekuńczy do pracodawcy",
+      "czy zasiłek opiekuńczy wypłaca się automatycznie",
+      "jak dostać zasiłek opiekuńczy",
+      "e-ZLA na opiekę nad dzieckiem"
+    ],
+    "answer": "Zasiłek opiekuńczy nie jest wypłacany automatycznie po wystawieniu zwolnienia. Pracownik składa u pracodawcy wniosek: na formularzu Z-15A przy opiece nad dzieckiem albo Z-15B przy opiece nad innym chorym członkiem rodziny.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Jak otrzymać zasiłek",
+        "quote": "Zasiłek opiekuńczy nie jest wypłacany automatycznie po wystawieniu zwolnienia."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Pracownicy",
+        "quote": "formularz Z-15A – z powodu opieki nad dzieckiem,"
+      }
+    ]
+  },
+  {
+    "id": "opiekunczy-zamkniecie",
+    "question": "Czy zasiłek opiekuńczy przysługuje, gdy zamknięto żłobek lub przedszkole?",
+    "alternatives": [
+      "zamknięte przedszkole zasiłek opiekuńczy",
+      "zamknięcie żłobka opieka nad dzieckiem",
+      "niania chora zasiłek opiekuńczy",
+      "kwarantanna dziecka zasiłek opiekuńczy",
+      "nieprzewidziane zamknięcie szkoły"
+    ],
+    "answer": "Tak, jeśli dziecko ma mniej niż 8 lat, a o zamknięciu placówki dowiedziałeś się mniej niż 7 dni wcześniej. Zasiłek przysługuje też m.in. przy chorobie niani lub dziennego opiekuna.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Kiedy jedno z Was ma prawo do zasiłku opiekuńczego",
+        "quote": "nieprzewidziane zamknięcie żłobka, klubu dziecięcego, przedszkola lub szkoły, do których Wasze dziecko uczęszcza (jeśli zostaliście o tym zawiadomieni w terminie krótszym niż 7 dni przed ich zamknięciem)"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Kiedy jedno z Was ma prawo do zasiłku opiekuńczego",
+        "quote": "choroba niani (z którą macie zawartą umowę uaktywniającą) lub dziennego opiekuna Waszego dziecka"
+      }
+    ]
+  },
+  {
+    "id": "opiekunczy-oboje",
+    "question": "Który rodzic może wziąć zasiłek opiekuńczy, mama czy tata?",
+    "alternatives": [
+      "zasiłek opiekuńczy dla taty",
+      "zasiłek opiekuńczy naprzemiennie",
+      "czy oboje rodzice mogą wziąć zasiłek opiekuńczy",
+      "kto bierze zasiłek opiekuńczy"
+    ],
+    "answer": "Prawo do zasiłku opiekuńczego mają na równi mama i tata. Za dany okres otrzyma go tylko jedno z Was, to, które złoży wniosek o wypłatę.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek opiekuńczy",
+        "quote": "Prawo do tego zasiłku mają na równi mama i tata dziecka. Zasiłek ten może za dany okres otrzymać tylko jedno z Was – to, które wystąpi z wnioskiem o jego wypłatę."
+      }
+    ]
+  },
+  {
+    "id": "kontrola-l4",
+    "question": "Czy ZUS może skontrolować zwolnienie lekarskie?",
+    "alternatives": [
+      "kontrola zwolnienia lekarskiego",
+      "czy na L4 można pracować",
+      "co grozi za niewłaściwe wykorzystanie zwolnienia",
+      "kontrolerzy ZUS w domu",
+      "utrata zasiłku chorobowego za kontrolę"
+    ],
+    "answer": "Tak, ZUS lub pracodawca mogą sprawdzać zwolnienie od pierwszego dnia, w dowolnym czasie. Jeśli okaże się, że wykorzystywałaś je niezgodnie z celem, tracisz zasiłek za cały okres tego zwolnienia i możesz zostać zobowiązana do zwrotu wypłaconej kwoty.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Kontrola prawidłowości wykorzystywania zwolnień lekarskich",
+        "quote": "Kontrolę ZUS lub płatnik składek mogą przeprowadzić od pierwszego dnia zwolnienia, w dowolnym czasie."
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Kontrola prawidłowości wykorzystywania zwolnień lekarskich",
+        "quote": "osoba ubezpieczona traci prawo do zasiłku chorobowego za cały okres tego zwolnienia."
+      }
+    ]
+  },
+  {
+    "id": "ezla",
+    "question": "Czy zwolnienie lekarskie e-ZLA trzeba zanieść do pracodawcy?",
+    "alternatives": [
+      "e-ZLA czy trzeba dostarczyć",
+      "L4 papierowe czy elektroniczne",
+      "czy muszę przynieść zwolnienie do pracy",
+      "zwolnienie lekarskie elektroniczne"
+    ],
+    "answer": "Nie. Lekarz zazwyczaj przesyła e-ZLA elektronicznie do ZUS i pracodawcy, więc nie trzeba go przynosić w formie papierowej.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Jak otrzymać zasiłek › Pracownicy",
+        "quote": "Zwolnienie lekarskie (e-ZLA) lekarz zazwyczaj przesyła elektronicznie do ZUS i pracodawcy, więc nie trzeba go przynosić w formie papierowej."
+      }
+    ]
+  },
+  {
+    "id": "za-zycie-zasilek-praca",
+    "question": "Ile tygodni zasiłku przysługuje, gdy łączę urlop rodzicielski z pracą przy dziecku z zaświadczeniem „Za życiem”?",
+    "alternatives": [
+      "130 tygodni zasiłku Za życiem",
+      "praca i urlop rodzicielski dziecko z zaświadczeniem",
+      "134 tygodnie zasiłku"
+    ],
+    "answer": "Czas wypłaty zasiłku nie może przekroczyć 130 tygodni przy jednym dziecku albo 134 tygodni przy co najmniej dwojgu dzieciach.",
+    "sources": [
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu rodzicielskiego dla rodziców dzieci z zaświadczeniem „Za życiem”",
+        "quote": "130 tygodni – gdy urodziło się lub przyjęto na wychowanie jedno dziecko,"
+      },
+      {
+        "document": "Poradnik ZUS (materiał pomocniczy)",
+        "article": "Zasiłek macierzyński za okres urlopu rodzicielskiego dla rodziców dzieci z zaświadczeniem „Za życiem”",
+        "quote": "134 tygodni – gdy urodziło się lub przyjęto na wychowanie co najmniej dwójkę dzieci."
+      }
+    ]
+  }
+]

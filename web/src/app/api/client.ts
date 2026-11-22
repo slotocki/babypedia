@@ -138,5 +138,6 @@ export const api = {
   assistant: {
     ask: (question: string, previousQuestion?: string) =>
       request<AssistantAnswer>('POST', '/api/assistant/ask', { question, previousQuestion }),
+    suggestions: () => request<string[]>('GET', '/api/assistant/suggestions'),
   },
 }

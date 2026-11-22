@@ -114,7 +114,7 @@ internal static partial class AssistantPolicy
     [GeneratedRegex(@"https?://|www\.|\b[\p{L}\d-]+\.(?:pl|com|org|eu|net|gov)\b", RegexOptions.IgnoreCase)]
     private static partial Regex Link();
 
-    private static string CollapseSpace(string text) => Whitespace().Replace(text, " ");
+    internal static string CollapseSpace(string text) => Whitespace().Replace(text, " ");
 
     [GeneratedRegex(@"\b\d(?:[\s.()-]*\d){8,}\b|[\p{L}\d._%+\-]+\s*@\s*[\p{L}\d.\-]+\.[\p{L}]{2,}|\b(?:oc_sk_|sk-ant-|sk-proj-)[a-z\d_-]+", RegexOptions.IgnoreCase)]
     private static partial Regex SensitiveData();
