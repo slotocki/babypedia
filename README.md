@@ -10,7 +10,7 @@ Projekt na HackNation 2026, zadanie ZUS „Zasiłkowy Przewodnik Przyszłego Rod
 
 Uprawnienia, okresy, kwoty i terminy liczy deterministyczny silnik reguł w C#. Model językowy nie bierze udziału w decyzji ani w kwocie. Logowanie przez mObywatela, dane z ZUS i e-ZLA oraz wysyłka wniosków są symulowane i oznaczone na ekranie. Aplikacja nie łączy się z żadnym zewnętrznym systemem: „pobrane” dane pochodzą z plików osób testowych: fikcyjnych (`fixtures/personas`) albo przepisanych z dokumentów spraw testowych ZUS. Dane o urodzeniu dziecka mają w symulacji źródło „Rejestr stanu cywilnego”, bo gdy zasiłek wypłaca ZUS, to ZUS sam pozyskuje odpis aktu urodzenia z tego rejestru (§ 13 ust. 2–4 rozporządzenia z 27.09.2026). Zadanie tego nie wymaga; wymaga symulacji wniosku o odpis aktu urodzenia, który jest w „Wnioskach”.
 
-Nazwa techniczna: produkt nazywa się Kompas Rodzica. Wcześniejsza nazwa robocza BabyRadnik została w nazwach technicznych (przestrzenie nazw `BabyRadnik.*`, plik `BABYRADNIK_INSTRUKCJA.md`, projekt compose, baza, katalog na serwerze).
+Nazwa techniczna: produkt nazywa się Kompas Rodzica. Wcześniejsza nazwa robocza BabyRadnik została w nazwach technicznych (przestrzenie nazw `BabyRadnik.*`, projekt compose, baza, katalog na serwerze).
 
 ## Uruchomienie lokalne
 
@@ -278,5 +278,3 @@ Zamiast zgadywać, silnik mówi „nie rozstrzygam” i odsyła do ZUS, gdy:
 - [docs/PLAN_POMOCNIK.md](docs/PLAN_POMOCNIK.md): czat „Zapytaj o przepisy” (FAQ, wyszukiwarka, model)
 - [docs/prawo/INDEKS.md](docs/prawo/INDEKS.md): wyciągi przepisów, z których powstały reguły
 - [fixtures/organizations-verification.md](fixtures/organizations-verification.md): jak zweryfikowano organizacje wsparcia
-- [BABYRADNIK_INSTRUKCJA.md](BABYRADNIK_INSTRUKCJA.md): pierwotna instrukcja zakresu projektu (nadrzędna jest treść zadania ZUS)
-- [AGENTS.md](AGENTS.md): zasady pracy w repozytorium i wdrożenie demo
